@@ -1,0 +1,1138 @@
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Aileron_PM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Aileron_SaveConfig,"ax",%progbits
+  20              		.align	1
+  21              		.global	Aileron_SaveConfig
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Aileron_SaveConfig, %function
+  25              	Aileron_SaveConfig:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\Aileron_PM.c"
+   1:Generated_Source\PSoC5/Aileron_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Aileron_PM.c **** * File Name: Aileron_PM.c
+   3:Generated_Source\PSoC5/Aileron_PM.c **** * Version 3.30
+   4:Generated_Source\PSoC5/Aileron_PM.c **** *
+   5:Generated_Source\PSoC5/Aileron_PM.c **** * Description:
+   6:Generated_Source\PSoC5/Aileron_PM.c **** *  This file provides the power management source code to API for the
+   7:Generated_Source\PSoC5/Aileron_PM.c **** *  PWM.
+   8:Generated_Source\PSoC5/Aileron_PM.c **** *
+   9:Generated_Source\PSoC5/Aileron_PM.c **** * Note:
+  10:Generated_Source\PSoC5/Aileron_PM.c **** *
+  11:Generated_Source\PSoC5/Aileron_PM.c **** ********************************************************************************
+  12:Generated_Source\PSoC5/Aileron_PM.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/Aileron_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:Generated_Source\PSoC5/Aileron_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:Generated_Source\PSoC5/Aileron_PM.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/Aileron_PM.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/Aileron_PM.c **** 
+  18:Generated_Source\PSoC5/Aileron_PM.c **** #include "Aileron.h"
+  19:Generated_Source\PSoC5/Aileron_PM.c **** 
+  20:Generated_Source\PSoC5/Aileron_PM.c **** static Aileron_backupStruct Aileron_backup;
+  21:Generated_Source\PSoC5/Aileron_PM.c **** 
+  22:Generated_Source\PSoC5/Aileron_PM.c **** 
+  23:Generated_Source\PSoC5/Aileron_PM.c **** /*******************************************************************************
+  24:Generated_Source\PSoC5/Aileron_PM.c **** * Function Name: Aileron_SaveConfig
+  25:Generated_Source\PSoC5/Aileron_PM.c **** ********************************************************************************
+  26:Generated_Source\PSoC5/Aileron_PM.c **** *
+  27:Generated_Source\PSoC5/Aileron_PM.c **** * Summary:
+  28:Generated_Source\PSoC5/Aileron_PM.c **** *  Saves the current user configuration of the component.
+  29:Generated_Source\PSoC5/Aileron_PM.c **** *
+  30:Generated_Source\PSoC5/Aileron_PM.c **** * Parameters:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 2
+
+
+  31:Generated_Source\PSoC5/Aileron_PM.c **** *  None
+  32:Generated_Source\PSoC5/Aileron_PM.c **** *
+  33:Generated_Source\PSoC5/Aileron_PM.c **** * Return:
+  34:Generated_Source\PSoC5/Aileron_PM.c **** *  None
+  35:Generated_Source\PSoC5/Aileron_PM.c **** *
+  36:Generated_Source\PSoC5/Aileron_PM.c **** * Global variables:
+  37:Generated_Source\PSoC5/Aileron_PM.c **** *  Aileron_backup:  Variables of this global structure are modified to
+  38:Generated_Source\PSoC5/Aileron_PM.c **** *  store the values of non retention configuration registers when Sleep() API is
+  39:Generated_Source\PSoC5/Aileron_PM.c **** *  called.
+  40:Generated_Source\PSoC5/Aileron_PM.c **** *
+  41:Generated_Source\PSoC5/Aileron_PM.c **** *******************************************************************************/
+  42:Generated_Source\PSoC5/Aileron_PM.c **** void Aileron_SaveConfig(void) 
+  43:Generated_Source\PSoC5/Aileron_PM.c **** {
+  28              		.loc 1 43 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 10B5     		push	{r4, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+  44:Generated_Source\PSoC5/Aileron_PM.c **** 
+  45:Generated_Source\PSoC5/Aileron_PM.c ****     #if(!Aileron_UsingFixedFunction)
+  46:Generated_Source\PSoC5/Aileron_PM.c ****         #if(!Aileron_PWMModeIsCenterAligned)
+  47:Generated_Source\PSoC5/Aileron_PM.c ****             Aileron_backup.PWMPeriod = Aileron_ReadPeriod();
+  36              		.loc 1 47 0
+  37 0002 FFF7FEFF 		bl	Aileron_ReadPeriod
+  38              	.LVL0:
+  39 0006 064C     		ldr	r4, .L2
+  40 0008 A080     		strh	r0, [r4, #4]	@ movhi
+  48:Generated_Source\PSoC5/Aileron_PM.c ****         #endif /* (!Aileron_PWMModeIsCenterAligned) */
+  49:Generated_Source\PSoC5/Aileron_PM.c ****         Aileron_backup.PWMUdb = Aileron_ReadCounter();
+  41              		.loc 1 49 0
+  42 000a FFF7FEFF 		bl	Aileron_ReadCounter
+  43              	.LVL1:
+  50:Generated_Source\PSoC5/Aileron_PM.c ****         #if (Aileron_UseStatus)
+  51:Generated_Source\PSoC5/Aileron_PM.c ****             Aileron_backup.InterruptMaskValue = Aileron_STATUS_MASK;
+  44              		.loc 1 51 0
+  45 000e 054B     		ldr	r3, .L2+4
+  49:Generated_Source\PSoC5/Aileron_PM.c ****         #if (Aileron_UseStatus)
+  46              		.loc 1 49 0
+  47 0010 6080     		strh	r0, [r4, #2]	@ movhi
+  48              		.loc 1 51 0
+  49 0012 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  50 0014 A371     		strb	r3, [r4, #6]
+  52:Generated_Source\PSoC5/Aileron_PM.c ****         #endif /* (Aileron_UseStatus) */
+  53:Generated_Source\PSoC5/Aileron_PM.c **** 
+  54:Generated_Source\PSoC5/Aileron_PM.c ****         #if(Aileron_DeadBandMode == Aileron__B_PWM__DBM_256_CLOCKS || \
+  55:Generated_Source\PSoC5/Aileron_PM.c ****             Aileron_DeadBandMode == Aileron__B_PWM__DBM_2_4_CLOCKS)
+  56:Generated_Source\PSoC5/Aileron_PM.c ****             Aileron_backup.PWMdeadBandValue = Aileron_ReadDeadTime();
+  57:Generated_Source\PSoC5/Aileron_PM.c ****         #endif /*  deadband count is either 2-4 clocks or 256 clocks */
+  58:Generated_Source\PSoC5/Aileron_PM.c **** 
+  59:Generated_Source\PSoC5/Aileron_PM.c ****         #if(Aileron_KillModeMinTime)
+  60:Generated_Source\PSoC5/Aileron_PM.c ****              Aileron_backup.PWMKillCounterPeriod = Aileron_ReadKillTime();
+  61:Generated_Source\PSoC5/Aileron_PM.c ****         #endif /* (Aileron_KillModeMinTime) */
+  62:Generated_Source\PSoC5/Aileron_PM.c **** 
+  63:Generated_Source\PSoC5/Aileron_PM.c ****         #if(Aileron_UseControl)
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 3
+
+
+  64:Generated_Source\PSoC5/Aileron_PM.c ****             Aileron_backup.PWMControlRegister = Aileron_ReadControlRegister();
+  51              		.loc 1 64 0
+  52 0016 FFF7FEFF 		bl	Aileron_ReadControlRegister
+  53              	.LVL2:
+  54 001a E071     		strb	r0, [r4, #7]
+  55 001c 10BD     		pop	{r4, pc}
+  56              	.L3:
+  57 001e 00BF     		.align	2
+  58              	.L2:
+  59 0020 00000000 		.word	.LANCHOR0
+  60 0024 80640040 		.word	1073767552
+  61              		.cfi_endproc
+  62              	.LFE0:
+  63              		.size	Aileron_SaveConfig, .-Aileron_SaveConfig
+  64              		.section	.text.Aileron_RestoreConfig,"ax",%progbits
+  65              		.align	1
+  66              		.global	Aileron_RestoreConfig
+  67              		.thumb
+  68              		.thumb_func
+  69              		.type	Aileron_RestoreConfig, %function
+  70              	Aileron_RestoreConfig:
+  71              	.LFB1:
+  65:Generated_Source\PSoC5/Aileron_PM.c ****         #endif /* (Aileron_UseControl) */
+  66:Generated_Source\PSoC5/Aileron_PM.c ****     #endif  /* (!Aileron_UsingFixedFunction) */
+  67:Generated_Source\PSoC5/Aileron_PM.c **** }
+  68:Generated_Source\PSoC5/Aileron_PM.c **** 
+  69:Generated_Source\PSoC5/Aileron_PM.c **** 
+  70:Generated_Source\PSoC5/Aileron_PM.c **** /*******************************************************************************
+  71:Generated_Source\PSoC5/Aileron_PM.c **** * Function Name: Aileron_RestoreConfig
+  72:Generated_Source\PSoC5/Aileron_PM.c **** ********************************************************************************
+  73:Generated_Source\PSoC5/Aileron_PM.c **** *
+  74:Generated_Source\PSoC5/Aileron_PM.c **** * Summary:
+  75:Generated_Source\PSoC5/Aileron_PM.c **** *  Restores the current user configuration of the component.
+  76:Generated_Source\PSoC5/Aileron_PM.c **** *
+  77:Generated_Source\PSoC5/Aileron_PM.c **** * Parameters:
+  78:Generated_Source\PSoC5/Aileron_PM.c **** *  None
+  79:Generated_Source\PSoC5/Aileron_PM.c **** *
+  80:Generated_Source\PSoC5/Aileron_PM.c **** * Return:
+  81:Generated_Source\PSoC5/Aileron_PM.c **** *  None
+  82:Generated_Source\PSoC5/Aileron_PM.c **** *
+  83:Generated_Source\PSoC5/Aileron_PM.c **** * Global variables:
+  84:Generated_Source\PSoC5/Aileron_PM.c **** *  Aileron_backup:  Variables of this global structure are used to
+  85:Generated_Source\PSoC5/Aileron_PM.c **** *  restore the values of non retention registers on wakeup from sleep mode.
+  86:Generated_Source\PSoC5/Aileron_PM.c **** *
+  87:Generated_Source\PSoC5/Aileron_PM.c **** *******************************************************************************/
+  88:Generated_Source\PSoC5/Aileron_PM.c **** void Aileron_RestoreConfig(void) 
+  89:Generated_Source\PSoC5/Aileron_PM.c **** {
+  72              		.loc 1 89 0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76 0000 10B5     		push	{r4, lr}
+  77              		.cfi_def_cfa_offset 8
+  78              		.cfi_offset 4, -8
+  79              		.cfi_offset 14, -4
+  90:Generated_Source\PSoC5/Aileron_PM.c ****         #if(!Aileron_UsingFixedFunction)
+  91:Generated_Source\PSoC5/Aileron_PM.c ****             #if(!Aileron_PWMModeIsCenterAligned)
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 4
+
+
+  92:Generated_Source\PSoC5/Aileron_PM.c ****                 Aileron_WritePeriod(Aileron_backup.PWMPeriod);
+  80              		.loc 1 92 0
+  81 0002 074C     		ldr	r4, .L5
+  82 0004 A088     		ldrh	r0, [r4, #4]
+  83 0006 FFF7FEFF 		bl	Aileron_WritePeriod
+  84              	.LVL3:
+  93:Generated_Source\PSoC5/Aileron_PM.c ****             #endif /* (!Aileron_PWMModeIsCenterAligned) */
+  94:Generated_Source\PSoC5/Aileron_PM.c **** 
+  95:Generated_Source\PSoC5/Aileron_PM.c ****             Aileron_WriteCounter(Aileron_backup.PWMUdb);
+  85              		.loc 1 95 0
+  86 000a 6088     		ldrh	r0, [r4, #2]
+  87 000c FFF7FEFF 		bl	Aileron_WriteCounter
+  88              	.LVL4:
+  96:Generated_Source\PSoC5/Aileron_PM.c **** 
+  97:Generated_Source\PSoC5/Aileron_PM.c ****             #if (Aileron_UseStatus)
+  98:Generated_Source\PSoC5/Aileron_PM.c ****                 Aileron_STATUS_MASK = Aileron_backup.InterruptMaskValue;
+  89              		.loc 1 98 0
+  90 0010 A279     		ldrb	r2, [r4, #6]	@ zero_extendqisi2
+  91 0012 044B     		ldr	r3, .L5+4
+  92 0014 1A70     		strb	r2, [r3]
+  99:Generated_Source\PSoC5/Aileron_PM.c ****             #endif /* (Aileron_UseStatus) */
+ 100:Generated_Source\PSoC5/Aileron_PM.c **** 
+ 101:Generated_Source\PSoC5/Aileron_PM.c ****             #if(Aileron_DeadBandMode == Aileron__B_PWM__DBM_256_CLOCKS || \
+ 102:Generated_Source\PSoC5/Aileron_PM.c ****                 Aileron_DeadBandMode == Aileron__B_PWM__DBM_2_4_CLOCKS)
+ 103:Generated_Source\PSoC5/Aileron_PM.c ****                 Aileron_WriteDeadTime(Aileron_backup.PWMdeadBandValue);
+ 104:Generated_Source\PSoC5/Aileron_PM.c ****             #endif /* deadband count is either 2-4 clocks or 256 clocks */
+ 105:Generated_Source\PSoC5/Aileron_PM.c **** 
+ 106:Generated_Source\PSoC5/Aileron_PM.c ****             #if(Aileron_KillModeMinTime)
+ 107:Generated_Source\PSoC5/Aileron_PM.c ****                 Aileron_WriteKillTime(Aileron_backup.PWMKillCounterPeriod);
+ 108:Generated_Source\PSoC5/Aileron_PM.c ****             #endif /* (Aileron_KillModeMinTime) */
+ 109:Generated_Source\PSoC5/Aileron_PM.c **** 
+ 110:Generated_Source\PSoC5/Aileron_PM.c ****             #if(Aileron_UseControl)
+ 111:Generated_Source\PSoC5/Aileron_PM.c ****                 Aileron_WriteControlRegister(Aileron_backup.PWMControlRegister);
+  93              		.loc 1 111 0
+  94 0016 E079     		ldrb	r0, [r4, #7]	@ zero_extendqisi2
+ 112:Generated_Source\PSoC5/Aileron_PM.c ****             #endif /* (Aileron_UseControl) */
+ 113:Generated_Source\PSoC5/Aileron_PM.c ****         #endif  /* (!Aileron_UsingFixedFunction) */
+ 114:Generated_Source\PSoC5/Aileron_PM.c ****     }
+  95              		.loc 1 114 0
+  96 0018 BDE81040 		pop	{r4, lr}
+  97              		.cfi_restore 14
+  98              		.cfi_restore 4
+  99              		.cfi_def_cfa_offset 0
+ 111:Generated_Source\PSoC5/Aileron_PM.c ****             #endif /* (Aileron_UseControl) */
+ 100              		.loc 1 111 0
+ 101 001c FFF7FEBF 		b	Aileron_WriteControlRegister
+ 102              	.LVL5:
+ 103              	.L6:
+ 104              		.align	2
+ 105              	.L5:
+ 106 0020 00000000 		.word	.LANCHOR0
+ 107 0024 80640040 		.word	1073767552
+ 108              		.cfi_endproc
+ 109              	.LFE1:
+ 110              		.size	Aileron_RestoreConfig, .-Aileron_RestoreConfig
+ 111              		.section	.text.Aileron_Sleep,"ax",%progbits
+ 112              		.align	1
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 5
+
+
+ 113              		.global	Aileron_Sleep
+ 114              		.thumb
+ 115              		.thumb_func
+ 116              		.type	Aileron_Sleep, %function
+ 117              	Aileron_Sleep:
+ 118              	.LFB2:
+ 115:Generated_Source\PSoC5/Aileron_PM.c **** 
+ 116:Generated_Source\PSoC5/Aileron_PM.c **** 
+ 117:Generated_Source\PSoC5/Aileron_PM.c **** /*******************************************************************************
+ 118:Generated_Source\PSoC5/Aileron_PM.c **** * Function Name: Aileron_Sleep
+ 119:Generated_Source\PSoC5/Aileron_PM.c **** ********************************************************************************
+ 120:Generated_Source\PSoC5/Aileron_PM.c **** *
+ 121:Generated_Source\PSoC5/Aileron_PM.c **** * Summary:
+ 122:Generated_Source\PSoC5/Aileron_PM.c **** *  Disables block's operation and saves the user configuration. Should be called
+ 123:Generated_Source\PSoC5/Aileron_PM.c **** *  just prior to entering sleep.
+ 124:Generated_Source\PSoC5/Aileron_PM.c **** *
+ 125:Generated_Source\PSoC5/Aileron_PM.c **** * Parameters:
+ 126:Generated_Source\PSoC5/Aileron_PM.c **** *  None
+ 127:Generated_Source\PSoC5/Aileron_PM.c **** *
+ 128:Generated_Source\PSoC5/Aileron_PM.c **** * Return:
+ 129:Generated_Source\PSoC5/Aileron_PM.c **** *  None
+ 130:Generated_Source\PSoC5/Aileron_PM.c **** *
+ 131:Generated_Source\PSoC5/Aileron_PM.c **** * Global variables:
+ 132:Generated_Source\PSoC5/Aileron_PM.c **** *  Aileron_backup.PWMEnableState:  Is modified depending on the enable
+ 133:Generated_Source\PSoC5/Aileron_PM.c **** *  state of the block before entering sleep mode.
+ 134:Generated_Source\PSoC5/Aileron_PM.c **** *
+ 135:Generated_Source\PSoC5/Aileron_PM.c **** *******************************************************************************/
+ 136:Generated_Source\PSoC5/Aileron_PM.c **** void Aileron_Sleep(void) 
+ 137:Generated_Source\PSoC5/Aileron_PM.c **** {
+ 119              		.loc 1 137 0
+ 120              		.cfi_startproc
+ 121              		@ args = 0, pretend = 0, frame = 0
+ 122              		@ frame_needed = 0, uses_anonymous_args = 0
+ 123 0000 08B5     		push	{r3, lr}
+ 124              		.cfi_def_cfa_offset 8
+ 125              		.cfi_offset 3, -8
+ 126              		.cfi_offset 14, -4
+ 138:Generated_Source\PSoC5/Aileron_PM.c ****     #if(Aileron_UseControl)
+ 139:Generated_Source\PSoC5/Aileron_PM.c ****         if(Aileron_CTRL_ENABLE == (Aileron_CONTROL & Aileron_CTRL_ENABLE))
+ 127              		.loc 1 139 0
+ 128 0002 074B     		ldr	r3, .L11
+ 129 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 130 0006 13F0800F 		tst	r3, #128
+ 131 000a 064B     		ldr	r3, .L11+4
+ 140:Generated_Source\PSoC5/Aileron_PM.c ****         {
+ 141:Generated_Source\PSoC5/Aileron_PM.c ****             /*Component is enabled */
+ 142:Generated_Source\PSoC5/Aileron_PM.c ****             Aileron_backup.PWMEnableState = 1u;
+ 132              		.loc 1 142 0
+ 133 000c 14BF     		ite	ne
+ 134 000e 0122     		movne	r2, #1
+ 143:Generated_Source\PSoC5/Aileron_PM.c ****         }
+ 144:Generated_Source\PSoC5/Aileron_PM.c ****         else
+ 145:Generated_Source\PSoC5/Aileron_PM.c ****         {
+ 146:Generated_Source\PSoC5/Aileron_PM.c ****             /* Component is disabled */
+ 147:Generated_Source\PSoC5/Aileron_PM.c ****             Aileron_backup.PWMEnableState = 0u;
+ 135              		.loc 1 147 0
+ 136 0010 0022     		moveq	r2, #0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 6
+
+
+ 137 0012 1A70     		strb	r2, [r3]
+ 148:Generated_Source\PSoC5/Aileron_PM.c ****         }
+ 149:Generated_Source\PSoC5/Aileron_PM.c ****     #endif /* (Aileron_UseControl) */
+ 150:Generated_Source\PSoC5/Aileron_PM.c **** 
+ 151:Generated_Source\PSoC5/Aileron_PM.c ****     /* Stop component */
+ 152:Generated_Source\PSoC5/Aileron_PM.c ****     Aileron_Stop();
+ 138              		.loc 1 152 0
+ 139 0014 FFF7FEFF 		bl	Aileron_Stop
+ 140              	.LVL6:
+ 153:Generated_Source\PSoC5/Aileron_PM.c **** 
+ 154:Generated_Source\PSoC5/Aileron_PM.c ****     /* Save registers configuration */
+ 155:Generated_Source\PSoC5/Aileron_PM.c ****     Aileron_SaveConfig();
+ 156:Generated_Source\PSoC5/Aileron_PM.c **** }
+ 141              		.loc 1 156 0
+ 142 0018 BDE80840 		pop	{r3, lr}
+ 143              		.cfi_restore 14
+ 144              		.cfi_restore 3
+ 145              		.cfi_def_cfa_offset 0
+ 155:Generated_Source\PSoC5/Aileron_PM.c **** }
+ 146              		.loc 1 155 0
+ 147 001c FFF7FEBF 		b	Aileron_SaveConfig
+ 148              	.LVL7:
+ 149              	.L12:
+ 150              		.align	2
+ 151              	.L11:
+ 152 0020 72640040 		.word	1073767538
+ 153 0024 00000000 		.word	.LANCHOR0
+ 154              		.cfi_endproc
+ 155              	.LFE2:
+ 156              		.size	Aileron_Sleep, .-Aileron_Sleep
+ 157              		.section	.text.Aileron_Wakeup,"ax",%progbits
+ 158              		.align	1
+ 159              		.global	Aileron_Wakeup
+ 160              		.thumb
+ 161              		.thumb_func
+ 162              		.type	Aileron_Wakeup, %function
+ 163              	Aileron_Wakeup:
+ 164              	.LFB3:
+ 157:Generated_Source\PSoC5/Aileron_PM.c **** 
+ 158:Generated_Source\PSoC5/Aileron_PM.c **** 
+ 159:Generated_Source\PSoC5/Aileron_PM.c **** /*******************************************************************************
+ 160:Generated_Source\PSoC5/Aileron_PM.c **** * Function Name: Aileron_Wakeup
+ 161:Generated_Source\PSoC5/Aileron_PM.c **** ********************************************************************************
+ 162:Generated_Source\PSoC5/Aileron_PM.c **** *
+ 163:Generated_Source\PSoC5/Aileron_PM.c **** * Summary:
+ 164:Generated_Source\PSoC5/Aileron_PM.c **** *  Restores and enables the user configuration. Should be called just after
+ 165:Generated_Source\PSoC5/Aileron_PM.c **** *  awaking from sleep.
+ 166:Generated_Source\PSoC5/Aileron_PM.c **** *
+ 167:Generated_Source\PSoC5/Aileron_PM.c **** * Parameters:
+ 168:Generated_Source\PSoC5/Aileron_PM.c **** *  None
+ 169:Generated_Source\PSoC5/Aileron_PM.c **** *
+ 170:Generated_Source\PSoC5/Aileron_PM.c **** * Return:
+ 171:Generated_Source\PSoC5/Aileron_PM.c **** *  None
+ 172:Generated_Source\PSoC5/Aileron_PM.c **** *
+ 173:Generated_Source\PSoC5/Aileron_PM.c **** * Global variables:
+ 174:Generated_Source\PSoC5/Aileron_PM.c **** *  Aileron_backup.pwmEnable:  Is used to restore the enable state of
+ 175:Generated_Source\PSoC5/Aileron_PM.c **** *  block on wakeup from sleep mode.
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 7
+
+
+ 176:Generated_Source\PSoC5/Aileron_PM.c **** *
+ 177:Generated_Source\PSoC5/Aileron_PM.c **** *******************************************************************************/
+ 178:Generated_Source\PSoC5/Aileron_PM.c **** void Aileron_Wakeup(void) 
+ 179:Generated_Source\PSoC5/Aileron_PM.c **** {
+ 165              		.loc 1 179 0
+ 166              		.cfi_startproc
+ 167              		@ args = 0, pretend = 0, frame = 0
+ 168              		@ frame_needed = 0, uses_anonymous_args = 0
+ 169 0000 08B5     		push	{r3, lr}
+ 170              		.cfi_def_cfa_offset 8
+ 171              		.cfi_offset 3, -8
+ 172              		.cfi_offset 14, -4
+ 180:Generated_Source\PSoC5/Aileron_PM.c ****      /* Restore registers values */
+ 181:Generated_Source\PSoC5/Aileron_PM.c ****     Aileron_RestoreConfig();
+ 173              		.loc 1 181 0
+ 174 0002 FFF7FEFF 		bl	Aileron_RestoreConfig
+ 175              	.LVL8:
+ 182:Generated_Source\PSoC5/Aileron_PM.c **** 
+ 183:Generated_Source\PSoC5/Aileron_PM.c ****     if(Aileron_backup.PWMEnableState != 0u)
+ 176              		.loc 1 183 0
+ 177 0006 044B     		ldr	r3, .L16
+ 178 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 179 000a 1BB1     		cbz	r3, .L13
+ 184:Generated_Source\PSoC5/Aileron_PM.c ****     {
+ 185:Generated_Source\PSoC5/Aileron_PM.c ****         /* Enable component's operation */
+ 186:Generated_Source\PSoC5/Aileron_PM.c ****         Aileron_Enable();
+ 187:Generated_Source\PSoC5/Aileron_PM.c ****     } /* Do nothing if component's block was disabled before */
+ 188:Generated_Source\PSoC5/Aileron_PM.c **** 
+ 189:Generated_Source\PSoC5/Aileron_PM.c **** }
+ 180              		.loc 1 189 0
+ 181 000c BDE80840 		pop	{r3, lr}
+ 182              		.cfi_remember_state
+ 183              		.cfi_restore 14
+ 184              		.cfi_restore 3
+ 185              		.cfi_def_cfa_offset 0
+ 186:Generated_Source\PSoC5/Aileron_PM.c ****     } /* Do nothing if component's block was disabled before */
+ 186              		.loc 1 186 0
+ 187 0010 FFF7FEBF 		b	Aileron_Enable
+ 188              	.LVL9:
+ 189              	.L13:
+ 190              		.cfi_restore_state
+ 191 0014 08BD     		pop	{r3, pc}
+ 192              	.L17:
+ 193 0016 00BF     		.align	2
+ 194              	.L16:
+ 195 0018 00000000 		.word	.LANCHOR0
+ 196              		.cfi_endproc
+ 197              	.LFE3:
+ 198              		.size	Aileron_Wakeup, .-Aileron_Wakeup
+ 199              		.bss
+ 200              		.align	1
+ 201              		.set	.LANCHOR0,. + 0
+ 202              		.type	Aileron_backup, %object
+ 203              		.size	Aileron_backup, 8
+ 204              	Aileron_backup:
+ 205 0000 00000000 		.space	8
+ 205      00000000 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 8
+
+
+ 206              		.text
+ 207              	.Letext0:
+ 208              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 209              		.file 3 "Generated_Source\\PSoC5\\Aileron.h"
+ 210              		.section	.debug_info,"",%progbits
+ 211              	.Ldebug_info0:
+ 212 0000 1F020000 		.4byte	0x21f
+ 213 0004 0400     		.2byte	0x4
+ 214 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 215 000a 04       		.byte	0x4
+ 216 000b 01       		.uleb128 0x1
+ 217 000c 88000000 		.4byte	.LASF35
+ 218 0010 0C       		.byte	0xc
+ 219 0011 FB010000 		.4byte	.LASF36
+ 220 0015 1C010000 		.4byte	.LASF37
+ 221 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 222 001d 00000000 		.4byte	0
+ 223 0021 00000000 		.4byte	.Ldebug_line0
+ 224 0025 02       		.uleb128 0x2
+ 225 0026 01       		.byte	0x1
+ 226 0027 06       		.byte	0x6
+ 227 0028 C9020000 		.4byte	.LASF0
+ 228 002c 02       		.uleb128 0x2
+ 229 002d 01       		.byte	0x1
+ 230 002e 08       		.byte	0x8
+ 231 002f 6B000000 		.4byte	.LASF1
+ 232 0033 02       		.uleb128 0x2
+ 233 0034 02       		.byte	0x2
+ 234 0035 05       		.byte	0x5
+ 235 0036 82020000 		.4byte	.LASF2
+ 236 003a 02       		.uleb128 0x2
+ 237 003b 02       		.byte	0x2
+ 238 003c 07       		.byte	0x7
+ 239 003d 2B000000 		.4byte	.LASF3
+ 240 0041 02       		.uleb128 0x2
+ 241 0042 04       		.byte	0x4
+ 242 0043 05       		.byte	0x5
+ 243 0044 AF020000 		.4byte	.LASF4
+ 244 0048 02       		.uleb128 0x2
+ 245 0049 04       		.byte	0x4
+ 246 004a 07       		.byte	0x7
+ 247 004b C5010000 		.4byte	.LASF5
+ 248 004f 02       		.uleb128 0x2
+ 249 0050 08       		.byte	0x8
+ 250 0051 05       		.byte	0x5
+ 251 0052 57020000 		.4byte	.LASF6
+ 252 0056 02       		.uleb128 0x2
+ 253 0057 08       		.byte	0x8
+ 254 0058 07       		.byte	0x7
+ 255 0059 E4010000 		.4byte	.LASF7
+ 256 005d 03       		.uleb128 0x3
+ 257 005e 04       		.byte	0x4
+ 258 005f 05       		.byte	0x5
+ 259 0060 696E7400 		.ascii	"int\000"
+ 260 0064 02       		.uleb128 0x2
+ 261 0065 04       		.byte	0x4
+ 262 0066 07       		.byte	0x7
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 9
+
+
+ 263 0067 D7010000 		.4byte	.LASF8
+ 264 006b 04       		.uleb128 0x4
+ 265 006c 16010000 		.4byte	.LASF9
+ 266 0070 02       		.byte	0x2
+ 267 0071 9201     		.2byte	0x192
+ 268 0073 2C000000 		.4byte	0x2c
+ 269 0077 04       		.uleb128 0x4
+ 270 0078 AF010000 		.4byte	.LASF10
+ 271 007c 02       		.byte	0x2
+ 272 007d 9301     		.2byte	0x193
+ 273 007f 3A000000 		.4byte	0x3a
+ 274 0083 02       		.uleb128 0x2
+ 275 0084 04       		.byte	0x4
+ 276 0085 04       		.byte	0x4
+ 277 0086 5E000000 		.4byte	.LASF11
+ 278 008a 02       		.uleb128 0x2
+ 279 008b 08       		.byte	0x8
+ 280 008c 04       		.byte	0x4
+ 281 008d A8010000 		.4byte	.LASF12
+ 282 0091 02       		.uleb128 0x2
+ 283 0092 01       		.byte	0x1
+ 284 0093 08       		.byte	0x8
+ 285 0094 B8020000 		.4byte	.LASF13
+ 286 0098 04       		.uleb128 0x4
+ 287 0099 49020000 		.4byte	.LASF14
+ 288 009d 02       		.byte	0x2
+ 289 009e 3C02     		.2byte	0x23c
+ 290 00a0 A4000000 		.4byte	0xa4
+ 291 00a4 05       		.uleb128 0x5
+ 292 00a5 6B000000 		.4byte	0x6b
+ 293 00a9 02       		.uleb128 0x2
+ 294 00aa 08       		.byte	0x8
+ 295 00ab 04       		.byte	0x4
+ 296 00ac BD020000 		.4byte	.LASF15
+ 297 00b0 02       		.uleb128 0x2
+ 298 00b1 04       		.byte	0x4
+ 299 00b2 07       		.byte	0x7
+ 300 00b3 4E020000 		.4byte	.LASF16
+ 301 00b7 06       		.uleb128 0x6
+ 302 00b8 08       		.byte	0x8
+ 303 00b9 03       		.byte	0x3
+ 304 00ba 6B       		.byte	0x6b
+ 305 00bb FC000000 		.4byte	0xfc
+ 306 00bf 07       		.uleb128 0x7
+ 307 00c0 79000000 		.4byte	.LASF17
+ 308 00c4 03       		.byte	0x3
+ 309 00c5 6E       		.byte	0x6e
+ 310 00c6 6B000000 		.4byte	0x6b
+ 311 00ca 00       		.byte	0
+ 312 00cb 07       		.uleb128 0x7
+ 313 00cc 64000000 		.4byte	.LASF18
+ 314 00d0 03       		.byte	0x3
+ 315 00d1 71       		.byte	0x71
+ 316 00d2 77000000 		.4byte	0x77
+ 317 00d6 02       		.byte	0x2
+ 318 00d7 07       		.uleb128 0x7
+ 319 00d8 13000000 		.4byte	.LASF19
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 10
+
+
+ 320 00dc 03       		.byte	0x3
+ 321 00dd 73       		.byte	0x73
+ 322 00de 77000000 		.4byte	0x77
+ 323 00e2 04       		.byte	0x4
+ 324 00e3 07       		.uleb128 0x7
+ 325 00e4 F9020000 		.4byte	.LASF20
+ 326 00e8 03       		.byte	0x3
+ 327 00e9 76       		.byte	0x76
+ 328 00ea 6B000000 		.4byte	0x6b
+ 329 00ee 06       		.byte	0x6
+ 330 00ef 07       		.uleb128 0x7
+ 331 00f0 79010000 		.4byte	.LASF21
+ 332 00f4 03       		.byte	0x3
+ 333 00f5 86       		.byte	0x86
+ 334 00f6 6B000000 		.4byte	0x6b
+ 335 00fa 07       		.byte	0x7
+ 336 00fb 00       		.byte	0
+ 337 00fc 08       		.uleb128 0x8
+ 338 00fd 64010000 		.4byte	.LASF22
+ 339 0101 03       		.byte	0x3
+ 340 0102 8B       		.byte	0x8b
+ 341 0103 B7000000 		.4byte	0xb7
+ 342 0107 09       		.uleb128 0x9
+ 343 0108 00000000 		.4byte	.LASF23
+ 344 010c 01       		.byte	0x1
+ 345 010d 2A       		.byte	0x2a
+ 346 010e 00000000 		.4byte	.LFB0
+ 347 0112 28000000 		.4byte	.LFE0-.LFB0
+ 348 0116 01       		.uleb128 0x1
+ 349 0117 9C       		.byte	0x9c
+ 350 0118 38010000 		.4byte	0x138
+ 351 011c 0A       		.uleb128 0xa
+ 352 011d 06000000 		.4byte	.LVL0
+ 353 0121 CA010000 		.4byte	0x1ca
+ 354 0125 0A       		.uleb128 0xa
+ 355 0126 0E000000 		.4byte	.LVL1
+ 356 012a D5010000 		.4byte	0x1d5
+ 357 012e 0A       		.uleb128 0xa
+ 358 012f 1A000000 		.4byte	.LVL2
+ 359 0133 E0010000 		.4byte	0x1e0
+ 360 0137 00       		.byte	0
+ 361 0138 09       		.uleb128 0x9
+ 362 0139 1F020000 		.4byte	.LASF24
+ 363 013d 01       		.byte	0x1
+ 364 013e 58       		.byte	0x58
+ 365 013f 00000000 		.4byte	.LFB1
+ 366 0143 28000000 		.4byte	.LFE1-.LFB1
+ 367 0147 01       		.uleb128 0x1
+ 368 0148 9C       		.byte	0x9c
+ 369 0149 69010000 		.4byte	0x169
+ 370 014d 0A       		.uleb128 0xa
+ 371 014e 0A000000 		.4byte	.LVL3
+ 372 0152 EB010000 		.4byte	0x1eb
+ 373 0156 0A       		.uleb128 0xa
+ 374 0157 10000000 		.4byte	.LVL4
+ 375 015b F6010000 		.4byte	0x1f6
+ 376 015f 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 11
+
+
+ 377 0160 20000000 		.4byte	.LVL5
+ 378 0164 01020000 		.4byte	0x201
+ 379 0168 00       		.byte	0
+ 380 0169 09       		.uleb128 0x9
+ 381 016a 1D000000 		.4byte	.LASF25
+ 382 016e 01       		.byte	0x1
+ 383 016f 88       		.byte	0x88
+ 384 0170 00000000 		.4byte	.LFB2
+ 385 0174 28000000 		.4byte	.LFE2-.LFB2
+ 386 0178 01       		.uleb128 0x1
+ 387 0179 9C       		.byte	0x9c
+ 388 017a 91010000 		.4byte	0x191
+ 389 017e 0A       		.uleb128 0xa
+ 390 017f 18000000 		.4byte	.LVL6
+ 391 0183 0C020000 		.4byte	0x20c
+ 392 0187 0B       		.uleb128 0xb
+ 393 0188 20000000 		.4byte	.LVL7
+ 394 018c 07010000 		.4byte	0x107
+ 395 0190 00       		.byte	0
+ 396 0191 09       		.uleb128 0x9
+ 397 0192 EA020000 		.4byte	.LASF26
+ 398 0196 01       		.byte	0x1
+ 399 0197 B2       		.byte	0xb2
+ 400 0198 00000000 		.4byte	.LFB3
+ 401 019c 1C000000 		.4byte	.LFE3-.LFB3
+ 402 01a0 01       		.uleb128 0x1
+ 403 01a1 9C       		.byte	0x9c
+ 404 01a2 B9010000 		.4byte	0x1b9
+ 405 01a6 0A       		.uleb128 0xa
+ 406 01a7 06000000 		.4byte	.LVL8
+ 407 01ab 38010000 		.4byte	0x138
+ 408 01af 0B       		.uleb128 0xb
+ 409 01b0 14000000 		.4byte	.LVL9
+ 410 01b4 17020000 		.4byte	0x217
+ 411 01b8 00       		.byte	0
+ 412 01b9 0C       		.uleb128 0xc
+ 413 01ba A0020000 		.4byte	.LASF38
+ 414 01be 01       		.byte	0x1
+ 415 01bf 14       		.byte	0x14
+ 416 01c0 FC000000 		.4byte	0xfc
+ 417 01c4 05       		.uleb128 0x5
+ 418 01c5 03       		.byte	0x3
+ 419 01c6 00000000 		.4byte	Aileron_backup
+ 420 01ca 0D       		.uleb128 0xd
+ 421 01cb 3E000000 		.4byte	.LASF27
+ 422 01cf 3E000000 		.4byte	.LASF27
+ 423 01d3 03       		.byte	0x3
+ 424 01d4 C0       		.byte	0xc0
+ 425 01d5 0D       		.uleb128 0xd
+ 426 01d6 35020000 		.4byte	.LASF28
+ 427 01da 35020000 		.4byte	.LASF28
+ 428 01de 03       		.byte	0x3
+ 429 01df B3       		.byte	0xb3
+ 430 01e0 0D       		.uleb128 0xd
+ 431 01e1 8C010000 		.4byte	.LASF29
+ 432 01e5 8C010000 		.4byte	.LASF29
+ 433 01e9 03       		.byte	0x3
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 12
+
+
+ 434 01ea 9D       		.byte	0x9d
+ 435 01eb 0D       		.uleb128 0xd
+ 436 01ec 8C020000 		.4byte	.LASF30
+ 437 01f0 8C020000 		.4byte	.LASF30
+ 438 01f4 03       		.byte	0x3
+ 439 01f5 BE       		.byte	0xbe
+ 440 01f6 0D       		.uleb128 0xd
+ 441 01f7 D5020000 		.4byte	.LASF31
+ 442 01fb D5020000 		.4byte	.LASF31
+ 443 01ff 03       		.byte	0x3
+ 444 0200 BA       		.byte	0xba
+ 445 0201 0D       		.uleb128 0xd
+ 446 0202 65020000 		.4byte	.LASF32
+ 447 0206 65020000 		.4byte	.LASF32
+ 448 020a 03       		.byte	0x3
+ 449 020b 9E       		.byte	0x9e
+ 450 020c 0D       		.uleb128 0xd
+ 451 020d 51000000 		.4byte	.LASF33
+ 452 0211 51000000 		.4byte	.LASF33
+ 453 0215 03       		.byte	0x3
+ 454 0216 93       		.byte	0x93
+ 455 0217 0D       		.uleb128 0xd
+ 456 0218 B6010000 		.4byte	.LASF34
+ 457 021c B6010000 		.4byte	.LASF34
+ 458 0220 03       		.byte	0x3
+ 459 0221 DB       		.byte	0xdb
+ 460 0222 00       		.byte	0
+ 461              		.section	.debug_abbrev,"",%progbits
+ 462              	.Ldebug_abbrev0:
+ 463 0000 01       		.uleb128 0x1
+ 464 0001 11       		.uleb128 0x11
+ 465 0002 01       		.byte	0x1
+ 466 0003 25       		.uleb128 0x25
+ 467 0004 0E       		.uleb128 0xe
+ 468 0005 13       		.uleb128 0x13
+ 469 0006 0B       		.uleb128 0xb
+ 470 0007 03       		.uleb128 0x3
+ 471 0008 0E       		.uleb128 0xe
+ 472 0009 1B       		.uleb128 0x1b
+ 473 000a 0E       		.uleb128 0xe
+ 474 000b 55       		.uleb128 0x55
+ 475 000c 17       		.uleb128 0x17
+ 476 000d 11       		.uleb128 0x11
+ 477 000e 01       		.uleb128 0x1
+ 478 000f 10       		.uleb128 0x10
+ 479 0010 17       		.uleb128 0x17
+ 480 0011 00       		.byte	0
+ 481 0012 00       		.byte	0
+ 482 0013 02       		.uleb128 0x2
+ 483 0014 24       		.uleb128 0x24
+ 484 0015 00       		.byte	0
+ 485 0016 0B       		.uleb128 0xb
+ 486 0017 0B       		.uleb128 0xb
+ 487 0018 3E       		.uleb128 0x3e
+ 488 0019 0B       		.uleb128 0xb
+ 489 001a 03       		.uleb128 0x3
+ 490 001b 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 13
+
+
+ 491 001c 00       		.byte	0
+ 492 001d 00       		.byte	0
+ 493 001e 03       		.uleb128 0x3
+ 494 001f 24       		.uleb128 0x24
+ 495 0020 00       		.byte	0
+ 496 0021 0B       		.uleb128 0xb
+ 497 0022 0B       		.uleb128 0xb
+ 498 0023 3E       		.uleb128 0x3e
+ 499 0024 0B       		.uleb128 0xb
+ 500 0025 03       		.uleb128 0x3
+ 501 0026 08       		.uleb128 0x8
+ 502 0027 00       		.byte	0
+ 503 0028 00       		.byte	0
+ 504 0029 04       		.uleb128 0x4
+ 505 002a 16       		.uleb128 0x16
+ 506 002b 00       		.byte	0
+ 507 002c 03       		.uleb128 0x3
+ 508 002d 0E       		.uleb128 0xe
+ 509 002e 3A       		.uleb128 0x3a
+ 510 002f 0B       		.uleb128 0xb
+ 511 0030 3B       		.uleb128 0x3b
+ 512 0031 05       		.uleb128 0x5
+ 513 0032 49       		.uleb128 0x49
+ 514 0033 13       		.uleb128 0x13
+ 515 0034 00       		.byte	0
+ 516 0035 00       		.byte	0
+ 517 0036 05       		.uleb128 0x5
+ 518 0037 35       		.uleb128 0x35
+ 519 0038 00       		.byte	0
+ 520 0039 49       		.uleb128 0x49
+ 521 003a 13       		.uleb128 0x13
+ 522 003b 00       		.byte	0
+ 523 003c 00       		.byte	0
+ 524 003d 06       		.uleb128 0x6
+ 525 003e 13       		.uleb128 0x13
+ 526 003f 01       		.byte	0x1
+ 527 0040 0B       		.uleb128 0xb
+ 528 0041 0B       		.uleb128 0xb
+ 529 0042 3A       		.uleb128 0x3a
+ 530 0043 0B       		.uleb128 0xb
+ 531 0044 3B       		.uleb128 0x3b
+ 532 0045 0B       		.uleb128 0xb
+ 533 0046 01       		.uleb128 0x1
+ 534 0047 13       		.uleb128 0x13
+ 535 0048 00       		.byte	0
+ 536 0049 00       		.byte	0
+ 537 004a 07       		.uleb128 0x7
+ 538 004b 0D       		.uleb128 0xd
+ 539 004c 00       		.byte	0
+ 540 004d 03       		.uleb128 0x3
+ 541 004e 0E       		.uleb128 0xe
+ 542 004f 3A       		.uleb128 0x3a
+ 543 0050 0B       		.uleb128 0xb
+ 544 0051 3B       		.uleb128 0x3b
+ 545 0052 0B       		.uleb128 0xb
+ 546 0053 49       		.uleb128 0x49
+ 547 0054 13       		.uleb128 0x13
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 14
+
+
+ 548 0055 38       		.uleb128 0x38
+ 549 0056 0B       		.uleb128 0xb
+ 550 0057 00       		.byte	0
+ 551 0058 00       		.byte	0
+ 552 0059 08       		.uleb128 0x8
+ 553 005a 16       		.uleb128 0x16
+ 554 005b 00       		.byte	0
+ 555 005c 03       		.uleb128 0x3
+ 556 005d 0E       		.uleb128 0xe
+ 557 005e 3A       		.uleb128 0x3a
+ 558 005f 0B       		.uleb128 0xb
+ 559 0060 3B       		.uleb128 0x3b
+ 560 0061 0B       		.uleb128 0xb
+ 561 0062 49       		.uleb128 0x49
+ 562 0063 13       		.uleb128 0x13
+ 563 0064 00       		.byte	0
+ 564 0065 00       		.byte	0
+ 565 0066 09       		.uleb128 0x9
+ 566 0067 2E       		.uleb128 0x2e
+ 567 0068 01       		.byte	0x1
+ 568 0069 3F       		.uleb128 0x3f
+ 569 006a 19       		.uleb128 0x19
+ 570 006b 03       		.uleb128 0x3
+ 571 006c 0E       		.uleb128 0xe
+ 572 006d 3A       		.uleb128 0x3a
+ 573 006e 0B       		.uleb128 0xb
+ 574 006f 3B       		.uleb128 0x3b
+ 575 0070 0B       		.uleb128 0xb
+ 576 0071 27       		.uleb128 0x27
+ 577 0072 19       		.uleb128 0x19
+ 578 0073 11       		.uleb128 0x11
+ 579 0074 01       		.uleb128 0x1
+ 580 0075 12       		.uleb128 0x12
+ 581 0076 06       		.uleb128 0x6
+ 582 0077 40       		.uleb128 0x40
+ 583 0078 18       		.uleb128 0x18
+ 584 0079 9742     		.uleb128 0x2117
+ 585 007b 19       		.uleb128 0x19
+ 586 007c 01       		.uleb128 0x1
+ 587 007d 13       		.uleb128 0x13
+ 588 007e 00       		.byte	0
+ 589 007f 00       		.byte	0
+ 590 0080 0A       		.uleb128 0xa
+ 591 0081 898201   		.uleb128 0x4109
+ 592 0084 00       		.byte	0
+ 593 0085 11       		.uleb128 0x11
+ 594 0086 01       		.uleb128 0x1
+ 595 0087 31       		.uleb128 0x31
+ 596 0088 13       		.uleb128 0x13
+ 597 0089 00       		.byte	0
+ 598 008a 00       		.byte	0
+ 599 008b 0B       		.uleb128 0xb
+ 600 008c 898201   		.uleb128 0x4109
+ 601 008f 00       		.byte	0
+ 602 0090 11       		.uleb128 0x11
+ 603 0091 01       		.uleb128 0x1
+ 604 0092 9542     		.uleb128 0x2115
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 15
+
+
+ 605 0094 19       		.uleb128 0x19
+ 606 0095 31       		.uleb128 0x31
+ 607 0096 13       		.uleb128 0x13
+ 608 0097 00       		.byte	0
+ 609 0098 00       		.byte	0
+ 610 0099 0C       		.uleb128 0xc
+ 611 009a 34       		.uleb128 0x34
+ 612 009b 00       		.byte	0
+ 613 009c 03       		.uleb128 0x3
+ 614 009d 0E       		.uleb128 0xe
+ 615 009e 3A       		.uleb128 0x3a
+ 616 009f 0B       		.uleb128 0xb
+ 617 00a0 3B       		.uleb128 0x3b
+ 618 00a1 0B       		.uleb128 0xb
+ 619 00a2 49       		.uleb128 0x49
+ 620 00a3 13       		.uleb128 0x13
+ 621 00a4 02       		.uleb128 0x2
+ 622 00a5 18       		.uleb128 0x18
+ 623 00a6 00       		.byte	0
+ 624 00a7 00       		.byte	0
+ 625 00a8 0D       		.uleb128 0xd
+ 626 00a9 2E       		.uleb128 0x2e
+ 627 00aa 00       		.byte	0
+ 628 00ab 3F       		.uleb128 0x3f
+ 629 00ac 19       		.uleb128 0x19
+ 630 00ad 3C       		.uleb128 0x3c
+ 631 00ae 19       		.uleb128 0x19
+ 632 00af 6E       		.uleb128 0x6e
+ 633 00b0 0E       		.uleb128 0xe
+ 634 00b1 03       		.uleb128 0x3
+ 635 00b2 0E       		.uleb128 0xe
+ 636 00b3 3A       		.uleb128 0x3a
+ 637 00b4 0B       		.uleb128 0xb
+ 638 00b5 3B       		.uleb128 0x3b
+ 639 00b6 0B       		.uleb128 0xb
+ 640 00b7 00       		.byte	0
+ 641 00b8 00       		.byte	0
+ 642 00b9 00       		.byte	0
+ 643              		.section	.debug_aranges,"",%progbits
+ 644 0000 34000000 		.4byte	0x34
+ 645 0004 0200     		.2byte	0x2
+ 646 0006 00000000 		.4byte	.Ldebug_info0
+ 647 000a 04       		.byte	0x4
+ 648 000b 00       		.byte	0
+ 649 000c 0000     		.2byte	0
+ 650 000e 0000     		.2byte	0
+ 651 0010 00000000 		.4byte	.LFB0
+ 652 0014 28000000 		.4byte	.LFE0-.LFB0
+ 653 0018 00000000 		.4byte	.LFB1
+ 654 001c 28000000 		.4byte	.LFE1-.LFB1
+ 655 0020 00000000 		.4byte	.LFB2
+ 656 0024 28000000 		.4byte	.LFE2-.LFB2
+ 657 0028 00000000 		.4byte	.LFB3
+ 658 002c 1C000000 		.4byte	.LFE3-.LFB3
+ 659 0030 00000000 		.4byte	0
+ 660 0034 00000000 		.4byte	0
+ 661              		.section	.debug_ranges,"",%progbits
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 16
+
+
+ 662              	.Ldebug_ranges0:
+ 663 0000 00000000 		.4byte	.LFB0
+ 664 0004 28000000 		.4byte	.LFE0
+ 665 0008 00000000 		.4byte	.LFB1
+ 666 000c 28000000 		.4byte	.LFE1
+ 667 0010 00000000 		.4byte	.LFB2
+ 668 0014 28000000 		.4byte	.LFE2
+ 669 0018 00000000 		.4byte	.LFB3
+ 670 001c 1C000000 		.4byte	.LFE3
+ 671 0020 00000000 		.4byte	0
+ 672 0024 00000000 		.4byte	0
+ 673              		.section	.debug_line,"",%progbits
+ 674              	.Ldebug_line0:
+ 675 0000 B3000000 		.section	.debug_str,"MS",%progbits,1
+ 675      02005400 
+ 675      00000201 
+ 675      FB0E0D00 
+ 675      01010101 
+ 676              	.LASF23:
+ 677 0000 41696C65 		.ascii	"Aileron_SaveConfig\000"
+ 677      726F6E5F 
+ 677      53617665 
+ 677      436F6E66 
+ 677      696700
+ 678              	.LASF19:
+ 679 0013 50574D50 		.ascii	"PWMPeriod\000"
+ 679      6572696F 
+ 679      6400
+ 680              	.LASF25:
+ 681 001d 41696C65 		.ascii	"Aileron_Sleep\000"
+ 681      726F6E5F 
+ 681      536C6565 
+ 681      7000
+ 682              	.LASF3:
+ 683 002b 73686F72 		.ascii	"short unsigned int\000"
+ 683      7420756E 
+ 683      7369676E 
+ 683      65642069 
+ 683      6E7400
+ 684              	.LASF27:
+ 685 003e 41696C65 		.ascii	"Aileron_ReadPeriod\000"
+ 685      726F6E5F 
+ 685      52656164 
+ 685      50657269 
+ 685      6F6400
+ 686              	.LASF33:
+ 687 0051 41696C65 		.ascii	"Aileron_Stop\000"
+ 687      726F6E5F 
+ 687      53746F70 
+ 687      00
+ 688              	.LASF11:
+ 689 005e 666C6F61 		.ascii	"float\000"
+ 689      7400
+ 690              	.LASF18:
+ 691 0064 50574D55 		.ascii	"PWMUdb\000"
+ 691      646200
+ 692              	.LASF1:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 17
+
+
+ 693 006b 756E7369 		.ascii	"unsigned char\000"
+ 693      676E6564 
+ 693      20636861 
+ 693      7200
+ 694              	.LASF17:
+ 695 0079 50574D45 		.ascii	"PWMEnableState\000"
+ 695      6E61626C 
+ 695      65537461 
+ 695      746500
+ 696              	.LASF35:
+ 697 0088 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 697      43313120 
+ 697      352E342E 
+ 697      31203230 
+ 697      31363036 
+ 698 00bb 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 698      20726576 
+ 698      6973696F 
+ 698      6E203233 
+ 698      37373135 
+ 699 00ee 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 699      66756E63 
+ 699      74696F6E 
+ 699      2D736563 
+ 699      74696F6E 
+ 700              	.LASF9:
+ 701 0116 75696E74 		.ascii	"uint8\000"
+ 701      3800
+ 702              	.LASF37:
+ 703 011c 433A5C55 		.ascii	"C:\\Users\\Nathan\\Documents\\MyBuilds\\Flight Cont"
+ 703      73657273 
+ 703      5C4E6174 
+ 703      68616E5C 
+ 703      446F6375 
+ 704 014a 726F6C6C 		.ascii	"roller\\ServoControl.cydsn\000"
+ 704      65725C53 
+ 704      6572766F 
+ 704      436F6E74 
+ 704      726F6C2E 
+ 705              	.LASF22:
+ 706 0164 41696C65 		.ascii	"Aileron_backupStruct\000"
+ 706      726F6E5F 
+ 706      6261636B 
+ 706      75705374 
+ 706      72756374 
+ 707              	.LASF21:
+ 708 0179 50574D43 		.ascii	"PWMControlRegister\000"
+ 708      6F6E7472 
+ 708      6F6C5265 
+ 708      67697374 
+ 708      657200
+ 709              	.LASF29:
+ 710 018c 41696C65 		.ascii	"Aileron_ReadControlRegister\000"
+ 710      726F6E5F 
+ 710      52656164 
+ 710      436F6E74 
+ 710      726F6C52 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 18
+
+
+ 711              	.LASF12:
+ 712 01a8 646F7562 		.ascii	"double\000"
+ 712      6C6500
+ 713              	.LASF10:
+ 714 01af 75696E74 		.ascii	"uint16\000"
+ 714      313600
+ 715              	.LASF34:
+ 716 01b6 41696C65 		.ascii	"Aileron_Enable\000"
+ 716      726F6E5F 
+ 716      456E6162 
+ 716      6C6500
+ 717              	.LASF5:
+ 718 01c5 6C6F6E67 		.ascii	"long unsigned int\000"
+ 718      20756E73 
+ 718      69676E65 
+ 718      6420696E 
+ 718      7400
+ 719              	.LASF8:
+ 720 01d7 756E7369 		.ascii	"unsigned int\000"
+ 720      676E6564 
+ 720      20696E74 
+ 720      00
+ 721              	.LASF7:
+ 722 01e4 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 722      206C6F6E 
+ 722      6720756E 
+ 722      7369676E 
+ 722      65642069 
+ 723              	.LASF36:
+ 724 01fb 47656E65 		.ascii	"Generated_Source\\PSoC5\\Aileron_PM.c\000"
+ 724      72617465 
+ 724      645F536F 
+ 724      75726365 
+ 724      5C50536F 
+ 725              	.LASF24:
+ 726 021f 41696C65 		.ascii	"Aileron_RestoreConfig\000"
+ 726      726F6E5F 
+ 726      52657374 
+ 726      6F726543 
+ 726      6F6E6669 
+ 727              	.LASF28:
+ 728 0235 41696C65 		.ascii	"Aileron_ReadCounter\000"
+ 728      726F6E5F 
+ 728      52656164 
+ 728      436F756E 
+ 728      74657200 
+ 729              	.LASF14:
+ 730 0249 72656738 		.ascii	"reg8\000"
+ 730      00
+ 731              	.LASF16:
+ 732 024e 73697A65 		.ascii	"sizetype\000"
+ 732      74797065 
+ 732      00
+ 733              	.LASF6:
+ 734 0257 6C6F6E67 		.ascii	"long long int\000"
+ 734      206C6F6E 
+ 734      6720696E 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccutUe9w.s 			page 19
+
+
+ 734      7400
+ 735              	.LASF32:
+ 736 0265 41696C65 		.ascii	"Aileron_WriteControlRegister\000"
+ 736      726F6E5F 
+ 736      57726974 
+ 736      65436F6E 
+ 736      74726F6C 
+ 737              	.LASF2:
+ 738 0282 73686F72 		.ascii	"short int\000"
+ 738      7420696E 
+ 738      7400
+ 739              	.LASF30:
+ 740 028c 41696C65 		.ascii	"Aileron_WritePeriod\000"
+ 740      726F6E5F 
+ 740      57726974 
+ 740      65506572 
+ 740      696F6400 
+ 741              	.LASF38:
+ 742 02a0 41696C65 		.ascii	"Aileron_backup\000"
+ 742      726F6E5F 
+ 742      6261636B 
+ 742      757000
+ 743              	.LASF4:
+ 744 02af 6C6F6E67 		.ascii	"long int\000"
+ 744      20696E74 
+ 744      00
+ 745              	.LASF13:
+ 746 02b8 63686172 		.ascii	"char\000"
+ 746      00
+ 747              	.LASF15:
+ 748 02bd 6C6F6E67 		.ascii	"long double\000"
+ 748      20646F75 
+ 748      626C6500 
+ 749              	.LASF0:
+ 750 02c9 7369676E 		.ascii	"signed char\000"
+ 750      65642063 
+ 750      68617200 
+ 751              	.LASF31:
+ 752 02d5 41696C65 		.ascii	"Aileron_WriteCounter\000"
+ 752      726F6E5F 
+ 752      57726974 
+ 752      65436F75 
+ 752      6E746572 
+ 753              	.LASF26:
+ 754 02ea 41696C65 		.ascii	"Aileron_Wakeup\000"
+ 754      726F6E5F 
+ 754      57616B65 
+ 754      757000
+ 755              	.LASF20:
+ 756 02f9 496E7465 		.ascii	"InterruptMaskValue\000"
+ 756      72727570 
+ 756      744D6173 
+ 756      6B56616C 
+ 756      756500
+ 757              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

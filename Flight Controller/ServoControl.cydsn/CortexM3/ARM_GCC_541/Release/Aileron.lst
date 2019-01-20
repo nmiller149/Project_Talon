@@ -1,0 +1,3065 @@
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Aileron.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Aileron_Enable,"ax",%progbits
+  20              		.align	1
+  21              		.global	Aileron_Enable
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Aileron_Enable, %function
+  25              	Aileron_Enable:
+  26              	.LFB2:
+  27              		.file 1 "Generated_Source\\PSoC5\\Aileron.c"
+   1:Generated_Source\PSoC5/Aileron.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Aileron.c **** * File Name: Aileron.c
+   3:Generated_Source\PSoC5/Aileron.c **** * Version 3.30
+   4:Generated_Source\PSoC5/Aileron.c **** *
+   5:Generated_Source\PSoC5/Aileron.c **** * Description:
+   6:Generated_Source\PSoC5/Aileron.c **** *  The PWM User Module consist of an 8 or 16-bit counter with two 8 or 16-bit
+   7:Generated_Source\PSoC5/Aileron.c **** *  comparitors. Each instance of this user module is capable of generating
+   8:Generated_Source\PSoC5/Aileron.c **** *  two PWM outputs with the same period. The pulse width is selectable between
+   9:Generated_Source\PSoC5/Aileron.c **** *  1 and 255/65535. The period is selectable between 2 and 255/65536 clocks.
+  10:Generated_Source\PSoC5/Aileron.c **** *  The compare value output may be configured to be active when the present
+  11:Generated_Source\PSoC5/Aileron.c **** *  counter is less than or less than/equal to the compare value.
+  12:Generated_Source\PSoC5/Aileron.c **** *  A terminal count output is also provided. It generates a pulse one clock
+  13:Generated_Source\PSoC5/Aileron.c **** *  width wide when the counter is equal to zero.
+  14:Generated_Source\PSoC5/Aileron.c **** *
+  15:Generated_Source\PSoC5/Aileron.c **** * Note:
+  16:Generated_Source\PSoC5/Aileron.c **** *
+  17:Generated_Source\PSoC5/Aileron.c **** *******************************************************************************
+  18:Generated_Source\PSoC5/Aileron.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  19:Generated_Source\PSoC5/Aileron.c **** * You may use this file only in accordance with the license, terms, conditions,
+  20:Generated_Source\PSoC5/Aileron.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  21:Generated_Source\PSoC5/Aileron.c **** * the software package with which this file was provided.
+  22:Generated_Source\PSoC5/Aileron.c **** ********************************************************************************/
+  23:Generated_Source\PSoC5/Aileron.c **** 
+  24:Generated_Source\PSoC5/Aileron.c **** #include "Aileron.h"
+  25:Generated_Source\PSoC5/Aileron.c **** 
+  26:Generated_Source\PSoC5/Aileron.c **** /* Error message for removed <resource> through optimization */
+  27:Generated_Source\PSoC5/Aileron.c **** #ifdef Aileron_PWMUDB_genblk1_ctrlreg__REMOVED
+  28:Generated_Source\PSoC5/Aileron.c ****     #error PWM_v3_30 detected with a constant 0 for the enable or \
+  29:Generated_Source\PSoC5/Aileron.c ****          constant 1 for reset. This will prevent the component from operating.
+  30:Generated_Source\PSoC5/Aileron.c **** #endif /* Aileron_PWMUDB_genblk1_ctrlreg__REMOVED */
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 2
+
+
+  31:Generated_Source\PSoC5/Aileron.c **** 
+  32:Generated_Source\PSoC5/Aileron.c **** uint8 Aileron_initVar = 0u;
+  33:Generated_Source\PSoC5/Aileron.c **** 
+  34:Generated_Source\PSoC5/Aileron.c **** 
+  35:Generated_Source\PSoC5/Aileron.c **** /*******************************************************************************
+  36:Generated_Source\PSoC5/Aileron.c **** * Function Name: Aileron_Start
+  37:Generated_Source\PSoC5/Aileron.c **** ********************************************************************************
+  38:Generated_Source\PSoC5/Aileron.c **** *
+  39:Generated_Source\PSoC5/Aileron.c **** * Summary:
+  40:Generated_Source\PSoC5/Aileron.c **** *  The start function initializes the pwm with the default values, the
+  41:Generated_Source\PSoC5/Aileron.c **** *  enables the counter to begin counting.  It does not enable interrupts,
+  42:Generated_Source\PSoC5/Aileron.c **** *  the EnableInt command should be called if interrupt generation is required.
+  43:Generated_Source\PSoC5/Aileron.c **** *
+  44:Generated_Source\PSoC5/Aileron.c **** * Parameters:
+  45:Generated_Source\PSoC5/Aileron.c **** *  None
+  46:Generated_Source\PSoC5/Aileron.c **** *
+  47:Generated_Source\PSoC5/Aileron.c **** * Return:
+  48:Generated_Source\PSoC5/Aileron.c **** *  None
+  49:Generated_Source\PSoC5/Aileron.c **** *
+  50:Generated_Source\PSoC5/Aileron.c **** * Global variables:
+  51:Generated_Source\PSoC5/Aileron.c **** *  Aileron_initVar: Is modified when this function is called for the
+  52:Generated_Source\PSoC5/Aileron.c **** *   first time. Is used to ensure that initialization happens only once.
+  53:Generated_Source\PSoC5/Aileron.c **** *
+  54:Generated_Source\PSoC5/Aileron.c **** *******************************************************************************/
+  55:Generated_Source\PSoC5/Aileron.c **** void Aileron_Start(void) 
+  56:Generated_Source\PSoC5/Aileron.c **** {
+  57:Generated_Source\PSoC5/Aileron.c ****     /* If not Initialized then initialize all required hardware and software */
+  58:Generated_Source\PSoC5/Aileron.c ****     if(Aileron_initVar == 0u)
+  59:Generated_Source\PSoC5/Aileron.c ****     {
+  60:Generated_Source\PSoC5/Aileron.c ****         Aileron_Init();
+  61:Generated_Source\PSoC5/Aileron.c ****         Aileron_initVar = 1u;
+  62:Generated_Source\PSoC5/Aileron.c ****     }
+  63:Generated_Source\PSoC5/Aileron.c ****     Aileron_Enable();
+  64:Generated_Source\PSoC5/Aileron.c **** 
+  65:Generated_Source\PSoC5/Aileron.c **** }
+  66:Generated_Source\PSoC5/Aileron.c **** 
+  67:Generated_Source\PSoC5/Aileron.c **** 
+  68:Generated_Source\PSoC5/Aileron.c **** /*******************************************************************************
+  69:Generated_Source\PSoC5/Aileron.c **** * Function Name: Aileron_Init
+  70:Generated_Source\PSoC5/Aileron.c **** ********************************************************************************
+  71:Generated_Source\PSoC5/Aileron.c **** *
+  72:Generated_Source\PSoC5/Aileron.c **** * Summary:
+  73:Generated_Source\PSoC5/Aileron.c **** *  Initialize component's parameters to the parameters set by user in the
+  74:Generated_Source\PSoC5/Aileron.c **** *  customizer of the component placed onto schematic. Usually called in
+  75:Generated_Source\PSoC5/Aileron.c **** *  Aileron_Start().
+  76:Generated_Source\PSoC5/Aileron.c **** *
+  77:Generated_Source\PSoC5/Aileron.c **** * Parameters:
+  78:Generated_Source\PSoC5/Aileron.c **** *  None
+  79:Generated_Source\PSoC5/Aileron.c **** *
+  80:Generated_Source\PSoC5/Aileron.c **** * Return:
+  81:Generated_Source\PSoC5/Aileron.c **** *  None
+  82:Generated_Source\PSoC5/Aileron.c **** *
+  83:Generated_Source\PSoC5/Aileron.c **** *******************************************************************************/
+  84:Generated_Source\PSoC5/Aileron.c **** void Aileron_Init(void) 
+  85:Generated_Source\PSoC5/Aileron.c **** {
+  86:Generated_Source\PSoC5/Aileron.c ****     #if (Aileron_UsingFixedFunction || Aileron_UseControl)
+  87:Generated_Source\PSoC5/Aileron.c ****         uint8 ctrl;
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 3
+
+
+  88:Generated_Source\PSoC5/Aileron.c ****     #endif /* (Aileron_UsingFixedFunction || Aileron_UseControl) */
+  89:Generated_Source\PSoC5/Aileron.c **** 
+  90:Generated_Source\PSoC5/Aileron.c ****     #if(!Aileron_UsingFixedFunction)
+  91:Generated_Source\PSoC5/Aileron.c ****         #if(Aileron_UseStatus)
+  92:Generated_Source\PSoC5/Aileron.c ****             /* Interrupt State Backup for Critical Region*/
+  93:Generated_Source\PSoC5/Aileron.c ****             uint8 Aileron_interruptState;
+  94:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UseStatus) */
+  95:Generated_Source\PSoC5/Aileron.c ****     #endif /* (!Aileron_UsingFixedFunction) */
+  96:Generated_Source\PSoC5/Aileron.c **** 
+  97:Generated_Source\PSoC5/Aileron.c ****     #if (Aileron_UsingFixedFunction)
+  98:Generated_Source\PSoC5/Aileron.c ****         /* You are allowed to write the compare value (FF only) */
+  99:Generated_Source\PSoC5/Aileron.c ****         Aileron_CONTROL |= Aileron_CFG0_MODE;
+ 100:Generated_Source\PSoC5/Aileron.c ****         #if (Aileron_DeadBand2_4)
+ 101:Generated_Source\PSoC5/Aileron.c ****             Aileron_CONTROL |= Aileron_CFG0_DB;
+ 102:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_DeadBand2_4) */
+ 103:Generated_Source\PSoC5/Aileron.c **** 
+ 104:Generated_Source\PSoC5/Aileron.c ****         ctrl = Aileron_CONTROL3 & ((uint8 )(~Aileron_CTRL_CMPMODE1_MASK));
+ 105:Generated_Source\PSoC5/Aileron.c ****         Aileron_CONTROL3 = ctrl | Aileron_DEFAULT_COMPARE1_MODE;
+ 106:Generated_Source\PSoC5/Aileron.c **** 
+ 107:Generated_Source\PSoC5/Aileron.c ****          /* Clear and Set SYNCTC and SYNCCMP bits of RT1 register */
+ 108:Generated_Source\PSoC5/Aileron.c ****         Aileron_RT1 &= ((uint8)(~Aileron_RT1_MASK));
+ 109:Generated_Source\PSoC5/Aileron.c ****         Aileron_RT1 |= Aileron_SYNC;
+ 110:Generated_Source\PSoC5/Aileron.c **** 
+ 111:Generated_Source\PSoC5/Aileron.c ****         /*Enable DSI Sync all all inputs of the PWM*/
+ 112:Generated_Source\PSoC5/Aileron.c ****         Aileron_RT1 &= ((uint8)(~Aileron_SYNCDSI_MASK));
+ 113:Generated_Source\PSoC5/Aileron.c ****         Aileron_RT1 |= Aileron_SYNCDSI_EN;
+ 114:Generated_Source\PSoC5/Aileron.c **** 
+ 115:Generated_Source\PSoC5/Aileron.c ****     #elif (Aileron_UseControl)
+ 116:Generated_Source\PSoC5/Aileron.c ****         /* Set the default compare mode defined in the parameter */
+ 117:Generated_Source\PSoC5/Aileron.c ****         ctrl = Aileron_CONTROL & ((uint8)(~Aileron_CTRL_CMPMODE2_MASK)) &
+ 118:Generated_Source\PSoC5/Aileron.c ****                 ((uint8)(~Aileron_CTRL_CMPMODE1_MASK));
+ 119:Generated_Source\PSoC5/Aileron.c ****         Aileron_CONTROL = ctrl | Aileron_DEFAULT_COMPARE2_MODE |
+ 120:Generated_Source\PSoC5/Aileron.c ****                                    Aileron_DEFAULT_COMPARE1_MODE;
+ 121:Generated_Source\PSoC5/Aileron.c ****     #endif /* (Aileron_UsingFixedFunction) */
+ 122:Generated_Source\PSoC5/Aileron.c **** 
+ 123:Generated_Source\PSoC5/Aileron.c ****     #if (!Aileron_UsingFixedFunction)
+ 124:Generated_Source\PSoC5/Aileron.c ****         #if (Aileron_Resolution == 8)
+ 125:Generated_Source\PSoC5/Aileron.c ****             /* Set FIFO 0 to 1 byte register for period*/
+ 126:Generated_Source\PSoC5/Aileron.c ****             Aileron_AUX_CONTROLDP0 |= (Aileron_AUX_CTRL_FIFO0_CLR);
+ 127:Generated_Source\PSoC5/Aileron.c ****         #else /* (Aileron_Resolution == 16)*/
+ 128:Generated_Source\PSoC5/Aileron.c ****             /* Set FIFO 0 to 1 byte register for period */
+ 129:Generated_Source\PSoC5/Aileron.c ****             Aileron_AUX_CONTROLDP0 |= (Aileron_AUX_CTRL_FIFO0_CLR);
+ 130:Generated_Source\PSoC5/Aileron.c ****             Aileron_AUX_CONTROLDP1 |= (Aileron_AUX_CTRL_FIFO0_CLR);
+ 131:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_Resolution == 8) */
+ 132:Generated_Source\PSoC5/Aileron.c **** 
+ 133:Generated_Source\PSoC5/Aileron.c ****         Aileron_WriteCounter(Aileron_INIT_PERIOD_VALUE);
+ 134:Generated_Source\PSoC5/Aileron.c ****     #endif /* (!Aileron_UsingFixedFunction) */
+ 135:Generated_Source\PSoC5/Aileron.c **** 
+ 136:Generated_Source\PSoC5/Aileron.c ****     Aileron_WritePeriod(Aileron_INIT_PERIOD_VALUE);
+ 137:Generated_Source\PSoC5/Aileron.c **** 
+ 138:Generated_Source\PSoC5/Aileron.c ****         #if (Aileron_UseOneCompareMode)
+ 139:Generated_Source\PSoC5/Aileron.c ****             Aileron_WriteCompare(Aileron_INIT_COMPARE_VALUE1);
+ 140:Generated_Source\PSoC5/Aileron.c ****         #else
+ 141:Generated_Source\PSoC5/Aileron.c ****             Aileron_WriteCompare1(Aileron_INIT_COMPARE_VALUE1);
+ 142:Generated_Source\PSoC5/Aileron.c ****             Aileron_WriteCompare2(Aileron_INIT_COMPARE_VALUE2);
+ 143:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UseOneCompareMode) */
+ 144:Generated_Source\PSoC5/Aileron.c **** 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 4
+
+
+ 145:Generated_Source\PSoC5/Aileron.c ****         #if (Aileron_KillModeMinTime)
+ 146:Generated_Source\PSoC5/Aileron.c ****             Aileron_WriteKillTime(Aileron_MinimumKillTime);
+ 147:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_KillModeMinTime) */
+ 148:Generated_Source\PSoC5/Aileron.c **** 
+ 149:Generated_Source\PSoC5/Aileron.c ****         #if (Aileron_DeadBandUsed)
+ 150:Generated_Source\PSoC5/Aileron.c ****             Aileron_WriteDeadTime(Aileron_INIT_DEAD_TIME);
+ 151:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_DeadBandUsed) */
+ 152:Generated_Source\PSoC5/Aileron.c **** 
+ 153:Generated_Source\PSoC5/Aileron.c ****     #if (Aileron_UseStatus || Aileron_UsingFixedFunction)
+ 154:Generated_Source\PSoC5/Aileron.c ****         Aileron_SetInterruptMode(Aileron_INIT_INTERRUPTS_MODE);
+ 155:Generated_Source\PSoC5/Aileron.c ****     #endif /* (Aileron_UseStatus || Aileron_UsingFixedFunction) */
+ 156:Generated_Source\PSoC5/Aileron.c **** 
+ 157:Generated_Source\PSoC5/Aileron.c ****     #if (Aileron_UsingFixedFunction)
+ 158:Generated_Source\PSoC5/Aileron.c ****         /* Globally Enable the Fixed Function Block chosen */
+ 159:Generated_Source\PSoC5/Aileron.c ****         Aileron_GLOBAL_ENABLE |= Aileron_BLOCK_EN_MASK;
+ 160:Generated_Source\PSoC5/Aileron.c ****         /* Set the Interrupt source to come from the status register */
+ 161:Generated_Source\PSoC5/Aileron.c ****         Aileron_CONTROL2 |= Aileron_CTRL2_IRQ_SEL;
+ 162:Generated_Source\PSoC5/Aileron.c ****     #else
+ 163:Generated_Source\PSoC5/Aileron.c ****         #if(Aileron_UseStatus)
+ 164:Generated_Source\PSoC5/Aileron.c **** 
+ 165:Generated_Source\PSoC5/Aileron.c ****             /* CyEnterCriticalRegion and CyExitCriticalRegion are used to mark following region cri
+ 166:Generated_Source\PSoC5/Aileron.c ****             /* Enter Critical Region*/
+ 167:Generated_Source\PSoC5/Aileron.c ****             Aileron_interruptState = CyEnterCriticalSection();
+ 168:Generated_Source\PSoC5/Aileron.c ****             /* Use the interrupt output of the status register for IRQ output */
+ 169:Generated_Source\PSoC5/Aileron.c ****             Aileron_STATUS_AUX_CTRL |= Aileron_STATUS_ACTL_INT_EN_MASK;
+ 170:Generated_Source\PSoC5/Aileron.c **** 
+ 171:Generated_Source\PSoC5/Aileron.c ****              /* Exit Critical Region*/
+ 172:Generated_Source\PSoC5/Aileron.c ****             CyExitCriticalSection(Aileron_interruptState);
+ 173:Generated_Source\PSoC5/Aileron.c **** 
+ 174:Generated_Source\PSoC5/Aileron.c ****             /* Clear the FIFO to enable the Aileron_STATUS_FIFOFULL
+ 175:Generated_Source\PSoC5/Aileron.c ****                    bit to be set on FIFO full. */
+ 176:Generated_Source\PSoC5/Aileron.c ****             Aileron_ClearFIFO();
+ 177:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UseStatus) */
+ 178:Generated_Source\PSoC5/Aileron.c ****     #endif /* (Aileron_UsingFixedFunction) */
+ 179:Generated_Source\PSoC5/Aileron.c **** }
+ 180:Generated_Source\PSoC5/Aileron.c **** 
+ 181:Generated_Source\PSoC5/Aileron.c **** 
+ 182:Generated_Source\PSoC5/Aileron.c **** /*******************************************************************************
+ 183:Generated_Source\PSoC5/Aileron.c **** * Function Name: Aileron_Enable
+ 184:Generated_Source\PSoC5/Aileron.c **** ********************************************************************************
+ 185:Generated_Source\PSoC5/Aileron.c **** *
+ 186:Generated_Source\PSoC5/Aileron.c **** * Summary:
+ 187:Generated_Source\PSoC5/Aileron.c **** *  Enables the PWM block operation
+ 188:Generated_Source\PSoC5/Aileron.c **** *
+ 189:Generated_Source\PSoC5/Aileron.c **** * Parameters:
+ 190:Generated_Source\PSoC5/Aileron.c **** *  None
+ 191:Generated_Source\PSoC5/Aileron.c **** *
+ 192:Generated_Source\PSoC5/Aileron.c **** * Return:
+ 193:Generated_Source\PSoC5/Aileron.c **** *  None
+ 194:Generated_Source\PSoC5/Aileron.c **** *
+ 195:Generated_Source\PSoC5/Aileron.c **** * Side Effects:
+ 196:Generated_Source\PSoC5/Aileron.c **** *  This works only if software enable mode is chosen
+ 197:Generated_Source\PSoC5/Aileron.c **** *
+ 198:Generated_Source\PSoC5/Aileron.c **** *******************************************************************************/
+ 199:Generated_Source\PSoC5/Aileron.c **** void Aileron_Enable(void) 
+ 200:Generated_Source\PSoC5/Aileron.c **** {
+  28              		.loc 1 200 0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 5
+
+
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+ 201:Generated_Source\PSoC5/Aileron.c ****     /* Globally Enable the Fixed Function Block chosen */
+ 202:Generated_Source\PSoC5/Aileron.c ****     #if (Aileron_UsingFixedFunction)
+ 203:Generated_Source\PSoC5/Aileron.c ****         Aileron_GLOBAL_ENABLE |= Aileron_BLOCK_EN_MASK;
+ 204:Generated_Source\PSoC5/Aileron.c ****         Aileron_GLOBAL_STBY_ENABLE |= Aileron_BLOCK_STBY_EN_MASK;
+ 205:Generated_Source\PSoC5/Aileron.c ****     #endif /* (Aileron_UsingFixedFunction) */
+ 206:Generated_Source\PSoC5/Aileron.c **** 
+ 207:Generated_Source\PSoC5/Aileron.c ****     /* Enable the PWM from the control register  */
+ 208:Generated_Source\PSoC5/Aileron.c ****     #if (Aileron_UseControl || Aileron_UsingFixedFunction)
+ 209:Generated_Source\PSoC5/Aileron.c ****         Aileron_CONTROL |= Aileron_CTRL_ENABLE;
+  33              		.loc 1 209 0
+  34 0000 024A     		ldr	r2, .L2
+  35 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  36 0004 43F08003 		orr	r3, r3, #128
+  37 0008 1370     		strb	r3, [r2]
+  38 000a 7047     		bx	lr
+  39              	.L3:
+  40              		.align	2
+  41              	.L2:
+  42 000c 72640040 		.word	1073767538
+  43              		.cfi_endproc
+  44              	.LFE2:
+  45              		.size	Aileron_Enable, .-Aileron_Enable
+  46              		.section	.text.Aileron_Stop,"ax",%progbits
+  47              		.align	1
+  48              		.global	Aileron_Stop
+  49              		.thumb
+  50              		.thumb_func
+  51              		.type	Aileron_Stop, %function
+  52              	Aileron_Stop:
+  53              	.LFB3:
+ 210:Generated_Source\PSoC5/Aileron.c ****     #endif /* (Aileron_UseControl || Aileron_UsingFixedFunction) */
+ 211:Generated_Source\PSoC5/Aileron.c **** }
+ 212:Generated_Source\PSoC5/Aileron.c **** 
+ 213:Generated_Source\PSoC5/Aileron.c **** 
+ 214:Generated_Source\PSoC5/Aileron.c **** /*******************************************************************************
+ 215:Generated_Source\PSoC5/Aileron.c **** * Function Name: Aileron_Stop
+ 216:Generated_Source\PSoC5/Aileron.c **** ********************************************************************************
+ 217:Generated_Source\PSoC5/Aileron.c **** *
+ 218:Generated_Source\PSoC5/Aileron.c **** * Summary:
+ 219:Generated_Source\PSoC5/Aileron.c **** *  The stop function halts the PWM, but does not change any modes or disable
+ 220:Generated_Source\PSoC5/Aileron.c **** *  interrupts.
+ 221:Generated_Source\PSoC5/Aileron.c **** *
+ 222:Generated_Source\PSoC5/Aileron.c **** * Parameters:
+ 223:Generated_Source\PSoC5/Aileron.c **** *  None
+ 224:Generated_Source\PSoC5/Aileron.c **** *
+ 225:Generated_Source\PSoC5/Aileron.c **** * Return:
+ 226:Generated_Source\PSoC5/Aileron.c **** *  None
+ 227:Generated_Source\PSoC5/Aileron.c **** *
+ 228:Generated_Source\PSoC5/Aileron.c **** * Side Effects:
+ 229:Generated_Source\PSoC5/Aileron.c **** *  If the Enable mode is set to Hardware only then this function
+ 230:Generated_Source\PSoC5/Aileron.c **** *  has no effect on the operation of the PWM
+ 231:Generated_Source\PSoC5/Aileron.c **** *
+ 232:Generated_Source\PSoC5/Aileron.c **** *******************************************************************************/
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 6
+
+
+ 233:Generated_Source\PSoC5/Aileron.c **** void Aileron_Stop(void) 
+ 234:Generated_Source\PSoC5/Aileron.c **** {
+  54              		.loc 1 234 0
+  55              		.cfi_startproc
+  56              		@ args = 0, pretend = 0, frame = 0
+  57              		@ frame_needed = 0, uses_anonymous_args = 0
+  58              		@ link register save eliminated.
+ 235:Generated_Source\PSoC5/Aileron.c ****     #if (Aileron_UseControl || Aileron_UsingFixedFunction)
+ 236:Generated_Source\PSoC5/Aileron.c ****         Aileron_CONTROL &= ((uint8)(~Aileron_CTRL_ENABLE));
+  59              		.loc 1 236 0
+  60 0000 024A     		ldr	r2, .L5
+  61 0002 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  62 0004 03F07F03 		and	r3, r3, #127
+  63 0008 1370     		strb	r3, [r2]
+  64 000a 7047     		bx	lr
+  65              	.L6:
+  66              		.align	2
+  67              	.L5:
+  68 000c 72640040 		.word	1073767538
+  69              		.cfi_endproc
+  70              	.LFE3:
+  71              		.size	Aileron_Stop, .-Aileron_Stop
+  72              		.section	.text.Aileron_WriteCounter,"ax",%progbits
+  73              		.align	1
+  74              		.global	Aileron_WriteCounter
+  75              		.thumb
+  76              		.thumb_func
+  77              		.type	Aileron_WriteCounter, %function
+  78              	Aileron_WriteCounter:
+  79              	.LFB4:
+ 237:Generated_Source\PSoC5/Aileron.c ****     #endif /* (Aileron_UseControl || Aileron_UsingFixedFunction) */
+ 238:Generated_Source\PSoC5/Aileron.c **** 
+ 239:Generated_Source\PSoC5/Aileron.c ****     /* Globally disable the Fixed Function Block chosen */
+ 240:Generated_Source\PSoC5/Aileron.c ****     #if (Aileron_UsingFixedFunction)
+ 241:Generated_Source\PSoC5/Aileron.c ****         Aileron_GLOBAL_ENABLE &= ((uint8)(~Aileron_BLOCK_EN_MASK));
+ 242:Generated_Source\PSoC5/Aileron.c ****         Aileron_GLOBAL_STBY_ENABLE &= ((uint8)(~Aileron_BLOCK_STBY_EN_MASK));
+ 243:Generated_Source\PSoC5/Aileron.c ****     #endif /* (Aileron_UsingFixedFunction) */
+ 244:Generated_Source\PSoC5/Aileron.c **** }
+ 245:Generated_Source\PSoC5/Aileron.c **** 
+ 246:Generated_Source\PSoC5/Aileron.c **** #if (Aileron_UseOneCompareMode)
+ 247:Generated_Source\PSoC5/Aileron.c ****     #if (Aileron_CompareMode1SW)
+ 248:Generated_Source\PSoC5/Aileron.c **** 
+ 249:Generated_Source\PSoC5/Aileron.c **** 
+ 250:Generated_Source\PSoC5/Aileron.c ****         /*******************************************************************************
+ 251:Generated_Source\PSoC5/Aileron.c ****         * Function Name: Aileron_SetCompareMode
+ 252:Generated_Source\PSoC5/Aileron.c ****         ********************************************************************************
+ 253:Generated_Source\PSoC5/Aileron.c ****         *
+ 254:Generated_Source\PSoC5/Aileron.c ****         * Summary:
+ 255:Generated_Source\PSoC5/Aileron.c ****         *  This function writes the Compare Mode for the pwm output when in Dither mode,
+ 256:Generated_Source\PSoC5/Aileron.c ****         *  Center Align Mode or One Output Mode.
+ 257:Generated_Source\PSoC5/Aileron.c ****         *
+ 258:Generated_Source\PSoC5/Aileron.c ****         * Parameters:
+ 259:Generated_Source\PSoC5/Aileron.c ****         *  comparemode:  The new compare mode for the PWM output. Use the compare types
+ 260:Generated_Source\PSoC5/Aileron.c ****         *                defined in the H file as input arguments.
+ 261:Generated_Source\PSoC5/Aileron.c ****         *
+ 262:Generated_Source\PSoC5/Aileron.c ****         * Return:
+ 263:Generated_Source\PSoC5/Aileron.c ****         *  None
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 7
+
+
+ 264:Generated_Source\PSoC5/Aileron.c ****         *
+ 265:Generated_Source\PSoC5/Aileron.c ****         *******************************************************************************/
+ 266:Generated_Source\PSoC5/Aileron.c ****         void Aileron_SetCompareMode(uint8 comparemode) 
+ 267:Generated_Source\PSoC5/Aileron.c ****         {
+ 268:Generated_Source\PSoC5/Aileron.c ****             #if(Aileron_UsingFixedFunction)
+ 269:Generated_Source\PSoC5/Aileron.c **** 
+ 270:Generated_Source\PSoC5/Aileron.c ****                 #if(0 != Aileron_CTRL_CMPMODE1_SHIFT)
+ 271:Generated_Source\PSoC5/Aileron.c ****                     uint8 comparemodemasked = ((uint8)((uint8)comparemode << Aileron_CTRL_CMPMODE1_
+ 272:Generated_Source\PSoC5/Aileron.c ****                 #else
+ 273:Generated_Source\PSoC5/Aileron.c ****                     uint8 comparemodemasked = comparemode;
+ 274:Generated_Source\PSoC5/Aileron.c ****                 #endif /* (0 != Aileron_CTRL_CMPMODE1_SHIFT) */
+ 275:Generated_Source\PSoC5/Aileron.c **** 
+ 276:Generated_Source\PSoC5/Aileron.c ****                 Aileron_CONTROL3 &= ((uint8)(~Aileron_CTRL_CMPMODE1_MASK)); /*Clear Existing Data *
+ 277:Generated_Source\PSoC5/Aileron.c ****                 Aileron_CONTROL3 |= comparemodemasked;
+ 278:Generated_Source\PSoC5/Aileron.c **** 
+ 279:Generated_Source\PSoC5/Aileron.c ****             #elif (Aileron_UseControl)
+ 280:Generated_Source\PSoC5/Aileron.c **** 
+ 281:Generated_Source\PSoC5/Aileron.c ****                 #if(0 != Aileron_CTRL_CMPMODE1_SHIFT)
+ 282:Generated_Source\PSoC5/Aileron.c ****                     uint8 comparemode1masked = ((uint8)((uint8)comparemode << Aileron_CTRL_CMPMODE1
+ 283:Generated_Source\PSoC5/Aileron.c ****                                                 Aileron_CTRL_CMPMODE1_MASK;
+ 284:Generated_Source\PSoC5/Aileron.c ****                 #else
+ 285:Generated_Source\PSoC5/Aileron.c ****                     uint8 comparemode1masked = comparemode & Aileron_CTRL_CMPMODE1_MASK;
+ 286:Generated_Source\PSoC5/Aileron.c ****                 #endif /* (0 != Aileron_CTRL_CMPMODE1_SHIFT) */
+ 287:Generated_Source\PSoC5/Aileron.c **** 
+ 288:Generated_Source\PSoC5/Aileron.c ****                 #if(0 != Aileron_CTRL_CMPMODE2_SHIFT)
+ 289:Generated_Source\PSoC5/Aileron.c ****                     uint8 comparemode2masked = ((uint8)((uint8)comparemode << Aileron_CTRL_CMPMODE2
+ 290:Generated_Source\PSoC5/Aileron.c ****                                                Aileron_CTRL_CMPMODE2_MASK;
+ 291:Generated_Source\PSoC5/Aileron.c ****                 #else
+ 292:Generated_Source\PSoC5/Aileron.c ****                     uint8 comparemode2masked = comparemode & Aileron_CTRL_CMPMODE2_MASK;
+ 293:Generated_Source\PSoC5/Aileron.c ****                 #endif /* (0 != Aileron_CTRL_CMPMODE2_SHIFT) */
+ 294:Generated_Source\PSoC5/Aileron.c **** 
+ 295:Generated_Source\PSoC5/Aileron.c ****                 /*Clear existing mode */
+ 296:Generated_Source\PSoC5/Aileron.c ****                 Aileron_CONTROL &= ((uint8)(~(Aileron_CTRL_CMPMODE1_MASK |
+ 297:Generated_Source\PSoC5/Aileron.c ****                                             Aileron_CTRL_CMPMODE2_MASK)));
+ 298:Generated_Source\PSoC5/Aileron.c ****                 Aileron_CONTROL |= (comparemode1masked | comparemode2masked);
+ 299:Generated_Source\PSoC5/Aileron.c **** 
+ 300:Generated_Source\PSoC5/Aileron.c ****             #else
+ 301:Generated_Source\PSoC5/Aileron.c ****                 uint8 temp = comparemode;
+ 302:Generated_Source\PSoC5/Aileron.c ****             #endif /* (Aileron_UsingFixedFunction) */
+ 303:Generated_Source\PSoC5/Aileron.c ****         }
+ 304:Generated_Source\PSoC5/Aileron.c ****     #endif /* Aileron_CompareMode1SW */
+ 305:Generated_Source\PSoC5/Aileron.c **** 
+ 306:Generated_Source\PSoC5/Aileron.c **** #else /* UseOneCompareMode */
+ 307:Generated_Source\PSoC5/Aileron.c **** 
+ 308:Generated_Source\PSoC5/Aileron.c ****     #if (Aileron_CompareMode1SW)
+ 309:Generated_Source\PSoC5/Aileron.c **** 
+ 310:Generated_Source\PSoC5/Aileron.c **** 
+ 311:Generated_Source\PSoC5/Aileron.c ****         /*******************************************************************************
+ 312:Generated_Source\PSoC5/Aileron.c ****         * Function Name: Aileron_SetCompareMode1
+ 313:Generated_Source\PSoC5/Aileron.c ****         ********************************************************************************
+ 314:Generated_Source\PSoC5/Aileron.c ****         *
+ 315:Generated_Source\PSoC5/Aileron.c ****         * Summary:
+ 316:Generated_Source\PSoC5/Aileron.c ****         *  This function writes the Compare Mode for the pwm or pwm1 output
+ 317:Generated_Source\PSoC5/Aileron.c ****         *
+ 318:Generated_Source\PSoC5/Aileron.c ****         * Parameters:
+ 319:Generated_Source\PSoC5/Aileron.c ****         *  comparemode:  The new compare mode for the PWM output. Use the compare types
+ 320:Generated_Source\PSoC5/Aileron.c ****         *                defined in the H file as input arguments.
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 8
+
+
+ 321:Generated_Source\PSoC5/Aileron.c ****         *
+ 322:Generated_Source\PSoC5/Aileron.c ****         * Return:
+ 323:Generated_Source\PSoC5/Aileron.c ****         *  None
+ 324:Generated_Source\PSoC5/Aileron.c ****         *
+ 325:Generated_Source\PSoC5/Aileron.c ****         *******************************************************************************/
+ 326:Generated_Source\PSoC5/Aileron.c ****         void Aileron_SetCompareMode1(uint8 comparemode) 
+ 327:Generated_Source\PSoC5/Aileron.c ****         {
+ 328:Generated_Source\PSoC5/Aileron.c ****             #if(0 != Aileron_CTRL_CMPMODE1_SHIFT)
+ 329:Generated_Source\PSoC5/Aileron.c ****                 uint8 comparemodemasked = ((uint8)((uint8)comparemode << Aileron_CTRL_CMPMODE1_SHIF
+ 330:Generated_Source\PSoC5/Aileron.c ****                                            Aileron_CTRL_CMPMODE1_MASK;
+ 331:Generated_Source\PSoC5/Aileron.c ****             #else
+ 332:Generated_Source\PSoC5/Aileron.c ****                 uint8 comparemodemasked = comparemode & Aileron_CTRL_CMPMODE1_MASK;
+ 333:Generated_Source\PSoC5/Aileron.c ****             #endif /* (0 != Aileron_CTRL_CMPMODE1_SHIFT) */
+ 334:Generated_Source\PSoC5/Aileron.c **** 
+ 335:Generated_Source\PSoC5/Aileron.c ****             #if (Aileron_UseControl)
+ 336:Generated_Source\PSoC5/Aileron.c ****                 Aileron_CONTROL &= ((uint8)(~Aileron_CTRL_CMPMODE1_MASK)); /*Clear existing mode */
+ 337:Generated_Source\PSoC5/Aileron.c ****                 Aileron_CONTROL |= comparemodemasked;
+ 338:Generated_Source\PSoC5/Aileron.c ****             #endif /* (Aileron_UseControl) */
+ 339:Generated_Source\PSoC5/Aileron.c ****         }
+ 340:Generated_Source\PSoC5/Aileron.c ****     #endif /* Aileron_CompareMode1SW */
+ 341:Generated_Source\PSoC5/Aileron.c **** 
+ 342:Generated_Source\PSoC5/Aileron.c **** #if (Aileron_CompareMode2SW)
+ 343:Generated_Source\PSoC5/Aileron.c **** 
+ 344:Generated_Source\PSoC5/Aileron.c **** 
+ 345:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 346:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_SetCompareMode2
+ 347:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 348:Generated_Source\PSoC5/Aileron.c ****     *
+ 349:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 350:Generated_Source\PSoC5/Aileron.c ****     *  This function writes the Compare Mode for the pwm or pwm2 output
+ 351:Generated_Source\PSoC5/Aileron.c ****     *
+ 352:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 353:Generated_Source\PSoC5/Aileron.c ****     *  comparemode:  The new compare mode for the PWM output. Use the compare types
+ 354:Generated_Source\PSoC5/Aileron.c ****     *                defined in the H file as input arguments.
+ 355:Generated_Source\PSoC5/Aileron.c ****     *
+ 356:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 357:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 358:Generated_Source\PSoC5/Aileron.c ****     *
+ 359:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 360:Generated_Source\PSoC5/Aileron.c ****     void Aileron_SetCompareMode2(uint8 comparemode) 
+ 361:Generated_Source\PSoC5/Aileron.c ****     {
+ 362:Generated_Source\PSoC5/Aileron.c **** 
+ 363:Generated_Source\PSoC5/Aileron.c ****         #if(0 != Aileron_CTRL_CMPMODE2_SHIFT)
+ 364:Generated_Source\PSoC5/Aileron.c ****             uint8 comparemodemasked = ((uint8)((uint8)comparemode << Aileron_CTRL_CMPMODE2_SHIFT)) 
+ 365:Generated_Source\PSoC5/Aileron.c ****                                                  Aileron_CTRL_CMPMODE2_MASK;
+ 366:Generated_Source\PSoC5/Aileron.c ****         #else
+ 367:Generated_Source\PSoC5/Aileron.c ****             uint8 comparemodemasked = comparemode & Aileron_CTRL_CMPMODE2_MASK;
+ 368:Generated_Source\PSoC5/Aileron.c ****         #endif /* (0 != Aileron_CTRL_CMPMODE2_SHIFT) */
+ 369:Generated_Source\PSoC5/Aileron.c **** 
+ 370:Generated_Source\PSoC5/Aileron.c ****         #if (Aileron_UseControl)
+ 371:Generated_Source\PSoC5/Aileron.c ****             Aileron_CONTROL &= ((uint8)(~Aileron_CTRL_CMPMODE2_MASK)); /*Clear existing mode */
+ 372:Generated_Source\PSoC5/Aileron.c ****             Aileron_CONTROL |= comparemodemasked;
+ 373:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UseControl) */
+ 374:Generated_Source\PSoC5/Aileron.c ****     }
+ 375:Generated_Source\PSoC5/Aileron.c ****     #endif /*Aileron_CompareMode2SW */
+ 376:Generated_Source\PSoC5/Aileron.c **** 
+ 377:Generated_Source\PSoC5/Aileron.c **** #endif /* UseOneCompareMode */
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 9
+
+
+ 378:Generated_Source\PSoC5/Aileron.c **** 
+ 379:Generated_Source\PSoC5/Aileron.c **** 
+ 380:Generated_Source\PSoC5/Aileron.c **** #if (!Aileron_UsingFixedFunction)
+ 381:Generated_Source\PSoC5/Aileron.c **** 
+ 382:Generated_Source\PSoC5/Aileron.c **** 
+ 383:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 384:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_WriteCounter
+ 385:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 386:Generated_Source\PSoC5/Aileron.c ****     *
+ 387:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 388:Generated_Source\PSoC5/Aileron.c ****     *  Writes a new counter value directly to the counter register. This will be
+ 389:Generated_Source\PSoC5/Aileron.c ****     *  implemented for that currently running period and only that period. This API
+ 390:Generated_Source\PSoC5/Aileron.c ****     *  is valid only for UDB implementation and not available for fixed function
+ 391:Generated_Source\PSoC5/Aileron.c ****     *  PWM implementation.
+ 392:Generated_Source\PSoC5/Aileron.c ****     *
+ 393:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 394:Generated_Source\PSoC5/Aileron.c ****     *  counter:  The period new period counter value.
+ 395:Generated_Source\PSoC5/Aileron.c ****     *
+ 396:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 397:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 398:Generated_Source\PSoC5/Aileron.c ****     *
+ 399:Generated_Source\PSoC5/Aileron.c ****     * Side Effects:
+ 400:Generated_Source\PSoC5/Aileron.c ****     *  The PWM Period will be reloaded when a counter value will be a zero
+ 401:Generated_Source\PSoC5/Aileron.c ****     *
+ 402:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 403:Generated_Source\PSoC5/Aileron.c ****     void Aileron_WriteCounter(uint16 counter) \
+ 404:Generated_Source\PSoC5/Aileron.c ****                                        
+ 405:Generated_Source\PSoC5/Aileron.c ****     {
+  80              		.loc 1 405 0
+  81              		.cfi_startproc
+  82              		@ args = 0, pretend = 0, frame = 0
+  83              		@ frame_needed = 0, uses_anonymous_args = 0
+  84              		@ link register save eliminated.
+  85              	.LVL0:
+ 406:Generated_Source\PSoC5/Aileron.c ****         CY_SET_REG16(Aileron_COUNTER_LSB_PTR, counter);
+  86              		.loc 1 406 0
+  87 0000 014B     		ldr	r3, .L8
+  88 0002 1880     		strh	r0, [r3]	@ movhi
+  89 0004 7047     		bx	lr
+  90              	.L9:
+  91 0006 00BF     		.align	2
+  92              	.L8:
+  93 0008 18680040 		.word	1073768472
+  94              		.cfi_endproc
+  95              	.LFE4:
+  96              		.size	Aileron_WriteCounter, .-Aileron_WriteCounter
+  97              		.section	.text.Aileron_ReadCounter,"ax",%progbits
+  98              		.align	1
+  99              		.global	Aileron_ReadCounter
+ 100              		.thumb
+ 101              		.thumb_func
+ 102              		.type	Aileron_ReadCounter, %function
+ 103              	Aileron_ReadCounter:
+ 104              	.LFB5:
+ 407:Generated_Source\PSoC5/Aileron.c ****     }
+ 408:Generated_Source\PSoC5/Aileron.c **** 
+ 409:Generated_Source\PSoC5/Aileron.c **** 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 10
+
+
+ 410:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 411:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_ReadCounter
+ 412:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 413:Generated_Source\PSoC5/Aileron.c ****     *
+ 414:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 415:Generated_Source\PSoC5/Aileron.c ****     *  This function returns the current value of the counter.  It doesn't matter
+ 416:Generated_Source\PSoC5/Aileron.c ****     *  if the counter is enabled or running.
+ 417:Generated_Source\PSoC5/Aileron.c ****     *
+ 418:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 419:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 420:Generated_Source\PSoC5/Aileron.c ****     *
+ 421:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 422:Generated_Source\PSoC5/Aileron.c ****     *  The current value of the counter.
+ 423:Generated_Source\PSoC5/Aileron.c ****     *
+ 424:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 425:Generated_Source\PSoC5/Aileron.c ****     uint16 Aileron_ReadCounter(void) 
+ 426:Generated_Source\PSoC5/Aileron.c ****     {
+ 105              		.loc 1 426 0
+ 106              		.cfi_startproc
+ 107              		@ args = 0, pretend = 0, frame = 0
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109              		@ link register save eliminated.
+ 427:Generated_Source\PSoC5/Aileron.c ****         /* Force capture by reading Accumulator */
+ 428:Generated_Source\PSoC5/Aileron.c ****         /* Must first do a software capture to be able to read the counter */
+ 429:Generated_Source\PSoC5/Aileron.c ****         /* It is up to the user code to make sure there isn't already captured data in the FIFO */
+ 430:Generated_Source\PSoC5/Aileron.c ****           (void)CY_GET_REG8(Aileron_COUNTERCAP_LSB_PTR_8BIT);
+ 110              		.loc 1 430 0
+ 111 0000 024B     		ldr	r3, .L11
+ 112 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 431:Generated_Source\PSoC5/Aileron.c **** 
+ 432:Generated_Source\PSoC5/Aileron.c ****         /* Read the data from the FIFO */
+ 433:Generated_Source\PSoC5/Aileron.c ****         return (CY_GET_REG16(Aileron_CAPTURE_LSB_PTR));
+ 113              		.loc 1 433 0
+ 114 0004 024B     		ldr	r3, .L11+4
+ 115 0006 1888     		ldrh	r0, [r3]
+ 434:Generated_Source\PSoC5/Aileron.c ****     }
+ 116              		.loc 1 434 0
+ 117 0008 80B2     		uxth	r0, r0
+ 118 000a 7047     		bx	lr
+ 119              	.L12:
+ 120              		.align	2
+ 121              	.L11:
+ 122 000c 1C640040 		.word	1073767452
+ 123 0010 B8680040 		.word	1073768632
+ 124              		.cfi_endproc
+ 125              	.LFE5:
+ 126              		.size	Aileron_ReadCounter, .-Aileron_ReadCounter
+ 127              		.section	.text.Aileron_ClearFIFO,"ax",%progbits
+ 128              		.align	1
+ 129              		.global	Aileron_ClearFIFO
+ 130              		.thumb
+ 131              		.thumb_func
+ 132              		.type	Aileron_ClearFIFO, %function
+ 133              	Aileron_ClearFIFO:
+ 134              	.LFB6:
+ 435:Generated_Source\PSoC5/Aileron.c **** 
+ 436:Generated_Source\PSoC5/Aileron.c ****     #if (Aileron_UseStatus)
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 11
+
+
+ 437:Generated_Source\PSoC5/Aileron.c **** 
+ 438:Generated_Source\PSoC5/Aileron.c **** 
+ 439:Generated_Source\PSoC5/Aileron.c ****         /*******************************************************************************
+ 440:Generated_Source\PSoC5/Aileron.c ****         * Function Name: Aileron_ClearFIFO
+ 441:Generated_Source\PSoC5/Aileron.c ****         ********************************************************************************
+ 442:Generated_Source\PSoC5/Aileron.c ****         *
+ 443:Generated_Source\PSoC5/Aileron.c ****         * Summary:
+ 444:Generated_Source\PSoC5/Aileron.c ****         *  This function clears all capture data from the capture FIFO
+ 445:Generated_Source\PSoC5/Aileron.c ****         *
+ 446:Generated_Source\PSoC5/Aileron.c ****         * Parameters:
+ 447:Generated_Source\PSoC5/Aileron.c ****         *  None
+ 448:Generated_Source\PSoC5/Aileron.c ****         *
+ 449:Generated_Source\PSoC5/Aileron.c ****         * Return:
+ 450:Generated_Source\PSoC5/Aileron.c ****         *  None
+ 451:Generated_Source\PSoC5/Aileron.c ****         *
+ 452:Generated_Source\PSoC5/Aileron.c ****         *******************************************************************************/
+ 453:Generated_Source\PSoC5/Aileron.c ****         void Aileron_ClearFIFO(void) 
+ 454:Generated_Source\PSoC5/Aileron.c ****         {
+ 135              		.loc 1 454 0
+ 136              		.cfi_startproc
+ 137              		@ args = 0, pretend = 0, frame = 0
+ 138              		@ frame_needed = 0, uses_anonymous_args = 0
+ 139              		@ link register save eliminated.
+ 140              	.LBB16:
+ 141              	.LBB17:
+ 455:Generated_Source\PSoC5/Aileron.c ****             while(0u != (Aileron_ReadStatusRegister() & Aileron_STATUS_FIFONEMPTY))
+ 456:Generated_Source\PSoC5/Aileron.c ****             {
+ 457:Generated_Source\PSoC5/Aileron.c ****                 (void)Aileron_ReadCapture();
+ 458:Generated_Source\PSoC5/Aileron.c ****             }
+ 459:Generated_Source\PSoC5/Aileron.c ****         }
+ 460:Generated_Source\PSoC5/Aileron.c **** 
+ 461:Generated_Source\PSoC5/Aileron.c ****     #endif /* Aileron_UseStatus */
+ 462:Generated_Source\PSoC5/Aileron.c **** 
+ 463:Generated_Source\PSoC5/Aileron.c **** #endif /* !Aileron_UsingFixedFunction */
+ 464:Generated_Source\PSoC5/Aileron.c **** 
+ 465:Generated_Source\PSoC5/Aileron.c **** 
+ 466:Generated_Source\PSoC5/Aileron.c **** /*******************************************************************************
+ 467:Generated_Source\PSoC5/Aileron.c **** * Function Name: Aileron_WritePeriod
+ 468:Generated_Source\PSoC5/Aileron.c **** ********************************************************************************
+ 469:Generated_Source\PSoC5/Aileron.c **** *
+ 470:Generated_Source\PSoC5/Aileron.c **** * Summary:
+ 471:Generated_Source\PSoC5/Aileron.c **** *  This function is used to change the period of the counter.  The new period
+ 472:Generated_Source\PSoC5/Aileron.c **** *  will be loaded the next time terminal count is detected.
+ 473:Generated_Source\PSoC5/Aileron.c **** *
+ 474:Generated_Source\PSoC5/Aileron.c **** * Parameters:
+ 475:Generated_Source\PSoC5/Aileron.c **** *  period:  Period value. May be between 1 and (2^Resolution)-1.  A value of 0
+ 476:Generated_Source\PSoC5/Aileron.c **** *           will result in the counter remaining at zero.
+ 477:Generated_Source\PSoC5/Aileron.c **** *
+ 478:Generated_Source\PSoC5/Aileron.c **** * Return:
+ 479:Generated_Source\PSoC5/Aileron.c **** *  None
+ 480:Generated_Source\PSoC5/Aileron.c **** *
+ 481:Generated_Source\PSoC5/Aileron.c **** *******************************************************************************/
+ 482:Generated_Source\PSoC5/Aileron.c **** void Aileron_WritePeriod(uint16 period) 
+ 483:Generated_Source\PSoC5/Aileron.c **** {
+ 484:Generated_Source\PSoC5/Aileron.c ****     #if(Aileron_UsingFixedFunction)
+ 485:Generated_Source\PSoC5/Aileron.c ****         CY_SET_REG16(Aileron_PERIOD_LSB_PTR, (uint16)period);
+ 486:Generated_Source\PSoC5/Aileron.c ****     #else
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 12
+
+
+ 487:Generated_Source\PSoC5/Aileron.c ****         CY_SET_REG16(Aileron_PERIOD_LSB_PTR, period);
+ 488:Generated_Source\PSoC5/Aileron.c ****     #endif /* (Aileron_UsingFixedFunction) */
+ 489:Generated_Source\PSoC5/Aileron.c **** }
+ 490:Generated_Source\PSoC5/Aileron.c **** 
+ 491:Generated_Source\PSoC5/Aileron.c **** #if (Aileron_UseOneCompareMode)
+ 492:Generated_Source\PSoC5/Aileron.c **** 
+ 493:Generated_Source\PSoC5/Aileron.c **** 
+ 494:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 495:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_WriteCompare
+ 496:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 497:Generated_Source\PSoC5/Aileron.c ****     *
+ 498:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 499:Generated_Source\PSoC5/Aileron.c ****     *  This funtion is used to change the compare1 value when the PWM is in Dither
+ 500:Generated_Source\PSoC5/Aileron.c ****     *  mode. The compare output will reflect the new value on the next UDB clock.
+ 501:Generated_Source\PSoC5/Aileron.c ****     *  The compare output will be driven high when the present counter value is
+ 502:Generated_Source\PSoC5/Aileron.c ****     *  compared to the compare value based on the compare mode defined in
+ 503:Generated_Source\PSoC5/Aileron.c ****     *  Dither Mode.
+ 504:Generated_Source\PSoC5/Aileron.c ****     *
+ 505:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 506:Generated_Source\PSoC5/Aileron.c ****     *  compare:  New compare value.
+ 507:Generated_Source\PSoC5/Aileron.c ****     *
+ 508:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 509:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 510:Generated_Source\PSoC5/Aileron.c ****     *
+ 511:Generated_Source\PSoC5/Aileron.c ****     * Side Effects:
+ 512:Generated_Source\PSoC5/Aileron.c ****     *  This function is only available if the PWM mode parameter is set to
+ 513:Generated_Source\PSoC5/Aileron.c ****     *  Dither Mode, Center Aligned Mode or One Output Mode
+ 514:Generated_Source\PSoC5/Aileron.c ****     *
+ 515:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 516:Generated_Source\PSoC5/Aileron.c ****     void Aileron_WriteCompare(uint16 compare) \
+ 517:Generated_Source\PSoC5/Aileron.c ****                                        
+ 518:Generated_Source\PSoC5/Aileron.c ****     {
+ 519:Generated_Source\PSoC5/Aileron.c ****         #if(Aileron_UsingFixedFunction)
+ 520:Generated_Source\PSoC5/Aileron.c ****             CY_SET_REG16(Aileron_COMPARE1_LSB_PTR, (uint16)compare);
+ 521:Generated_Source\PSoC5/Aileron.c ****         #else
+ 522:Generated_Source\PSoC5/Aileron.c ****             CY_SET_REG16(Aileron_COMPARE1_LSB_PTR, compare);
+ 523:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UsingFixedFunction) */
+ 524:Generated_Source\PSoC5/Aileron.c **** 
+ 525:Generated_Source\PSoC5/Aileron.c ****         #if (Aileron_PWMMode == Aileron__B_PWM__DITHER)
+ 526:Generated_Source\PSoC5/Aileron.c ****             #if(Aileron_UsingFixedFunction)
+ 527:Generated_Source\PSoC5/Aileron.c ****                 CY_SET_REG16(Aileron_COMPARE2_LSB_PTR, (uint16)(compare + 1u));
+ 528:Generated_Source\PSoC5/Aileron.c ****             #else
+ 529:Generated_Source\PSoC5/Aileron.c ****                 CY_SET_REG16(Aileron_COMPARE2_LSB_PTR, (compare + 1u));
+ 530:Generated_Source\PSoC5/Aileron.c ****             #endif /* (Aileron_UsingFixedFunction) */
+ 531:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_PWMMode == Aileron__B_PWM__DITHER) */
+ 532:Generated_Source\PSoC5/Aileron.c ****     }
+ 533:Generated_Source\PSoC5/Aileron.c **** 
+ 534:Generated_Source\PSoC5/Aileron.c **** 
+ 535:Generated_Source\PSoC5/Aileron.c **** #else
+ 536:Generated_Source\PSoC5/Aileron.c **** 
+ 537:Generated_Source\PSoC5/Aileron.c **** 
+ 538:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 539:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_WriteCompare1
+ 540:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 541:Generated_Source\PSoC5/Aileron.c ****     *
+ 542:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 543:Generated_Source\PSoC5/Aileron.c ****     *  This funtion is used to change the compare1 value.  The compare output will
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 13
+
+
+ 544:Generated_Source\PSoC5/Aileron.c ****     *  reflect the new value on the next UDB clock.  The compare output will be
+ 545:Generated_Source\PSoC5/Aileron.c ****     *  driven high when the present counter value is less than or less than or
+ 546:Generated_Source\PSoC5/Aileron.c ****     *  equal to the compare register, depending on the mode.
+ 547:Generated_Source\PSoC5/Aileron.c ****     *
+ 548:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 549:Generated_Source\PSoC5/Aileron.c ****     *  compare:  New compare value.
+ 550:Generated_Source\PSoC5/Aileron.c ****     *
+ 551:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 552:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 553:Generated_Source\PSoC5/Aileron.c ****     *
+ 554:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 555:Generated_Source\PSoC5/Aileron.c ****     void Aileron_WriteCompare1(uint16 compare) \
+ 556:Generated_Source\PSoC5/Aileron.c ****                                         
+ 557:Generated_Source\PSoC5/Aileron.c ****     {
+ 558:Generated_Source\PSoC5/Aileron.c ****         #if(Aileron_UsingFixedFunction)
+ 559:Generated_Source\PSoC5/Aileron.c ****             CY_SET_REG16(Aileron_COMPARE1_LSB_PTR, (uint16)compare);
+ 560:Generated_Source\PSoC5/Aileron.c ****         #else
+ 561:Generated_Source\PSoC5/Aileron.c ****             CY_SET_REG16(Aileron_COMPARE1_LSB_PTR, compare);
+ 562:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UsingFixedFunction) */
+ 563:Generated_Source\PSoC5/Aileron.c ****     }
+ 564:Generated_Source\PSoC5/Aileron.c **** 
+ 565:Generated_Source\PSoC5/Aileron.c **** 
+ 566:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 567:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_WriteCompare2
+ 568:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 569:Generated_Source\PSoC5/Aileron.c ****     *
+ 570:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 571:Generated_Source\PSoC5/Aileron.c ****     *  This funtion is used to change the compare value, for compare1 output.
+ 572:Generated_Source\PSoC5/Aileron.c ****     *  The compare output will reflect the new value on the next UDB clock.
+ 573:Generated_Source\PSoC5/Aileron.c ****     *  The compare output will be driven high when the present counter value is
+ 574:Generated_Source\PSoC5/Aileron.c ****     *  less than or less than or equal to the compare register, depending on the
+ 575:Generated_Source\PSoC5/Aileron.c ****     *  mode.
+ 576:Generated_Source\PSoC5/Aileron.c ****     *
+ 577:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 578:Generated_Source\PSoC5/Aileron.c ****     *  compare:  New compare value.
+ 579:Generated_Source\PSoC5/Aileron.c ****     *
+ 580:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 581:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 582:Generated_Source\PSoC5/Aileron.c ****     *
+ 583:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 584:Generated_Source\PSoC5/Aileron.c ****     void Aileron_WriteCompare2(uint16 compare) \
+ 585:Generated_Source\PSoC5/Aileron.c ****                                         
+ 586:Generated_Source\PSoC5/Aileron.c ****     {
+ 587:Generated_Source\PSoC5/Aileron.c ****         #if(Aileron_UsingFixedFunction)
+ 588:Generated_Source\PSoC5/Aileron.c ****             CY_SET_REG16(Aileron_COMPARE2_LSB_PTR, compare);
+ 589:Generated_Source\PSoC5/Aileron.c ****         #else
+ 590:Generated_Source\PSoC5/Aileron.c ****             CY_SET_REG16(Aileron_COMPARE2_LSB_PTR, compare);
+ 591:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UsingFixedFunction) */
+ 592:Generated_Source\PSoC5/Aileron.c ****     }
+ 593:Generated_Source\PSoC5/Aileron.c **** #endif /* UseOneCompareMode */
+ 594:Generated_Source\PSoC5/Aileron.c **** 
+ 595:Generated_Source\PSoC5/Aileron.c **** #if (Aileron_DeadBandUsed)
+ 596:Generated_Source\PSoC5/Aileron.c **** 
+ 597:Generated_Source\PSoC5/Aileron.c **** 
+ 598:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 599:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_WriteDeadTime
+ 600:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 14
+
+
+ 601:Generated_Source\PSoC5/Aileron.c ****     *
+ 602:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 603:Generated_Source\PSoC5/Aileron.c ****     *  This function writes the dead-band counts to the corresponding register
+ 604:Generated_Source\PSoC5/Aileron.c ****     *
+ 605:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 606:Generated_Source\PSoC5/Aileron.c ****     *  deadtime:  Number of counts for dead time
+ 607:Generated_Source\PSoC5/Aileron.c ****     *
+ 608:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 609:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 610:Generated_Source\PSoC5/Aileron.c ****     *
+ 611:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 612:Generated_Source\PSoC5/Aileron.c ****     void Aileron_WriteDeadTime(uint8 deadtime) 
+ 613:Generated_Source\PSoC5/Aileron.c ****     {
+ 614:Generated_Source\PSoC5/Aileron.c ****         /* If using the Dead Band 1-255 mode then just write the register */
+ 615:Generated_Source\PSoC5/Aileron.c ****         #if(!Aileron_DeadBand2_4)
+ 616:Generated_Source\PSoC5/Aileron.c ****             CY_SET_REG8(Aileron_DEADBAND_COUNT_PTR, deadtime);
+ 617:Generated_Source\PSoC5/Aileron.c ****         #else
+ 618:Generated_Source\PSoC5/Aileron.c ****             /* Otherwise the data has to be masked and offset */
+ 619:Generated_Source\PSoC5/Aileron.c ****             /* Clear existing data */
+ 620:Generated_Source\PSoC5/Aileron.c ****             Aileron_DEADBAND_COUNT &= ((uint8)(~Aileron_DEADBAND_COUNT_MASK));
+ 621:Generated_Source\PSoC5/Aileron.c **** 
+ 622:Generated_Source\PSoC5/Aileron.c ****             /* Set new dead time */
+ 623:Generated_Source\PSoC5/Aileron.c ****             #if(Aileron_DEADBAND_COUNT_SHIFT)
+ 624:Generated_Source\PSoC5/Aileron.c ****                 Aileron_DEADBAND_COUNT |= ((uint8)((uint8)deadtime << Aileron_DEADBAND_COUNT_SHIFT)
+ 625:Generated_Source\PSoC5/Aileron.c ****                                                     Aileron_DEADBAND_COUNT_MASK;
+ 626:Generated_Source\PSoC5/Aileron.c ****             #else
+ 627:Generated_Source\PSoC5/Aileron.c ****                 Aileron_DEADBAND_COUNT |= deadtime & Aileron_DEADBAND_COUNT_MASK;
+ 628:Generated_Source\PSoC5/Aileron.c ****             #endif /* (Aileron_DEADBAND_COUNT_SHIFT) */
+ 629:Generated_Source\PSoC5/Aileron.c **** 
+ 630:Generated_Source\PSoC5/Aileron.c ****         #endif /* (!Aileron_DeadBand2_4) */
+ 631:Generated_Source\PSoC5/Aileron.c ****     }
+ 632:Generated_Source\PSoC5/Aileron.c **** 
+ 633:Generated_Source\PSoC5/Aileron.c **** 
+ 634:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 635:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_ReadDeadTime
+ 636:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 637:Generated_Source\PSoC5/Aileron.c ****     *
+ 638:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 639:Generated_Source\PSoC5/Aileron.c ****     *  This function reads the dead-band counts from the corresponding register
+ 640:Generated_Source\PSoC5/Aileron.c ****     *
+ 641:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 642:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 643:Generated_Source\PSoC5/Aileron.c ****     *
+ 644:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 645:Generated_Source\PSoC5/Aileron.c ****     *  Dead Band Counts
+ 646:Generated_Source\PSoC5/Aileron.c ****     *
+ 647:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 648:Generated_Source\PSoC5/Aileron.c ****     uint8 Aileron_ReadDeadTime(void) 
+ 649:Generated_Source\PSoC5/Aileron.c ****     {
+ 650:Generated_Source\PSoC5/Aileron.c ****         /* If using the Dead Band 1-255 mode then just read the register */
+ 651:Generated_Source\PSoC5/Aileron.c ****         #if(!Aileron_DeadBand2_4)
+ 652:Generated_Source\PSoC5/Aileron.c ****             return (CY_GET_REG8(Aileron_DEADBAND_COUNT_PTR));
+ 653:Generated_Source\PSoC5/Aileron.c ****         #else
+ 654:Generated_Source\PSoC5/Aileron.c **** 
+ 655:Generated_Source\PSoC5/Aileron.c ****             /* Otherwise the data has to be masked and offset */
+ 656:Generated_Source\PSoC5/Aileron.c ****             #if(Aileron_DEADBAND_COUNT_SHIFT)
+ 657:Generated_Source\PSoC5/Aileron.c ****                 return ((uint8)(((uint8)(Aileron_DEADBAND_COUNT & Aileron_DEADBAND_COUNT_MASK)) >>
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 15
+
+
+ 658:Generated_Source\PSoC5/Aileron.c ****                                                                            Aileron_DEADBAND_COUNT_S
+ 659:Generated_Source\PSoC5/Aileron.c ****             #else
+ 660:Generated_Source\PSoC5/Aileron.c ****                 return (Aileron_DEADBAND_COUNT & Aileron_DEADBAND_COUNT_MASK);
+ 661:Generated_Source\PSoC5/Aileron.c ****             #endif /* (Aileron_DEADBAND_COUNT_SHIFT) */
+ 662:Generated_Source\PSoC5/Aileron.c ****         #endif /* (!Aileron_DeadBand2_4) */
+ 663:Generated_Source\PSoC5/Aileron.c ****     }
+ 664:Generated_Source\PSoC5/Aileron.c **** #endif /* DeadBandUsed */
+ 665:Generated_Source\PSoC5/Aileron.c **** 
+ 666:Generated_Source\PSoC5/Aileron.c **** #if (Aileron_UseStatus || Aileron_UsingFixedFunction)
+ 667:Generated_Source\PSoC5/Aileron.c **** 
+ 668:Generated_Source\PSoC5/Aileron.c **** 
+ 669:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 670:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_SetInterruptMode
+ 671:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 672:Generated_Source\PSoC5/Aileron.c ****     *
+ 673:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 674:Generated_Source\PSoC5/Aileron.c ****     *  This function configures the interrupts mask control of theinterrupt
+ 675:Generated_Source\PSoC5/Aileron.c ****     *  source status register.
+ 676:Generated_Source\PSoC5/Aileron.c ****     *
+ 677:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 678:Generated_Source\PSoC5/Aileron.c ****     *  uint8 interruptMode: Bit field containing the interrupt sources enabled
+ 679:Generated_Source\PSoC5/Aileron.c ****     *
+ 680:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 681:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 682:Generated_Source\PSoC5/Aileron.c ****     *
+ 683:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 684:Generated_Source\PSoC5/Aileron.c ****     void Aileron_SetInterruptMode(uint8 interruptMode) 
+ 685:Generated_Source\PSoC5/Aileron.c ****     {
+ 686:Generated_Source\PSoC5/Aileron.c ****         CY_SET_REG8(Aileron_STATUS_MASK_PTR, interruptMode);
+ 687:Generated_Source\PSoC5/Aileron.c ****     }
+ 688:Generated_Source\PSoC5/Aileron.c **** 
+ 689:Generated_Source\PSoC5/Aileron.c **** 
+ 690:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 691:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_ReadStatusRegister
+ 692:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 693:Generated_Source\PSoC5/Aileron.c ****     *
+ 694:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 695:Generated_Source\PSoC5/Aileron.c ****     *  This function returns the current state of the status register.
+ 696:Generated_Source\PSoC5/Aileron.c ****     *
+ 697:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 698:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 699:Generated_Source\PSoC5/Aileron.c ****     *
+ 700:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 701:Generated_Source\PSoC5/Aileron.c ****     *  uint8 : Current status register value. The status register bits are:
+ 702:Generated_Source\PSoC5/Aileron.c ****     *  [7:6] : Unused(0)
+ 703:Generated_Source\PSoC5/Aileron.c ****     *  [5]   : Kill event output
+ 704:Generated_Source\PSoC5/Aileron.c ****     *  [4]   : FIFO not empty
+ 705:Generated_Source\PSoC5/Aileron.c ****     *  [3]   : FIFO full
+ 706:Generated_Source\PSoC5/Aileron.c ****     *  [2]   : Terminal count
+ 707:Generated_Source\PSoC5/Aileron.c ****     *  [1]   : Compare output 2
+ 708:Generated_Source\PSoC5/Aileron.c ****     *  [0]   : Compare output 1
+ 709:Generated_Source\PSoC5/Aileron.c ****     *
+ 710:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 711:Generated_Source\PSoC5/Aileron.c ****     uint8 Aileron_ReadStatusRegister(void) 
+ 712:Generated_Source\PSoC5/Aileron.c ****     {
+ 713:Generated_Source\PSoC5/Aileron.c ****         return (CY_GET_REG8(Aileron_STATUS_PTR));
+ 142              		.loc 1 713 0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 16
+
+
+ 143 0000 034A     		ldr	r2, .L18
+ 144              	.LBE17:
+ 145              	.LBE16:
+ 146              	.LBB19:
+ 147              	.LBB20:
+ 714:Generated_Source\PSoC5/Aileron.c ****     }
+ 715:Generated_Source\PSoC5/Aileron.c **** 
+ 716:Generated_Source\PSoC5/Aileron.c **** #endif /* (Aileron_UseStatus || Aileron_UsingFixedFunction) */
+ 717:Generated_Source\PSoC5/Aileron.c **** 
+ 718:Generated_Source\PSoC5/Aileron.c **** 
+ 719:Generated_Source\PSoC5/Aileron.c **** #if (Aileron_UseControl)
+ 720:Generated_Source\PSoC5/Aileron.c **** 
+ 721:Generated_Source\PSoC5/Aileron.c **** 
+ 722:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 723:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_ReadControlRegister
+ 724:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 725:Generated_Source\PSoC5/Aileron.c ****     *
+ 726:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 727:Generated_Source\PSoC5/Aileron.c ****     *  Returns the current state of the control register. This API is available
+ 728:Generated_Source\PSoC5/Aileron.c ****     *  only if the control register is not removed.
+ 729:Generated_Source\PSoC5/Aileron.c ****     *
+ 730:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 731:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 732:Generated_Source\PSoC5/Aileron.c ****     *
+ 733:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 734:Generated_Source\PSoC5/Aileron.c ****     *  uint8 : Current control register value
+ 735:Generated_Source\PSoC5/Aileron.c ****     *
+ 736:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 737:Generated_Source\PSoC5/Aileron.c ****     uint8 Aileron_ReadControlRegister(void) 
+ 738:Generated_Source\PSoC5/Aileron.c ****     {
+ 739:Generated_Source\PSoC5/Aileron.c ****         uint8 result;
+ 740:Generated_Source\PSoC5/Aileron.c **** 
+ 741:Generated_Source\PSoC5/Aileron.c ****         result = CY_GET_REG8(Aileron_CONTROL_PTR);
+ 742:Generated_Source\PSoC5/Aileron.c ****         return (result);
+ 743:Generated_Source\PSoC5/Aileron.c ****     }
+ 744:Generated_Source\PSoC5/Aileron.c **** 
+ 745:Generated_Source\PSoC5/Aileron.c **** 
+ 746:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 747:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_WriteControlRegister
+ 748:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 749:Generated_Source\PSoC5/Aileron.c ****     *
+ 750:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 751:Generated_Source\PSoC5/Aileron.c ****     *  Sets the bit field of the control register. This API is available only if
+ 752:Generated_Source\PSoC5/Aileron.c ****     *  the control register is not removed.
+ 753:Generated_Source\PSoC5/Aileron.c ****     *
+ 754:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 755:Generated_Source\PSoC5/Aileron.c ****     *  uint8 control: Control register bit field, The status register bits are:
+ 756:Generated_Source\PSoC5/Aileron.c ****     *  [7]   : PWM Enable
+ 757:Generated_Source\PSoC5/Aileron.c ****     *  [6]   : Reset
+ 758:Generated_Source\PSoC5/Aileron.c ****     *  [5:3] : Compare Mode2
+ 759:Generated_Source\PSoC5/Aileron.c ****     *  [2:0] : Compare Mode2
+ 760:Generated_Source\PSoC5/Aileron.c ****     *
+ 761:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 762:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 763:Generated_Source\PSoC5/Aileron.c ****     *
+ 764:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 765:Generated_Source\PSoC5/Aileron.c ****     void Aileron_WriteControlRegister(uint8 control) 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 17
+
+
+ 766:Generated_Source\PSoC5/Aileron.c ****     {
+ 767:Generated_Source\PSoC5/Aileron.c ****         CY_SET_REG8(Aileron_CONTROL_PTR, control);
+ 768:Generated_Source\PSoC5/Aileron.c ****     }
+ 769:Generated_Source\PSoC5/Aileron.c **** 
+ 770:Generated_Source\PSoC5/Aileron.c **** #endif /* (Aileron_UseControl) */
+ 771:Generated_Source\PSoC5/Aileron.c **** 
+ 772:Generated_Source\PSoC5/Aileron.c **** 
+ 773:Generated_Source\PSoC5/Aileron.c **** #if (!Aileron_UsingFixedFunction)
+ 774:Generated_Source\PSoC5/Aileron.c **** 
+ 775:Generated_Source\PSoC5/Aileron.c **** 
+ 776:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 777:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_ReadCapture
+ 778:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 779:Generated_Source\PSoC5/Aileron.c ****     *
+ 780:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 781:Generated_Source\PSoC5/Aileron.c ****     *  Reads the capture value from the capture FIFO.
+ 782:Generated_Source\PSoC5/Aileron.c ****     *
+ 783:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 784:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 785:Generated_Source\PSoC5/Aileron.c ****     *
+ 786:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 787:Generated_Source\PSoC5/Aileron.c ****     *  uint8/uint16: The current capture value
+ 788:Generated_Source\PSoC5/Aileron.c ****     *
+ 789:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 790:Generated_Source\PSoC5/Aileron.c ****     uint16 Aileron_ReadCapture(void) 
+ 791:Generated_Source\PSoC5/Aileron.c ****     {
+ 792:Generated_Source\PSoC5/Aileron.c ****         return (CY_GET_REG16(Aileron_CAPTURE_LSB_PTR));
+ 148              		.loc 1 792 0
+ 149 0002 0449     		ldr	r1, .L18+4
+ 150              	.L14:
+ 151              	.LBE20:
+ 152              	.LBE19:
+ 153              	.LBB22:
+ 154              	.LBB18:
+ 713:Generated_Source\PSoC5/Aileron.c ****     }
+ 155              		.loc 1 713 0
+ 156 0004 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 157              	.LBE18:
+ 158              	.LBE22:
+ 455:Generated_Source\PSoC5/Aileron.c ****             while(0u != (Aileron_ReadStatusRegister() & Aileron_STATUS_FIFONEMPTY))
+ 159              		.loc 1 455 0
+ 160 0006 DB06     		lsls	r3, r3, #27
+ 161 0008 01D5     		bpl	.L17
+ 162              	.LBB23:
+ 163              	.LBB21:
+ 164              		.loc 1 792 0
+ 165 000a 0B88     		ldrh	r3, [r1]
+ 166 000c FAE7     		b	.L14
+ 167              	.L17:
+ 168              	.LBE21:
+ 169              	.LBE23:
+ 459:Generated_Source\PSoC5/Aileron.c **** 
+ 170              		.loc 1 459 0
+ 171 000e 7047     		bx	lr
+ 172              	.L19:
+ 173              		.align	2
+ 174              	.L18:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 18
+
+
+ 175 0010 60640040 		.word	1073767520
+ 176 0014 B8680040 		.word	1073768632
+ 177              		.cfi_endproc
+ 178              	.LFE6:
+ 179              		.size	Aileron_ClearFIFO, .-Aileron_ClearFIFO
+ 180              		.section	.text.Aileron_Init,"ax",%progbits
+ 181              		.align	1
+ 182              		.global	Aileron_Init
+ 183              		.thumb
+ 184              		.thumb_func
+ 185              		.type	Aileron_Init, %function
+ 186              	Aileron_Init:
+ 187              	.LFB1:
+  85:Generated_Source\PSoC5/Aileron.c ****     #if (Aileron_UsingFixedFunction || Aileron_UseControl)
+ 188              		.loc 1 85 0
+ 189              		.cfi_startproc
+ 190              		@ args = 0, pretend = 0, frame = 0
+ 191              		@ frame_needed = 0, uses_anonymous_args = 0
+ 192 0000 08B5     		push	{r3, lr}
+ 193              		.cfi_def_cfa_offset 8
+ 194              		.cfi_offset 3, -8
+ 195              		.cfi_offset 14, -4
+ 117:Generated_Source\PSoC5/Aileron.c ****                 ((uint8)(~Aileron_CTRL_CMPMODE1_MASK));
+ 196              		.loc 1 117 0
+ 197 0002 194A     		ldr	r2, .L21
+ 198 0004 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 199              	.LVL1:
+ 119:Generated_Source\PSoC5/Aileron.c ****                                    Aileron_DEFAULT_COMPARE1_MODE;
+ 200              		.loc 1 119 0
+ 201 0006 03F0C003 		and	r3, r3, #192
+ 202              	.LVL2:
+ 203 000a 43F00903 		orr	r3, r3, #9
+ 204 000e 1370     		strb	r3, [r2]
+ 129:Generated_Source\PSoC5/Aileron.c ****             Aileron_AUX_CONTROLDP1 |= (Aileron_AUX_CTRL_FIFO0_CLR);
+ 205              		.loc 1 129 0
+ 206 0010 92F82A30 		ldrb	r3, [r2, #42]	@ zero_extendqisi2
+ 207 0014 43F00103 		orr	r3, r3, #1
+ 208 0018 82F82A30 		strb	r3, [r2, #42]
+ 130:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_Resolution == 8) */
+ 209              		.loc 1 130 0
+ 210 001c 92F82B30 		ldrb	r3, [r2, #43]	@ zero_extendqisi2
+ 211 0020 43F00103 		orr	r3, r3, #1
+ 212 0024 82F82B30 		strb	r3, [r2, #43]
+ 213              	.LVL3:
+ 214              	.LBB24:
+ 215              	.LBB25:
+ 406:Generated_Source\PSoC5/Aileron.c ****     }
+ 216              		.loc 1 406 0
+ 217 0028 44F62063 		movw	r3, #20000
+ 218 002c A2F8A633 		strh	r3, [r2, #934]	@ movhi
+ 219              	.LVL4:
+ 220              	.LBE25:
+ 221              	.LBE24:
+ 222              	.LBB26:
+ 223              	.LBB27:
+ 487:Generated_Source\PSoC5/Aileron.c ****     #endif /* (Aileron_UsingFixedFunction) */
+ 224              		.loc 1 487 0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 19
+
+
+ 225 0030 A2F82634 		strh	r3, [r2, #1062]	@ movhi
+ 226              	.LVL5:
+ 227              	.LBE27:
+ 228              	.LBE26:
+ 229              	.LBB28:
+ 230              	.LBB29:
+ 561:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UsingFixedFunction) */
+ 231              		.loc 1 561 0
+ 232 0034 40F2DC52 		movw	r2, #1500
+ 233 0038 0C4B     		ldr	r3, .L21+4
+ 234 003a 1A80     		strh	r2, [r3]	@ movhi
+ 235              	.LVL6:
+ 236              	.LBE29:
+ 237              	.LBE28:
+ 238              	.LBB30:
+ 239              	.LBB31:
+ 590:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UsingFixedFunction) */
+ 240              		.loc 1 590 0
+ 241 003c 40F2E152 		movw	r2, #1505
+ 242              	.LBE31:
+ 243              	.LBE30:
+ 244              	.LBB33:
+ 245              	.LBB34:
+ 686:Generated_Source\PSoC5/Aileron.c ****     }
+ 246              		.loc 1 686 0
+ 247 0040 A3F57673 		sub	r3, r3, #984
+ 248              	.LBE34:
+ 249              	.LBE33:
+ 250              	.LBB36:
+ 251              	.LBB32:
+ 590:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UsingFixedFunction) */
+ 252              		.loc 1 590 0
+ 253 0044 A3F8F823 		strh	r2, [r3, #1016]	@ movhi
+ 254              	.LVL7:
+ 255              	.LBE32:
+ 256              	.LBE36:
+ 257              	.LBB37:
+ 258              	.LBB35:
+ 686:Generated_Source\PSoC5/Aileron.c ****     }
+ 259              		.loc 1 686 0
+ 260 0048 0022     		movs	r2, #0
+ 261 004a 1A70     		strb	r2, [r3]
+ 262              	.LVL8:
+ 263              	.LBE35:
+ 264              	.LBE37:
+ 167:Generated_Source\PSoC5/Aileron.c ****             /* Use the interrupt output of the status register for IRQ output */
+ 265              		.loc 1 167 0
+ 266 004c FFF7FEFF 		bl	CyEnterCriticalSection
+ 267              	.LVL9:
+ 169:Generated_Source\PSoC5/Aileron.c **** 
+ 268              		.loc 1 169 0
+ 269 0050 074A     		ldr	r2, .L21+8
+ 270 0052 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 271 0054 43F01003 		orr	r3, r3, #16
+ 272 0058 1370     		strb	r3, [r2]
+ 172:Generated_Source\PSoC5/Aileron.c **** 
+ 273              		.loc 1 172 0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 20
+
+
+ 274 005a FFF7FEFF 		bl	CyExitCriticalSection
+ 275              	.LVL10:
+ 179:Generated_Source\PSoC5/Aileron.c **** 
+ 276              		.loc 1 179 0
+ 277 005e BDE80840 		pop	{r3, lr}
+ 278              		.cfi_restore 14
+ 279              		.cfi_restore 3
+ 280              		.cfi_def_cfa_offset 0
+ 176:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UseStatus) */
+ 281              		.loc 1 176 0
+ 282 0062 FFF7FEBF 		b	Aileron_ClearFIFO
+ 283              	.LVL11:
+ 284              	.L22:
+ 285 0066 00BF     		.align	2
+ 286              	.L21:
+ 287 0068 72640040 		.word	1073767538
+ 288 006c 58680040 		.word	1073768536
+ 289 0070 90640040 		.word	1073767568
+ 290              		.cfi_endproc
+ 291              	.LFE1:
+ 292              		.size	Aileron_Init, .-Aileron_Init
+ 293              		.section	.text.Aileron_Start,"ax",%progbits
+ 294              		.align	1
+ 295              		.global	Aileron_Start
+ 296              		.thumb
+ 297              		.thumb_func
+ 298              		.type	Aileron_Start, %function
+ 299              	Aileron_Start:
+ 300              	.LFB0:
+  56:Generated_Source\PSoC5/Aileron.c ****     /* If not Initialized then initialize all required hardware and software */
+ 301              		.loc 1 56 0
+ 302              		.cfi_startproc
+ 303              		@ args = 0, pretend = 0, frame = 0
+ 304              		@ frame_needed = 0, uses_anonymous_args = 0
+ 305 0000 10B5     		push	{r4, lr}
+ 306              		.cfi_def_cfa_offset 8
+ 307              		.cfi_offset 4, -8
+ 308              		.cfi_offset 14, -4
+  58:Generated_Source\PSoC5/Aileron.c ****     {
+ 309              		.loc 1 58 0
+ 310 0002 054C     		ldr	r4, .L25
+ 311 0004 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 312 0006 1BB9     		cbnz	r3, .L24
+  60:Generated_Source\PSoC5/Aileron.c ****         Aileron_initVar = 1u;
+ 313              		.loc 1 60 0
+ 314 0008 FFF7FEFF 		bl	Aileron_Init
+ 315              	.LVL12:
+  61:Generated_Source\PSoC5/Aileron.c ****     }
+ 316              		.loc 1 61 0
+ 317 000c 0123     		movs	r3, #1
+ 318 000e 2370     		strb	r3, [r4]
+ 319              	.L24:
+  65:Generated_Source\PSoC5/Aileron.c **** 
+ 320              		.loc 1 65 0
+ 321 0010 BDE81040 		pop	{r4, lr}
+ 322              		.cfi_restore 14
+ 323              		.cfi_restore 4
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 21
+
+
+ 324              		.cfi_def_cfa_offset 0
+  63:Generated_Source\PSoC5/Aileron.c **** 
+ 325              		.loc 1 63 0
+ 326 0014 FFF7FEBF 		b	Aileron_Enable
+ 327              	.LVL13:
+ 328              	.L26:
+ 329              		.align	2
+ 330              	.L25:
+ 331 0018 00000000 		.word	.LANCHOR0
+ 332              		.cfi_endproc
+ 333              	.LFE0:
+ 334              		.size	Aileron_Start, .-Aileron_Start
+ 335              		.section	.text.Aileron_WritePeriod,"ax",%progbits
+ 336              		.align	1
+ 337              		.global	Aileron_WritePeriod
+ 338              		.thumb
+ 339              		.thumb_func
+ 340              		.type	Aileron_WritePeriod, %function
+ 341              	Aileron_WritePeriod:
+ 342              	.LFB7:
+ 483:Generated_Source\PSoC5/Aileron.c ****     #if(Aileron_UsingFixedFunction)
+ 343              		.loc 1 483 0
+ 344              		.cfi_startproc
+ 345              		@ args = 0, pretend = 0, frame = 0
+ 346              		@ frame_needed = 0, uses_anonymous_args = 0
+ 347              		@ link register save eliminated.
+ 348              	.LVL14:
+ 487:Generated_Source\PSoC5/Aileron.c ****     #endif /* (Aileron_UsingFixedFunction) */
+ 349              		.loc 1 487 0
+ 350 0000 014B     		ldr	r3, .L28
+ 351 0002 1880     		strh	r0, [r3]	@ movhi
+ 352 0004 7047     		bx	lr
+ 353              	.L29:
+ 354 0006 00BF     		.align	2
+ 355              	.L28:
+ 356 0008 98680040 		.word	1073768600
+ 357              		.cfi_endproc
+ 358              	.LFE7:
+ 359              		.size	Aileron_WritePeriod, .-Aileron_WritePeriod
+ 360              		.section	.text.Aileron_WriteCompare1,"ax",%progbits
+ 361              		.align	1
+ 362              		.global	Aileron_WriteCompare1
+ 363              		.thumb
+ 364              		.thumb_func
+ 365              		.type	Aileron_WriteCompare1, %function
+ 366              	Aileron_WriteCompare1:
+ 367              	.LFB8:
+ 557:Generated_Source\PSoC5/Aileron.c ****         #if(Aileron_UsingFixedFunction)
+ 368              		.loc 1 557 0
+ 369              		.cfi_startproc
+ 370              		@ args = 0, pretend = 0, frame = 0
+ 371              		@ frame_needed = 0, uses_anonymous_args = 0
+ 372              		@ link register save eliminated.
+ 373              	.LVL15:
+ 561:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UsingFixedFunction) */
+ 374              		.loc 1 561 0
+ 375 0000 014B     		ldr	r3, .L31
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 22
+
+
+ 376 0002 1880     		strh	r0, [r3]	@ movhi
+ 377 0004 7047     		bx	lr
+ 378              	.L32:
+ 379 0006 00BF     		.align	2
+ 380              	.L31:
+ 381 0008 58680040 		.word	1073768536
+ 382              		.cfi_endproc
+ 383              	.LFE8:
+ 384              		.size	Aileron_WriteCompare1, .-Aileron_WriteCompare1
+ 385              		.section	.text.Aileron_WriteCompare2,"ax",%progbits
+ 386              		.align	1
+ 387              		.global	Aileron_WriteCompare2
+ 388              		.thumb
+ 389              		.thumb_func
+ 390              		.type	Aileron_WriteCompare2, %function
+ 391              	Aileron_WriteCompare2:
+ 392              	.LFB9:
+ 586:Generated_Source\PSoC5/Aileron.c ****         #if(Aileron_UsingFixedFunction)
+ 393              		.loc 1 586 0
+ 394              		.cfi_startproc
+ 395              		@ args = 0, pretend = 0, frame = 0
+ 396              		@ frame_needed = 0, uses_anonymous_args = 0
+ 397              		@ link register save eliminated.
+ 398              	.LVL16:
+ 590:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UsingFixedFunction) */
+ 399              		.loc 1 590 0
+ 400 0000 014B     		ldr	r3, .L34
+ 401 0002 1880     		strh	r0, [r3]	@ movhi
+ 402 0004 7047     		bx	lr
+ 403              	.L35:
+ 404 0006 00BF     		.align	2
+ 405              	.L34:
+ 406 0008 78680040 		.word	1073768568
+ 407              		.cfi_endproc
+ 408              	.LFE9:
+ 409              		.size	Aileron_WriteCompare2, .-Aileron_WriteCompare2
+ 410              		.section	.text.Aileron_SetInterruptMode,"ax",%progbits
+ 411              		.align	1
+ 412              		.global	Aileron_SetInterruptMode
+ 413              		.thumb
+ 414              		.thumb_func
+ 415              		.type	Aileron_SetInterruptMode, %function
+ 416              	Aileron_SetInterruptMode:
+ 417              	.LFB10:
+ 685:Generated_Source\PSoC5/Aileron.c ****         CY_SET_REG8(Aileron_STATUS_MASK_PTR, interruptMode);
+ 418              		.loc 1 685 0
+ 419              		.cfi_startproc
+ 420              		@ args = 0, pretend = 0, frame = 0
+ 421              		@ frame_needed = 0, uses_anonymous_args = 0
+ 422              		@ link register save eliminated.
+ 423              	.LVL17:
+ 686:Generated_Source\PSoC5/Aileron.c ****     }
+ 424              		.loc 1 686 0
+ 425 0000 014B     		ldr	r3, .L37
+ 426 0002 1870     		strb	r0, [r3]
+ 427 0004 7047     		bx	lr
+ 428              	.L38:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 23
+
+
+ 429 0006 00BF     		.align	2
+ 430              	.L37:
+ 431 0008 80640040 		.word	1073767552
+ 432              		.cfi_endproc
+ 433              	.LFE10:
+ 434              		.size	Aileron_SetInterruptMode, .-Aileron_SetInterruptMode
+ 435              		.section	.text.Aileron_ReadStatusRegister,"ax",%progbits
+ 436              		.align	1
+ 437              		.global	Aileron_ReadStatusRegister
+ 438              		.thumb
+ 439              		.thumb_func
+ 440              		.type	Aileron_ReadStatusRegister, %function
+ 441              	Aileron_ReadStatusRegister:
+ 442              	.LFB11:
+ 712:Generated_Source\PSoC5/Aileron.c ****         return (CY_GET_REG8(Aileron_STATUS_PTR));
+ 443              		.loc 1 712 0
+ 444              		.cfi_startproc
+ 445              		@ args = 0, pretend = 0, frame = 0
+ 446              		@ frame_needed = 0, uses_anonymous_args = 0
+ 447              		@ link register save eliminated.
+ 713:Generated_Source\PSoC5/Aileron.c ****     }
+ 448              		.loc 1 713 0
+ 449 0000 014B     		ldr	r3, .L40
+ 450 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 714:Generated_Source\PSoC5/Aileron.c **** 
+ 451              		.loc 1 714 0
+ 452 0004 7047     		bx	lr
+ 453              	.L41:
+ 454 0006 00BF     		.align	2
+ 455              	.L40:
+ 456 0008 60640040 		.word	1073767520
+ 457              		.cfi_endproc
+ 458              	.LFE11:
+ 459              		.size	Aileron_ReadStatusRegister, .-Aileron_ReadStatusRegister
+ 460              		.section	.text.Aileron_ReadControlRegister,"ax",%progbits
+ 461              		.align	1
+ 462              		.global	Aileron_ReadControlRegister
+ 463              		.thumb
+ 464              		.thumb_func
+ 465              		.type	Aileron_ReadControlRegister, %function
+ 466              	Aileron_ReadControlRegister:
+ 467              	.LFB12:
+ 738:Generated_Source\PSoC5/Aileron.c ****         uint8 result;
+ 468              		.loc 1 738 0
+ 469              		.cfi_startproc
+ 470              		@ args = 0, pretend = 0, frame = 0
+ 471              		@ frame_needed = 0, uses_anonymous_args = 0
+ 472              		@ link register save eliminated.
+ 741:Generated_Source\PSoC5/Aileron.c ****         return (result);
+ 473              		.loc 1 741 0
+ 474 0000 014B     		ldr	r3, .L43
+ 475 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 476              	.LVL18:
+ 743:Generated_Source\PSoC5/Aileron.c **** 
+ 477              		.loc 1 743 0
+ 478 0004 7047     		bx	lr
+ 479              	.L44:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 24
+
+
+ 480 0006 00BF     		.align	2
+ 481              	.L43:
+ 482 0008 72640040 		.word	1073767538
+ 483              		.cfi_endproc
+ 484              	.LFE12:
+ 485              		.size	Aileron_ReadControlRegister, .-Aileron_ReadControlRegister
+ 486              		.section	.text.Aileron_WriteControlRegister,"ax",%progbits
+ 487              		.align	1
+ 488              		.global	Aileron_WriteControlRegister
+ 489              		.thumb
+ 490              		.thumb_func
+ 491              		.type	Aileron_WriteControlRegister, %function
+ 492              	Aileron_WriteControlRegister:
+ 493              	.LFB13:
+ 766:Generated_Source\PSoC5/Aileron.c ****         CY_SET_REG8(Aileron_CONTROL_PTR, control);
+ 494              		.loc 1 766 0
+ 495              		.cfi_startproc
+ 496              		@ args = 0, pretend = 0, frame = 0
+ 497              		@ frame_needed = 0, uses_anonymous_args = 0
+ 498              		@ link register save eliminated.
+ 499              	.LVL19:
+ 767:Generated_Source\PSoC5/Aileron.c ****     }
+ 500              		.loc 1 767 0
+ 501 0000 014B     		ldr	r3, .L46
+ 502 0002 1870     		strb	r0, [r3]
+ 503 0004 7047     		bx	lr
+ 504              	.L47:
+ 505 0006 00BF     		.align	2
+ 506              	.L46:
+ 507 0008 72640040 		.word	1073767538
+ 508              		.cfi_endproc
+ 509              	.LFE13:
+ 510              		.size	Aileron_WriteControlRegister, .-Aileron_WriteControlRegister
+ 511              		.section	.text.Aileron_ReadCapture,"ax",%progbits
+ 512              		.align	1
+ 513              		.global	Aileron_ReadCapture
+ 514              		.thumb
+ 515              		.thumb_func
+ 516              		.type	Aileron_ReadCapture, %function
+ 517              	Aileron_ReadCapture:
+ 518              	.LFB14:
+ 791:Generated_Source\PSoC5/Aileron.c ****         return (CY_GET_REG16(Aileron_CAPTURE_LSB_PTR));
+ 519              		.loc 1 791 0
+ 520              		.cfi_startproc
+ 521              		@ args = 0, pretend = 0, frame = 0
+ 522              		@ frame_needed = 0, uses_anonymous_args = 0
+ 523              		@ link register save eliminated.
+ 524              		.loc 1 792 0
+ 525 0000 014B     		ldr	r3, .L49
+ 526 0002 1888     		ldrh	r0, [r3]
+ 793:Generated_Source\PSoC5/Aileron.c ****     }
+ 527              		.loc 1 793 0
+ 528 0004 80B2     		uxth	r0, r0
+ 529 0006 7047     		bx	lr
+ 530              	.L50:
+ 531              		.align	2
+ 532              	.L49:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 25
+
+
+ 533 0008 B8680040 		.word	1073768632
+ 534              		.cfi_endproc
+ 535              	.LFE14:
+ 536              		.size	Aileron_ReadCapture, .-Aileron_ReadCapture
+ 537              		.section	.text.Aileron_ReadCompare1,"ax",%progbits
+ 538              		.align	1
+ 539              		.global	Aileron_ReadCompare1
+ 540              		.thumb
+ 541              		.thumb_func
+ 542              		.type	Aileron_ReadCompare1, %function
+ 543              	Aileron_ReadCompare1:
+ 544              	.LFB15:
+ 794:Generated_Source\PSoC5/Aileron.c **** 
+ 795:Generated_Source\PSoC5/Aileron.c **** #endif /* (!Aileron_UsingFixedFunction) */
+ 796:Generated_Source\PSoC5/Aileron.c **** 
+ 797:Generated_Source\PSoC5/Aileron.c **** 
+ 798:Generated_Source\PSoC5/Aileron.c **** #if (Aileron_UseOneCompareMode)
+ 799:Generated_Source\PSoC5/Aileron.c **** 
+ 800:Generated_Source\PSoC5/Aileron.c **** 
+ 801:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 802:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_ReadCompare
+ 803:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 804:Generated_Source\PSoC5/Aileron.c ****     *
+ 805:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 806:Generated_Source\PSoC5/Aileron.c ****     *  Reads the compare value for the compare output when the PWM Mode parameter is
+ 807:Generated_Source\PSoC5/Aileron.c ****     *  set to Dither mode, Center Aligned mode, or One Output mode.
+ 808:Generated_Source\PSoC5/Aileron.c ****     *
+ 809:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 810:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 811:Generated_Source\PSoC5/Aileron.c ****     *
+ 812:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 813:Generated_Source\PSoC5/Aileron.c ****     *  uint8/uint16: Current compare value
+ 814:Generated_Source\PSoC5/Aileron.c ****     *
+ 815:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 816:Generated_Source\PSoC5/Aileron.c ****     uint16 Aileron_ReadCompare(void) 
+ 817:Generated_Source\PSoC5/Aileron.c ****     {
+ 818:Generated_Source\PSoC5/Aileron.c ****         #if(Aileron_UsingFixedFunction)
+ 819:Generated_Source\PSoC5/Aileron.c ****             return ((uint16)CY_GET_REG16(Aileron_COMPARE1_LSB_PTR));
+ 820:Generated_Source\PSoC5/Aileron.c ****         #else
+ 821:Generated_Source\PSoC5/Aileron.c ****             return (CY_GET_REG16(Aileron_COMPARE1_LSB_PTR));
+ 822:Generated_Source\PSoC5/Aileron.c ****         #endif /* (Aileron_UsingFixedFunction) */
+ 823:Generated_Source\PSoC5/Aileron.c ****     }
+ 824:Generated_Source\PSoC5/Aileron.c **** 
+ 825:Generated_Source\PSoC5/Aileron.c **** #else
+ 826:Generated_Source\PSoC5/Aileron.c **** 
+ 827:Generated_Source\PSoC5/Aileron.c **** 
+ 828:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 829:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_ReadCompare1
+ 830:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 831:Generated_Source\PSoC5/Aileron.c ****     *
+ 832:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 833:Generated_Source\PSoC5/Aileron.c ****     *  Reads the compare value for the compare1 output.
+ 834:Generated_Source\PSoC5/Aileron.c ****     *
+ 835:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 836:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 837:Generated_Source\PSoC5/Aileron.c ****     *
+ 838:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 26
+
+
+ 839:Generated_Source\PSoC5/Aileron.c ****     *  uint8/uint16: Current compare value.
+ 840:Generated_Source\PSoC5/Aileron.c ****     *
+ 841:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 842:Generated_Source\PSoC5/Aileron.c ****     uint16 Aileron_ReadCompare1(void) 
+ 843:Generated_Source\PSoC5/Aileron.c ****     {
+ 545              		.loc 1 843 0
+ 546              		.cfi_startproc
+ 547              		@ args = 0, pretend = 0, frame = 0
+ 548              		@ frame_needed = 0, uses_anonymous_args = 0
+ 549              		@ link register save eliminated.
+ 844:Generated_Source\PSoC5/Aileron.c ****         return (CY_GET_REG16(Aileron_COMPARE1_LSB_PTR));
+ 550              		.loc 1 844 0
+ 551 0000 014B     		ldr	r3, .L52
+ 552 0002 1888     		ldrh	r0, [r3]
+ 845:Generated_Source\PSoC5/Aileron.c ****     }
+ 553              		.loc 1 845 0
+ 554 0004 80B2     		uxth	r0, r0
+ 555 0006 7047     		bx	lr
+ 556              	.L53:
+ 557              		.align	2
+ 558              	.L52:
+ 559 0008 58680040 		.word	1073768536
+ 560              		.cfi_endproc
+ 561              	.LFE15:
+ 562              		.size	Aileron_ReadCompare1, .-Aileron_ReadCompare1
+ 563              		.section	.text.Aileron_ReadCompare2,"ax",%progbits
+ 564              		.align	1
+ 565              		.global	Aileron_ReadCompare2
+ 566              		.thumb
+ 567              		.thumb_func
+ 568              		.type	Aileron_ReadCompare2, %function
+ 569              	Aileron_ReadCompare2:
+ 570              	.LFB16:
+ 846:Generated_Source\PSoC5/Aileron.c **** 
+ 847:Generated_Source\PSoC5/Aileron.c **** 
+ 848:Generated_Source\PSoC5/Aileron.c ****     /*******************************************************************************
+ 849:Generated_Source\PSoC5/Aileron.c ****     * Function Name: Aileron_ReadCompare2
+ 850:Generated_Source\PSoC5/Aileron.c ****     ********************************************************************************
+ 851:Generated_Source\PSoC5/Aileron.c ****     *
+ 852:Generated_Source\PSoC5/Aileron.c ****     * Summary:
+ 853:Generated_Source\PSoC5/Aileron.c ****     *  Reads the compare value for the compare2 output.
+ 854:Generated_Source\PSoC5/Aileron.c ****     *
+ 855:Generated_Source\PSoC5/Aileron.c ****     * Parameters:
+ 856:Generated_Source\PSoC5/Aileron.c ****     *  None
+ 857:Generated_Source\PSoC5/Aileron.c ****     *
+ 858:Generated_Source\PSoC5/Aileron.c ****     * Return:
+ 859:Generated_Source\PSoC5/Aileron.c ****     *  uint8/uint16: Current compare value.
+ 860:Generated_Source\PSoC5/Aileron.c ****     *
+ 861:Generated_Source\PSoC5/Aileron.c ****     *******************************************************************************/
+ 862:Generated_Source\PSoC5/Aileron.c ****     uint16 Aileron_ReadCompare2(void) 
+ 863:Generated_Source\PSoC5/Aileron.c ****     {
+ 571              		.loc 1 863 0
+ 572              		.cfi_startproc
+ 573              		@ args = 0, pretend = 0, frame = 0
+ 574              		@ frame_needed = 0, uses_anonymous_args = 0
+ 575              		@ link register save eliminated.
+ 864:Generated_Source\PSoC5/Aileron.c ****         return (CY_GET_REG16(Aileron_COMPARE2_LSB_PTR));
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 27
+
+
+ 576              		.loc 1 864 0
+ 577 0000 014B     		ldr	r3, .L55
+ 578 0002 1888     		ldrh	r0, [r3]
+ 865:Generated_Source\PSoC5/Aileron.c ****     }
+ 579              		.loc 1 865 0
+ 580 0004 80B2     		uxth	r0, r0
+ 581 0006 7047     		bx	lr
+ 582              	.L56:
+ 583              		.align	2
+ 584              	.L55:
+ 585 0008 78680040 		.word	1073768568
+ 586              		.cfi_endproc
+ 587              	.LFE16:
+ 588              		.size	Aileron_ReadCompare2, .-Aileron_ReadCompare2
+ 589              		.section	.text.Aileron_ReadPeriod,"ax",%progbits
+ 590              		.align	1
+ 591              		.global	Aileron_ReadPeriod
+ 592              		.thumb
+ 593              		.thumb_func
+ 594              		.type	Aileron_ReadPeriod, %function
+ 595              	Aileron_ReadPeriod:
+ 596              	.LFB17:
+ 866:Generated_Source\PSoC5/Aileron.c **** 
+ 867:Generated_Source\PSoC5/Aileron.c **** #endif /* (Aileron_UseOneCompareMode) */
+ 868:Generated_Source\PSoC5/Aileron.c **** 
+ 869:Generated_Source\PSoC5/Aileron.c **** 
+ 870:Generated_Source\PSoC5/Aileron.c **** /*******************************************************************************
+ 871:Generated_Source\PSoC5/Aileron.c **** * Function Name: Aileron_ReadPeriod
+ 872:Generated_Source\PSoC5/Aileron.c **** ********************************************************************************
+ 873:Generated_Source\PSoC5/Aileron.c **** *
+ 874:Generated_Source\PSoC5/Aileron.c **** * Summary:
+ 875:Generated_Source\PSoC5/Aileron.c **** *  Reads the period value used by the PWM hardware.
+ 876:Generated_Source\PSoC5/Aileron.c **** *
+ 877:Generated_Source\PSoC5/Aileron.c **** * Parameters:
+ 878:Generated_Source\PSoC5/Aileron.c **** *  None
+ 879:Generated_Source\PSoC5/Aileron.c **** *
+ 880:Generated_Source\PSoC5/Aileron.c **** * Return:
+ 881:Generated_Source\PSoC5/Aileron.c **** *  uint8/16: Period value
+ 882:Generated_Source\PSoC5/Aileron.c **** *
+ 883:Generated_Source\PSoC5/Aileron.c **** *******************************************************************************/
+ 884:Generated_Source\PSoC5/Aileron.c **** uint16 Aileron_ReadPeriod(void) 
+ 885:Generated_Source\PSoC5/Aileron.c **** {
+ 597              		.loc 1 885 0
+ 598              		.cfi_startproc
+ 599              		@ args = 0, pretend = 0, frame = 0
+ 600              		@ frame_needed = 0, uses_anonymous_args = 0
+ 601              		@ link register save eliminated.
+ 886:Generated_Source\PSoC5/Aileron.c ****     #if(Aileron_UsingFixedFunction)
+ 887:Generated_Source\PSoC5/Aileron.c ****         return ((uint16)CY_GET_REG16(Aileron_PERIOD_LSB_PTR));
+ 888:Generated_Source\PSoC5/Aileron.c ****     #else
+ 889:Generated_Source\PSoC5/Aileron.c ****         return (CY_GET_REG16(Aileron_PERIOD_LSB_PTR));
+ 602              		.loc 1 889 0
+ 603 0000 014B     		ldr	r3, .L58
+ 604 0002 1888     		ldrh	r0, [r3]
+ 890:Generated_Source\PSoC5/Aileron.c ****     #endif /* (Aileron_UsingFixedFunction) */
+ 891:Generated_Source\PSoC5/Aileron.c **** }
+ 605              		.loc 1 891 0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 28
+
+
+ 606 0004 80B2     		uxth	r0, r0
+ 607 0006 7047     		bx	lr
+ 608              	.L59:
+ 609              		.align	2
+ 610              	.L58:
+ 611 0008 98680040 		.word	1073768600
+ 612              		.cfi_endproc
+ 613              	.LFE17:
+ 614              		.size	Aileron_ReadPeriod, .-Aileron_ReadPeriod
+ 615              		.global	Aileron_initVar
+ 616              		.bss
+ 617              		.set	.LANCHOR0,. + 0
+ 618              		.type	Aileron_initVar, %object
+ 619              		.size	Aileron_initVar, 1
+ 620              	Aileron_initVar:
+ 621 0000 00       		.space	1
+ 622              		.text
+ 623              	.Letext0:
+ 624              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 625              		.file 3 "Generated_Source\\PSoC5\\CyLib.h"
+ 626              		.section	.debug_info,"",%progbits
+ 627              	.Ldebug_info0:
+ 628 0000 34040000 		.4byte	0x434
+ 629 0004 0400     		.2byte	0x4
+ 630 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 631 000a 04       		.byte	0x4
+ 632 000b 01       		.uleb128 0x1
+ 633 000c 09010000 		.4byte	.LASF44
+ 634 0010 0C       		.byte	0xc
+ 635 0011 62020000 		.4byte	.LASF45
+ 636 0015 E4020000 		.4byte	.LASF46
+ 637 0019 60000000 		.4byte	.Ldebug_ranges0+0x60
+ 638 001d 00000000 		.4byte	0
+ 639 0021 00000000 		.4byte	.Ldebug_line0
+ 640 0025 02       		.uleb128 0x2
+ 641 0026 01       		.byte	0x1
+ 642 0027 06       		.byte	0x6
+ 643 0028 8E030000 		.4byte	.LASF0
+ 644 002c 02       		.uleb128 0x2
+ 645 002d 01       		.byte	0x1
+ 646 002e 08       		.byte	0x8
+ 647 002f D8000000 		.4byte	.LASF1
+ 648 0033 02       		.uleb128 0x2
+ 649 0034 02       		.byte	0x2
+ 650 0035 05       		.byte	0x5
+ 651 0036 56030000 		.4byte	.LASF2
+ 652 003a 02       		.uleb128 0x2
+ 653 003b 02       		.byte	0x2
+ 654 003c 07       		.byte	0x7
+ 655 003d 63000000 		.4byte	.LASF3
+ 656 0041 02       		.uleb128 0x2
+ 657 0042 04       		.byte	0x4
+ 658 0043 05       		.byte	0x5
+ 659 0044 74030000 		.4byte	.LASF4
+ 660 0048 02       		.uleb128 0x2
+ 661 0049 04       		.byte	0x4
+ 662 004a 07       		.byte	0x7
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 29
+
+
+ 663 004b 43020000 		.4byte	.LASF5
+ 664 004f 02       		.uleb128 0x2
+ 665 0050 08       		.byte	0x8
+ 666 0051 05       		.byte	0x5
+ 667 0052 3A030000 		.4byte	.LASF6
+ 668 0056 02       		.uleb128 0x2
+ 669 0057 08       		.byte	0x8
+ 670 0058 07       		.byte	0x7
+ 671 0059 C1000000 		.4byte	.LASF7
+ 672 005d 03       		.uleb128 0x3
+ 673 005e 04       		.byte	0x4
+ 674 005f 05       		.byte	0x5
+ 675 0060 696E7400 		.ascii	"int\000"
+ 676 0064 02       		.uleb128 0x2
+ 677 0065 04       		.byte	0x4
+ 678 0066 07       		.byte	0x7
+ 679 0067 55020000 		.4byte	.LASF8
+ 680 006b 04       		.uleb128 0x4
+ 681 006c AB010000 		.4byte	.LASF9
+ 682 0070 02       		.byte	0x2
+ 683 0071 9201     		.2byte	0x192
+ 684 0073 2C000000 		.4byte	0x2c
+ 685 0077 04       		.uleb128 0x4
+ 686 0078 16020000 		.4byte	.LASF10
+ 687 007c 02       		.byte	0x2
+ 688 007d 9301     		.2byte	0x193
+ 689 007f 3A000000 		.4byte	0x3a
+ 690 0083 02       		.uleb128 0x2
+ 691 0084 04       		.byte	0x4
+ 692 0085 04       		.byte	0x4
+ 693 0086 B3000000 		.4byte	.LASF11
+ 694 008a 02       		.uleb128 0x2
+ 695 008b 08       		.byte	0x8
+ 696 008c 04       		.byte	0x4
+ 697 008d E2010000 		.4byte	.LASF12
+ 698 0091 02       		.uleb128 0x2
+ 699 0092 01       		.byte	0x1
+ 700 0093 08       		.byte	0x8
+ 701 0094 7D030000 		.4byte	.LASF13
+ 702 0098 04       		.uleb128 0x4
+ 703 0099 F4000000 		.4byte	.LASF14
+ 704 009d 02       		.byte	0x2
+ 705 009e 3C02     		.2byte	0x23c
+ 706 00a0 A4000000 		.4byte	0xa4
+ 707 00a4 05       		.uleb128 0x5
+ 708 00a5 6B000000 		.4byte	0x6b
+ 709 00a9 04       		.uleb128 0x4
+ 710 00aa 00000000 		.4byte	.LASF15
+ 711 00ae 02       		.byte	0x2
+ 712 00af 3D02     		.2byte	0x23d
+ 713 00b1 B5000000 		.4byte	0xb5
+ 714 00b5 05       		.uleb128 0x5
+ 715 00b6 77000000 		.4byte	0x77
+ 716 00ba 02       		.uleb128 0x2
+ 717 00bb 08       		.byte	0x8
+ 718 00bc 04       		.byte	0x4
+ 719 00bd 82030000 		.4byte	.LASF16
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 30
+
+
+ 720 00c1 02       		.uleb128 0x2
+ 721 00c2 04       		.byte	0x4
+ 722 00c3 07       		.byte	0x7
+ 723 00c4 31030000 		.4byte	.LASF17
+ 724 00c8 06       		.uleb128 0x6
+ 725 00c9 97010000 		.4byte	.LASF18
+ 726 00cd 01       		.byte	0x1
+ 727 00ce 1603     		.2byte	0x316
+ 728 00d0 77000000 		.4byte	0x77
+ 729 00d4 01       		.byte	0x1
+ 730 00d5 06       		.uleb128 0x6
+ 731 00d6 E9010000 		.4byte	.LASF19
+ 732 00da 01       		.byte	0x1
+ 733 00db C702     		.2byte	0x2c7
+ 734 00dd 6B000000 		.4byte	0x6b
+ 735 00e1 01       		.byte	0x1
+ 736 00e2 07       		.uleb128 0x7
+ 737 00e3 83020000 		.4byte	.LASF20
+ 738 00e7 01       		.byte	0x1
+ 739 00e8 AC02     		.2byte	0x2ac
+ 740 00ea 01       		.byte	0x1
+ 741 00eb FC000000 		.4byte	0xfc
+ 742 00ef 08       		.uleb128 0x8
+ 743 00f0 48030000 		.4byte	.LASF22
+ 744 00f4 01       		.byte	0x1
+ 745 00f5 AC02     		.2byte	0x2ac
+ 746 00f7 6B000000 		.4byte	0x6b
+ 747 00fb 00       		.byte	0
+ 748 00fc 07       		.uleb128 0x7
+ 749 00fd 46000000 		.4byte	.LASF21
+ 750 0101 01       		.byte	0x1
+ 751 0102 4802     		.2byte	0x248
+ 752 0104 01       		.byte	0x1
+ 753 0105 16010000 		.4byte	0x116
+ 754 0109 08       		.uleb128 0x8
+ 755 010a 9A030000 		.4byte	.LASF23
+ 756 010e 01       		.byte	0x1
+ 757 010f 4802     		.2byte	0x248
+ 758 0111 77000000 		.4byte	0x77
+ 759 0115 00       		.byte	0
+ 760 0116 07       		.uleb128 0x7
+ 761 0117 30000000 		.4byte	.LASF24
+ 762 011b 01       		.byte	0x1
+ 763 011c 2B02     		.2byte	0x22b
+ 764 011e 01       		.byte	0x1
+ 765 011f 30010000 		.4byte	0x130
+ 766 0123 08       		.uleb128 0x8
+ 767 0124 9A030000 		.4byte	.LASF23
+ 768 0128 01       		.byte	0x1
+ 769 0129 2B02     		.2byte	0x22b
+ 770 012b 77000000 		.4byte	0x77
+ 771 012f 00       		.byte	0
+ 772 0130 07       		.uleb128 0x7
+ 773 0131 60030000 		.4byte	.LASF25
+ 774 0135 01       		.byte	0x1
+ 775 0136 E201     		.2byte	0x1e2
+ 776 0138 01       		.byte	0x1
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 31
+
+
+ 777 0139 4A010000 		.4byte	0x14a
+ 778 013d 08       		.uleb128 0x8
+ 779 013e 5C000000 		.4byte	.LASF26
+ 780 0142 01       		.byte	0x1
+ 781 0143 E201     		.2byte	0x1e2
+ 782 0145 77000000 		.4byte	0x77
+ 783 0149 00       		.byte	0
+ 784 014a 07       		.uleb128 0x7
+ 785 014b A2030000 		.4byte	.LASF27
+ 786 014f 01       		.byte	0x1
+ 787 0150 9301     		.2byte	0x193
+ 788 0152 01       		.byte	0x1
+ 789 0153 64010000 		.4byte	0x164
+ 790 0157 08       		.uleb128 0x8
+ 791 0158 B9000000 		.4byte	.LASF28
+ 792 015c 01       		.byte	0x1
+ 793 015d 9301     		.2byte	0x193
+ 794 015f 77000000 		.4byte	0x77
+ 795 0163 00       		.byte	0
+ 796 0164 09       		.uleb128 0x9
+ 797 0165 1D020000 		.4byte	.LASF29
+ 798 0169 01       		.byte	0x1
+ 799 016a C7       		.byte	0xc7
+ 800 016b 00000000 		.4byte	.LFB2
+ 801 016f 10000000 		.4byte	.LFE2-.LFB2
+ 802 0173 01       		.uleb128 0x1
+ 803 0174 9C       		.byte	0x9c
+ 804 0175 09       		.uleb128 0x9
+ 805 0176 A6000000 		.4byte	.LASF30
+ 806 017a 01       		.byte	0x1
+ 807 017b E9       		.byte	0xe9
+ 808 017c 00000000 		.4byte	.LFB3
+ 809 0180 10000000 		.4byte	.LFE3-.LFB3
+ 810 0184 01       		.uleb128 0x1
+ 811 0185 9C       		.byte	0x9c
+ 812 0186 0A       		.uleb128 0xa
+ 813 0187 4A010000 		.4byte	0x14a
+ 814 018b 00000000 		.4byte	.LFB4
+ 815 018f 0C000000 		.4byte	.LFE4-.LFB4
+ 816 0193 01       		.uleb128 0x1
+ 817 0194 9C       		.byte	0x9c
+ 818 0195 A1010000 		.4byte	0x1a1
+ 819 0199 0B       		.uleb128 0xb
+ 820 019a 57010000 		.4byte	0x157
+ 821 019e 01       		.uleb128 0x1
+ 822 019f 50       		.byte	0x50
+ 823 01a0 00       		.byte	0
+ 824 01a1 0C       		.uleb128 0xc
+ 825 01a2 B9020000 		.4byte	.LASF38
+ 826 01a6 01       		.byte	0x1
+ 827 01a7 A901     		.2byte	0x1a9
+ 828 01a9 77000000 		.4byte	0x77
+ 829 01ad 00000000 		.4byte	.LFB5
+ 830 01b1 14000000 		.4byte	.LFE5-.LFB5
+ 831 01b5 01       		.uleb128 0x1
+ 832 01b6 9C       		.byte	0x9c
+ 833 01b7 0D       		.uleb128 0xd
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 32
+
+
+ 834 01b8 04020000 		.4byte	.LASF31
+ 835 01bc 01       		.byte	0x1
+ 836 01bd C501     		.2byte	0x1c5
+ 837 01bf 00000000 		.4byte	.LFB6
+ 838 01c3 18000000 		.4byte	.LFE6-.LFB6
+ 839 01c7 01       		.uleb128 0x1
+ 840 01c8 9C       		.byte	0x9c
+ 841 01c9 EE010000 		.4byte	0x1ee
+ 842 01cd 0E       		.uleb128 0xe
+ 843 01ce D5000000 		.4byte	0xd5
+ 844 01d2 00000000 		.4byte	.LBB16
+ 845 01d6 00000000 		.4byte	.Ldebug_ranges0+0
+ 846 01da 01       		.byte	0x1
+ 847 01db C701     		.2byte	0x1c7
+ 848 01dd 0E       		.uleb128 0xe
+ 849 01de C8000000 		.4byte	0xc8
+ 850 01e2 02000000 		.4byte	.LBB19
+ 851 01e6 18000000 		.4byte	.Ldebug_ranges0+0x18
+ 852 01ea 01       		.byte	0x1
+ 853 01eb C901     		.2byte	0x1c9
+ 854 01ed 00       		.byte	0
+ 855 01ee 0F       		.uleb128 0xf
+ 856 01ef D5010000 		.4byte	.LASF32
+ 857 01f3 01       		.byte	0x1
+ 858 01f4 54       		.byte	0x54
+ 859 01f5 00000000 		.4byte	.LFB1
+ 860 01f9 74000000 		.4byte	.LFE1-.LFB1
+ 861 01fd 01       		.uleb128 0x1
+ 862 01fe 9C       		.byte	0x9c
+ 863 01ff CE020000 		.4byte	0x2ce
+ 864 0203 10       		.uleb128 0x10
+ 865 0204 2C030000 		.4byte	.LASF33
+ 866 0208 01       		.byte	0x1
+ 867 0209 57       		.byte	0x57
+ 868 020a 6B000000 		.4byte	0x6b
+ 869 020e 00000000 		.4byte	.LLST0
+ 870 0212 10       		.uleb128 0x10
+ 871 0213 CD020000 		.4byte	.LASF34
+ 872 0217 01       		.byte	0x1
+ 873 0218 5D       		.byte	0x5d
+ 874 0219 6B000000 		.4byte	0x6b
+ 875 021d 18000000 		.4byte	.LLST1
+ 876 0221 11       		.uleb128 0x11
+ 877 0222 4A010000 		.4byte	0x14a
+ 878 0226 28000000 		.4byte	.LBB24
+ 879 022a 08000000 		.4byte	.LBE24-.LBB24
+ 880 022e 01       		.byte	0x1
+ 881 022f 85       		.byte	0x85
+ 882 0230 3E020000 		.4byte	0x23e
+ 883 0234 12       		.uleb128 0x12
+ 884 0235 57010000 		.4byte	0x157
+ 885 0239 2B000000 		.4byte	.LLST2
+ 886 023d 00       		.byte	0
+ 887 023e 11       		.uleb128 0x11
+ 888 023f 30010000 		.4byte	0x130
+ 889 0243 30000000 		.4byte	.LBB26
+ 890 0247 04000000 		.4byte	.LBE26-.LBB26
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 33
+
+
+ 891 024b 01       		.byte	0x1
+ 892 024c 88       		.byte	0x88
+ 893 024d 5B020000 		.4byte	0x25b
+ 894 0251 12       		.uleb128 0x12
+ 895 0252 3D010000 		.4byte	0x13d
+ 896 0256 41000000 		.4byte	.LLST3
+ 897 025a 00       		.byte	0
+ 898 025b 11       		.uleb128 0x11
+ 899 025c 16010000 		.4byte	0x116
+ 900 0260 34000000 		.4byte	.LBB28
+ 901 0264 08000000 		.4byte	.LBE28-.LBB28
+ 902 0268 01       		.byte	0x1
+ 903 0269 8D       		.byte	0x8d
+ 904 026a 78020000 		.4byte	0x278
+ 905 026e 12       		.uleb128 0x12
+ 906 026f 23010000 		.4byte	0x123
+ 907 0273 57000000 		.4byte	.LLST4
+ 908 0277 00       		.byte	0
+ 909 0278 13       		.uleb128 0x13
+ 910 0279 FC000000 		.4byte	0xfc
+ 911 027d 3C000000 		.4byte	.LBB30
+ 912 0281 30000000 		.4byte	.Ldebug_ranges0+0x30
+ 913 0285 01       		.byte	0x1
+ 914 0286 8E       		.byte	0x8e
+ 915 0287 95020000 		.4byte	0x295
+ 916 028b 12       		.uleb128 0x12
+ 917 028c 09010000 		.4byte	0x109
+ 918 0290 6D000000 		.4byte	.LLST5
+ 919 0294 00       		.byte	0
+ 920 0295 13       		.uleb128 0x13
+ 921 0296 E2000000 		.4byte	0xe2
+ 922 029a 40000000 		.4byte	.LBB33
+ 923 029e 48000000 		.4byte	.Ldebug_ranges0+0x48
+ 924 02a2 01       		.byte	0x1
+ 925 02a3 9A       		.byte	0x9a
+ 926 02a4 B2020000 		.4byte	0x2b2
+ 927 02a8 12       		.uleb128 0x12
+ 928 02a9 EF000000 		.4byte	0xef
+ 929 02ad 83000000 		.4byte	.LLST6
+ 930 02b1 00       		.byte	0
+ 931 02b2 14       		.uleb128 0x14
+ 932 02b3 50000000 		.4byte	.LVL9
+ 933 02b7 21040000 		.4byte	0x421
+ 934 02bb 14       		.uleb128 0x14
+ 935 02bc 5E000000 		.4byte	.LVL10
+ 936 02c0 2C040000 		.4byte	0x42c
+ 937 02c4 15       		.uleb128 0x15
+ 938 02c5 66000000 		.4byte	.LVL11
+ 939 02c9 B7010000 		.4byte	0x1b7
+ 940 02cd 00       		.byte	0
+ 941 02ce 0F       		.uleb128 0xf
+ 942 02cf E6000000 		.4byte	.LASF35
+ 943 02d3 01       		.byte	0x1
+ 944 02d4 37       		.byte	0x37
+ 945 02d5 00000000 		.4byte	.LFB0
+ 946 02d9 1C000000 		.4byte	.LFE0-.LFB0
+ 947 02dd 01       		.uleb128 0x1
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 34
+
+
+ 948 02de 9C       		.byte	0x9c
+ 949 02df F6020000 		.4byte	0x2f6
+ 950 02e3 14       		.uleb128 0x14
+ 951 02e4 0C000000 		.4byte	.LVL12
+ 952 02e8 EE010000 		.4byte	0x1ee
+ 953 02ec 15       		.uleb128 0x15
+ 954 02ed 18000000 		.4byte	.LVL13
+ 955 02f1 64010000 		.4byte	0x164
+ 956 02f5 00       		.byte	0
+ 957 02f6 0A       		.uleb128 0xa
+ 958 02f7 30010000 		.4byte	0x130
+ 959 02fb 00000000 		.4byte	.LFB7
+ 960 02ff 0C000000 		.4byte	.LFE7-.LFB7
+ 961 0303 01       		.uleb128 0x1
+ 962 0304 9C       		.byte	0x9c
+ 963 0305 11030000 		.4byte	0x311
+ 964 0309 0B       		.uleb128 0xb
+ 965 030a 3D010000 		.4byte	0x13d
+ 966 030e 01       		.uleb128 0x1
+ 967 030f 50       		.byte	0x50
+ 968 0310 00       		.byte	0
+ 969 0311 0A       		.uleb128 0xa
+ 970 0312 16010000 		.4byte	0x116
+ 971 0316 00000000 		.4byte	.LFB8
+ 972 031a 0C000000 		.4byte	.LFE8-.LFB8
+ 973 031e 01       		.uleb128 0x1
+ 974 031f 9C       		.byte	0x9c
+ 975 0320 2C030000 		.4byte	0x32c
+ 976 0324 0B       		.uleb128 0xb
+ 977 0325 23010000 		.4byte	0x123
+ 978 0329 01       		.uleb128 0x1
+ 979 032a 50       		.byte	0x50
+ 980 032b 00       		.byte	0
+ 981 032c 0A       		.uleb128 0xa
+ 982 032d FC000000 		.4byte	0xfc
+ 983 0331 00000000 		.4byte	.LFB9
+ 984 0335 0C000000 		.4byte	.LFE9-.LFB9
+ 985 0339 01       		.uleb128 0x1
+ 986 033a 9C       		.byte	0x9c
+ 987 033b 47030000 		.4byte	0x347
+ 988 033f 0B       		.uleb128 0xb
+ 989 0340 09010000 		.4byte	0x109
+ 990 0344 01       		.uleb128 0x1
+ 991 0345 50       		.byte	0x50
+ 992 0346 00       		.byte	0
+ 993 0347 0A       		.uleb128 0xa
+ 994 0348 E2000000 		.4byte	0xe2
+ 995 034c 00000000 		.4byte	.LFB10
+ 996 0350 0C000000 		.4byte	.LFE10-.LFB10
+ 997 0354 01       		.uleb128 0x1
+ 998 0355 9C       		.byte	0x9c
+ 999 0356 62030000 		.4byte	0x362
+ 1000 035a 0B       		.uleb128 0xb
+ 1001 035b EF000000 		.4byte	0xef
+ 1002 035f 01       		.uleb128 0x1
+ 1003 0360 50       		.byte	0x50
+ 1004 0361 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 35
+
+
+ 1005 0362 16       		.uleb128 0x16
+ 1006 0363 D5000000 		.4byte	0xd5
+ 1007 0367 00000000 		.4byte	.LFB11
+ 1008 036b 0C000000 		.4byte	.LFE11-.LFB11
+ 1009 036f 01       		.uleb128 0x1
+ 1010 0370 9C       		.byte	0x9c
+ 1011 0371 17       		.uleb128 0x17
+ 1012 0372 B9010000 		.4byte	.LASF47
+ 1013 0376 01       		.byte	0x1
+ 1014 0377 E102     		.2byte	0x2e1
+ 1015 0379 6B000000 		.4byte	0x6b
+ 1016 037d 00000000 		.4byte	.LFB12
+ 1017 0381 0C000000 		.4byte	.LFE12-.LFB12
+ 1018 0385 01       		.uleb128 0x1
+ 1019 0386 9C       		.byte	0x9c
+ 1020 0387 9A030000 		.4byte	0x39a
+ 1021 038b 18       		.uleb128 0x18
+ 1022 038c B2020000 		.4byte	.LASF36
+ 1023 0390 01       		.byte	0x1
+ 1024 0391 E302     		.2byte	0x2e3
+ 1025 0393 6B000000 		.4byte	0x6b
+ 1026 0397 01       		.uleb128 0x1
+ 1027 0398 50       		.byte	0x50
+ 1028 0399 00       		.byte	0
+ 1029 039a 0D       		.uleb128 0xd
+ 1030 039b 89000000 		.4byte	.LASF37
+ 1031 039f 01       		.byte	0x1
+ 1032 03a0 FD02     		.2byte	0x2fd
+ 1033 03a2 00000000 		.4byte	.LFB13
+ 1034 03a6 0C000000 		.4byte	.LFE13-.LFB13
+ 1035 03aa 01       		.uleb128 0x1
+ 1036 03ab 9C       		.byte	0x9c
+ 1037 03ac BF030000 		.4byte	0x3bf
+ 1038 03b0 19       		.uleb128 0x19
+ 1039 03b1 B1010000 		.4byte	.LASF48
+ 1040 03b5 01       		.byte	0x1
+ 1041 03b6 FD02     		.2byte	0x2fd
+ 1042 03b8 6B000000 		.4byte	0x6b
+ 1043 03bc 01       		.uleb128 0x1
+ 1044 03bd 50       		.byte	0x50
+ 1045 03be 00       		.byte	0
+ 1046 03bf 16       		.uleb128 0x16
+ 1047 03c0 C8000000 		.4byte	0xc8
+ 1048 03c4 00000000 		.4byte	.LFB14
+ 1049 03c8 0C000000 		.4byte	.LFE14-.LFB14
+ 1050 03cc 01       		.uleb128 0x1
+ 1051 03cd 9C       		.byte	0x9c
+ 1052 03ce 0C       		.uleb128 0xc
+ 1053 03cf 06000000 		.4byte	.LASF39
+ 1054 03d3 01       		.byte	0x1
+ 1055 03d4 4A03     		.2byte	0x34a
+ 1056 03d6 77000000 		.4byte	0x77
+ 1057 03da 00000000 		.4byte	.LFB15
+ 1058 03de 0C000000 		.4byte	.LFE15-.LFB15
+ 1059 03e2 01       		.uleb128 0x1
+ 1060 03e3 9C       		.byte	0x9c
+ 1061 03e4 0C       		.uleb128 0xc
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 36
+
+
+ 1062 03e5 1B000000 		.4byte	.LASF40
+ 1063 03e9 01       		.byte	0x1
+ 1064 03ea 5E03     		.2byte	0x35e
+ 1065 03ec 77000000 		.4byte	0x77
+ 1066 03f0 00000000 		.4byte	.LFB16
+ 1067 03f4 0C000000 		.4byte	.LFE16-.LFB16
+ 1068 03f8 01       		.uleb128 0x1
+ 1069 03f9 9C       		.byte	0x9c
+ 1070 03fa 0C       		.uleb128 0xc
+ 1071 03fb 76000000 		.4byte	.LASF41
+ 1072 03ff 01       		.byte	0x1
+ 1073 0400 7403     		.2byte	0x374
+ 1074 0402 77000000 		.4byte	0x77
+ 1075 0406 00000000 		.4byte	.LFB17
+ 1076 040a 0C000000 		.4byte	.LFE17-.LFB17
+ 1077 040e 01       		.uleb128 0x1
+ 1078 040f 9C       		.byte	0x9c
+ 1079 0410 1A       		.uleb128 0x1a
+ 1080 0411 F9000000 		.4byte	.LASF49
+ 1081 0415 01       		.byte	0x1
+ 1082 0416 20       		.byte	0x20
+ 1083 0417 6B000000 		.4byte	0x6b
+ 1084 041b 05       		.uleb128 0x5
+ 1085 041c 03       		.byte	0x3
+ 1086 041d 00000000 		.4byte	Aileron_initVar
+ 1087 0421 1B       		.uleb128 0x1b
+ 1088 0422 2C020000 		.4byte	.LASF42
+ 1089 0426 2C020000 		.4byte	.LASF42
+ 1090 042a 03       		.byte	0x3
+ 1091 042b 7D       		.byte	0x7d
+ 1092 042c 1B       		.uleb128 0x1b
+ 1093 042d 9C020000 		.4byte	.LASF43
+ 1094 0431 9C020000 		.4byte	.LASF43
+ 1095 0435 03       		.byte	0x3
+ 1096 0436 7E       		.byte	0x7e
+ 1097 0437 00       		.byte	0
+ 1098              		.section	.debug_abbrev,"",%progbits
+ 1099              	.Ldebug_abbrev0:
+ 1100 0000 01       		.uleb128 0x1
+ 1101 0001 11       		.uleb128 0x11
+ 1102 0002 01       		.byte	0x1
+ 1103 0003 25       		.uleb128 0x25
+ 1104 0004 0E       		.uleb128 0xe
+ 1105 0005 13       		.uleb128 0x13
+ 1106 0006 0B       		.uleb128 0xb
+ 1107 0007 03       		.uleb128 0x3
+ 1108 0008 0E       		.uleb128 0xe
+ 1109 0009 1B       		.uleb128 0x1b
+ 1110 000a 0E       		.uleb128 0xe
+ 1111 000b 55       		.uleb128 0x55
+ 1112 000c 17       		.uleb128 0x17
+ 1113 000d 11       		.uleb128 0x11
+ 1114 000e 01       		.uleb128 0x1
+ 1115 000f 10       		.uleb128 0x10
+ 1116 0010 17       		.uleb128 0x17
+ 1117 0011 00       		.byte	0
+ 1118 0012 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 37
+
+
+ 1119 0013 02       		.uleb128 0x2
+ 1120 0014 24       		.uleb128 0x24
+ 1121 0015 00       		.byte	0
+ 1122 0016 0B       		.uleb128 0xb
+ 1123 0017 0B       		.uleb128 0xb
+ 1124 0018 3E       		.uleb128 0x3e
+ 1125 0019 0B       		.uleb128 0xb
+ 1126 001a 03       		.uleb128 0x3
+ 1127 001b 0E       		.uleb128 0xe
+ 1128 001c 00       		.byte	0
+ 1129 001d 00       		.byte	0
+ 1130 001e 03       		.uleb128 0x3
+ 1131 001f 24       		.uleb128 0x24
+ 1132 0020 00       		.byte	0
+ 1133 0021 0B       		.uleb128 0xb
+ 1134 0022 0B       		.uleb128 0xb
+ 1135 0023 3E       		.uleb128 0x3e
+ 1136 0024 0B       		.uleb128 0xb
+ 1137 0025 03       		.uleb128 0x3
+ 1138 0026 08       		.uleb128 0x8
+ 1139 0027 00       		.byte	0
+ 1140 0028 00       		.byte	0
+ 1141 0029 04       		.uleb128 0x4
+ 1142 002a 16       		.uleb128 0x16
+ 1143 002b 00       		.byte	0
+ 1144 002c 03       		.uleb128 0x3
+ 1145 002d 0E       		.uleb128 0xe
+ 1146 002e 3A       		.uleb128 0x3a
+ 1147 002f 0B       		.uleb128 0xb
+ 1148 0030 3B       		.uleb128 0x3b
+ 1149 0031 05       		.uleb128 0x5
+ 1150 0032 49       		.uleb128 0x49
+ 1151 0033 13       		.uleb128 0x13
+ 1152 0034 00       		.byte	0
+ 1153 0035 00       		.byte	0
+ 1154 0036 05       		.uleb128 0x5
+ 1155 0037 35       		.uleb128 0x35
+ 1156 0038 00       		.byte	0
+ 1157 0039 49       		.uleb128 0x49
+ 1158 003a 13       		.uleb128 0x13
+ 1159 003b 00       		.byte	0
+ 1160 003c 00       		.byte	0
+ 1161 003d 06       		.uleb128 0x6
+ 1162 003e 2E       		.uleb128 0x2e
+ 1163 003f 00       		.byte	0
+ 1164 0040 3F       		.uleb128 0x3f
+ 1165 0041 19       		.uleb128 0x19
+ 1166 0042 03       		.uleb128 0x3
+ 1167 0043 0E       		.uleb128 0xe
+ 1168 0044 3A       		.uleb128 0x3a
+ 1169 0045 0B       		.uleb128 0xb
+ 1170 0046 3B       		.uleb128 0x3b
+ 1171 0047 05       		.uleb128 0x5
+ 1172 0048 27       		.uleb128 0x27
+ 1173 0049 19       		.uleb128 0x19
+ 1174 004a 49       		.uleb128 0x49
+ 1175 004b 13       		.uleb128 0x13
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 38
+
+
+ 1176 004c 20       		.uleb128 0x20
+ 1177 004d 0B       		.uleb128 0xb
+ 1178 004e 00       		.byte	0
+ 1179 004f 00       		.byte	0
+ 1180 0050 07       		.uleb128 0x7
+ 1181 0051 2E       		.uleb128 0x2e
+ 1182 0052 01       		.byte	0x1
+ 1183 0053 3F       		.uleb128 0x3f
+ 1184 0054 19       		.uleb128 0x19
+ 1185 0055 03       		.uleb128 0x3
+ 1186 0056 0E       		.uleb128 0xe
+ 1187 0057 3A       		.uleb128 0x3a
+ 1188 0058 0B       		.uleb128 0xb
+ 1189 0059 3B       		.uleb128 0x3b
+ 1190 005a 05       		.uleb128 0x5
+ 1191 005b 27       		.uleb128 0x27
+ 1192 005c 19       		.uleb128 0x19
+ 1193 005d 20       		.uleb128 0x20
+ 1194 005e 0B       		.uleb128 0xb
+ 1195 005f 01       		.uleb128 0x1
+ 1196 0060 13       		.uleb128 0x13
+ 1197 0061 00       		.byte	0
+ 1198 0062 00       		.byte	0
+ 1199 0063 08       		.uleb128 0x8
+ 1200 0064 05       		.uleb128 0x5
+ 1201 0065 00       		.byte	0
+ 1202 0066 03       		.uleb128 0x3
+ 1203 0067 0E       		.uleb128 0xe
+ 1204 0068 3A       		.uleb128 0x3a
+ 1205 0069 0B       		.uleb128 0xb
+ 1206 006a 3B       		.uleb128 0x3b
+ 1207 006b 05       		.uleb128 0x5
+ 1208 006c 49       		.uleb128 0x49
+ 1209 006d 13       		.uleb128 0x13
+ 1210 006e 00       		.byte	0
+ 1211 006f 00       		.byte	0
+ 1212 0070 09       		.uleb128 0x9
+ 1213 0071 2E       		.uleb128 0x2e
+ 1214 0072 00       		.byte	0
+ 1215 0073 3F       		.uleb128 0x3f
+ 1216 0074 19       		.uleb128 0x19
+ 1217 0075 03       		.uleb128 0x3
+ 1218 0076 0E       		.uleb128 0xe
+ 1219 0077 3A       		.uleb128 0x3a
+ 1220 0078 0B       		.uleb128 0xb
+ 1221 0079 3B       		.uleb128 0x3b
+ 1222 007a 0B       		.uleb128 0xb
+ 1223 007b 27       		.uleb128 0x27
+ 1224 007c 19       		.uleb128 0x19
+ 1225 007d 11       		.uleb128 0x11
+ 1226 007e 01       		.uleb128 0x1
+ 1227 007f 12       		.uleb128 0x12
+ 1228 0080 06       		.uleb128 0x6
+ 1229 0081 40       		.uleb128 0x40
+ 1230 0082 18       		.uleb128 0x18
+ 1231 0083 9742     		.uleb128 0x2117
+ 1232 0085 19       		.uleb128 0x19
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 39
+
+
+ 1233 0086 00       		.byte	0
+ 1234 0087 00       		.byte	0
+ 1235 0088 0A       		.uleb128 0xa
+ 1236 0089 2E       		.uleb128 0x2e
+ 1237 008a 01       		.byte	0x1
+ 1238 008b 31       		.uleb128 0x31
+ 1239 008c 13       		.uleb128 0x13
+ 1240 008d 11       		.uleb128 0x11
+ 1241 008e 01       		.uleb128 0x1
+ 1242 008f 12       		.uleb128 0x12
+ 1243 0090 06       		.uleb128 0x6
+ 1244 0091 40       		.uleb128 0x40
+ 1245 0092 18       		.uleb128 0x18
+ 1246 0093 9742     		.uleb128 0x2117
+ 1247 0095 19       		.uleb128 0x19
+ 1248 0096 01       		.uleb128 0x1
+ 1249 0097 13       		.uleb128 0x13
+ 1250 0098 00       		.byte	0
+ 1251 0099 00       		.byte	0
+ 1252 009a 0B       		.uleb128 0xb
+ 1253 009b 05       		.uleb128 0x5
+ 1254 009c 00       		.byte	0
+ 1255 009d 31       		.uleb128 0x31
+ 1256 009e 13       		.uleb128 0x13
+ 1257 009f 02       		.uleb128 0x2
+ 1258 00a0 18       		.uleb128 0x18
+ 1259 00a1 00       		.byte	0
+ 1260 00a2 00       		.byte	0
+ 1261 00a3 0C       		.uleb128 0xc
+ 1262 00a4 2E       		.uleb128 0x2e
+ 1263 00a5 00       		.byte	0
+ 1264 00a6 3F       		.uleb128 0x3f
+ 1265 00a7 19       		.uleb128 0x19
+ 1266 00a8 03       		.uleb128 0x3
+ 1267 00a9 0E       		.uleb128 0xe
+ 1268 00aa 3A       		.uleb128 0x3a
+ 1269 00ab 0B       		.uleb128 0xb
+ 1270 00ac 3B       		.uleb128 0x3b
+ 1271 00ad 05       		.uleb128 0x5
+ 1272 00ae 27       		.uleb128 0x27
+ 1273 00af 19       		.uleb128 0x19
+ 1274 00b0 49       		.uleb128 0x49
+ 1275 00b1 13       		.uleb128 0x13
+ 1276 00b2 11       		.uleb128 0x11
+ 1277 00b3 01       		.uleb128 0x1
+ 1278 00b4 12       		.uleb128 0x12
+ 1279 00b5 06       		.uleb128 0x6
+ 1280 00b6 40       		.uleb128 0x40
+ 1281 00b7 18       		.uleb128 0x18
+ 1282 00b8 9742     		.uleb128 0x2117
+ 1283 00ba 19       		.uleb128 0x19
+ 1284 00bb 00       		.byte	0
+ 1285 00bc 00       		.byte	0
+ 1286 00bd 0D       		.uleb128 0xd
+ 1287 00be 2E       		.uleb128 0x2e
+ 1288 00bf 01       		.byte	0x1
+ 1289 00c0 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 40
+
+
+ 1290 00c1 19       		.uleb128 0x19
+ 1291 00c2 03       		.uleb128 0x3
+ 1292 00c3 0E       		.uleb128 0xe
+ 1293 00c4 3A       		.uleb128 0x3a
+ 1294 00c5 0B       		.uleb128 0xb
+ 1295 00c6 3B       		.uleb128 0x3b
+ 1296 00c7 05       		.uleb128 0x5
+ 1297 00c8 27       		.uleb128 0x27
+ 1298 00c9 19       		.uleb128 0x19
+ 1299 00ca 11       		.uleb128 0x11
+ 1300 00cb 01       		.uleb128 0x1
+ 1301 00cc 12       		.uleb128 0x12
+ 1302 00cd 06       		.uleb128 0x6
+ 1303 00ce 40       		.uleb128 0x40
+ 1304 00cf 18       		.uleb128 0x18
+ 1305 00d0 9742     		.uleb128 0x2117
+ 1306 00d2 19       		.uleb128 0x19
+ 1307 00d3 01       		.uleb128 0x1
+ 1308 00d4 13       		.uleb128 0x13
+ 1309 00d5 00       		.byte	0
+ 1310 00d6 00       		.byte	0
+ 1311 00d7 0E       		.uleb128 0xe
+ 1312 00d8 1D       		.uleb128 0x1d
+ 1313 00d9 00       		.byte	0
+ 1314 00da 31       		.uleb128 0x31
+ 1315 00db 13       		.uleb128 0x13
+ 1316 00dc 52       		.uleb128 0x52
+ 1317 00dd 01       		.uleb128 0x1
+ 1318 00de 55       		.uleb128 0x55
+ 1319 00df 17       		.uleb128 0x17
+ 1320 00e0 58       		.uleb128 0x58
+ 1321 00e1 0B       		.uleb128 0xb
+ 1322 00e2 59       		.uleb128 0x59
+ 1323 00e3 05       		.uleb128 0x5
+ 1324 00e4 00       		.byte	0
+ 1325 00e5 00       		.byte	0
+ 1326 00e6 0F       		.uleb128 0xf
+ 1327 00e7 2E       		.uleb128 0x2e
+ 1328 00e8 01       		.byte	0x1
+ 1329 00e9 3F       		.uleb128 0x3f
+ 1330 00ea 19       		.uleb128 0x19
+ 1331 00eb 03       		.uleb128 0x3
+ 1332 00ec 0E       		.uleb128 0xe
+ 1333 00ed 3A       		.uleb128 0x3a
+ 1334 00ee 0B       		.uleb128 0xb
+ 1335 00ef 3B       		.uleb128 0x3b
+ 1336 00f0 0B       		.uleb128 0xb
+ 1337 00f1 27       		.uleb128 0x27
+ 1338 00f2 19       		.uleb128 0x19
+ 1339 00f3 11       		.uleb128 0x11
+ 1340 00f4 01       		.uleb128 0x1
+ 1341 00f5 12       		.uleb128 0x12
+ 1342 00f6 06       		.uleb128 0x6
+ 1343 00f7 40       		.uleb128 0x40
+ 1344 00f8 18       		.uleb128 0x18
+ 1345 00f9 9742     		.uleb128 0x2117
+ 1346 00fb 19       		.uleb128 0x19
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 41
+
+
+ 1347 00fc 01       		.uleb128 0x1
+ 1348 00fd 13       		.uleb128 0x13
+ 1349 00fe 00       		.byte	0
+ 1350 00ff 00       		.byte	0
+ 1351 0100 10       		.uleb128 0x10
+ 1352 0101 34       		.uleb128 0x34
+ 1353 0102 00       		.byte	0
+ 1354 0103 03       		.uleb128 0x3
+ 1355 0104 0E       		.uleb128 0xe
+ 1356 0105 3A       		.uleb128 0x3a
+ 1357 0106 0B       		.uleb128 0xb
+ 1358 0107 3B       		.uleb128 0x3b
+ 1359 0108 0B       		.uleb128 0xb
+ 1360 0109 49       		.uleb128 0x49
+ 1361 010a 13       		.uleb128 0x13
+ 1362 010b 02       		.uleb128 0x2
+ 1363 010c 17       		.uleb128 0x17
+ 1364 010d 00       		.byte	0
+ 1365 010e 00       		.byte	0
+ 1366 010f 11       		.uleb128 0x11
+ 1367 0110 1D       		.uleb128 0x1d
+ 1368 0111 01       		.byte	0x1
+ 1369 0112 31       		.uleb128 0x31
+ 1370 0113 13       		.uleb128 0x13
+ 1371 0114 11       		.uleb128 0x11
+ 1372 0115 01       		.uleb128 0x1
+ 1373 0116 12       		.uleb128 0x12
+ 1374 0117 06       		.uleb128 0x6
+ 1375 0118 58       		.uleb128 0x58
+ 1376 0119 0B       		.uleb128 0xb
+ 1377 011a 59       		.uleb128 0x59
+ 1378 011b 0B       		.uleb128 0xb
+ 1379 011c 01       		.uleb128 0x1
+ 1380 011d 13       		.uleb128 0x13
+ 1381 011e 00       		.byte	0
+ 1382 011f 00       		.byte	0
+ 1383 0120 12       		.uleb128 0x12
+ 1384 0121 05       		.uleb128 0x5
+ 1385 0122 00       		.byte	0
+ 1386 0123 31       		.uleb128 0x31
+ 1387 0124 13       		.uleb128 0x13
+ 1388 0125 02       		.uleb128 0x2
+ 1389 0126 17       		.uleb128 0x17
+ 1390 0127 00       		.byte	0
+ 1391 0128 00       		.byte	0
+ 1392 0129 13       		.uleb128 0x13
+ 1393 012a 1D       		.uleb128 0x1d
+ 1394 012b 01       		.byte	0x1
+ 1395 012c 31       		.uleb128 0x31
+ 1396 012d 13       		.uleb128 0x13
+ 1397 012e 52       		.uleb128 0x52
+ 1398 012f 01       		.uleb128 0x1
+ 1399 0130 55       		.uleb128 0x55
+ 1400 0131 17       		.uleb128 0x17
+ 1401 0132 58       		.uleb128 0x58
+ 1402 0133 0B       		.uleb128 0xb
+ 1403 0134 59       		.uleb128 0x59
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 42
+
+
+ 1404 0135 0B       		.uleb128 0xb
+ 1405 0136 01       		.uleb128 0x1
+ 1406 0137 13       		.uleb128 0x13
+ 1407 0138 00       		.byte	0
+ 1408 0139 00       		.byte	0
+ 1409 013a 14       		.uleb128 0x14
+ 1410 013b 898201   		.uleb128 0x4109
+ 1411 013e 00       		.byte	0
+ 1412 013f 11       		.uleb128 0x11
+ 1413 0140 01       		.uleb128 0x1
+ 1414 0141 31       		.uleb128 0x31
+ 1415 0142 13       		.uleb128 0x13
+ 1416 0143 00       		.byte	0
+ 1417 0144 00       		.byte	0
+ 1418 0145 15       		.uleb128 0x15
+ 1419 0146 898201   		.uleb128 0x4109
+ 1420 0149 00       		.byte	0
+ 1421 014a 11       		.uleb128 0x11
+ 1422 014b 01       		.uleb128 0x1
+ 1423 014c 9542     		.uleb128 0x2115
+ 1424 014e 19       		.uleb128 0x19
+ 1425 014f 31       		.uleb128 0x31
+ 1426 0150 13       		.uleb128 0x13
+ 1427 0151 00       		.byte	0
+ 1428 0152 00       		.byte	0
+ 1429 0153 16       		.uleb128 0x16
+ 1430 0154 2E       		.uleb128 0x2e
+ 1431 0155 00       		.byte	0
+ 1432 0156 31       		.uleb128 0x31
+ 1433 0157 13       		.uleb128 0x13
+ 1434 0158 11       		.uleb128 0x11
+ 1435 0159 01       		.uleb128 0x1
+ 1436 015a 12       		.uleb128 0x12
+ 1437 015b 06       		.uleb128 0x6
+ 1438 015c 40       		.uleb128 0x40
+ 1439 015d 18       		.uleb128 0x18
+ 1440 015e 9742     		.uleb128 0x2117
+ 1441 0160 19       		.uleb128 0x19
+ 1442 0161 00       		.byte	0
+ 1443 0162 00       		.byte	0
+ 1444 0163 17       		.uleb128 0x17
+ 1445 0164 2E       		.uleb128 0x2e
+ 1446 0165 01       		.byte	0x1
+ 1447 0166 3F       		.uleb128 0x3f
+ 1448 0167 19       		.uleb128 0x19
+ 1449 0168 03       		.uleb128 0x3
+ 1450 0169 0E       		.uleb128 0xe
+ 1451 016a 3A       		.uleb128 0x3a
+ 1452 016b 0B       		.uleb128 0xb
+ 1453 016c 3B       		.uleb128 0x3b
+ 1454 016d 05       		.uleb128 0x5
+ 1455 016e 27       		.uleb128 0x27
+ 1456 016f 19       		.uleb128 0x19
+ 1457 0170 49       		.uleb128 0x49
+ 1458 0171 13       		.uleb128 0x13
+ 1459 0172 11       		.uleb128 0x11
+ 1460 0173 01       		.uleb128 0x1
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 43
+
+
+ 1461 0174 12       		.uleb128 0x12
+ 1462 0175 06       		.uleb128 0x6
+ 1463 0176 40       		.uleb128 0x40
+ 1464 0177 18       		.uleb128 0x18
+ 1465 0178 9742     		.uleb128 0x2117
+ 1466 017a 19       		.uleb128 0x19
+ 1467 017b 01       		.uleb128 0x1
+ 1468 017c 13       		.uleb128 0x13
+ 1469 017d 00       		.byte	0
+ 1470 017e 00       		.byte	0
+ 1471 017f 18       		.uleb128 0x18
+ 1472 0180 34       		.uleb128 0x34
+ 1473 0181 00       		.byte	0
+ 1474 0182 03       		.uleb128 0x3
+ 1475 0183 0E       		.uleb128 0xe
+ 1476 0184 3A       		.uleb128 0x3a
+ 1477 0185 0B       		.uleb128 0xb
+ 1478 0186 3B       		.uleb128 0x3b
+ 1479 0187 05       		.uleb128 0x5
+ 1480 0188 49       		.uleb128 0x49
+ 1481 0189 13       		.uleb128 0x13
+ 1482 018a 02       		.uleb128 0x2
+ 1483 018b 18       		.uleb128 0x18
+ 1484 018c 00       		.byte	0
+ 1485 018d 00       		.byte	0
+ 1486 018e 19       		.uleb128 0x19
+ 1487 018f 05       		.uleb128 0x5
+ 1488 0190 00       		.byte	0
+ 1489 0191 03       		.uleb128 0x3
+ 1490 0192 0E       		.uleb128 0xe
+ 1491 0193 3A       		.uleb128 0x3a
+ 1492 0194 0B       		.uleb128 0xb
+ 1493 0195 3B       		.uleb128 0x3b
+ 1494 0196 05       		.uleb128 0x5
+ 1495 0197 49       		.uleb128 0x49
+ 1496 0198 13       		.uleb128 0x13
+ 1497 0199 02       		.uleb128 0x2
+ 1498 019a 18       		.uleb128 0x18
+ 1499 019b 00       		.byte	0
+ 1500 019c 00       		.byte	0
+ 1501 019d 1A       		.uleb128 0x1a
+ 1502 019e 34       		.uleb128 0x34
+ 1503 019f 00       		.byte	0
+ 1504 01a0 03       		.uleb128 0x3
+ 1505 01a1 0E       		.uleb128 0xe
+ 1506 01a2 3A       		.uleb128 0x3a
+ 1507 01a3 0B       		.uleb128 0xb
+ 1508 01a4 3B       		.uleb128 0x3b
+ 1509 01a5 0B       		.uleb128 0xb
+ 1510 01a6 49       		.uleb128 0x49
+ 1511 01a7 13       		.uleb128 0x13
+ 1512 01a8 3F       		.uleb128 0x3f
+ 1513 01a9 19       		.uleb128 0x19
+ 1514 01aa 02       		.uleb128 0x2
+ 1515 01ab 18       		.uleb128 0x18
+ 1516 01ac 00       		.byte	0
+ 1517 01ad 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 44
+
+
+ 1518 01ae 1B       		.uleb128 0x1b
+ 1519 01af 2E       		.uleb128 0x2e
+ 1520 01b0 00       		.byte	0
+ 1521 01b1 3F       		.uleb128 0x3f
+ 1522 01b2 19       		.uleb128 0x19
+ 1523 01b3 3C       		.uleb128 0x3c
+ 1524 01b4 19       		.uleb128 0x19
+ 1525 01b5 6E       		.uleb128 0x6e
+ 1526 01b6 0E       		.uleb128 0xe
+ 1527 01b7 03       		.uleb128 0x3
+ 1528 01b8 0E       		.uleb128 0xe
+ 1529 01b9 3A       		.uleb128 0x3a
+ 1530 01ba 0B       		.uleb128 0xb
+ 1531 01bb 3B       		.uleb128 0x3b
+ 1532 01bc 0B       		.uleb128 0xb
+ 1533 01bd 00       		.byte	0
+ 1534 01be 00       		.byte	0
+ 1535 01bf 00       		.byte	0
+ 1536              		.section	.debug_loc,"",%progbits
+ 1537              	.Ldebug_loc0:
+ 1538              	.LLST0:
+ 1539 0000 06000000 		.4byte	.LVL1
+ 1540 0004 0A000000 		.4byte	.LVL2
+ 1541 0008 0600     		.2byte	0x6
+ 1542 000a 73       		.byte	0x73
+ 1543 000b 00       		.sleb128 0
+ 1544 000c 09       		.byte	0x9
+ 1545 000d C0       		.byte	0xc0
+ 1546 000e 1A       		.byte	0x1a
+ 1547 000f 9F       		.byte	0x9f
+ 1548 0010 00000000 		.4byte	0
+ 1549 0014 00000000 		.4byte	0
+ 1550              	.LLST1:
+ 1551 0018 50000000 		.4byte	.LVL9
+ 1552 001c 5D000000 		.4byte	.LVL10-1
+ 1553 0020 0100     		.2byte	0x1
+ 1554 0022 50       		.byte	0x50
+ 1555 0023 00000000 		.4byte	0
+ 1556 0027 00000000 		.4byte	0
+ 1557              	.LLST2:
+ 1558 002b 28000000 		.4byte	.LVL3
+ 1559 002f 30000000 		.4byte	.LVL4
+ 1560 0033 0400     		.2byte	0x4
+ 1561 0035 0A       		.byte	0xa
+ 1562 0036 204E     		.2byte	0x4e20
+ 1563 0038 9F       		.byte	0x9f
+ 1564 0039 00000000 		.4byte	0
+ 1565 003d 00000000 		.4byte	0
+ 1566              	.LLST3:
+ 1567 0041 30000000 		.4byte	.LVL4
+ 1568 0045 34000000 		.4byte	.LVL5
+ 1569 0049 0400     		.2byte	0x4
+ 1570 004b 0A       		.byte	0xa
+ 1571 004c 204E     		.2byte	0x4e20
+ 1572 004e 9F       		.byte	0x9f
+ 1573 004f 00000000 		.4byte	0
+ 1574 0053 00000000 		.4byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 45
+
+
+ 1575              	.LLST4:
+ 1576 0057 34000000 		.4byte	.LVL5
+ 1577 005b 3C000000 		.4byte	.LVL6
+ 1578 005f 0400     		.2byte	0x4
+ 1579 0061 0A       		.byte	0xa
+ 1580 0062 DC05     		.2byte	0x5dc
+ 1581 0064 9F       		.byte	0x9f
+ 1582 0065 00000000 		.4byte	0
+ 1583 0069 00000000 		.4byte	0
+ 1584              	.LLST5:
+ 1585 006d 3C000000 		.4byte	.LVL6
+ 1586 0071 48000000 		.4byte	.LVL7
+ 1587 0075 0400     		.2byte	0x4
+ 1588 0077 0A       		.byte	0xa
+ 1589 0078 E105     		.2byte	0x5e1
+ 1590 007a 9F       		.byte	0x9f
+ 1591 007b 00000000 		.4byte	0
+ 1592 007f 00000000 		.4byte	0
+ 1593              	.LLST6:
+ 1594 0083 48000000 		.4byte	.LVL7
+ 1595 0087 4C000000 		.4byte	.LVL8
+ 1596 008b 0200     		.2byte	0x2
+ 1597 008d 30       		.byte	0x30
+ 1598 008e 9F       		.byte	0x9f
+ 1599 008f 00000000 		.4byte	0
+ 1600 0093 00000000 		.4byte	0
+ 1601              		.section	.debug_aranges,"",%progbits
+ 1602 0000 A4000000 		.4byte	0xa4
+ 1603 0004 0200     		.2byte	0x2
+ 1604 0006 00000000 		.4byte	.Ldebug_info0
+ 1605 000a 04       		.byte	0x4
+ 1606 000b 00       		.byte	0
+ 1607 000c 0000     		.2byte	0
+ 1608 000e 0000     		.2byte	0
+ 1609 0010 00000000 		.4byte	.LFB2
+ 1610 0014 10000000 		.4byte	.LFE2-.LFB2
+ 1611 0018 00000000 		.4byte	.LFB3
+ 1612 001c 10000000 		.4byte	.LFE3-.LFB3
+ 1613 0020 00000000 		.4byte	.LFB4
+ 1614 0024 0C000000 		.4byte	.LFE4-.LFB4
+ 1615 0028 00000000 		.4byte	.LFB5
+ 1616 002c 14000000 		.4byte	.LFE5-.LFB5
+ 1617 0030 00000000 		.4byte	.LFB6
+ 1618 0034 18000000 		.4byte	.LFE6-.LFB6
+ 1619 0038 00000000 		.4byte	.LFB1
+ 1620 003c 74000000 		.4byte	.LFE1-.LFB1
+ 1621 0040 00000000 		.4byte	.LFB0
+ 1622 0044 1C000000 		.4byte	.LFE0-.LFB0
+ 1623 0048 00000000 		.4byte	.LFB7
+ 1624 004c 0C000000 		.4byte	.LFE7-.LFB7
+ 1625 0050 00000000 		.4byte	.LFB8
+ 1626 0054 0C000000 		.4byte	.LFE8-.LFB8
+ 1627 0058 00000000 		.4byte	.LFB9
+ 1628 005c 0C000000 		.4byte	.LFE9-.LFB9
+ 1629 0060 00000000 		.4byte	.LFB10
+ 1630 0064 0C000000 		.4byte	.LFE10-.LFB10
+ 1631 0068 00000000 		.4byte	.LFB11
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 46
+
+
+ 1632 006c 0C000000 		.4byte	.LFE11-.LFB11
+ 1633 0070 00000000 		.4byte	.LFB12
+ 1634 0074 0C000000 		.4byte	.LFE12-.LFB12
+ 1635 0078 00000000 		.4byte	.LFB13
+ 1636 007c 0C000000 		.4byte	.LFE13-.LFB13
+ 1637 0080 00000000 		.4byte	.LFB14
+ 1638 0084 0C000000 		.4byte	.LFE14-.LFB14
+ 1639 0088 00000000 		.4byte	.LFB15
+ 1640 008c 0C000000 		.4byte	.LFE15-.LFB15
+ 1641 0090 00000000 		.4byte	.LFB16
+ 1642 0094 0C000000 		.4byte	.LFE16-.LFB16
+ 1643 0098 00000000 		.4byte	.LFB17
+ 1644 009c 0C000000 		.4byte	.LFE17-.LFB17
+ 1645 00a0 00000000 		.4byte	0
+ 1646 00a4 00000000 		.4byte	0
+ 1647              		.section	.debug_ranges,"",%progbits
+ 1648              	.Ldebug_ranges0:
+ 1649 0000 00000000 		.4byte	.LBB16
+ 1650 0004 02000000 		.4byte	.LBE16
+ 1651 0008 04000000 		.4byte	.LBB22
+ 1652 000c 06000000 		.4byte	.LBE22
+ 1653 0010 00000000 		.4byte	0
+ 1654 0014 00000000 		.4byte	0
+ 1655 0018 02000000 		.4byte	.LBB19
+ 1656 001c 04000000 		.4byte	.LBE19
+ 1657 0020 0A000000 		.4byte	.LBB23
+ 1658 0024 0E000000 		.4byte	.LBE23
+ 1659 0028 00000000 		.4byte	0
+ 1660 002c 00000000 		.4byte	0
+ 1661 0030 3C000000 		.4byte	.LBB30
+ 1662 0034 40000000 		.4byte	.LBE30
+ 1663 0038 44000000 		.4byte	.LBB36
+ 1664 003c 48000000 		.4byte	.LBE36
+ 1665 0040 00000000 		.4byte	0
+ 1666 0044 00000000 		.4byte	0
+ 1667 0048 40000000 		.4byte	.LBB33
+ 1668 004c 44000000 		.4byte	.LBE33
+ 1669 0050 48000000 		.4byte	.LBB37
+ 1670 0054 4C000000 		.4byte	.LBE37
+ 1671 0058 00000000 		.4byte	0
+ 1672 005c 00000000 		.4byte	0
+ 1673 0060 00000000 		.4byte	.LFB2
+ 1674 0064 10000000 		.4byte	.LFE2
+ 1675 0068 00000000 		.4byte	.LFB3
+ 1676 006c 10000000 		.4byte	.LFE3
+ 1677 0070 00000000 		.4byte	.LFB4
+ 1678 0074 0C000000 		.4byte	.LFE4
+ 1679 0078 00000000 		.4byte	.LFB5
+ 1680 007c 14000000 		.4byte	.LFE5
+ 1681 0080 00000000 		.4byte	.LFB6
+ 1682 0084 18000000 		.4byte	.LFE6
+ 1683 0088 00000000 		.4byte	.LFB1
+ 1684 008c 74000000 		.4byte	.LFE1
+ 1685 0090 00000000 		.4byte	.LFB0
+ 1686 0094 1C000000 		.4byte	.LFE0
+ 1687 0098 00000000 		.4byte	.LFB7
+ 1688 009c 0C000000 		.4byte	.LFE7
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 47
+
+
+ 1689 00a0 00000000 		.4byte	.LFB8
+ 1690 00a4 0C000000 		.4byte	.LFE8
+ 1691 00a8 00000000 		.4byte	.LFB9
+ 1692 00ac 0C000000 		.4byte	.LFE9
+ 1693 00b0 00000000 		.4byte	.LFB10
+ 1694 00b4 0C000000 		.4byte	.LFE10
+ 1695 00b8 00000000 		.4byte	.LFB11
+ 1696 00bc 0C000000 		.4byte	.LFE11
+ 1697 00c0 00000000 		.4byte	.LFB12
+ 1698 00c4 0C000000 		.4byte	.LFE12
+ 1699 00c8 00000000 		.4byte	.LFB13
+ 1700 00cc 0C000000 		.4byte	.LFE13
+ 1701 00d0 00000000 		.4byte	.LFB14
+ 1702 00d4 0C000000 		.4byte	.LFE14
+ 1703 00d8 00000000 		.4byte	.LFB15
+ 1704 00dc 0C000000 		.4byte	.LFE15
+ 1705 00e0 00000000 		.4byte	.LFB16
+ 1706 00e4 0C000000 		.4byte	.LFE16
+ 1707 00e8 00000000 		.4byte	.LFB17
+ 1708 00ec 0C000000 		.4byte	.LFE17
+ 1709 00f0 00000000 		.4byte	0
+ 1710 00f4 00000000 		.4byte	0
+ 1711              		.section	.debug_line,"",%progbits
+ 1712              	.Ldebug_line0:
+ 1713 0000 D5010000 		.section	.debug_str,"MS",%progbits,1
+ 1713      02004F00 
+ 1713      00000201 
+ 1713      FB0E0D00 
+ 1713      01010101 
+ 1714              	.LASF15:
+ 1715 0000 72656731 		.ascii	"reg16\000"
+ 1715      3600
+ 1716              	.LASF39:
+ 1717 0006 41696C65 		.ascii	"Aileron_ReadCompare1\000"
+ 1717      726F6E5F 
+ 1717      52656164 
+ 1717      436F6D70 
+ 1717      61726531 
+ 1718              	.LASF40:
+ 1719 001b 41696C65 		.ascii	"Aileron_ReadCompare2\000"
+ 1719      726F6E5F 
+ 1719      52656164 
+ 1719      436F6D70 
+ 1719      61726532 
+ 1720              	.LASF24:
+ 1721 0030 41696C65 		.ascii	"Aileron_WriteCompare1\000"
+ 1721      726F6E5F 
+ 1721      57726974 
+ 1721      65436F6D 
+ 1721      70617265 
+ 1722              	.LASF21:
+ 1723 0046 41696C65 		.ascii	"Aileron_WriteCompare2\000"
+ 1723      726F6E5F 
+ 1723      57726974 
+ 1723      65436F6D 
+ 1723      70617265 
+ 1724              	.LASF26:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 48
+
+
+ 1725 005c 70657269 		.ascii	"period\000"
+ 1725      6F6400
+ 1726              	.LASF3:
+ 1727 0063 73686F72 		.ascii	"short unsigned int\000"
+ 1727      7420756E 
+ 1727      7369676E 
+ 1727      65642069 
+ 1727      6E7400
+ 1728              	.LASF41:
+ 1729 0076 41696C65 		.ascii	"Aileron_ReadPeriod\000"
+ 1729      726F6E5F 
+ 1729      52656164 
+ 1729      50657269 
+ 1729      6F6400
+ 1730              	.LASF37:
+ 1731 0089 41696C65 		.ascii	"Aileron_WriteControlRegister\000"
+ 1731      726F6E5F 
+ 1731      57726974 
+ 1731      65436F6E 
+ 1731      74726F6C 
+ 1732              	.LASF30:
+ 1733 00a6 41696C65 		.ascii	"Aileron_Stop\000"
+ 1733      726F6E5F 
+ 1733      53746F70 
+ 1733      00
+ 1734              	.LASF11:
+ 1735 00b3 666C6F61 		.ascii	"float\000"
+ 1735      7400
+ 1736              	.LASF28:
+ 1737 00b9 636F756E 		.ascii	"counter\000"
+ 1737      74657200 
+ 1738              	.LASF7:
+ 1739 00c1 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1739      206C6F6E 
+ 1739      6720756E 
+ 1739      7369676E 
+ 1739      65642069 
+ 1740              	.LASF1:
+ 1741 00d8 756E7369 		.ascii	"unsigned char\000"
+ 1741      676E6564 
+ 1741      20636861 
+ 1741      7200
+ 1742              	.LASF35:
+ 1743 00e6 41696C65 		.ascii	"Aileron_Start\000"
+ 1743      726F6E5F 
+ 1743      53746172 
+ 1743      7400
+ 1744              	.LASF14:
+ 1745 00f4 72656738 		.ascii	"reg8\000"
+ 1745      00
+ 1746              	.LASF49:
+ 1747 00f9 41696C65 		.ascii	"Aileron_initVar\000"
+ 1747      726F6E5F 
+ 1747      696E6974 
+ 1747      56617200 
+ 1748              	.LASF44:
+ 1749 0109 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 49
+
+
+ 1749      43313120 
+ 1749      352E342E 
+ 1749      31203230 
+ 1749      31363036 
+ 1750 013c 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1750      20726576 
+ 1750      6973696F 
+ 1750      6E203233 
+ 1750      37373135 
+ 1751 016f 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 1751      66756E63 
+ 1751      74696F6E 
+ 1751      2D736563 
+ 1751      74696F6E 
+ 1752              	.LASF18:
+ 1753 0197 41696C65 		.ascii	"Aileron_ReadCapture\000"
+ 1753      726F6E5F 
+ 1753      52656164 
+ 1753      43617074 
+ 1753      75726500 
+ 1754              	.LASF9:
+ 1755 01ab 75696E74 		.ascii	"uint8\000"
+ 1755      3800
+ 1756              	.LASF48:
+ 1757 01b1 636F6E74 		.ascii	"control\000"
+ 1757      726F6C00 
+ 1758              	.LASF47:
+ 1759 01b9 41696C65 		.ascii	"Aileron_ReadControlRegister\000"
+ 1759      726F6E5F 
+ 1759      52656164 
+ 1759      436F6E74 
+ 1759      726F6C52 
+ 1760              	.LASF32:
+ 1761 01d5 41696C65 		.ascii	"Aileron_Init\000"
+ 1761      726F6E5F 
+ 1761      496E6974 
+ 1761      00
+ 1762              	.LASF12:
+ 1763 01e2 646F7562 		.ascii	"double\000"
+ 1763      6C6500
+ 1764              	.LASF19:
+ 1765 01e9 41696C65 		.ascii	"Aileron_ReadStatusRegister\000"
+ 1765      726F6E5F 
+ 1765      52656164 
+ 1765      53746174 
+ 1765      75735265 
+ 1766              	.LASF31:
+ 1767 0204 41696C65 		.ascii	"Aileron_ClearFIFO\000"
+ 1767      726F6E5F 
+ 1767      436C6561 
+ 1767      72464946 
+ 1767      4F00
+ 1768              	.LASF10:
+ 1769 0216 75696E74 		.ascii	"uint16\000"
+ 1769      313600
+ 1770              	.LASF29:
+ 1771 021d 41696C65 		.ascii	"Aileron_Enable\000"
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 50
+
+
+ 1771      726F6E5F 
+ 1771      456E6162 
+ 1771      6C6500
+ 1772              	.LASF42:
+ 1773 022c 4379456E 		.ascii	"CyEnterCriticalSection\000"
+ 1773      74657243 
+ 1773      72697469 
+ 1773      63616C53 
+ 1773      65637469 
+ 1774              	.LASF5:
+ 1775 0243 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1775      20756E73 
+ 1775      69676E65 
+ 1775      6420696E 
+ 1775      7400
+ 1776              	.LASF8:
+ 1777 0255 756E7369 		.ascii	"unsigned int\000"
+ 1777      676E6564 
+ 1777      20696E74 
+ 1777      00
+ 1778              	.LASF45:
+ 1779 0262 47656E65 		.ascii	"Generated_Source\\PSoC5\\Aileron.c\000"
+ 1779      72617465 
+ 1779      645F536F 
+ 1779      75726365 
+ 1779      5C50536F 
+ 1780              	.LASF20:
+ 1781 0283 41696C65 		.ascii	"Aileron_SetInterruptMode\000"
+ 1781      726F6E5F 
+ 1781      53657449 
+ 1781      6E746572 
+ 1781      72757074 
+ 1782              	.LASF43:
+ 1783 029c 43794578 		.ascii	"CyExitCriticalSection\000"
+ 1783      69744372 
+ 1783      69746963 
+ 1783      616C5365 
+ 1783      6374696F 
+ 1784              	.LASF36:
+ 1785 02b2 72657375 		.ascii	"result\000"
+ 1785      6C7400
+ 1786              	.LASF38:
+ 1787 02b9 41696C65 		.ascii	"Aileron_ReadCounter\000"
+ 1787      726F6E5F 
+ 1787      52656164 
+ 1787      436F756E 
+ 1787      74657200 
+ 1788              	.LASF34:
+ 1789 02cd 41696C65 		.ascii	"Aileron_interruptState\000"
+ 1789      726F6E5F 
+ 1789      696E7465 
+ 1789      72727570 
+ 1789      74537461 
+ 1790              	.LASF46:
+ 1791 02e4 433A5C55 		.ascii	"C:\\Users\\Nathan\\Documents\\MyBuilds\\Flight Cont"
+ 1791      73657273 
+ 1791      5C4E6174 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 51
+
+
+ 1791      68616E5C 
+ 1791      446F6375 
+ 1792 0312 726F6C6C 		.ascii	"roller\\ServoControl.cydsn\000"
+ 1792      65725C53 
+ 1792      6572766F 
+ 1792      436F6E74 
+ 1792      726F6C2E 
+ 1793              	.LASF33:
+ 1794 032c 6374726C 		.ascii	"ctrl\000"
+ 1794      00
+ 1795              	.LASF17:
+ 1796 0331 73697A65 		.ascii	"sizetype\000"
+ 1796      74797065 
+ 1796      00
+ 1797              	.LASF6:
+ 1798 033a 6C6F6E67 		.ascii	"long long int\000"
+ 1798      206C6F6E 
+ 1798      6720696E 
+ 1798      7400
+ 1799              	.LASF22:
+ 1800 0348 696E7465 		.ascii	"interruptMode\000"
+ 1800      72727570 
+ 1800      744D6F64 
+ 1800      6500
+ 1801              	.LASF2:
+ 1802 0356 73686F72 		.ascii	"short int\000"
+ 1802      7420696E 
+ 1802      7400
+ 1803              	.LASF25:
+ 1804 0360 41696C65 		.ascii	"Aileron_WritePeriod\000"
+ 1804      726F6E5F 
+ 1804      57726974 
+ 1804      65506572 
+ 1804      696F6400 
+ 1805              	.LASF4:
+ 1806 0374 6C6F6E67 		.ascii	"long int\000"
+ 1806      20696E74 
+ 1806      00
+ 1807              	.LASF13:
+ 1808 037d 63686172 		.ascii	"char\000"
+ 1808      00
+ 1809              	.LASF16:
+ 1810 0382 6C6F6E67 		.ascii	"long double\000"
+ 1810      20646F75 
+ 1810      626C6500 
+ 1811              	.LASF0:
+ 1812 038e 7369676E 		.ascii	"signed char\000"
+ 1812      65642063 
+ 1812      68617200 
+ 1813              	.LASF23:
+ 1814 039a 636F6D70 		.ascii	"compare\000"
+ 1814      61726500 
+ 1815              	.LASF27:
+ 1816 03a2 41696C65 		.ascii	"Aileron_WriteCounter\000"
+ 1816      726F6E5F 
+ 1816      57726974 
+ 1816      65436F75 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccFk21DN.s 			page 52
+
+
+ 1816      6E746572 
+ 1817              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

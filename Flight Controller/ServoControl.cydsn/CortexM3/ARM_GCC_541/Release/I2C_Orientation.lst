@@ -1,0 +1,1607 @@
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"I2C_Orientation.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.I2C_Orientation_Init,"ax",%progbits
+  20              		.align	1
+  21              		.global	I2C_Orientation_Init
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	I2C_Orientation_Init, %function
+  25              	I2C_Orientation_Init:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\I2C_Orientation.c"
+   1:Generated_Source\PSoC5/I2C_Orientation.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/I2C_Orientation.c **** * File Name: I2C_Orientation.c
+   3:Generated_Source\PSoC5/I2C_Orientation.c **** * Version 3.50
+   4:Generated_Source\PSoC5/I2C_Orientation.c **** *
+   5:Generated_Source\PSoC5/I2C_Orientation.c **** * Description:
+   6:Generated_Source\PSoC5/I2C_Orientation.c **** *  This file provides the source code of APIs for the I2C component.
+   7:Generated_Source\PSoC5/I2C_Orientation.c **** *  The actual protocol and operation code resides in the interrupt service
+   8:Generated_Source\PSoC5/I2C_Orientation.c **** *  routine file.
+   9:Generated_Source\PSoC5/I2C_Orientation.c **** *
+  10:Generated_Source\PSoC5/I2C_Orientation.c **** *******************************************************************************
+  11:Generated_Source\PSoC5/I2C_Orientation.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation. All rights reserved.
+  12:Generated_Source\PSoC5/I2C_Orientation.c **** * You may use this file only in accordance with the license, terms, conditions,
+  13:Generated_Source\PSoC5/I2C_Orientation.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  14:Generated_Source\PSoC5/I2C_Orientation.c **** * the software package with which this file was provided.
+  15:Generated_Source\PSoC5/I2C_Orientation.c **** *******************************************************************************/
+  16:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  17:Generated_Source\PSoC5/I2C_Orientation.c **** #include "I2C_Orientation_PVT.h"
+  18:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  19:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  20:Generated_Source\PSoC5/I2C_Orientation.c **** /**********************************
+  21:Generated_Source\PSoC5/I2C_Orientation.c **** *      System variables
+  22:Generated_Source\PSoC5/I2C_Orientation.c **** **********************************/
+  23:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  24:Generated_Source\PSoC5/I2C_Orientation.c **** uint8 I2C_Orientation_initVar = 0u; /* Defines if component was initialized */
+  25:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  26:Generated_Source\PSoC5/I2C_Orientation.c **** volatile uint8 I2C_Orientation_state;  /* Current state of I2C FSM */
+  27:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  28:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  29:Generated_Source\PSoC5/I2C_Orientation.c **** /*******************************************************************************
+  30:Generated_Source\PSoC5/I2C_Orientation.c **** * Function Name: I2C_Orientation_Init
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 2
+
+
+  31:Generated_Source\PSoC5/I2C_Orientation.c **** ********************************************************************************
+  32:Generated_Source\PSoC5/I2C_Orientation.c **** *
+  33:Generated_Source\PSoC5/I2C_Orientation.c **** * Summary:
+  34:Generated_Source\PSoC5/I2C_Orientation.c **** *  Initializes I2C registers with initial values provided from customizer.
+  35:Generated_Source\PSoC5/I2C_Orientation.c **** *
+  36:Generated_Source\PSoC5/I2C_Orientation.c **** * Parameters:
+  37:Generated_Source\PSoC5/I2C_Orientation.c **** *  None.
+  38:Generated_Source\PSoC5/I2C_Orientation.c **** *
+  39:Generated_Source\PSoC5/I2C_Orientation.c **** * Return:
+  40:Generated_Source\PSoC5/I2C_Orientation.c **** *  None.
+  41:Generated_Source\PSoC5/I2C_Orientation.c **** *
+  42:Generated_Source\PSoC5/I2C_Orientation.c **** * Global variables:
+  43:Generated_Source\PSoC5/I2C_Orientation.c **** *  None.
+  44:Generated_Source\PSoC5/I2C_Orientation.c **** *
+  45:Generated_Source\PSoC5/I2C_Orientation.c **** * Reentrant:
+  46:Generated_Source\PSoC5/I2C_Orientation.c **** *  No.
+  47:Generated_Source\PSoC5/I2C_Orientation.c **** *
+  48:Generated_Source\PSoC5/I2C_Orientation.c **** *******************************************************************************/
+  49:Generated_Source\PSoC5/I2C_Orientation.c **** void I2C_Orientation_Init(void) 
+  50:Generated_Source\PSoC5/I2C_Orientation.c **** {
+  28              		.loc 1 50 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  51:Generated_Source\PSoC5/I2C_Orientation.c **** #if (I2C_Orientation_FF_IMPLEMENTED)
+  52:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Configure fixed function block */
+  53:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_CFG_REG  = I2C_Orientation_DEFAULT_CFG;
+  32              		.loc 1 53 0
+  33 0000 114A     		ldr	r2, .L2
+  34 0002 0223     		movs	r3, #2
+  54:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_XCFG_REG = I2C_Orientation_DEFAULT_XCFG;
+  35              		.loc 1 54 0
+  36 0004 8121     		movs	r1, #129
+  50:Generated_Source\PSoC5/I2C_Orientation.c **** #if (I2C_Orientation_FF_IMPLEMENTED)
+  37              		.loc 1 50 0
+  38 0006 10B5     		push	{r4, lr}
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 4, -8
+  41              		.cfi_offset 14, -4
+  53:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_XCFG_REG = I2C_Orientation_DEFAULT_XCFG;
+  42              		.loc 1 53 0
+  43 0008 1370     		strb	r3, [r2]
+  44              		.loc 1 54 0
+  45 000a 02F80E1C 		strb	r1, [r2, #-14]
+  55:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_ADDR_REG = I2C_Orientation_DEFAULT_ADDR;
+  46              		.loc 1 55 0
+  47 000e 5021     		movs	r1, #80
+  48 0010 02F80C1C 		strb	r1, [r2, #-12]
+  56:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_CLKDIV1_REG = LO8(I2C_Orientation_DEFAULT_DIVIDE_FACTOR);
+  49              		.loc 1 56 0
+  50 0014 5371     		strb	r3, [r2, #5]
+  57:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_CLKDIV2_REG = HI8(I2C_Orientation_DEFAULT_DIVIDE_FACTOR);
+  51              		.loc 1 57 0
+  52 0016 0D4B     		ldr	r3, .L2+4
+  53 0018 0024     		movs	r4, #0
+  54 001a 1C70     		strb	r4, [r3]
+  58:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 3
+
+
+  59:Generated_Source\PSoC5/I2C_Orientation.c **** #else
+  60:Generated_Source\PSoC5/I2C_Orientation.c ****     uint8 intState;
+  61:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  62:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Configure control and interrupt sources */
+  63:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_CFG_REG      = I2C_Orientation_DEFAULT_CFG;
+  64:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_INT_MASK_REG = I2C_Orientation_DEFAULT_INT_MASK;
+  65:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  66:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Enable interrupt generation in status */
+  67:Generated_Source\PSoC5/I2C_Orientation.c ****     intState = CyEnterCriticalSection();
+  68:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_INT_ENABLE_REG |= I2C_Orientation_INTR_ENABLE;
+  69:Generated_Source\PSoC5/I2C_Orientation.c ****     CyExitCriticalSection(intState);
+  70:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  71:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Configure bit counter */
+  72:Generated_Source\PSoC5/I2C_Orientation.c ****     #if (I2C_Orientation_MODE_SLAVE_ENABLED)
+  73:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_PERIOD_REG = I2C_Orientation_DEFAULT_PERIOD;
+  74:Generated_Source\PSoC5/I2C_Orientation.c ****     #endif  /* (I2C_Orientation_MODE_SLAVE_ENABLED) */
+  75:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  76:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Configure clock generator */
+  77:Generated_Source\PSoC5/I2C_Orientation.c ****     #if (I2C_Orientation_MODE_MASTER_ENABLED)
+  78:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_MCLK_PRD_REG = I2C_Orientation_DEFAULT_MCLK_PRD;
+  79:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_MCLK_CMP_REG = I2C_Orientation_DEFAULT_MCLK_CMP;
+  80:Generated_Source\PSoC5/I2C_Orientation.c ****     #endif /* (I2C_Orientation_MODE_MASTER_ENABLED) */
+  81:Generated_Source\PSoC5/I2C_Orientation.c **** #endif /* (I2C_Orientation_FF_IMPLEMENTED) */
+  82:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  83:Generated_Source\PSoC5/I2C_Orientation.c **** #if (I2C_Orientation_TIMEOUT_ENABLED)
+  84:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_TimeoutInit();
+  85:Generated_Source\PSoC5/I2C_Orientation.c **** #endif /* (I2C_Orientation_TIMEOUT_ENABLED) */
+  86:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  87:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Configure internal interrupt */
+  88:Generated_Source\PSoC5/I2C_Orientation.c ****     CyIntDisable    (I2C_Orientation_ISR_NUMBER);
+  55              		.loc 1 88 0
+  56 001c 0C4B     		ldr	r3, .L2+8
+  57 001e 4FF40042 		mov	r2, #32768
+  58 0022 1A60     		str	r2, [r3]
+  89:Generated_Source\PSoC5/I2C_Orientation.c ****     CyIntSetPriority(I2C_Orientation_ISR_NUMBER, I2C_Orientation_ISR_PRIORITY);
+  59              		.loc 1 89 0
+  60 0024 0721     		movs	r1, #7
+  61 0026 0F20     		movs	r0, #15
+  62 0028 FFF7FEFF 		bl	CyIntSetPriority
+  63              	.LVL0:
+  90:Generated_Source\PSoC5/I2C_Orientation.c ****     #if (I2C_Orientation_INTERN_I2C_INTR_HANDLER)
+  91:Generated_Source\PSoC5/I2C_Orientation.c ****         (void) CyIntSetVector(I2C_Orientation_ISR_NUMBER, &I2C_Orientation_ISR);
+  64              		.loc 1 91 0
+  65 002c 0949     		ldr	r1, .L2+12
+  66 002e 0F20     		movs	r0, #15
+  67 0030 FFF7FEFF 		bl	CyIntSetVector
+  68              	.LVL1:
+  92:Generated_Source\PSoC5/I2C_Orientation.c ****     #endif /* (I2C_Orientation_INTERN_I2C_INTR_HANDLER) */
+  93:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  94:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Set FSM to default state */
+  95:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_state = I2C_Orientation_SM_IDLE;
+  69              		.loc 1 95 0
+  70 0034 084B     		ldr	r3, .L2+16
+  71 0036 1022     		movs	r2, #16
+  72 0038 1A70     		strb	r2, [r3]
+  96:Generated_Source\PSoC5/I2C_Orientation.c **** 
+  97:Generated_Source\PSoC5/I2C_Orientation.c **** #if (I2C_Orientation_MODE_SLAVE_ENABLED)
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 4
+
+
+  98:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Clear status and buffers index */
+  99:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_slStatus = 0u;
+ 100:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_slRdBufIndex = 0u;
+ 101:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_slWrBufIndex = 0u;
+ 102:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 103:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Configure matched address */
+ 104:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_SlaveSetAddress(I2C_Orientation_DEFAULT_ADDR);
+ 105:Generated_Source\PSoC5/I2C_Orientation.c **** #endif /* (I2C_Orientation_MODE_SLAVE_ENABLED) */
+ 106:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 107:Generated_Source\PSoC5/I2C_Orientation.c **** #if (I2C_Orientation_MODE_MASTER_ENABLED)
+ 108:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Clear status and buffers index */
+ 109:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_mstrStatus = 0u;
+  73              		.loc 1 109 0
+  74 003a 084B     		ldr	r3, .L2+20
+  75 003c 1C70     		strb	r4, [r3]
+ 110:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_mstrRdBufIndex = 0u;
+  76              		.loc 1 110 0
+  77 003e 084B     		ldr	r3, .L2+24
+  78 0040 1C70     		strb	r4, [r3]
+ 111:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_mstrWrBufIndex = 0u;
+  79              		.loc 1 111 0
+  80 0042 084B     		ldr	r3, .L2+28
+  81 0044 1C70     		strb	r4, [r3]
+  82 0046 10BD     		pop	{r4, pc}
+  83              	.L3:
+  84              		.align	2
+  85              	.L2:
+  86 0048 D6490040 		.word	1073760726
+  87 004c DC490040 		.word	1073760732
+  88 0050 80E100E0 		.word	-536813184
+  89 0054 00000000 		.word	I2C_Orientation_ISR
+  90 0058 00000000 		.word	I2C_Orientation_state
+  91 005c 00000000 		.word	I2C_Orientation_mstrStatus
+  92 0060 00000000 		.word	I2C_Orientation_mstrRdBufIndex
+  93 0064 00000000 		.word	I2C_Orientation_mstrWrBufIndex
+  94              		.cfi_endproc
+  95              	.LFE0:
+  96              		.size	I2C_Orientation_Init, .-I2C_Orientation_Init
+  97              		.section	.text.I2C_Orientation_Enable,"ax",%progbits
+  98              		.align	1
+  99              		.global	I2C_Orientation_Enable
+ 100              		.thumb
+ 101              		.thumb_func
+ 102              		.type	I2C_Orientation_Enable, %function
+ 103              	I2C_Orientation_Enable:
+ 104              	.LFB1:
+ 112:Generated_Source\PSoC5/I2C_Orientation.c **** #endif /* (I2C_Orientation_MODE_MASTER_ENABLED) */
+ 113:Generated_Source\PSoC5/I2C_Orientation.c **** }
+ 114:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 115:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 116:Generated_Source\PSoC5/I2C_Orientation.c **** /*******************************************************************************
+ 117:Generated_Source\PSoC5/I2C_Orientation.c **** * Function Name: I2C_Orientation_Enable
+ 118:Generated_Source\PSoC5/I2C_Orientation.c **** ********************************************************************************
+ 119:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 120:Generated_Source\PSoC5/I2C_Orientation.c **** * Summary:
+ 121:Generated_Source\PSoC5/I2C_Orientation.c **** *  Enables I2C operations.
+ 122:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 5
+
+
+ 123:Generated_Source\PSoC5/I2C_Orientation.c **** * Parameters:
+ 124:Generated_Source\PSoC5/I2C_Orientation.c **** *  None.
+ 125:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 126:Generated_Source\PSoC5/I2C_Orientation.c **** * Return:
+ 127:Generated_Source\PSoC5/I2C_Orientation.c **** *  None.
+ 128:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 129:Generated_Source\PSoC5/I2C_Orientation.c **** * Global variables:
+ 130:Generated_Source\PSoC5/I2C_Orientation.c **** *  None.
+ 131:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 132:Generated_Source\PSoC5/I2C_Orientation.c **** *******************************************************************************/
+ 133:Generated_Source\PSoC5/I2C_Orientation.c **** void I2C_Orientation_Enable(void) 
+ 134:Generated_Source\PSoC5/I2C_Orientation.c **** {
+ 105              		.loc 1 134 0
+ 106              		.cfi_startproc
+ 107              		@ args = 0, pretend = 0, frame = 0
+ 108              		@ frame_needed = 0, uses_anonymous_args = 0
+ 109 0000 08B5     		push	{r3, lr}
+ 110              		.cfi_def_cfa_offset 8
+ 111              		.cfi_offset 3, -8
+ 112              		.cfi_offset 14, -4
+ 135:Generated_Source\PSoC5/I2C_Orientation.c **** #if (I2C_Orientation_FF_IMPLEMENTED)
+ 136:Generated_Source\PSoC5/I2C_Orientation.c ****     uint8 intState;
+ 137:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 138:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Enable power to block */
+ 139:Generated_Source\PSoC5/I2C_Orientation.c ****     intState = CyEnterCriticalSection();
+ 113              		.loc 1 139 0
+ 114 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 115              	.LVL2:
+ 140:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_ACT_PWRMGR_REG  |= I2C_Orientation_ACT_PWR_EN;
+ 116              		.loc 1 140 0
+ 117 0006 064A     		ldr	r2, .L5
+ 118 0008 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 119 000a 43F00403 		orr	r3, r3, #4
+ 120 000e 1370     		strb	r3, [r2]
+ 141:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_STBY_PWRMGR_REG |= I2C_Orientation_STBY_PWR_EN;
+ 121              		.loc 1 141 0
+ 122 0010 137C     		ldrb	r3, [r2, #16]	@ zero_extendqisi2
+ 123 0012 43F00403 		orr	r3, r3, #4
+ 124 0016 1374     		strb	r3, [r2, #16]
+ 142:Generated_Source\PSoC5/I2C_Orientation.c ****     CyExitCriticalSection(intState);
+ 143:Generated_Source\PSoC5/I2C_Orientation.c **** #else
+ 144:Generated_Source\PSoC5/I2C_Orientation.c ****     #if (I2C_Orientation_MODE_SLAVE_ENABLED)
+ 145:Generated_Source\PSoC5/I2C_Orientation.c ****         /* Enable bit counter */
+ 146:Generated_Source\PSoC5/I2C_Orientation.c ****         uint8 intState = CyEnterCriticalSection();
+ 147:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_COUNTER_AUX_CTL_REG |= I2C_Orientation_CNT7_ENABLE;
+ 148:Generated_Source\PSoC5/I2C_Orientation.c ****         CyExitCriticalSection(intState);
+ 149:Generated_Source\PSoC5/I2C_Orientation.c ****     #endif /* (I2C_Orientation_MODE_SLAVE_ENABLED) */
+ 150:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 151:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Enable slave or master bits */
+ 152:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_CFG_REG |= I2C_Orientation_ENABLE_MS;
+ 153:Generated_Source\PSoC5/I2C_Orientation.c **** #endif /* (I2C_Orientation_FF_IMPLEMENTED) */
+ 154:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 155:Generated_Source\PSoC5/I2C_Orientation.c **** #if (I2C_Orientation_TIMEOUT_ENABLED)
+ 156:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_TimeoutEnable();
+ 157:Generated_Source\PSoC5/I2C_Orientation.c **** #endif /* (I2C_Orientation_TIMEOUT_ENABLED) */
+ 158:Generated_Source\PSoC5/I2C_Orientation.c **** }
+ 125              		.loc 1 158 0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 6
+
+
+ 126 0018 BDE80840 		pop	{r3, lr}
+ 127              		.cfi_restore 14
+ 128              		.cfi_restore 3
+ 129              		.cfi_def_cfa_offset 0
+ 142:Generated_Source\PSoC5/I2C_Orientation.c ****     CyExitCriticalSection(intState);
+ 130              		.loc 1 142 0
+ 131 001c FFF7FEBF 		b	CyExitCriticalSection
+ 132              	.LVL3:
+ 133              	.L6:
+ 134              		.align	2
+ 135              	.L5:
+ 136 0020 A5430040 		.word	1073759141
+ 137              		.cfi_endproc
+ 138              	.LFE1:
+ 139              		.size	I2C_Orientation_Enable, .-I2C_Orientation_Enable
+ 140              		.section	.text.I2C_Orientation_Start,"ax",%progbits
+ 141              		.align	1
+ 142              		.global	I2C_Orientation_Start
+ 143              		.thumb
+ 144              		.thumb_func
+ 145              		.type	I2C_Orientation_Start, %function
+ 146              	I2C_Orientation_Start:
+ 147              	.LFB2:
+ 159:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 160:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 161:Generated_Source\PSoC5/I2C_Orientation.c **** /*******************************************************************************
+ 162:Generated_Source\PSoC5/I2C_Orientation.c **** * Function Name: I2C_Orientation_Start
+ 163:Generated_Source\PSoC5/I2C_Orientation.c **** ********************************************************************************
+ 164:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 165:Generated_Source\PSoC5/I2C_Orientation.c **** * Summary:
+ 166:Generated_Source\PSoC5/I2C_Orientation.c **** *  Starts the I2C hardware. Enables Active mode power template bits or clock
+ 167:Generated_Source\PSoC5/I2C_Orientation.c **** *  gating as appropriate. It is required to be executed before I2C bus
+ 168:Generated_Source\PSoC5/I2C_Orientation.c **** *  operation.
+ 169:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 170:Generated_Source\PSoC5/I2C_Orientation.c **** * Parameters:
+ 171:Generated_Source\PSoC5/I2C_Orientation.c **** *  None.
+ 172:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 173:Generated_Source\PSoC5/I2C_Orientation.c **** * Return:
+ 174:Generated_Source\PSoC5/I2C_Orientation.c **** *  None.
+ 175:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 176:Generated_Source\PSoC5/I2C_Orientation.c **** * Side Effects:
+ 177:Generated_Source\PSoC5/I2C_Orientation.c **** *  This component automatically enables its interrupt.  If I2C is enabled !
+ 178:Generated_Source\PSoC5/I2C_Orientation.c **** *  without the interrupt enabled, it can lock up the I2C bus.
+ 179:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 180:Generated_Source\PSoC5/I2C_Orientation.c **** * Global variables:
+ 181:Generated_Source\PSoC5/I2C_Orientation.c **** *  I2C_Orientation_initVar - This variable is used to check the initial
+ 182:Generated_Source\PSoC5/I2C_Orientation.c **** *                             configuration, modified on the first
+ 183:Generated_Source\PSoC5/I2C_Orientation.c **** *                             function call.
+ 184:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 185:Generated_Source\PSoC5/I2C_Orientation.c **** * Reentrant:
+ 186:Generated_Source\PSoC5/I2C_Orientation.c **** *  No.
+ 187:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 188:Generated_Source\PSoC5/I2C_Orientation.c **** *******************************************************************************/
+ 189:Generated_Source\PSoC5/I2C_Orientation.c **** void I2C_Orientation_Start(void) 
+ 190:Generated_Source\PSoC5/I2C_Orientation.c **** {
+ 148              		.loc 1 190 0
+ 149              		.cfi_startproc
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 7
+
+
+ 150              		@ args = 0, pretend = 0, frame = 0
+ 151              		@ frame_needed = 0, uses_anonymous_args = 0
+ 152 0000 10B5     		push	{r4, lr}
+ 153              		.cfi_def_cfa_offset 8
+ 154              		.cfi_offset 4, -8
+ 155              		.cfi_offset 14, -4
+ 191:Generated_Source\PSoC5/I2C_Orientation.c ****     if (0u == I2C_Orientation_initVar)
+ 156              		.loc 1 191 0
+ 157 0002 074C     		ldr	r4, .L10
+ 158 0004 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 159 0006 1BB9     		cbnz	r3, .L8
+ 192:Generated_Source\PSoC5/I2C_Orientation.c ****     {
+ 193:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_Init();
+ 160              		.loc 1 193 0
+ 161 0008 FFF7FEFF 		bl	I2C_Orientation_Init
+ 162              	.LVL4:
+ 194:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_initVar = 1u; /* Component initialized */
+ 163              		.loc 1 194 0
+ 164 000c 0123     		movs	r3, #1
+ 165 000e 2370     		strb	r3, [r4]
+ 166              	.L8:
+ 195:Generated_Source\PSoC5/I2C_Orientation.c ****     }
+ 196:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 197:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_Enable();
+ 167              		.loc 1 197 0
+ 168 0010 FFF7FEFF 		bl	I2C_Orientation_Enable
+ 169              	.LVL5:
+ 198:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_EnableInt();
+ 170              		.loc 1 198 0
+ 171 0014 034B     		ldr	r3, .L10+4
+ 172 0016 4FF40042 		mov	r2, #32768
+ 173 001a 1A60     		str	r2, [r3]
+ 174 001c 10BD     		pop	{r4, pc}
+ 175              	.L11:
+ 176 001e 00BF     		.align	2
+ 177              	.L10:
+ 178 0020 00000000 		.word	.LANCHOR0
+ 179 0024 00E100E0 		.word	-536813312
+ 180              		.cfi_endproc
+ 181              	.LFE2:
+ 182              		.size	I2C_Orientation_Start, .-I2C_Orientation_Start
+ 183              		.section	.text.I2C_Orientation_Stop,"ax",%progbits
+ 184              		.align	1
+ 185              		.global	I2C_Orientation_Stop
+ 186              		.thumb
+ 187              		.thumb_func
+ 188              		.type	I2C_Orientation_Stop, %function
+ 189              	I2C_Orientation_Stop:
+ 190              	.LFB3:
+ 199:Generated_Source\PSoC5/I2C_Orientation.c **** }
+ 200:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 201:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 202:Generated_Source\PSoC5/I2C_Orientation.c **** /*******************************************************************************
+ 203:Generated_Source\PSoC5/I2C_Orientation.c **** * Function Name: I2C_Orientation_Stop
+ 204:Generated_Source\PSoC5/I2C_Orientation.c **** ********************************************************************************
+ 205:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 206:Generated_Source\PSoC5/I2C_Orientation.c **** * Summary:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 8
+
+
+ 207:Generated_Source\PSoC5/I2C_Orientation.c **** *  Disables I2C hardware and disables I2C interrupt. Disables Active mode power
+ 208:Generated_Source\PSoC5/I2C_Orientation.c **** *  template bits or clock gating as appropriate.
+ 209:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 210:Generated_Source\PSoC5/I2C_Orientation.c **** * Parameters:
+ 211:Generated_Source\PSoC5/I2C_Orientation.c **** *  None.
+ 212:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 213:Generated_Source\PSoC5/I2C_Orientation.c **** * Return:
+ 214:Generated_Source\PSoC5/I2C_Orientation.c **** *  None.
+ 215:Generated_Source\PSoC5/I2C_Orientation.c **** *
+ 216:Generated_Source\PSoC5/I2C_Orientation.c **** *******************************************************************************/
+ 217:Generated_Source\PSoC5/I2C_Orientation.c **** void I2C_Orientation_Stop(void) 
+ 218:Generated_Source\PSoC5/I2C_Orientation.c **** {
+ 191              		.loc 1 218 0
+ 192              		.cfi_startproc
+ 193              		@ args = 0, pretend = 0, frame = 0
+ 194              		@ frame_needed = 0, uses_anonymous_args = 0
+ 195 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+ 196              		.cfi_def_cfa_offset 32
+ 197              		.cfi_offset 3, -32
+ 198              		.cfi_offset 4, -28
+ 199              		.cfi_offset 5, -24
+ 200              		.cfi_offset 6, -20
+ 201              		.cfi_offset 7, -16
+ 202              		.cfi_offset 8, -12
+ 203              		.cfi_offset 9, -8
+ 204              		.cfi_offset 14, -4
+ 219:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_DisableInt();
+ 205              		.loc 1 219 0
+ 206 0004 224B     		ldr	r3, .L13
+ 207              	.LBB2:
+ 220:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 221:Generated_Source\PSoC5/I2C_Orientation.c **** #if (I2C_Orientation_TIMEOUT_ENABLED)
+ 222:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_TimeoutStop();
+ 223:Generated_Source\PSoC5/I2C_Orientation.c **** #endif  /* End (I2C_Orientation_TIMEOUT_ENABLED) */
+ 224:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 225:Generated_Source\PSoC5/I2C_Orientation.c **** #if (I2C_Orientation_FF_IMPLEMENTED)
+ 226:Generated_Source\PSoC5/I2C_Orientation.c ****     {
+ 227:Generated_Source\PSoC5/I2C_Orientation.c ****         uint8 intState;
+ 228:Generated_Source\PSoC5/I2C_Orientation.c ****         uint16 blockResetCycles;
+ 229:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 230:Generated_Source\PSoC5/I2C_Orientation.c ****         /* Store registers effected by block disable */
+ 231:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_backup.addr    = I2C_Orientation_ADDR_REG;
+ 208              		.loc 1 231 0
+ 209 0006 DFF8A880 		ldr	r8, .L13+32
+ 210              	.LBE2:
+ 219:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_DisableInt();
+ 211              		.loc 1 219 0
+ 212 000a 4FF40049 		mov	r9, #32768
+ 213 000e C3F80090 		str	r9, [r3]
+ 214              	.LBB3:
+ 215              		.loc 1 231 0
+ 216 0012 98F80030 		ldrb	r3, [r8]	@ zero_extendqisi2
+ 217 0016 1F4C     		ldr	r4, .L13+4
+ 232:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_backup.clkDiv1 = I2C_Orientation_CLKDIV1_REG;
+ 218              		.loc 1 232 0
+ 219 0018 1F4F     		ldr	r7, .L13+8
+ 231:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_backup.clkDiv1 = I2C_Orientation_CLKDIV1_REG;
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 9
+
+
+ 220              		.loc 1 231 0
+ 221 001a E370     		strb	r3, [r4, #3]
+ 222              		.loc 1 232 0
+ 223 001c 3B78     		ldrb	r3, [r7]	@ zero_extendqisi2
+ 233:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_backup.clkDiv2 = I2C_Orientation_CLKDIV2_REG;
+ 224              		.loc 1 233 0
+ 225 001e 1F4E     		ldr	r6, .L13+12
+ 232:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_backup.clkDiv1 = I2C_Orientation_CLKDIV1_REG;
+ 226              		.loc 1 232 0
+ 227 0020 2371     		strb	r3, [r4, #4]
+ 228              		.loc 1 233 0
+ 229 0022 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 234:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 235:Generated_Source\PSoC5/I2C_Orientation.c ****         /* Calculate number of cycles to reset block */
+ 236:Generated_Source\PSoC5/I2C_Orientation.c ****         blockResetCycles = ((uint16) ((uint16) I2C_Orientation_CLKDIV2_REG << 8u) | I2C_Orientation
+ 237:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 238:Generated_Source\PSoC5/I2C_Orientation.c ****         /* Disable block */
+ 239:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_CFG_REG &= (uint8) ~I2C_Orientation_CFG_EN_SLAVE;
+ 230              		.loc 1 239 0
+ 231 0024 1E4D     		ldr	r5, .L13+16
+ 233:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_backup.clkDiv2 = I2C_Orientation_CLKDIV2_REG;
+ 232              		.loc 1 233 0
+ 233 0026 6371     		strb	r3, [r4, #5]
+ 236:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 234              		.loc 1 236 0
+ 235 0028 3078     		ldrb	r0, [r6]	@ zero_extendqisi2
+ 236 002a 3B78     		ldrb	r3, [r7]	@ zero_extendqisi2
+ 237              	.LVL6:
+ 238              		.loc 1 239 0
+ 239 002c 2A78     		ldrb	r2, [r5]	@ zero_extendqisi2
+ 240:Generated_Source\PSoC5/I2C_Orientation.c ****         /* Wait for block reset before disable power */
+ 241:Generated_Source\PSoC5/I2C_Orientation.c ****         CyDelayCycles((uint32) blockResetCycles);
+ 240              		.loc 1 241 0
+ 241 002e 43EA0020 		orr	r0, r3, r0, lsl #8
+ 242              	.LVL7:
+ 239:Generated_Source\PSoC5/I2C_Orientation.c ****         /* Wait for block reset before disable power */
+ 243              		.loc 1 239 0
+ 244 0032 02F0FE02 		and	r2, r2, #254
+ 245              		.loc 1 241 0
+ 246 0036 0130     		adds	r0, r0, #1
+ 239:Generated_Source\PSoC5/I2C_Orientation.c ****         /* Wait for block reset before disable power */
+ 247              		.loc 1 239 0
+ 248 0038 2A70     		strb	r2, [r5]
+ 249              		.loc 1 241 0
+ 250 003a 80B2     		uxth	r0, r0
+ 251 003c FFF7FEFF 		bl	CyDelayCycles
+ 252              	.LVL8:
+ 242:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 243:Generated_Source\PSoC5/I2C_Orientation.c ****         /* Disable power to block */
+ 244:Generated_Source\PSoC5/I2C_Orientation.c ****         intState = CyEnterCriticalSection();
+ 253              		.loc 1 244 0
+ 254 0040 FFF7FEFF 		bl	CyEnterCriticalSection
+ 255              	.LVL9:
+ 245:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_ACT_PWRMGR_REG  &= (uint8) ~I2C_Orientation_ACT_PWR_EN;
+ 256              		.loc 1 245 0
+ 257 0044 174A     		ldr	r2, .L13+20
+ 258 0046 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 10
+
+
+ 259 0048 03F0FB03 		and	r3, r3, #251
+ 260 004c 1370     		strb	r3, [r2]
+ 246:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_STBY_PWRMGR_REG &= (uint8) ~I2C_Orientation_STBY_PWR_EN;
+ 261              		.loc 1 246 0
+ 262 004e 137C     		ldrb	r3, [r2, #16]	@ zero_extendqisi2
+ 263 0050 03F0FB03 		and	r3, r3, #251
+ 264 0054 1374     		strb	r3, [r2, #16]
+ 247:Generated_Source\PSoC5/I2C_Orientation.c ****         CyExitCriticalSection(intState);
+ 265              		.loc 1 247 0
+ 266 0056 FFF7FEFF 		bl	CyExitCriticalSection
+ 267              	.LVL10:
+ 248:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 249:Generated_Source\PSoC5/I2C_Orientation.c ****         /* Enable block */
+ 250:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_CFG_REG |= (uint8) I2C_Orientation_ENABLE_MS;
+ 268              		.loc 1 250 0
+ 269 005a 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 270              	.LBE3:
+ 251:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 252:Generated_Source\PSoC5/I2C_Orientation.c ****         /* Restore registers effected by block disable. Ticket ID#198004 */
+ 253:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_ADDR_REG    = I2C_Orientation_backup.addr;
+ 254:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_ADDR_REG    = I2C_Orientation_backup.addr;
+ 255:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_CLKDIV1_REG = I2C_Orientation_backup.clkDiv1;
+ 256:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_CLKDIV2_REG = I2C_Orientation_backup.clkDiv2;
+ 257:Generated_Source\PSoC5/I2C_Orientation.c ****     }
+ 258:Generated_Source\PSoC5/I2C_Orientation.c **** #else
+ 259:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 260:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Disable slave or master bits */
+ 261:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_CFG_REG &= (uint8) ~I2C_Orientation_ENABLE_MS;
+ 262:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 263:Generated_Source\PSoC5/I2C_Orientation.c **** #if (I2C_Orientation_MODE_SLAVE_ENABLED)
+ 264:Generated_Source\PSoC5/I2C_Orientation.c ****     {
+ 265:Generated_Source\PSoC5/I2C_Orientation.c ****         /* Disable bit counter */
+ 266:Generated_Source\PSoC5/I2C_Orientation.c ****         uint8 intState = CyEnterCriticalSection();
+ 267:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_COUNTER_AUX_CTL_REG &= (uint8) ~I2C_Orientation_CNT7_ENABLE;
+ 268:Generated_Source\PSoC5/I2C_Orientation.c ****         CyExitCriticalSection(intState);
+ 269:Generated_Source\PSoC5/I2C_Orientation.c ****     }
+ 270:Generated_Source\PSoC5/I2C_Orientation.c **** #endif /* (I2C_Orientation_MODE_SLAVE_ENABLED) */
+ 271:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 272:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Clear interrupt source register */
+ 273:Generated_Source\PSoC5/I2C_Orientation.c ****     (void) I2C_Orientation_CSR_REG;
+ 274:Generated_Source\PSoC5/I2C_Orientation.c **** #endif /* (I2C_Orientation_FF_IMPLEMENTED) */
+ 275:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 276:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Disable interrupt on stop (enabled by write transaction) */
+ 277:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_DISABLE_INT_ON_STOP;
+ 278:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_ClearPendingInt();
+ 279:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 280:Generated_Source\PSoC5/I2C_Orientation.c ****     /* Reset FSM to default state */
+ 281:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_state = I2C_Orientation_SM_IDLE;
+ 271              		.loc 1 281 0
+ 272 005c 1022     		movs	r2, #16
+ 273              	.LBB4:
+ 250:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 274              		.loc 1 250 0
+ 275 005e 43F00203 		orr	r3, r3, #2
+ 276 0062 2B70     		strb	r3, [r5]
+ 253:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_ADDR_REG    = I2C_Orientation_backup.addr;
+ 277              		.loc 1 253 0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 11
+
+
+ 278 0064 E378     		ldrb	r3, [r4, #3]	@ zero_extendqisi2
+ 279 0066 88F80030 		strb	r3, [r8]
+ 254:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_CLKDIV1_REG = I2C_Orientation_backup.clkDiv1;
+ 280              		.loc 1 254 0
+ 281 006a E378     		ldrb	r3, [r4, #3]	@ zero_extendqisi2
+ 282 006c 88F80030 		strb	r3, [r8]
+ 255:Generated_Source\PSoC5/I2C_Orientation.c ****         I2C_Orientation_CLKDIV2_REG = I2C_Orientation_backup.clkDiv2;
+ 283              		.loc 1 255 0
+ 284 0070 2379     		ldrb	r3, [r4, #4]	@ zero_extendqisi2
+ 285 0072 3B70     		strb	r3, [r7]
+ 256:Generated_Source\PSoC5/I2C_Orientation.c ****     }
+ 286              		.loc 1 256 0
+ 287 0074 6379     		ldrb	r3, [r4, #5]	@ zero_extendqisi2
+ 288 0076 3370     		strb	r3, [r6]
+ 289              	.LBE4:
+ 277:Generated_Source\PSoC5/I2C_Orientation.c ****     I2C_Orientation_ClearPendingInt();
+ 290              		.loc 1 277 0
+ 291 0078 2B78     		ldrb	r3, [r5]	@ zero_extendqisi2
+ 292 007a 03F0EF03 		and	r3, r3, #239
+ 293 007e 2B70     		strb	r3, [r5]
+ 278:Generated_Source\PSoC5/I2C_Orientation.c **** 
+ 294              		.loc 1 278 0
+ 295 0080 094B     		ldr	r3, .L13+24
+ 296 0082 C3F80090 		str	r9, [r3]
+ 297              		.loc 1 281 0
+ 298 0086 094B     		ldr	r3, .L13+28
+ 299 0088 1A70     		strb	r2, [r3]
+ 300 008a BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 301              	.L14:
+ 302 008e 00BF     		.align	2
+ 303              	.L13:
+ 304 0090 80E100E0 		.word	-536813184
+ 305 0094 00000000 		.word	I2C_Orientation_backup
+ 306 0098 DB490040 		.word	1073760731
+ 307 009c DC490040 		.word	1073760732
+ 308 00a0 D6490040 		.word	1073760726
+ 309 00a4 A5430040 		.word	1073759141
+ 310 00a8 80E200E0 		.word	-536812928
+ 311 00ac 00000000 		.word	I2C_Orientation_state
+ 312 00b0 CA490040 		.word	1073760714
+ 313              		.cfi_endproc
+ 314              	.LFE3:
+ 315              		.size	I2C_Orientation_Stop, .-I2C_Orientation_Stop
+ 316              		.comm	I2C_Orientation_state,1,1
+ 317              		.global	I2C_Orientation_initVar
+ 318              		.bss
+ 319              		.set	.LANCHOR0,. + 0
+ 320              		.type	I2C_Orientation_initVar, %object
+ 321              		.size	I2C_Orientation_initVar, 1
+ 322              	I2C_Orientation_initVar:
+ 323 0000 00       		.space	1
+ 324              		.text
+ 325              	.Letext0:
+ 326              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 327              		.file 3 "Generated_Source\\PSoC5\\I2C_Orientation.h"
+ 328              		.file 4 "Generated_Source\\PSoC5\\I2C_Orientation_PVT.h"
+ 329              		.file 5 "Generated_Source\\PSoC5\\CyLib.h"
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 12
+
+
+ 330              		.section	.debug_info,"",%progbits
+ 331              	.Ldebug_info0:
+ 332 0000 A3020000 		.4byte	0x2a3
+ 333 0004 0400     		.2byte	0x4
+ 334 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 335 000a 04       		.byte	0x4
+ 336 000b 01       		.uleb128 0x1
+ 337 000c E3000000 		.4byte	.LASF42
+ 338 0010 0C       		.byte	0xc
+ 339 0011 22030000 		.4byte	.LASF43
+ 340 0015 76010000 		.4byte	.LASF44
+ 341 0019 20000000 		.4byte	.Ldebug_ranges0+0x20
+ 342 001d 00000000 		.4byte	0
+ 343 0021 00000000 		.4byte	.Ldebug_line0
+ 344 0025 02       		.uleb128 0x2
+ 345 0026 01       		.byte	0x1
+ 346 0027 06       		.byte	0x6
+ 347 0028 16030000 		.4byte	.LASF0
+ 348 002c 02       		.uleb128 0x2
+ 349 002d 01       		.byte	0x1
+ 350 002e 08       		.byte	0x8
+ 351 002f D0000000 		.4byte	.LASF1
+ 352 0033 02       		.uleb128 0x2
+ 353 0034 02       		.byte	0x2
+ 354 0035 05       		.byte	0x5
+ 355 0036 CD020000 		.4byte	.LASF2
+ 356 003a 02       		.uleb128 0x2
+ 357 003b 02       		.byte	0x2
+ 358 003c 07       		.byte	0x7
+ 359 003d 4F000000 		.4byte	.LASF3
+ 360 0041 02       		.uleb128 0x2
+ 361 0042 04       		.byte	0x4
+ 362 0043 05       		.byte	0x5
+ 363 0044 F5020000 		.4byte	.LASF4
+ 364 0048 02       		.uleb128 0x2
+ 365 0049 04       		.byte	0x4
+ 366 004a 07       		.byte	0x7
+ 367 004b 20020000 		.4byte	.LASF5
+ 368 004f 02       		.uleb128 0x2
+ 369 0050 08       		.byte	0x8
+ 370 0051 05       		.byte	0x5
+ 371 0052 B5020000 		.4byte	.LASF6
+ 372 0056 02       		.uleb128 0x2
+ 373 0057 08       		.byte	0x8
+ 374 0058 07       		.byte	0x7
+ 375 0059 B9000000 		.4byte	.LASF7
+ 376 005d 03       		.uleb128 0x3
+ 377 005e 04       		.byte	0x4
+ 378 005f 05       		.byte	0x5
+ 379 0060 696E7400 		.ascii	"int\000"
+ 380 0064 02       		.uleb128 0x2
+ 381 0065 04       		.byte	0x4
+ 382 0066 07       		.byte	0x7
+ 383 0067 32020000 		.4byte	.LASF8
+ 384 006b 04       		.uleb128 0x4
+ 385 006c D7020000 		.4byte	.LASF9
+ 386 0070 02       		.byte	0x2
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 13
+
+
+ 387 0071 9201     		.2byte	0x192
+ 388 0073 2C000000 		.4byte	0x2c
+ 389 0077 04       		.uleb128 0x4
+ 390 0078 09020000 		.4byte	.LASF10
+ 391 007c 02       		.byte	0x2
+ 392 007d 9301     		.2byte	0x193
+ 393 007f 3A000000 		.4byte	0x3a
+ 394 0083 04       		.uleb128 0x4
+ 395 0084 10020000 		.4byte	.LASF11
+ 396 0088 02       		.byte	0x2
+ 397 0089 9401     		.2byte	0x194
+ 398 008b 48000000 		.4byte	0x48
+ 399 008f 02       		.uleb128 0x2
+ 400 0090 04       		.byte	0x4
+ 401 0091 04       		.byte	0x4
+ 402 0092 B3000000 		.4byte	.LASF12
+ 403 0096 02       		.uleb128 0x2
+ 404 0097 08       		.byte	0x8
+ 405 0098 04       		.byte	0x4
+ 406 0099 7D000000 		.4byte	.LASF13
+ 407 009d 02       		.uleb128 0x2
+ 408 009e 01       		.byte	0x1
+ 409 009f 08       		.byte	0x8
+ 410 00a0 C3020000 		.4byte	.LASF14
+ 411 00a4 04       		.uleb128 0x4
+ 412 00a5 DE000000 		.4byte	.LASF15
+ 413 00a9 02       		.byte	0x2
+ 414 00aa 3C02     		.2byte	0x23c
+ 415 00ac B0000000 		.4byte	0xb0
+ 416 00b0 05       		.uleb128 0x5
+ 417 00b1 6B000000 		.4byte	0x6b
+ 418 00b5 04       		.uleb128 0x4
+ 419 00b6 0E000000 		.4byte	.LASF16
+ 420 00ba 02       		.byte	0x2
+ 421 00bb 3E02     		.2byte	0x23e
+ 422 00bd C1000000 		.4byte	0xc1
+ 423 00c1 05       		.uleb128 0x5
+ 424 00c2 83000000 		.4byte	0x83
+ 425 00c6 02       		.uleb128 0x2
+ 426 00c7 08       		.byte	0x8
+ 427 00c8 04       		.byte	0x4
+ 428 00c9 0A030000 		.4byte	.LASF17
+ 429 00cd 02       		.uleb128 0x2
+ 430 00ce 04       		.byte	0x4
+ 431 00cf 07       		.byte	0x7
+ 432 00d0 AC020000 		.4byte	.LASF18
+ 433 00d4 06       		.uleb128 0x6
+ 434 00d5 06       		.byte	0x6
+ 435 00d6 03       		.byte	0x3
+ 436 00d7 76       		.byte	0x76
+ 437 00d8 25010000 		.4byte	0x125
+ 438 00dc 07       		.uleb128 0x7
+ 439 00dd FE020000 		.4byte	.LASF19
+ 440 00e1 03       		.byte	0x3
+ 441 00e2 78       		.byte	0x78
+ 442 00e3 6B000000 		.4byte	0x6b
+ 443 00e7 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 14
+
+
+ 444 00e8 07       		.uleb128 0x7
+ 445 00e9 C8020000 		.4byte	.LASF20
+ 446 00ed 03       		.byte	0x3
+ 447 00ee 7B       		.byte	0x7b
+ 448 00ef 6B000000 		.4byte	0x6b
+ 449 00f3 01       		.byte	0x1
+ 450 00f4 08       		.uleb128 0x8
+ 451 00f5 63666700 		.ascii	"cfg\000"
+ 452 00f9 03       		.byte	0x3
+ 453 00fa 7C       		.byte	0x7c
+ 454 00fb 6B000000 		.4byte	0x6b
+ 455 00ff 02       		.byte	0x2
+ 456 0100 07       		.uleb128 0x7
+ 457 0101 71010000 		.4byte	.LASF21
+ 458 0105 03       		.byte	0x3
+ 459 0106 7D       		.byte	0x7d
+ 460 0107 6B000000 		.4byte	0x6b
+ 461 010b 03       		.byte	0x3
+ 462 010c 07       		.uleb128 0x7
+ 463 010d 66020000 		.4byte	.LASF22
+ 464 0111 03       		.byte	0x3
+ 465 0112 7E       		.byte	0x7e
+ 466 0113 6B000000 		.4byte	0x6b
+ 467 0117 04       		.byte	0x4
+ 468 0118 07       		.uleb128 0x7
+ 469 0119 6E020000 		.4byte	.LASF23
+ 470 011d 03       		.byte	0x3
+ 471 011e 7F       		.byte	0x7f
+ 472 011f 6B000000 		.4byte	0x6b
+ 473 0123 05       		.byte	0x5
+ 474 0124 00       		.byte	0
+ 475 0125 09       		.uleb128 0x9
+ 476 0126 95000000 		.4byte	.LASF24
+ 477 012a 03       		.byte	0x3
+ 478 012b 89       		.byte	0x89
+ 479 012c D4000000 		.4byte	0xd4
+ 480 0130 0A       		.uleb128 0xa
+ 481 0131 23000000 		.4byte	.LASF25
+ 482 0135 01       		.byte	0x1
+ 483 0136 31       		.byte	0x31
+ 484 0137 00000000 		.4byte	.LFB0
+ 485 013b 68000000 		.4byte	.LFE0-.LFB0
+ 486 013f 01       		.uleb128 0x1
+ 487 0140 9C       		.byte	0x9c
+ 488 0141 6D010000 		.4byte	0x16d
+ 489 0145 0B       		.uleb128 0xb
+ 490 0146 2C000000 		.4byte	.LVL0
+ 491 014a 6F020000 		.4byte	0x26f
+ 492 014e 5D010000 		.4byte	0x15d
+ 493 0152 0C       		.uleb128 0xc
+ 494 0153 01       		.uleb128 0x1
+ 495 0154 50       		.byte	0x50
+ 496 0155 01       		.uleb128 0x1
+ 497 0156 3F       		.byte	0x3f
+ 498 0157 0C       		.uleb128 0xc
+ 499 0158 01       		.uleb128 0x1
+ 500 0159 51       		.byte	0x51
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 15
+
+
+ 501 015a 01       		.uleb128 0x1
+ 502 015b 37       		.byte	0x37
+ 503 015c 00       		.byte	0
+ 504 015d 0D       		.uleb128 0xd
+ 505 015e 34000000 		.4byte	.LVL1
+ 506 0162 7A020000 		.4byte	0x27a
+ 507 0166 0C       		.uleb128 0xc
+ 508 0167 01       		.uleb128 0x1
+ 509 0168 50       		.byte	0x50
+ 510 0169 01       		.uleb128 0x1
+ 511 016a 3F       		.byte	0x3f
+ 512 016b 00       		.byte	0
+ 513 016c 00       		.byte	0
+ 514 016d 0A       		.uleb128 0xa
+ 515 016e 38000000 		.4byte	.LASF26
+ 516 0172 01       		.byte	0x1
+ 517 0173 85       		.byte	0x85
+ 518 0174 00000000 		.4byte	.LFB1
+ 519 0178 24000000 		.4byte	.LFE1-.LFB1
+ 520 017c 01       		.uleb128 0x1
+ 521 017d 9C       		.byte	0x9c
+ 522 017e A4010000 		.4byte	0x1a4
+ 523 0182 0E       		.uleb128 0xe
+ 524 0183 17020000 		.4byte	.LASF29
+ 525 0187 01       		.byte	0x1
+ 526 0188 88       		.byte	0x88
+ 527 0189 6B000000 		.4byte	0x6b
+ 528 018d 00000000 		.4byte	.LLST0
+ 529 0191 0F       		.uleb128 0xf
+ 530 0192 06000000 		.4byte	.LVL2
+ 531 0196 85020000 		.4byte	0x285
+ 532 019a 10       		.uleb128 0x10
+ 533 019b 20000000 		.4byte	.LVL3
+ 534 019f 90020000 		.4byte	0x290
+ 535 01a3 00       		.byte	0
+ 536 01a4 0A       		.uleb128 0xa
+ 537 01a5 61030000 		.4byte	.LASF27
+ 538 01a9 01       		.byte	0x1
+ 539 01aa BD       		.byte	0xbd
+ 540 01ab 00000000 		.4byte	.LFB2
+ 541 01af 28000000 		.4byte	.LFE2-.LFB2
+ 542 01b3 01       		.uleb128 0x1
+ 543 01b4 9C       		.byte	0x9c
+ 544 01b5 CC010000 		.4byte	0x1cc
+ 545 01b9 0F       		.uleb128 0xf
+ 546 01ba 0C000000 		.4byte	.LVL4
+ 547 01be 30010000 		.4byte	0x130
+ 548 01c2 0F       		.uleb128 0xf
+ 549 01c3 14000000 		.4byte	.LVL5
+ 550 01c7 6D010000 		.4byte	0x16d
+ 551 01cb 00       		.byte	0
+ 552 01cc 0A       		.uleb128 0xa
+ 553 01cd BE010000 		.4byte	.LASF28
+ 554 01d1 01       		.byte	0x1
+ 555 01d2 D9       		.byte	0xd9
+ 556 01d3 00000000 		.4byte	.LFB3
+ 557 01d7 B4000000 		.4byte	.LFE3-.LFB3
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 16
+
+
+ 558 01db 01       		.uleb128 0x1
+ 559 01dc 9C       		.byte	0x9c
+ 560 01dd 21020000 		.4byte	0x221
+ 561 01e1 11       		.uleb128 0x11
+ 562 01e2 00000000 		.4byte	.Ldebug_ranges0+0
+ 563 01e6 0E       		.uleb128 0xe
+ 564 01e7 17020000 		.4byte	.LASF29
+ 565 01eb 01       		.byte	0x1
+ 566 01ec E3       		.byte	0xe3
+ 567 01ed 6B000000 		.4byte	0x6b
+ 568 01f1 13000000 		.4byte	.LLST1
+ 569 01f5 0E       		.uleb128 0xe
+ 570 01f6 84000000 		.4byte	.LASF30
+ 571 01fa 01       		.byte	0x1
+ 572 01fb E4       		.byte	0xe4
+ 573 01fc 77000000 		.4byte	0x77
+ 574 0200 26000000 		.4byte	.LLST2
+ 575 0204 0F       		.uleb128 0xf
+ 576 0205 40000000 		.4byte	.LVL8
+ 577 0209 9B020000 		.4byte	0x29b
+ 578 020d 0F       		.uleb128 0xf
+ 579 020e 44000000 		.4byte	.LVL9
+ 580 0212 85020000 		.4byte	0x285
+ 581 0216 0F       		.uleb128 0xf
+ 582 0217 5A000000 		.4byte	.LVL10
+ 583 021b 90020000 		.4byte	0x290
+ 584 021f 00       		.byte	0
+ 585 0220 00       		.byte	0
+ 586 0221 12       		.uleb128 0x12
+ 587 0222 DD020000 		.4byte	.LASF31
+ 588 0226 01       		.byte	0x1
+ 589 0227 18       		.byte	0x18
+ 590 0228 6B000000 		.4byte	0x6b
+ 591 022c 05       		.uleb128 0x5
+ 592 022d 03       		.byte	0x3
+ 593 022e 00000000 		.4byte	I2C_Orientation_initVar
+ 594 0232 13       		.uleb128 0x13
+ 595 0233 F2010000 		.4byte	.LASF32
+ 596 0237 04       		.byte	0x4
+ 597 0238 21       		.byte	0x21
+ 598 0239 25010000 		.4byte	0x125
+ 599 023d 12       		.uleb128 0x12
+ 600 023e 4B030000 		.4byte	.LASF33
+ 601 0242 01       		.byte	0x1
+ 602 0243 1A       		.byte	0x1a
+ 603 0244 B0000000 		.4byte	0xb0
+ 604 0248 05       		.uleb128 0x5
+ 605 0249 03       		.byte	0x3
+ 606 024a 00000000 		.4byte	I2C_Orientation_state
+ 607 024e 13       		.uleb128 0x13
+ 608 024f 62000000 		.4byte	.LASF34
+ 609 0253 04       		.byte	0x4
+ 610 0254 27       		.byte	0x27
+ 611 0255 B0000000 		.4byte	0xb0
+ 612 0259 13       		.uleb128 0x13
+ 613 025a 8D020000 		.4byte	.LASF35
+ 614 025e 04       		.byte	0x4
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 17
+
+
+ 615 025f 2D       		.byte	0x2d
+ 616 0260 B0000000 		.4byte	0xb0
+ 617 0264 13       		.uleb128 0x13
+ 618 0265 D3010000 		.4byte	.LASF36
+ 619 0269 04       		.byte	0x4
+ 620 026a 32       		.byte	0x32
+ 621 026b B0000000 		.4byte	0xb0
+ 622 026f 14       		.uleb128 0x14
+ 623 0270 55020000 		.4byte	.LASF37
+ 624 0274 55020000 		.4byte	.LASF37
+ 625 0278 05       		.byte	0x5
+ 626 0279 8B       		.byte	0x8b
+ 627 027a 14       		.uleb128 0x14
+ 628 027b 14000000 		.4byte	.LASF38
+ 629 027f 14000000 		.4byte	.LASF38
+ 630 0283 05       		.byte	0x5
+ 631 0284 88       		.byte	0x88
+ 632 0285 14       		.uleb128 0x14
+ 633 0286 76020000 		.4byte	.LASF39
+ 634 028a 76020000 		.4byte	.LASF39
+ 635 028e 05       		.byte	0x5
+ 636 028f 7D       		.byte	0x7d
+ 637 0290 14       		.uleb128 0x14
+ 638 0291 3F020000 		.4byte	.LASF40
+ 639 0295 3F020000 		.4byte	.LASF40
+ 640 0299 05       		.byte	0x5
+ 641 029a 7E       		.byte	0x7e
+ 642 029b 14       		.uleb128 0x14
+ 643 029c 00000000 		.4byte	.LASF41
+ 644 02a0 00000000 		.4byte	.LASF41
+ 645 02a4 05       		.byte	0x5
+ 646 02a5 79       		.byte	0x79
+ 647 02a6 00       		.byte	0
+ 648              		.section	.debug_abbrev,"",%progbits
+ 649              	.Ldebug_abbrev0:
+ 650 0000 01       		.uleb128 0x1
+ 651 0001 11       		.uleb128 0x11
+ 652 0002 01       		.byte	0x1
+ 653 0003 25       		.uleb128 0x25
+ 654 0004 0E       		.uleb128 0xe
+ 655 0005 13       		.uleb128 0x13
+ 656 0006 0B       		.uleb128 0xb
+ 657 0007 03       		.uleb128 0x3
+ 658 0008 0E       		.uleb128 0xe
+ 659 0009 1B       		.uleb128 0x1b
+ 660 000a 0E       		.uleb128 0xe
+ 661 000b 55       		.uleb128 0x55
+ 662 000c 17       		.uleb128 0x17
+ 663 000d 11       		.uleb128 0x11
+ 664 000e 01       		.uleb128 0x1
+ 665 000f 10       		.uleb128 0x10
+ 666 0010 17       		.uleb128 0x17
+ 667 0011 00       		.byte	0
+ 668 0012 00       		.byte	0
+ 669 0013 02       		.uleb128 0x2
+ 670 0014 24       		.uleb128 0x24
+ 671 0015 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 18
+
+
+ 672 0016 0B       		.uleb128 0xb
+ 673 0017 0B       		.uleb128 0xb
+ 674 0018 3E       		.uleb128 0x3e
+ 675 0019 0B       		.uleb128 0xb
+ 676 001a 03       		.uleb128 0x3
+ 677 001b 0E       		.uleb128 0xe
+ 678 001c 00       		.byte	0
+ 679 001d 00       		.byte	0
+ 680 001e 03       		.uleb128 0x3
+ 681 001f 24       		.uleb128 0x24
+ 682 0020 00       		.byte	0
+ 683 0021 0B       		.uleb128 0xb
+ 684 0022 0B       		.uleb128 0xb
+ 685 0023 3E       		.uleb128 0x3e
+ 686 0024 0B       		.uleb128 0xb
+ 687 0025 03       		.uleb128 0x3
+ 688 0026 08       		.uleb128 0x8
+ 689 0027 00       		.byte	0
+ 690 0028 00       		.byte	0
+ 691 0029 04       		.uleb128 0x4
+ 692 002a 16       		.uleb128 0x16
+ 693 002b 00       		.byte	0
+ 694 002c 03       		.uleb128 0x3
+ 695 002d 0E       		.uleb128 0xe
+ 696 002e 3A       		.uleb128 0x3a
+ 697 002f 0B       		.uleb128 0xb
+ 698 0030 3B       		.uleb128 0x3b
+ 699 0031 05       		.uleb128 0x5
+ 700 0032 49       		.uleb128 0x49
+ 701 0033 13       		.uleb128 0x13
+ 702 0034 00       		.byte	0
+ 703 0035 00       		.byte	0
+ 704 0036 05       		.uleb128 0x5
+ 705 0037 35       		.uleb128 0x35
+ 706 0038 00       		.byte	0
+ 707 0039 49       		.uleb128 0x49
+ 708 003a 13       		.uleb128 0x13
+ 709 003b 00       		.byte	0
+ 710 003c 00       		.byte	0
+ 711 003d 06       		.uleb128 0x6
+ 712 003e 13       		.uleb128 0x13
+ 713 003f 01       		.byte	0x1
+ 714 0040 0B       		.uleb128 0xb
+ 715 0041 0B       		.uleb128 0xb
+ 716 0042 3A       		.uleb128 0x3a
+ 717 0043 0B       		.uleb128 0xb
+ 718 0044 3B       		.uleb128 0x3b
+ 719 0045 0B       		.uleb128 0xb
+ 720 0046 01       		.uleb128 0x1
+ 721 0047 13       		.uleb128 0x13
+ 722 0048 00       		.byte	0
+ 723 0049 00       		.byte	0
+ 724 004a 07       		.uleb128 0x7
+ 725 004b 0D       		.uleb128 0xd
+ 726 004c 00       		.byte	0
+ 727 004d 03       		.uleb128 0x3
+ 728 004e 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 19
+
+
+ 729 004f 3A       		.uleb128 0x3a
+ 730 0050 0B       		.uleb128 0xb
+ 731 0051 3B       		.uleb128 0x3b
+ 732 0052 0B       		.uleb128 0xb
+ 733 0053 49       		.uleb128 0x49
+ 734 0054 13       		.uleb128 0x13
+ 735 0055 38       		.uleb128 0x38
+ 736 0056 0B       		.uleb128 0xb
+ 737 0057 00       		.byte	0
+ 738 0058 00       		.byte	0
+ 739 0059 08       		.uleb128 0x8
+ 740 005a 0D       		.uleb128 0xd
+ 741 005b 00       		.byte	0
+ 742 005c 03       		.uleb128 0x3
+ 743 005d 08       		.uleb128 0x8
+ 744 005e 3A       		.uleb128 0x3a
+ 745 005f 0B       		.uleb128 0xb
+ 746 0060 3B       		.uleb128 0x3b
+ 747 0061 0B       		.uleb128 0xb
+ 748 0062 49       		.uleb128 0x49
+ 749 0063 13       		.uleb128 0x13
+ 750 0064 38       		.uleb128 0x38
+ 751 0065 0B       		.uleb128 0xb
+ 752 0066 00       		.byte	0
+ 753 0067 00       		.byte	0
+ 754 0068 09       		.uleb128 0x9
+ 755 0069 16       		.uleb128 0x16
+ 756 006a 00       		.byte	0
+ 757 006b 03       		.uleb128 0x3
+ 758 006c 0E       		.uleb128 0xe
+ 759 006d 3A       		.uleb128 0x3a
+ 760 006e 0B       		.uleb128 0xb
+ 761 006f 3B       		.uleb128 0x3b
+ 762 0070 0B       		.uleb128 0xb
+ 763 0071 49       		.uleb128 0x49
+ 764 0072 13       		.uleb128 0x13
+ 765 0073 00       		.byte	0
+ 766 0074 00       		.byte	0
+ 767 0075 0A       		.uleb128 0xa
+ 768 0076 2E       		.uleb128 0x2e
+ 769 0077 01       		.byte	0x1
+ 770 0078 3F       		.uleb128 0x3f
+ 771 0079 19       		.uleb128 0x19
+ 772 007a 03       		.uleb128 0x3
+ 773 007b 0E       		.uleb128 0xe
+ 774 007c 3A       		.uleb128 0x3a
+ 775 007d 0B       		.uleb128 0xb
+ 776 007e 3B       		.uleb128 0x3b
+ 777 007f 0B       		.uleb128 0xb
+ 778 0080 27       		.uleb128 0x27
+ 779 0081 19       		.uleb128 0x19
+ 780 0082 11       		.uleb128 0x11
+ 781 0083 01       		.uleb128 0x1
+ 782 0084 12       		.uleb128 0x12
+ 783 0085 06       		.uleb128 0x6
+ 784 0086 40       		.uleb128 0x40
+ 785 0087 18       		.uleb128 0x18
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 20
+
+
+ 786 0088 9742     		.uleb128 0x2117
+ 787 008a 19       		.uleb128 0x19
+ 788 008b 01       		.uleb128 0x1
+ 789 008c 13       		.uleb128 0x13
+ 790 008d 00       		.byte	0
+ 791 008e 00       		.byte	0
+ 792 008f 0B       		.uleb128 0xb
+ 793 0090 898201   		.uleb128 0x4109
+ 794 0093 01       		.byte	0x1
+ 795 0094 11       		.uleb128 0x11
+ 796 0095 01       		.uleb128 0x1
+ 797 0096 31       		.uleb128 0x31
+ 798 0097 13       		.uleb128 0x13
+ 799 0098 01       		.uleb128 0x1
+ 800 0099 13       		.uleb128 0x13
+ 801 009a 00       		.byte	0
+ 802 009b 00       		.byte	0
+ 803 009c 0C       		.uleb128 0xc
+ 804 009d 8A8201   		.uleb128 0x410a
+ 805 00a0 00       		.byte	0
+ 806 00a1 02       		.uleb128 0x2
+ 807 00a2 18       		.uleb128 0x18
+ 808 00a3 9142     		.uleb128 0x2111
+ 809 00a5 18       		.uleb128 0x18
+ 810 00a6 00       		.byte	0
+ 811 00a7 00       		.byte	0
+ 812 00a8 0D       		.uleb128 0xd
+ 813 00a9 898201   		.uleb128 0x4109
+ 814 00ac 01       		.byte	0x1
+ 815 00ad 11       		.uleb128 0x11
+ 816 00ae 01       		.uleb128 0x1
+ 817 00af 31       		.uleb128 0x31
+ 818 00b0 13       		.uleb128 0x13
+ 819 00b1 00       		.byte	0
+ 820 00b2 00       		.byte	0
+ 821 00b3 0E       		.uleb128 0xe
+ 822 00b4 34       		.uleb128 0x34
+ 823 00b5 00       		.byte	0
+ 824 00b6 03       		.uleb128 0x3
+ 825 00b7 0E       		.uleb128 0xe
+ 826 00b8 3A       		.uleb128 0x3a
+ 827 00b9 0B       		.uleb128 0xb
+ 828 00ba 3B       		.uleb128 0x3b
+ 829 00bb 0B       		.uleb128 0xb
+ 830 00bc 49       		.uleb128 0x49
+ 831 00bd 13       		.uleb128 0x13
+ 832 00be 02       		.uleb128 0x2
+ 833 00bf 17       		.uleb128 0x17
+ 834 00c0 00       		.byte	0
+ 835 00c1 00       		.byte	0
+ 836 00c2 0F       		.uleb128 0xf
+ 837 00c3 898201   		.uleb128 0x4109
+ 838 00c6 00       		.byte	0
+ 839 00c7 11       		.uleb128 0x11
+ 840 00c8 01       		.uleb128 0x1
+ 841 00c9 31       		.uleb128 0x31
+ 842 00ca 13       		.uleb128 0x13
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 21
+
+
+ 843 00cb 00       		.byte	0
+ 844 00cc 00       		.byte	0
+ 845 00cd 10       		.uleb128 0x10
+ 846 00ce 898201   		.uleb128 0x4109
+ 847 00d1 00       		.byte	0
+ 848 00d2 11       		.uleb128 0x11
+ 849 00d3 01       		.uleb128 0x1
+ 850 00d4 9542     		.uleb128 0x2115
+ 851 00d6 19       		.uleb128 0x19
+ 852 00d7 31       		.uleb128 0x31
+ 853 00d8 13       		.uleb128 0x13
+ 854 00d9 00       		.byte	0
+ 855 00da 00       		.byte	0
+ 856 00db 11       		.uleb128 0x11
+ 857 00dc 0B       		.uleb128 0xb
+ 858 00dd 01       		.byte	0x1
+ 859 00de 55       		.uleb128 0x55
+ 860 00df 17       		.uleb128 0x17
+ 861 00e0 00       		.byte	0
+ 862 00e1 00       		.byte	0
+ 863 00e2 12       		.uleb128 0x12
+ 864 00e3 34       		.uleb128 0x34
+ 865 00e4 00       		.byte	0
+ 866 00e5 03       		.uleb128 0x3
+ 867 00e6 0E       		.uleb128 0xe
+ 868 00e7 3A       		.uleb128 0x3a
+ 869 00e8 0B       		.uleb128 0xb
+ 870 00e9 3B       		.uleb128 0x3b
+ 871 00ea 0B       		.uleb128 0xb
+ 872 00eb 49       		.uleb128 0x49
+ 873 00ec 13       		.uleb128 0x13
+ 874 00ed 3F       		.uleb128 0x3f
+ 875 00ee 19       		.uleb128 0x19
+ 876 00ef 02       		.uleb128 0x2
+ 877 00f0 18       		.uleb128 0x18
+ 878 00f1 00       		.byte	0
+ 879 00f2 00       		.byte	0
+ 880 00f3 13       		.uleb128 0x13
+ 881 00f4 34       		.uleb128 0x34
+ 882 00f5 00       		.byte	0
+ 883 00f6 03       		.uleb128 0x3
+ 884 00f7 0E       		.uleb128 0xe
+ 885 00f8 3A       		.uleb128 0x3a
+ 886 00f9 0B       		.uleb128 0xb
+ 887 00fa 3B       		.uleb128 0x3b
+ 888 00fb 0B       		.uleb128 0xb
+ 889 00fc 49       		.uleb128 0x49
+ 890 00fd 13       		.uleb128 0x13
+ 891 00fe 3F       		.uleb128 0x3f
+ 892 00ff 19       		.uleb128 0x19
+ 893 0100 3C       		.uleb128 0x3c
+ 894 0101 19       		.uleb128 0x19
+ 895 0102 00       		.byte	0
+ 896 0103 00       		.byte	0
+ 897 0104 14       		.uleb128 0x14
+ 898 0105 2E       		.uleb128 0x2e
+ 899 0106 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 22
+
+
+ 900 0107 3F       		.uleb128 0x3f
+ 901 0108 19       		.uleb128 0x19
+ 902 0109 3C       		.uleb128 0x3c
+ 903 010a 19       		.uleb128 0x19
+ 904 010b 6E       		.uleb128 0x6e
+ 905 010c 0E       		.uleb128 0xe
+ 906 010d 03       		.uleb128 0x3
+ 907 010e 0E       		.uleb128 0xe
+ 908 010f 3A       		.uleb128 0x3a
+ 909 0110 0B       		.uleb128 0xb
+ 910 0111 3B       		.uleb128 0x3b
+ 911 0112 0B       		.uleb128 0xb
+ 912 0113 00       		.byte	0
+ 913 0114 00       		.byte	0
+ 914 0115 00       		.byte	0
+ 915              		.section	.debug_loc,"",%progbits
+ 916              	.Ldebug_loc0:
+ 917              	.LLST0:
+ 918 0000 06000000 		.4byte	.LVL2
+ 919 0004 1F000000 		.4byte	.LVL3-1
+ 920 0008 0100     		.2byte	0x1
+ 921 000a 50       		.byte	0x50
+ 922 000b 00000000 		.4byte	0
+ 923 000f 00000000 		.4byte	0
+ 924              	.LLST1:
+ 925 0013 44000000 		.4byte	.LVL9
+ 926 0017 59000000 		.4byte	.LVL10-1
+ 927 001b 0100     		.2byte	0x1
+ 928 001d 50       		.byte	0x50
+ 929 001e 00000000 		.4byte	0
+ 930 0022 00000000 		.4byte	0
+ 931              	.LLST2:
+ 932 0026 2C000000 		.4byte	.LVL6
+ 933 002a 32000000 		.4byte	.LVL7
+ 934 002e 1000     		.2byte	0x10
+ 935 0030 70       		.byte	0x70
+ 936 0031 00       		.sleb128 0
+ 937 0032 08       		.byte	0x8
+ 938 0033 FF       		.byte	0xff
+ 939 0034 1A       		.byte	0x1a
+ 940 0035 38       		.byte	0x38
+ 941 0036 24       		.byte	0x24
+ 942 0037 73       		.byte	0x73
+ 943 0038 00       		.sleb128 0
+ 944 0039 08       		.byte	0x8
+ 945 003a FF       		.byte	0xff
+ 946 003b 1A       		.byte	0x1a
+ 947 003c 21       		.byte	0x21
+ 948 003d 23       		.byte	0x23
+ 949 003e 01       		.uleb128 0x1
+ 950 003f 9F       		.byte	0x9f
+ 951 0040 00000000 		.4byte	0
+ 952 0044 00000000 		.4byte	0
+ 953              		.section	.debug_aranges,"",%progbits
+ 954 0000 34000000 		.4byte	0x34
+ 955 0004 0200     		.2byte	0x2
+ 956 0006 00000000 		.4byte	.Ldebug_info0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 23
+
+
+ 957 000a 04       		.byte	0x4
+ 958 000b 00       		.byte	0
+ 959 000c 0000     		.2byte	0
+ 960 000e 0000     		.2byte	0
+ 961 0010 00000000 		.4byte	.LFB0
+ 962 0014 68000000 		.4byte	.LFE0-.LFB0
+ 963 0018 00000000 		.4byte	.LFB1
+ 964 001c 24000000 		.4byte	.LFE1-.LFB1
+ 965 0020 00000000 		.4byte	.LFB2
+ 966 0024 28000000 		.4byte	.LFE2-.LFB2
+ 967 0028 00000000 		.4byte	.LFB3
+ 968 002c B4000000 		.4byte	.LFE3-.LFB3
+ 969 0030 00000000 		.4byte	0
+ 970 0034 00000000 		.4byte	0
+ 971              		.section	.debug_ranges,"",%progbits
+ 972              	.Ldebug_ranges0:
+ 973 0000 06000000 		.4byte	.LBB2
+ 974 0004 0A000000 		.4byte	.LBE2
+ 975 0008 12000000 		.4byte	.LBB3
+ 976 000c 5C000000 		.4byte	.LBE3
+ 977 0010 5E000000 		.4byte	.LBB4
+ 978 0014 78000000 		.4byte	.LBE4
+ 979 0018 00000000 		.4byte	0
+ 980 001c 00000000 		.4byte	0
+ 981 0020 00000000 		.4byte	.LFB0
+ 982 0024 68000000 		.4byte	.LFE0
+ 983 0028 00000000 		.4byte	.LFB1
+ 984 002c 24000000 		.4byte	.LFE1
+ 985 0030 00000000 		.4byte	.LFB2
+ 986 0034 28000000 		.4byte	.LFE2
+ 987 0038 00000000 		.4byte	.LFB3
+ 988 003c B4000000 		.4byte	.LFE3
+ 989 0040 00000000 		.4byte	0
+ 990 0044 00000000 		.4byte	0
+ 991              		.section	.debug_line,"",%progbits
+ 992              	.Ldebug_line0:
+ 993 0000 1A010000 		.section	.debug_str,"MS",%progbits,1
+ 993      02008500 
+ 993      00000201 
+ 993      FB0E0D00 
+ 993      01010101 
+ 994              	.LASF41:
+ 995 0000 43794465 		.ascii	"CyDelayCycles\000"
+ 995      6C617943 
+ 995      79636C65 
+ 995      7300
+ 996              	.LASF16:
+ 997 000e 72656733 		.ascii	"reg32\000"
+ 997      3200
+ 998              	.LASF38:
+ 999 0014 4379496E 		.ascii	"CyIntSetVector\000"
+ 999      74536574 
+ 999      56656374 
+ 999      6F7200
+ 1000              	.LASF25:
+ 1001 0023 4932435F 		.ascii	"I2C_Orientation_Init\000"
+ 1001      4F726965 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 24
+
+
+ 1001      6E746174 
+ 1001      696F6E5F 
+ 1001      496E6974 
+ 1002              	.LASF26:
+ 1003 0038 4932435F 		.ascii	"I2C_Orientation_Enable\000"
+ 1003      4F726965 
+ 1003      6E746174 
+ 1003      696F6E5F 
+ 1003      456E6162 
+ 1004              	.LASF3:
+ 1005 004f 73686F72 		.ascii	"short unsigned int\000"
+ 1005      7420756E 
+ 1005      7369676E 
+ 1005      65642069 
+ 1005      6E7400
+ 1006              	.LASF34:
+ 1007 0062 4932435F 		.ascii	"I2C_Orientation_mstrStatus\000"
+ 1007      4F726965 
+ 1007      6E746174 
+ 1007      696F6E5F 
+ 1007      6D737472 
+ 1008              	.LASF13:
+ 1009 007d 646F7562 		.ascii	"double\000"
+ 1009      6C6500
+ 1010              	.LASF30:
+ 1011 0084 626C6F63 		.ascii	"blockResetCycles\000"
+ 1011      6B526573 
+ 1011      65744379 
+ 1011      636C6573 
+ 1011      00
+ 1012              	.LASF24:
+ 1013 0095 4932435F 		.ascii	"I2C_Orientation_BACKUP_STRUCT\000"
+ 1013      4F726965 
+ 1013      6E746174 
+ 1013      696F6E5F 
+ 1013      4241434B 
+ 1014              	.LASF12:
+ 1015 00b3 666C6F61 		.ascii	"float\000"
+ 1015      7400
+ 1016              	.LASF7:
+ 1017 00b9 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1017      206C6F6E 
+ 1017      6720756E 
+ 1017      7369676E 
+ 1017      65642069 
+ 1018              	.LASF1:
+ 1019 00d0 756E7369 		.ascii	"unsigned char\000"
+ 1019      676E6564 
+ 1019      20636861 
+ 1019      7200
+ 1020              	.LASF15:
+ 1021 00de 72656738 		.ascii	"reg8\000"
+ 1021      00
+ 1022              	.LASF42:
+ 1023 00e3 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 1023      43313120 
+ 1023      352E342E 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 25
+
+
+ 1023      31203230 
+ 1023      31363036 
+ 1024 0116 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 1024      20726576 
+ 1024      6973696F 
+ 1024      6E203233 
+ 1024      37373135 
+ 1025 0149 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 1025      66756E63 
+ 1025      74696F6E 
+ 1025      2D736563 
+ 1025      74696F6E 
+ 1026              	.LASF21:
+ 1027 0171 61646472 		.ascii	"addr\000"
+ 1027      00
+ 1028              	.LASF44:
+ 1029 0176 433A5C55 		.ascii	"C:\\Users\\Nathan\\Documents\\MyBuilds\\Flight Cont"
+ 1029      73657273 
+ 1029      5C4E6174 
+ 1029      68616E5C 
+ 1029      446F6375 
+ 1030 01a4 726F6C6C 		.ascii	"roller\\ServoControl.cydsn\000"
+ 1030      65725C53 
+ 1030      6572766F 
+ 1030      436F6E74 
+ 1030      726F6C2E 
+ 1031              	.LASF28:
+ 1032 01be 4932435F 		.ascii	"I2C_Orientation_Stop\000"
+ 1032      4F726965 
+ 1032      6E746174 
+ 1032      696F6E5F 
+ 1032      53746F70 
+ 1033              	.LASF36:
+ 1034 01d3 4932435F 		.ascii	"I2C_Orientation_mstrWrBufIndex\000"
+ 1034      4F726965 
+ 1034      6E746174 
+ 1034      696F6E5F 
+ 1034      6D737472 
+ 1035              	.LASF32:
+ 1036 01f2 4932435F 		.ascii	"I2C_Orientation_backup\000"
+ 1036      4F726965 
+ 1036      6E746174 
+ 1036      696F6E5F 
+ 1036      6261636B 
+ 1037              	.LASF10:
+ 1038 0209 75696E74 		.ascii	"uint16\000"
+ 1038      313600
+ 1039              	.LASF11:
+ 1040 0210 75696E74 		.ascii	"uint32\000"
+ 1040      333200
+ 1041              	.LASF29:
+ 1042 0217 696E7453 		.ascii	"intState\000"
+ 1042      74617465 
+ 1042      00
+ 1043              	.LASF5:
+ 1044 0220 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1044      20756E73 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 26
+
+
+ 1044      69676E65 
+ 1044      6420696E 
+ 1044      7400
+ 1045              	.LASF8:
+ 1046 0232 756E7369 		.ascii	"unsigned int\000"
+ 1046      676E6564 
+ 1046      20696E74 
+ 1046      00
+ 1047              	.LASF40:
+ 1048 023f 43794578 		.ascii	"CyExitCriticalSection\000"
+ 1048      69744372 
+ 1048      69746963 
+ 1048      616C5365 
+ 1048      6374696F 
+ 1049              	.LASF37:
+ 1050 0255 4379496E 		.ascii	"CyIntSetPriority\000"
+ 1050      74536574 
+ 1050      5072696F 
+ 1050      72697479 
+ 1050      00
+ 1051              	.LASF22:
+ 1052 0266 636C6B44 		.ascii	"clkDiv1\000"
+ 1052      69763100 
+ 1053              	.LASF23:
+ 1054 026e 636C6B44 		.ascii	"clkDiv2\000"
+ 1054      69763200 
+ 1055              	.LASF39:
+ 1056 0276 4379456E 		.ascii	"CyEnterCriticalSection\000"
+ 1056      74657243 
+ 1056      72697469 
+ 1056      63616C53 
+ 1056      65637469 
+ 1057              	.LASF35:
+ 1058 028d 4932435F 		.ascii	"I2C_Orientation_mstrRdBufIndex\000"
+ 1058      4F726965 
+ 1058      6E746174 
+ 1058      696F6E5F 
+ 1058      6D737472 
+ 1059              	.LASF18:
+ 1060 02ac 73697A65 		.ascii	"sizetype\000"
+ 1060      74797065 
+ 1060      00
+ 1061              	.LASF6:
+ 1062 02b5 6C6F6E67 		.ascii	"long long int\000"
+ 1062      206C6F6E 
+ 1062      6720696E 
+ 1062      7400
+ 1063              	.LASF14:
+ 1064 02c3 63686172 		.ascii	"char\000"
+ 1064      00
+ 1065              	.LASF20:
+ 1066 02c8 78636667 		.ascii	"xcfg\000"
+ 1066      00
+ 1067              	.LASF2:
+ 1068 02cd 73686F72 		.ascii	"short int\000"
+ 1068      7420696E 
+ 1068      7400
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc6pza3q.s 			page 27
+
+
+ 1069              	.LASF9:
+ 1070 02d7 75696E74 		.ascii	"uint8\000"
+ 1070      3800
+ 1071              	.LASF31:
+ 1072 02dd 4932435F 		.ascii	"I2C_Orientation_initVar\000"
+ 1072      4F726965 
+ 1072      6E746174 
+ 1072      696F6E5F 
+ 1072      696E6974 
+ 1073              	.LASF4:
+ 1074 02f5 6C6F6E67 		.ascii	"long int\000"
+ 1074      20696E74 
+ 1074      00
+ 1075              	.LASF19:
+ 1076 02fe 656E6162 		.ascii	"enableState\000"
+ 1076      6C655374 
+ 1076      61746500 
+ 1077              	.LASF17:
+ 1078 030a 6C6F6E67 		.ascii	"long double\000"
+ 1078      20646F75 
+ 1078      626C6500 
+ 1079              	.LASF0:
+ 1080 0316 7369676E 		.ascii	"signed char\000"
+ 1080      65642063 
+ 1080      68617200 
+ 1081              	.LASF43:
+ 1082 0322 47656E65 		.ascii	"Generated_Source\\PSoC5\\I2C_Orientation.c\000"
+ 1082      72617465 
+ 1082      645F536F 
+ 1082      75726365 
+ 1082      5C50536F 
+ 1083              	.LASF33:
+ 1084 034b 4932435F 		.ascii	"I2C_Orientation_state\000"
+ 1084      4F726965 
+ 1084      6E746174 
+ 1084      696F6E5F 
+ 1084      73746174 
+ 1085              	.LASF27:
+ 1086 0361 4932435F 		.ascii	"I2C_Orientation_Start\000"
+ 1086      4F726965 
+ 1086      6E746174 
+ 1086      696F6E5F 
+ 1086      53746172 
+ 1087              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

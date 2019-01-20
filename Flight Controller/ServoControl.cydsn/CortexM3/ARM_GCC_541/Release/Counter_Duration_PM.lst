@@ -1,0 +1,1045 @@
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Counter_Duration_PM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Counter_Duration_SaveConfig,"ax",%progbits
+  20              		.align	1
+  21              		.global	Counter_Duration_SaveConfig
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Counter_Duration_SaveConfig, %function
+  25              	Counter_Duration_SaveConfig:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\Counter_Duration_PM.c"
+   1:Generated_Source\PSoC5/Counter_Duration_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/Counter_Duration_PM.c **** * File Name: Counter_Duration_PM.c  
+   3:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Version 3.0
+   4:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+   5:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  Description:
+   6:Generated_Source\PSoC5/Counter_Duration_PM.c **** *    This file provides the power management source code to API for the
+   7:Generated_Source\PSoC5/Counter_Duration_PM.c **** *    Counter.  
+   8:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+   9:Generated_Source\PSoC5/Counter_Duration_PM.c **** *   Note:
+  10:Generated_Source\PSoC5/Counter_Duration_PM.c **** *     None
+  11:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+  12:Generated_Source\PSoC5/Counter_Duration_PM.c **** ********************************************************************************
+  13:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  14:Generated_Source\PSoC5/Counter_Duration_PM.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  15:Generated_Source\PSoC5/Counter_Duration_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  16:Generated_Source\PSoC5/Counter_Duration_PM.c **** * the software package with which this file was provided.
+  17:Generated_Source\PSoC5/Counter_Duration_PM.c **** *******************************************************************************/
+  18:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  19:Generated_Source\PSoC5/Counter_Duration_PM.c **** #include "Counter_Duration.h"
+  20:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  21:Generated_Source\PSoC5/Counter_Duration_PM.c **** static Counter_Duration_backupStruct Counter_Duration_backup;
+  22:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  23:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  24:Generated_Source\PSoC5/Counter_Duration_PM.c **** /*******************************************************************************
+  25:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Function Name: Counter_Duration_SaveConfig
+  26:Generated_Source\PSoC5/Counter_Duration_PM.c **** ********************************************************************************
+  27:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Summary:
+  28:Generated_Source\PSoC5/Counter_Duration_PM.c **** *     Save the current user configuration
+  29:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+  30:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Parameters:  
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 2
+
+
+  31:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  void
+  32:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+  33:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Return: 
+  34:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  void
+  35:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+  36:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Global variables:
+  37:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  Counter_Duration_backup:  Variables of this global structure are modified to 
+  38:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  store the values of non retention configuration registers when Sleep() API is 
+  39:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  called.
+  40:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+  41:Generated_Source\PSoC5/Counter_Duration_PM.c **** *******************************************************************************/
+  42:Generated_Source\PSoC5/Counter_Duration_PM.c **** void Counter_Duration_SaveConfig(void) 
+  43:Generated_Source\PSoC5/Counter_Duration_PM.c **** {
+  28              		.loc 1 43 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 10B5     		push	{r4, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+  44:Generated_Source\PSoC5/Counter_Duration_PM.c ****     #if (!Counter_Duration_UsingFixedFunction)
+  45:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  46:Generated_Source\PSoC5/Counter_Duration_PM.c ****         Counter_Duration_backup.CounterUdb = Counter_Duration_ReadCounter();
+  36              		.loc 1 46 0
+  37 0002 FFF7FEFF 		bl	Counter_Duration_ReadCounter
+  38              	.LVL0:
+  39 0006 034C     		ldr	r4, .L2
+  40 0008 6060     		str	r0, [r4, #4]
+  47:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  48:Generated_Source\PSoC5/Counter_Duration_PM.c ****         #if(!Counter_Duration_ControlRegRemoved)
+  49:Generated_Source\PSoC5/Counter_Duration_PM.c ****             Counter_Duration_backup.CounterControlRegister = Counter_Duration_ReadControlRegister()
+  41              		.loc 1 49 0
+  42 000a FFF7FEFF 		bl	Counter_Duration_ReadControlRegister
+  43              	.LVL1:
+  44 000e 2072     		strb	r0, [r4, #8]
+  45 0010 10BD     		pop	{r4, pc}
+  46              	.L3:
+  47 0012 00BF     		.align	2
+  48              	.L2:
+  49 0014 00000000 		.word	.LANCHOR0
+  50              		.cfi_endproc
+  51              	.LFE0:
+  52              		.size	Counter_Duration_SaveConfig, .-Counter_Duration_SaveConfig
+  53              		.section	.text.Counter_Duration_RestoreConfig,"ax",%progbits
+  54              		.align	1
+  55              		.global	Counter_Duration_RestoreConfig
+  56              		.thumb
+  57              		.thumb_func
+  58              		.type	Counter_Duration_RestoreConfig, %function
+  59              	Counter_Duration_RestoreConfig:
+  60              	.LFB1:
+  50:Generated_Source\PSoC5/Counter_Duration_PM.c ****         #endif /* (!Counter_Duration_ControlRegRemoved) */
+  51:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  52:Generated_Source\PSoC5/Counter_Duration_PM.c ****     #endif /* (!Counter_Duration_UsingFixedFunction) */
+  53:Generated_Source\PSoC5/Counter_Duration_PM.c **** }
+  54:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 3
+
+
+  55:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  56:Generated_Source\PSoC5/Counter_Duration_PM.c **** /*******************************************************************************
+  57:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Function Name: Counter_Duration_RestoreConfig
+  58:Generated_Source\PSoC5/Counter_Duration_PM.c **** ********************************************************************************
+  59:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+  60:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Summary:
+  61:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  Restores the current user configuration.
+  62:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+  63:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Parameters:  
+  64:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  void
+  65:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+  66:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Return: 
+  67:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  void
+  68:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+  69:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Global variables:
+  70:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  Counter_Duration_backup:  Variables of this global structure are used to 
+  71:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  restore the values of non retention registers on wakeup from sleep mode.
+  72:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+  73:Generated_Source\PSoC5/Counter_Duration_PM.c **** *******************************************************************************/
+  74:Generated_Source\PSoC5/Counter_Duration_PM.c **** void Counter_Duration_RestoreConfig(void) 
+  75:Generated_Source\PSoC5/Counter_Duration_PM.c **** {      
+  61              		.loc 1 75 0
+  62              		.cfi_startproc
+  63              		@ args = 0, pretend = 0, frame = 0
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65 0000 10B5     		push	{r4, lr}
+  66              		.cfi_def_cfa_offset 8
+  67              		.cfi_offset 4, -8
+  68              		.cfi_offset 14, -4
+  76:Generated_Source\PSoC5/Counter_Duration_PM.c ****     #if (!Counter_Duration_UsingFixedFunction)
+  77:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  78:Generated_Source\PSoC5/Counter_Duration_PM.c ****        Counter_Duration_WriteCounter(Counter_Duration_backup.CounterUdb);
+  69              		.loc 1 78 0
+  70 0002 044C     		ldr	r4, .L5
+  71 0004 6068     		ldr	r0, [r4, #4]
+  72 0006 FFF7FEFF 		bl	Counter_Duration_WriteCounter
+  73              	.LVL2:
+  79:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  80:Generated_Source\PSoC5/Counter_Duration_PM.c ****         #if(!Counter_Duration_ControlRegRemoved)
+  81:Generated_Source\PSoC5/Counter_Duration_PM.c ****             Counter_Duration_WriteControlRegister(Counter_Duration_backup.CounterControlRegister);
+  74              		.loc 1 81 0
+  75 000a 207A     		ldrb	r0, [r4, #8]	@ zero_extendqisi2
+  82:Generated_Source\PSoC5/Counter_Duration_PM.c ****         #endif /* (!Counter_Duration_ControlRegRemoved) */
+  83:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  84:Generated_Source\PSoC5/Counter_Duration_PM.c ****     #endif /* (!Counter_Duration_UsingFixedFunction) */
+  85:Generated_Source\PSoC5/Counter_Duration_PM.c **** }
+  76              		.loc 1 85 0
+  77 000c BDE81040 		pop	{r4, lr}
+  78              		.cfi_restore 14
+  79              		.cfi_restore 4
+  80              		.cfi_def_cfa_offset 0
+  81:Generated_Source\PSoC5/Counter_Duration_PM.c ****         #endif /* (!Counter_Duration_ControlRegRemoved) */
+  81              		.loc 1 81 0
+  82 0010 FFF7FEBF 		b	Counter_Duration_WriteControlRegister
+  83              	.LVL3:
+  84              	.L6:
+  85              		.align	2
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 4
+
+
+  86              	.L5:
+  87 0014 00000000 		.word	.LANCHOR0
+  88              		.cfi_endproc
+  89              	.LFE1:
+  90              		.size	Counter_Duration_RestoreConfig, .-Counter_Duration_RestoreConfig
+  91              		.section	.text.Counter_Duration_Sleep,"ax",%progbits
+  92              		.align	1
+  93              		.global	Counter_Duration_Sleep
+  94              		.thumb
+  95              		.thumb_func
+  96              		.type	Counter_Duration_Sleep, %function
+  97              	Counter_Duration_Sleep:
+  98              	.LFB2:
+  86:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  87:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+  88:Generated_Source\PSoC5/Counter_Duration_PM.c **** /*******************************************************************************
+  89:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Function Name: Counter_Duration_Sleep
+  90:Generated_Source\PSoC5/Counter_Duration_PM.c **** ********************************************************************************
+  91:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Summary:
+  92:Generated_Source\PSoC5/Counter_Duration_PM.c **** *     Stop and Save the user configuration
+  93:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+  94:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Parameters:  
+  95:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  void
+  96:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+  97:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Return: 
+  98:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  void
+  99:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+ 100:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Global variables:
+ 101:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  Counter_Duration_backup.enableState:  Is modified depending on the enable 
+ 102:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  state of the block before entering sleep mode.
+ 103:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+ 104:Generated_Source\PSoC5/Counter_Duration_PM.c **** *******************************************************************************/
+ 105:Generated_Source\PSoC5/Counter_Duration_PM.c **** void Counter_Duration_Sleep(void) 
+ 106:Generated_Source\PSoC5/Counter_Duration_PM.c **** {
+  99              		.loc 1 106 0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103 0000 08B5     		push	{r3, lr}
+ 104              		.cfi_def_cfa_offset 8
+ 105              		.cfi_offset 3, -8
+ 106              		.cfi_offset 14, -4
+ 107:Generated_Source\PSoC5/Counter_Duration_PM.c ****     #if(!Counter_Duration_ControlRegRemoved)
+ 108:Generated_Source\PSoC5/Counter_Duration_PM.c ****         /* Save Counter's enable state */
+ 109:Generated_Source\PSoC5/Counter_Duration_PM.c ****         if(Counter_Duration_CTRL_ENABLE == (Counter_Duration_CONTROL & Counter_Duration_CTRL_ENABLE
+ 107              		.loc 1 109 0
+ 108 0002 074B     		ldr	r3, .L11
+ 109 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 110 0006 13F0800F 		tst	r3, #128
+ 111 000a 064B     		ldr	r3, .L11+4
+ 110:Generated_Source\PSoC5/Counter_Duration_PM.c ****         {
+ 111:Generated_Source\PSoC5/Counter_Duration_PM.c ****             /* Counter is enabled */
+ 112:Generated_Source\PSoC5/Counter_Duration_PM.c ****             Counter_Duration_backup.CounterEnableState = 1u;
+ 112              		.loc 1 112 0
+ 113 000c 14BF     		ite	ne
+ 114 000e 0122     		movne	r2, #1
+ 113:Generated_Source\PSoC5/Counter_Duration_PM.c ****         }
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 5
+
+
+ 114:Generated_Source\PSoC5/Counter_Duration_PM.c ****         else
+ 115:Generated_Source\PSoC5/Counter_Duration_PM.c ****         {
+ 116:Generated_Source\PSoC5/Counter_Duration_PM.c ****             /* Counter is disabled */
+ 117:Generated_Source\PSoC5/Counter_Duration_PM.c ****             Counter_Duration_backup.CounterEnableState = 0u;
+ 115              		.loc 1 117 0
+ 116 0010 0022     		moveq	r2, #0
+ 117 0012 1A70     		strb	r2, [r3]
+ 118:Generated_Source\PSoC5/Counter_Duration_PM.c ****         }
+ 119:Generated_Source\PSoC5/Counter_Duration_PM.c ****     #else
+ 120:Generated_Source\PSoC5/Counter_Duration_PM.c ****         Counter_Duration_backup.CounterEnableState = 1u;
+ 121:Generated_Source\PSoC5/Counter_Duration_PM.c ****         if(Counter_Duration_backup.CounterEnableState != 0u)
+ 122:Generated_Source\PSoC5/Counter_Duration_PM.c ****         {
+ 123:Generated_Source\PSoC5/Counter_Duration_PM.c ****             Counter_Duration_backup.CounterEnableState = 0u;
+ 124:Generated_Source\PSoC5/Counter_Duration_PM.c ****         }
+ 125:Generated_Source\PSoC5/Counter_Duration_PM.c ****     #endif /* (!Counter_Duration_ControlRegRemoved) */
+ 126:Generated_Source\PSoC5/Counter_Duration_PM.c ****     
+ 127:Generated_Source\PSoC5/Counter_Duration_PM.c ****     Counter_Duration_Stop();
+ 118              		.loc 1 127 0
+ 119 0014 FFF7FEFF 		bl	Counter_Duration_Stop
+ 120              	.LVL4:
+ 128:Generated_Source\PSoC5/Counter_Duration_PM.c ****     Counter_Duration_SaveConfig();
+ 129:Generated_Source\PSoC5/Counter_Duration_PM.c **** }
+ 121              		.loc 1 129 0
+ 122 0018 BDE80840 		pop	{r3, lr}
+ 123              		.cfi_restore 14
+ 124              		.cfi_restore 3
+ 125              		.cfi_def_cfa_offset 0
+ 128:Generated_Source\PSoC5/Counter_Duration_PM.c ****     Counter_Duration_SaveConfig();
+ 126              		.loc 1 128 0
+ 127 001c FFF7FEBF 		b	Counter_Duration_SaveConfig
+ 128              	.LVL5:
+ 129              	.L12:
+ 130              		.align	2
+ 131              	.L11:
+ 132 0020 75650040 		.word	1073767797
+ 133 0024 00000000 		.word	.LANCHOR0
+ 134              		.cfi_endproc
+ 135              	.LFE2:
+ 136              		.size	Counter_Duration_Sleep, .-Counter_Duration_Sleep
+ 137              		.section	.text.Counter_Duration_Wakeup,"ax",%progbits
+ 138              		.align	1
+ 139              		.global	Counter_Duration_Wakeup
+ 140              		.thumb
+ 141              		.thumb_func
+ 142              		.type	Counter_Duration_Wakeup, %function
+ 143              	Counter_Duration_Wakeup:
+ 144              	.LFB3:
+ 130:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+ 131:Generated_Source\PSoC5/Counter_Duration_PM.c **** 
+ 132:Generated_Source\PSoC5/Counter_Duration_PM.c **** /*******************************************************************************
+ 133:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Function Name: Counter_Duration_Wakeup
+ 134:Generated_Source\PSoC5/Counter_Duration_PM.c **** ********************************************************************************
+ 135:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+ 136:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Summary:
+ 137:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  Restores and enables the user configuration
+ 138:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  
+ 139:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Parameters:  
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 6
+
+
+ 140:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  void
+ 141:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+ 142:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Return: 
+ 143:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  void
+ 144:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+ 145:Generated_Source\PSoC5/Counter_Duration_PM.c **** * Global variables:
+ 146:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  Counter_Duration_backup.enableState:  Is used to restore the enable state of 
+ 147:Generated_Source\PSoC5/Counter_Duration_PM.c **** *  block on wakeup from sleep mode.
+ 148:Generated_Source\PSoC5/Counter_Duration_PM.c **** *
+ 149:Generated_Source\PSoC5/Counter_Duration_PM.c **** *******************************************************************************/
+ 150:Generated_Source\PSoC5/Counter_Duration_PM.c **** void Counter_Duration_Wakeup(void) 
+ 151:Generated_Source\PSoC5/Counter_Duration_PM.c **** {
+ 145              		.loc 1 151 0
+ 146              		.cfi_startproc
+ 147              		@ args = 0, pretend = 0, frame = 0
+ 148              		@ frame_needed = 0, uses_anonymous_args = 0
+ 149 0000 08B5     		push	{r3, lr}
+ 150              		.cfi_def_cfa_offset 8
+ 151              		.cfi_offset 3, -8
+ 152              		.cfi_offset 14, -4
+ 152:Generated_Source\PSoC5/Counter_Duration_PM.c ****     Counter_Duration_RestoreConfig();
+ 153              		.loc 1 152 0
+ 154 0002 FFF7FEFF 		bl	Counter_Duration_RestoreConfig
+ 155              	.LVL6:
+ 153:Generated_Source\PSoC5/Counter_Duration_PM.c ****     #if(!Counter_Duration_ControlRegRemoved)
+ 154:Generated_Source\PSoC5/Counter_Duration_PM.c ****         if(Counter_Duration_backup.CounterEnableState == 1u)
+ 156              		.loc 1 154 0
+ 157 0006 044B     		ldr	r3, .L16
+ 158 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 159 000a 012B     		cmp	r3, #1
+ 160 000c 03D1     		bne	.L13
+ 155:Generated_Source\PSoC5/Counter_Duration_PM.c ****         {
+ 156:Generated_Source\PSoC5/Counter_Duration_PM.c ****             /* Enable Counter's operation */
+ 157:Generated_Source\PSoC5/Counter_Duration_PM.c ****             Counter_Duration_Enable();
+ 158:Generated_Source\PSoC5/Counter_Duration_PM.c ****         } /* Do nothing if Counter was disabled before */    
+ 159:Generated_Source\PSoC5/Counter_Duration_PM.c ****     #endif /* (!Counter_Duration_ControlRegRemoved) */
+ 160:Generated_Source\PSoC5/Counter_Duration_PM.c ****     
+ 161:Generated_Source\PSoC5/Counter_Duration_PM.c **** }
+ 161              		.loc 1 161 0
+ 162 000e BDE80840 		pop	{r3, lr}
+ 163              		.cfi_remember_state
+ 164              		.cfi_restore 14
+ 165              		.cfi_restore 3
+ 166              		.cfi_def_cfa_offset 0
+ 157:Generated_Source\PSoC5/Counter_Duration_PM.c ****         } /* Do nothing if Counter was disabled before */    
+ 167              		.loc 1 157 0
+ 168 0012 FFF7FEBF 		b	Counter_Duration_Enable
+ 169              	.LVL7:
+ 170              	.L13:
+ 171              		.cfi_restore_state
+ 172 0016 08BD     		pop	{r3, pc}
+ 173              	.L17:
+ 174              		.align	2
+ 175              	.L16:
+ 176 0018 00000000 		.word	.LANCHOR0
+ 177              		.cfi_endproc
+ 178              	.LFE3:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 7
+
+
+ 179              		.size	Counter_Duration_Wakeup, .-Counter_Duration_Wakeup
+ 180              		.bss
+ 181              		.align	2
+ 182              		.set	.LANCHOR0,. + 0
+ 183              		.type	Counter_Duration_backup, %object
+ 184              		.size	Counter_Duration_backup, 12
+ 185              	Counter_Duration_backup:
+ 186 0000 00000000 		.space	12
+ 186      00000000 
+ 186      00000000 
+ 187              		.text
+ 188              	.Letext0:
+ 189              		.file 2 "Generated_Source\\PSoC5\\cytypes.h"
+ 190              		.file 3 "Generated_Source\\PSoC5\\Counter_Duration.h"
+ 191              		.section	.debug_info,"",%progbits
+ 192              	.Ldebug_info0:
+ 193 0000 DF010000 		.4byte	0x1df
+ 194 0004 0400     		.2byte	0x4
+ 195 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 196 000a 04       		.byte	0x4
+ 197 000b 01       		.uleb128 0x1
+ 198 000c F0000000 		.4byte	.LASF31
+ 199 0010 0C       		.byte	0xc
+ 200 0011 9A000000 		.4byte	.LASF32
+ 201 0015 84010000 		.4byte	.LASF33
+ 202 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 203 001d 00000000 		.4byte	0
+ 204 0021 00000000 		.4byte	.Ldebug_line0
+ 205 0025 02       		.uleb128 0x2
+ 206 0026 01       		.byte	0x1
+ 207 0027 06       		.byte	0x6
+ 208 0028 2A030000 		.4byte	.LASF0
+ 209 002c 02       		.uleb128 0x2
+ 210 002d 01       		.byte	0x1
+ 211 002e 08       		.byte	0x8
+ 212 002f 09020000 		.4byte	.LASF1
+ 213 0033 02       		.uleb128 0x2
+ 214 0034 02       		.byte	0x2
+ 215 0035 05       		.byte	0x5
+ 216 0036 D5020000 		.4byte	.LASF2
+ 217 003a 02       		.uleb128 0x2
+ 218 003b 02       		.byte	0x2
+ 219 003c 07       		.byte	0x7
+ 220 003d 36030000 		.4byte	.LASF3
+ 221 0041 02       		.uleb128 0x2
+ 222 0042 04       		.byte	0x4
+ 223 0043 05       		.byte	0x5
+ 224 0044 F7020000 		.4byte	.LASF4
+ 225 0048 02       		.uleb128 0x2
+ 226 0049 04       		.byte	0x4
+ 227 004a 07       		.byte	0x7
+ 228 004b 25020000 		.4byte	.LASF5
+ 229 004f 02       		.uleb128 0x2
+ 230 0050 08       		.byte	0x8
+ 231 0051 05       		.byte	0x5
+ 232 0052 94020000 		.4byte	.LASF6
+ 233 0056 02       		.uleb128 0x2
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 8
+
+
+ 234 0057 08       		.byte	0x8
+ 235 0058 07       		.byte	0x7
+ 236 0059 44020000 		.4byte	.LASF7
+ 237 005d 03       		.uleb128 0x3
+ 238 005e 04       		.byte	0x4
+ 239 005f 05       		.byte	0x5
+ 240 0060 696E7400 		.ascii	"int\000"
+ 241 0064 02       		.uleb128 0x2
+ 242 0065 04       		.byte	0x4
+ 243 0066 07       		.byte	0x7
+ 244 0067 37020000 		.4byte	.LASF8
+ 245 006b 04       		.uleb128 0x4
+ 246 006c 7E010000 		.4byte	.LASF9
+ 247 0070 02       		.byte	0x2
+ 248 0071 9201     		.2byte	0x192
+ 249 0073 2C000000 		.4byte	0x2c
+ 250 0077 04       		.uleb128 0x4
+ 251 0078 1E020000 		.4byte	.LASF10
+ 252 007c 02       		.byte	0x2
+ 253 007d 9401     		.2byte	0x194
+ 254 007f 48000000 		.4byte	0x48
+ 255 0083 02       		.uleb128 0x2
+ 256 0084 04       		.byte	0x4
+ 257 0085 04       		.byte	0x4
+ 258 0086 C7000000 		.4byte	.LASF11
+ 259 008a 02       		.uleb128 0x2
+ 260 008b 08       		.byte	0x8
+ 261 008c 04       		.byte	0x4
+ 262 008d 17020000 		.4byte	.LASF12
+ 263 0091 02       		.uleb128 0x2
+ 264 0092 01       		.byte	0x1
+ 265 0093 08       		.byte	0x8
+ 266 0094 B8020000 		.4byte	.LASF13
+ 267 0098 04       		.uleb128 0x4
+ 268 0099 EB000000 		.4byte	.LASF14
+ 269 009d 02       		.byte	0x2
+ 270 009e 3C02     		.2byte	0x23c
+ 271 00a0 A4000000 		.4byte	0xa4
+ 272 00a4 05       		.uleb128 0x5
+ 273 00a5 6B000000 		.4byte	0x6b
+ 274 00a9 02       		.uleb128 0x2
+ 275 00aa 08       		.byte	0x8
+ 276 00ab 04       		.byte	0x4
+ 277 00ac 1E030000 		.4byte	.LASF15
+ 278 00b0 02       		.uleb128 0x2
+ 279 00b1 04       		.byte	0x4
+ 280 00b2 07       		.byte	0x7
+ 281 00b3 78020000 		.4byte	.LASF16
+ 282 00b7 06       		.uleb128 0x6
+ 283 00b8 0C       		.byte	0xc
+ 284 00b9 03       		.byte	0x3
+ 285 00ba 40       		.byte	0x40
+ 286 00bb E4000000 		.4byte	0xe4
+ 287 00bf 07       		.uleb128 0x7
+ 288 00c0 81020000 		.4byte	.LASF17
+ 289 00c4 03       		.byte	0x3
+ 290 00c5 42       		.byte	0x42
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 9
+
+
+ 291 00c6 6B000000 		.4byte	0x6b
+ 292 00ca 00       		.byte	0
+ 293 00cb 07       		.uleb128 0x7
+ 294 00cc 78000000 		.4byte	.LASF18
+ 295 00d0 03       		.byte	0x3
+ 296 00d1 43       		.byte	0x43
+ 297 00d2 77000000 		.4byte	0x77
+ 298 00d6 04       		.byte	0x4
+ 299 00d7 07       		.uleb128 0x7
+ 300 00d8 83000000 		.4byte	.LASF19
+ 301 00dc 03       		.byte	0x3
+ 302 00dd 46       		.byte	0x46
+ 303 00de 6B000000 		.4byte	0x6b
+ 304 00e2 08       		.byte	0x8
+ 305 00e3 00       		.byte	0
+ 306 00e4 08       		.uleb128 0x8
+ 307 00e5 CD000000 		.4byte	.LASF20
+ 308 00e9 03       		.byte	0x3
+ 309 00ea 49       		.byte	0x49
+ 310 00eb B7000000 		.4byte	0xb7
+ 311 00ef 09       		.uleb128 0x9
+ 312 00f0 45000000 		.4byte	.LASF21
+ 313 00f4 01       		.byte	0x1
+ 314 00f5 2A       		.byte	0x2a
+ 315 00f6 00000000 		.4byte	.LFB0
+ 316 00fa 18000000 		.4byte	.LFE0-.LFB0
+ 317 00fe 01       		.uleb128 0x1
+ 318 00ff 9C       		.byte	0x9c
+ 319 0100 17010000 		.4byte	0x117
+ 320 0104 0A       		.uleb128 0xa
+ 321 0105 06000000 		.4byte	.LVL0
+ 322 0109 A0010000 		.4byte	0x1a0
+ 323 010d 0A       		.uleb128 0xa
+ 324 010e 0E000000 		.4byte	.LVL1
+ 325 0112 AB010000 		.4byte	0x1ab
+ 326 0116 00       		.byte	0
+ 327 0117 09       		.uleb128 0x9
+ 328 0118 00000000 		.4byte	.LASF22
+ 329 011c 01       		.byte	0x1
+ 330 011d 4A       		.byte	0x4a
+ 331 011e 00000000 		.4byte	.LFB1
+ 332 0122 18000000 		.4byte	.LFE1-.LFB1
+ 333 0126 01       		.uleb128 0x1
+ 334 0127 9C       		.byte	0x9c
+ 335 0128 3F010000 		.4byte	0x13f
+ 336 012c 0A       		.uleb128 0xa
+ 337 012d 0A000000 		.4byte	.LVL2
+ 338 0131 B6010000 		.4byte	0x1b6
+ 339 0135 0B       		.uleb128 0xb
+ 340 0136 14000000 		.4byte	.LVL3
+ 341 013a C1010000 		.4byte	0x1c1
+ 342 013e 00       		.byte	0
+ 343 013f 09       		.uleb128 0x9
+ 344 0140 61000000 		.4byte	.LASF23
+ 345 0144 01       		.byte	0x1
+ 346 0145 69       		.byte	0x69
+ 347 0146 00000000 		.4byte	.LFB2
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 10
+
+
+ 348 014a 28000000 		.4byte	.LFE2-.LFB2
+ 349 014e 01       		.uleb128 0x1
+ 350 014f 9C       		.byte	0x9c
+ 351 0150 67010000 		.4byte	0x167
+ 352 0154 0A       		.uleb128 0xa
+ 353 0155 18000000 		.4byte	.LVL4
+ 354 0159 CC010000 		.4byte	0x1cc
+ 355 015d 0B       		.uleb128 0xb
+ 356 015e 20000000 		.4byte	.LVL5
+ 357 0162 EF000000 		.4byte	0xef
+ 358 0166 00       		.byte	0
+ 359 0167 09       		.uleb128 0x9
+ 360 0168 DF020000 		.4byte	.LASF24
+ 361 016c 01       		.byte	0x1
+ 362 016d 96       		.byte	0x96
+ 363 016e 00000000 		.4byte	.LFB3
+ 364 0172 1C000000 		.4byte	.LFE3-.LFB3
+ 365 0176 01       		.uleb128 0x1
+ 366 0177 9C       		.byte	0x9c
+ 367 0178 8F010000 		.4byte	0x18f
+ 368 017c 0A       		.uleb128 0xa
+ 369 017d 06000000 		.4byte	.LVL6
+ 370 0181 17010000 		.4byte	0x117
+ 371 0185 0B       		.uleb128 0xb
+ 372 0186 16000000 		.4byte	.LVL7
+ 373 018a D7010000 		.4byte	0x1d7
+ 374 018e 00       		.byte	0
+ 375 018f 0C       		.uleb128 0xc
+ 376 0190 BD020000 		.4byte	.LASF34
+ 377 0194 01       		.byte	0x1
+ 378 0195 15       		.byte	0x15
+ 379 0196 E4000000 		.4byte	0xe4
+ 380 019a 05       		.uleb128 0x5
+ 381 019b 03       		.byte	0x3
+ 382 019c 00000000 		.4byte	Counter_Duration_backup
+ 383 01a0 0D       		.uleb128 0xd
+ 384 01a1 5B020000 		.4byte	.LASF25
+ 385 01a5 5B020000 		.4byte	.LASF25
+ 386 01a9 03       		.byte	0x3
+ 387 01aa 5D       		.byte	0x5d
+ 388 01ab 0D       		.uleb128 0xd
+ 389 01ac CC010000 		.4byte	.LASF26
+ 390 01b0 CC010000 		.4byte	.LASF26
+ 391 01b4 03       		.byte	0x3
+ 392 01b5 55       		.byte	0x55
+ 393 01b6 0D       		.uleb128 0xd
+ 394 01b7 00030000 		.4byte	.LASF27
+ 395 01bb 00030000 		.4byte	.LASF27
+ 396 01bf 03       		.byte	0x3
+ 397 01c0 5A       		.byte	0x5a
+ 398 01c1 0D       		.uleb128 0xd
+ 399 01c2 1F000000 		.4byte	.LASF28
+ 400 01c6 1F000000 		.4byte	.LASF28
+ 401 01ca 03       		.byte	0x3
+ 402 01cb 56       		.byte	0x56
+ 403 01cc 0D       		.uleb128 0xd
+ 404 01cd A2020000 		.4byte	.LASF29
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 11
+
+
+ 405 01d1 A2020000 		.4byte	.LASF29
+ 406 01d5 03       		.byte	0x3
+ 407 01d6 50       		.byte	0x50
+ 408 01d7 0D       		.uleb128 0xd
+ 409 01d8 F1010000 		.4byte	.LASF30
+ 410 01dc F1010000 		.4byte	.LASF30
+ 411 01e0 03       		.byte	0x3
+ 412 01e1 71       		.byte	0x71
+ 413 01e2 00       		.byte	0
+ 414              		.section	.debug_abbrev,"",%progbits
+ 415              	.Ldebug_abbrev0:
+ 416 0000 01       		.uleb128 0x1
+ 417 0001 11       		.uleb128 0x11
+ 418 0002 01       		.byte	0x1
+ 419 0003 25       		.uleb128 0x25
+ 420 0004 0E       		.uleb128 0xe
+ 421 0005 13       		.uleb128 0x13
+ 422 0006 0B       		.uleb128 0xb
+ 423 0007 03       		.uleb128 0x3
+ 424 0008 0E       		.uleb128 0xe
+ 425 0009 1B       		.uleb128 0x1b
+ 426 000a 0E       		.uleb128 0xe
+ 427 000b 55       		.uleb128 0x55
+ 428 000c 17       		.uleb128 0x17
+ 429 000d 11       		.uleb128 0x11
+ 430 000e 01       		.uleb128 0x1
+ 431 000f 10       		.uleb128 0x10
+ 432 0010 17       		.uleb128 0x17
+ 433 0011 00       		.byte	0
+ 434 0012 00       		.byte	0
+ 435 0013 02       		.uleb128 0x2
+ 436 0014 24       		.uleb128 0x24
+ 437 0015 00       		.byte	0
+ 438 0016 0B       		.uleb128 0xb
+ 439 0017 0B       		.uleb128 0xb
+ 440 0018 3E       		.uleb128 0x3e
+ 441 0019 0B       		.uleb128 0xb
+ 442 001a 03       		.uleb128 0x3
+ 443 001b 0E       		.uleb128 0xe
+ 444 001c 00       		.byte	0
+ 445 001d 00       		.byte	0
+ 446 001e 03       		.uleb128 0x3
+ 447 001f 24       		.uleb128 0x24
+ 448 0020 00       		.byte	0
+ 449 0021 0B       		.uleb128 0xb
+ 450 0022 0B       		.uleb128 0xb
+ 451 0023 3E       		.uleb128 0x3e
+ 452 0024 0B       		.uleb128 0xb
+ 453 0025 03       		.uleb128 0x3
+ 454 0026 08       		.uleb128 0x8
+ 455 0027 00       		.byte	0
+ 456 0028 00       		.byte	0
+ 457 0029 04       		.uleb128 0x4
+ 458 002a 16       		.uleb128 0x16
+ 459 002b 00       		.byte	0
+ 460 002c 03       		.uleb128 0x3
+ 461 002d 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 12
+
+
+ 462 002e 3A       		.uleb128 0x3a
+ 463 002f 0B       		.uleb128 0xb
+ 464 0030 3B       		.uleb128 0x3b
+ 465 0031 05       		.uleb128 0x5
+ 466 0032 49       		.uleb128 0x49
+ 467 0033 13       		.uleb128 0x13
+ 468 0034 00       		.byte	0
+ 469 0035 00       		.byte	0
+ 470 0036 05       		.uleb128 0x5
+ 471 0037 35       		.uleb128 0x35
+ 472 0038 00       		.byte	0
+ 473 0039 49       		.uleb128 0x49
+ 474 003a 13       		.uleb128 0x13
+ 475 003b 00       		.byte	0
+ 476 003c 00       		.byte	0
+ 477 003d 06       		.uleb128 0x6
+ 478 003e 13       		.uleb128 0x13
+ 479 003f 01       		.byte	0x1
+ 480 0040 0B       		.uleb128 0xb
+ 481 0041 0B       		.uleb128 0xb
+ 482 0042 3A       		.uleb128 0x3a
+ 483 0043 0B       		.uleb128 0xb
+ 484 0044 3B       		.uleb128 0x3b
+ 485 0045 0B       		.uleb128 0xb
+ 486 0046 01       		.uleb128 0x1
+ 487 0047 13       		.uleb128 0x13
+ 488 0048 00       		.byte	0
+ 489 0049 00       		.byte	0
+ 490 004a 07       		.uleb128 0x7
+ 491 004b 0D       		.uleb128 0xd
+ 492 004c 00       		.byte	0
+ 493 004d 03       		.uleb128 0x3
+ 494 004e 0E       		.uleb128 0xe
+ 495 004f 3A       		.uleb128 0x3a
+ 496 0050 0B       		.uleb128 0xb
+ 497 0051 3B       		.uleb128 0x3b
+ 498 0052 0B       		.uleb128 0xb
+ 499 0053 49       		.uleb128 0x49
+ 500 0054 13       		.uleb128 0x13
+ 501 0055 38       		.uleb128 0x38
+ 502 0056 0B       		.uleb128 0xb
+ 503 0057 00       		.byte	0
+ 504 0058 00       		.byte	0
+ 505 0059 08       		.uleb128 0x8
+ 506 005a 16       		.uleb128 0x16
+ 507 005b 00       		.byte	0
+ 508 005c 03       		.uleb128 0x3
+ 509 005d 0E       		.uleb128 0xe
+ 510 005e 3A       		.uleb128 0x3a
+ 511 005f 0B       		.uleb128 0xb
+ 512 0060 3B       		.uleb128 0x3b
+ 513 0061 0B       		.uleb128 0xb
+ 514 0062 49       		.uleb128 0x49
+ 515 0063 13       		.uleb128 0x13
+ 516 0064 00       		.byte	0
+ 517 0065 00       		.byte	0
+ 518 0066 09       		.uleb128 0x9
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 13
+
+
+ 519 0067 2E       		.uleb128 0x2e
+ 520 0068 01       		.byte	0x1
+ 521 0069 3F       		.uleb128 0x3f
+ 522 006a 19       		.uleb128 0x19
+ 523 006b 03       		.uleb128 0x3
+ 524 006c 0E       		.uleb128 0xe
+ 525 006d 3A       		.uleb128 0x3a
+ 526 006e 0B       		.uleb128 0xb
+ 527 006f 3B       		.uleb128 0x3b
+ 528 0070 0B       		.uleb128 0xb
+ 529 0071 27       		.uleb128 0x27
+ 530 0072 19       		.uleb128 0x19
+ 531 0073 11       		.uleb128 0x11
+ 532 0074 01       		.uleb128 0x1
+ 533 0075 12       		.uleb128 0x12
+ 534 0076 06       		.uleb128 0x6
+ 535 0077 40       		.uleb128 0x40
+ 536 0078 18       		.uleb128 0x18
+ 537 0079 9742     		.uleb128 0x2117
+ 538 007b 19       		.uleb128 0x19
+ 539 007c 01       		.uleb128 0x1
+ 540 007d 13       		.uleb128 0x13
+ 541 007e 00       		.byte	0
+ 542 007f 00       		.byte	0
+ 543 0080 0A       		.uleb128 0xa
+ 544 0081 898201   		.uleb128 0x4109
+ 545 0084 00       		.byte	0
+ 546 0085 11       		.uleb128 0x11
+ 547 0086 01       		.uleb128 0x1
+ 548 0087 31       		.uleb128 0x31
+ 549 0088 13       		.uleb128 0x13
+ 550 0089 00       		.byte	0
+ 551 008a 00       		.byte	0
+ 552 008b 0B       		.uleb128 0xb
+ 553 008c 898201   		.uleb128 0x4109
+ 554 008f 00       		.byte	0
+ 555 0090 11       		.uleb128 0x11
+ 556 0091 01       		.uleb128 0x1
+ 557 0092 9542     		.uleb128 0x2115
+ 558 0094 19       		.uleb128 0x19
+ 559 0095 31       		.uleb128 0x31
+ 560 0096 13       		.uleb128 0x13
+ 561 0097 00       		.byte	0
+ 562 0098 00       		.byte	0
+ 563 0099 0C       		.uleb128 0xc
+ 564 009a 34       		.uleb128 0x34
+ 565 009b 00       		.byte	0
+ 566 009c 03       		.uleb128 0x3
+ 567 009d 0E       		.uleb128 0xe
+ 568 009e 3A       		.uleb128 0x3a
+ 569 009f 0B       		.uleb128 0xb
+ 570 00a0 3B       		.uleb128 0x3b
+ 571 00a1 0B       		.uleb128 0xb
+ 572 00a2 49       		.uleb128 0x49
+ 573 00a3 13       		.uleb128 0x13
+ 574 00a4 02       		.uleb128 0x2
+ 575 00a5 18       		.uleb128 0x18
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 14
+
+
+ 576 00a6 00       		.byte	0
+ 577 00a7 00       		.byte	0
+ 578 00a8 0D       		.uleb128 0xd
+ 579 00a9 2E       		.uleb128 0x2e
+ 580 00aa 00       		.byte	0
+ 581 00ab 3F       		.uleb128 0x3f
+ 582 00ac 19       		.uleb128 0x19
+ 583 00ad 3C       		.uleb128 0x3c
+ 584 00ae 19       		.uleb128 0x19
+ 585 00af 6E       		.uleb128 0x6e
+ 586 00b0 0E       		.uleb128 0xe
+ 587 00b1 03       		.uleb128 0x3
+ 588 00b2 0E       		.uleb128 0xe
+ 589 00b3 3A       		.uleb128 0x3a
+ 590 00b4 0B       		.uleb128 0xb
+ 591 00b5 3B       		.uleb128 0x3b
+ 592 00b6 0B       		.uleb128 0xb
+ 593 00b7 00       		.byte	0
+ 594 00b8 00       		.byte	0
+ 595 00b9 00       		.byte	0
+ 596              		.section	.debug_aranges,"",%progbits
+ 597 0000 34000000 		.4byte	0x34
+ 598 0004 0200     		.2byte	0x2
+ 599 0006 00000000 		.4byte	.Ldebug_info0
+ 600 000a 04       		.byte	0x4
+ 601 000b 00       		.byte	0
+ 602 000c 0000     		.2byte	0
+ 603 000e 0000     		.2byte	0
+ 604 0010 00000000 		.4byte	.LFB0
+ 605 0014 18000000 		.4byte	.LFE0-.LFB0
+ 606 0018 00000000 		.4byte	.LFB1
+ 607 001c 18000000 		.4byte	.LFE1-.LFB1
+ 608 0020 00000000 		.4byte	.LFB2
+ 609 0024 28000000 		.4byte	.LFE2-.LFB2
+ 610 0028 00000000 		.4byte	.LFB3
+ 611 002c 1C000000 		.4byte	.LFE3-.LFB3
+ 612 0030 00000000 		.4byte	0
+ 613 0034 00000000 		.4byte	0
+ 614              		.section	.debug_ranges,"",%progbits
+ 615              	.Ldebug_ranges0:
+ 616 0000 00000000 		.4byte	.LFB0
+ 617 0004 18000000 		.4byte	.LFE0
+ 618 0008 00000000 		.4byte	.LFB1
+ 619 000c 18000000 		.4byte	.LFE1
+ 620 0010 00000000 		.4byte	.LFB2
+ 621 0014 28000000 		.4byte	.LFE2
+ 622 0018 00000000 		.4byte	.LFB3
+ 623 001c 1C000000 		.4byte	.LFE3
+ 624 0020 00000000 		.4byte	0
+ 625 0024 00000000 		.4byte	0
+ 626              		.section	.debug_line,"",%progbits
+ 627              	.Ldebug_line0:
+ 628 0000 BD000000 		.section	.debug_str,"MS",%progbits,1
+ 628      02006600 
+ 628      00000201 
+ 628      FB0E0D00 
+ 628      01010101 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 15
+
+
+ 629              	.LASF22:
+ 630 0000 436F756E 		.ascii	"Counter_Duration_RestoreConfig\000"
+ 630      7465725F 
+ 630      44757261 
+ 630      74696F6E 
+ 630      5F526573 
+ 631              	.LASF28:
+ 632 001f 436F756E 		.ascii	"Counter_Duration_WriteControlRegister\000"
+ 632      7465725F 
+ 632      44757261 
+ 632      74696F6E 
+ 632      5F577269 
+ 633              	.LASF21:
+ 634 0045 436F756E 		.ascii	"Counter_Duration_SaveConfig\000"
+ 634      7465725F 
+ 634      44757261 
+ 634      74696F6E 
+ 634      5F536176 
+ 635              	.LASF23:
+ 636 0061 436F756E 		.ascii	"Counter_Duration_Sleep\000"
+ 636      7465725F 
+ 636      44757261 
+ 636      74696F6E 
+ 636      5F536C65 
+ 637              	.LASF18:
+ 638 0078 436F756E 		.ascii	"CounterUdb\000"
+ 638      74657255 
+ 638      646200
+ 639              	.LASF19:
+ 640 0083 436F756E 		.ascii	"CounterControlRegister\000"
+ 640      74657243 
+ 640      6F6E7472 
+ 640      6F6C5265 
+ 640      67697374 
+ 641              	.LASF32:
+ 642 009a 47656E65 		.ascii	"Generated_Source\\PSoC5\\Counter_Duration_PM.c\000"
+ 642      72617465 
+ 642      645F536F 
+ 642      75726365 
+ 642      5C50536F 
+ 643              	.LASF11:
+ 644 00c7 666C6F61 		.ascii	"float\000"
+ 644      7400
+ 645              	.LASF20:
+ 646 00cd 436F756E 		.ascii	"Counter_Duration_backupStruct\000"
+ 646      7465725F 
+ 646      44757261 
+ 646      74696F6E 
+ 646      5F626163 
+ 647              	.LASF14:
+ 648 00eb 72656738 		.ascii	"reg8\000"
+ 648      00
+ 649              	.LASF31:
+ 650 00f0 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 650      43313120 
+ 650      352E342E 
+ 650      31203230 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 16
+
+
+ 650      31363036 
+ 651 0123 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 651      20726576 
+ 651      6973696F 
+ 651      6E203233 
+ 651      37373135 
+ 652 0156 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 652      66756E63 
+ 652      74696F6E 
+ 652      2D736563 
+ 652      74696F6E 
+ 653              	.LASF9:
+ 654 017e 75696E74 		.ascii	"uint8\000"
+ 654      3800
+ 655              	.LASF33:
+ 656 0184 433A5C55 		.ascii	"C:\\Users\\Nathan\\Documents\\MyBuilds\\Flight Cont"
+ 656      73657273 
+ 656      5C4E6174 
+ 656      68616E5C 
+ 656      446F6375 
+ 657 01b2 726F6C6C 		.ascii	"roller\\ServoControl.cydsn\000"
+ 657      65725C53 
+ 657      6572766F 
+ 657      436F6E74 
+ 657      726F6C2E 
+ 658              	.LASF26:
+ 659 01cc 436F756E 		.ascii	"Counter_Duration_ReadControlRegister\000"
+ 659      7465725F 
+ 659      44757261 
+ 659      74696F6E 
+ 659      5F526561 
+ 660              	.LASF30:
+ 661 01f1 436F756E 		.ascii	"Counter_Duration_Enable\000"
+ 661      7465725F 
+ 661      44757261 
+ 661      74696F6E 
+ 661      5F456E61 
+ 662              	.LASF1:
+ 663 0209 756E7369 		.ascii	"unsigned char\000"
+ 663      676E6564 
+ 663      20636861 
+ 663      7200
+ 664              	.LASF12:
+ 665 0217 646F7562 		.ascii	"double\000"
+ 665      6C6500
+ 666              	.LASF10:
+ 667 021e 75696E74 		.ascii	"uint32\000"
+ 667      333200
+ 668              	.LASF5:
+ 669 0225 6C6F6E67 		.ascii	"long unsigned int\000"
+ 669      20756E73 
+ 669      69676E65 
+ 669      6420696E 
+ 669      7400
+ 670              	.LASF8:
+ 671 0237 756E7369 		.ascii	"unsigned int\000"
+ 671      676E6564 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 17
+
+
+ 671      20696E74 
+ 671      00
+ 672              	.LASF7:
+ 673 0244 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 673      206C6F6E 
+ 673      6720756E 
+ 673      7369676E 
+ 673      65642069 
+ 674              	.LASF25:
+ 675 025b 436F756E 		.ascii	"Counter_Duration_ReadCounter\000"
+ 675      7465725F 
+ 675      44757261 
+ 675      74696F6E 
+ 675      5F526561 
+ 676              	.LASF16:
+ 677 0278 73697A65 		.ascii	"sizetype\000"
+ 677      74797065 
+ 677      00
+ 678              	.LASF17:
+ 679 0281 436F756E 		.ascii	"CounterEnableState\000"
+ 679      74657245 
+ 679      6E61626C 
+ 679      65537461 
+ 679      746500
+ 680              	.LASF6:
+ 681 0294 6C6F6E67 		.ascii	"long long int\000"
+ 681      206C6F6E 
+ 681      6720696E 
+ 681      7400
+ 682              	.LASF29:
+ 683 02a2 436F756E 		.ascii	"Counter_Duration_Stop\000"
+ 683      7465725F 
+ 683      44757261 
+ 683      74696F6E 
+ 683      5F53746F 
+ 684              	.LASF13:
+ 685 02b8 63686172 		.ascii	"char\000"
+ 685      00
+ 686              	.LASF34:
+ 687 02bd 436F756E 		.ascii	"Counter_Duration_backup\000"
+ 687      7465725F 
+ 687      44757261 
+ 687      74696F6E 
+ 687      5F626163 
+ 688              	.LASF2:
+ 689 02d5 73686F72 		.ascii	"short int\000"
+ 689      7420696E 
+ 689      7400
+ 690              	.LASF24:
+ 691 02df 436F756E 		.ascii	"Counter_Duration_Wakeup\000"
+ 691      7465725F 
+ 691      44757261 
+ 691      74696F6E 
+ 691      5F57616B 
+ 692              	.LASF4:
+ 693 02f7 6C6F6E67 		.ascii	"long int\000"
+ 693      20696E74 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\cc9udqvE.s 			page 18
+
+
+ 693      00
+ 694              	.LASF27:
+ 695 0300 436F756E 		.ascii	"Counter_Duration_WriteCounter\000"
+ 695      7465725F 
+ 695      44757261 
+ 695      74696F6E 
+ 695      5F577269 
+ 696              	.LASF15:
+ 697 031e 6C6F6E67 		.ascii	"long double\000"
+ 697      20646F75 
+ 697      626C6500 
+ 698              	.LASF0:
+ 699 032a 7369676E 		.ascii	"signed char\000"
+ 699      65642063 
+ 699      68617200 
+ 700              	.LASF3:
+ 701 0336 73686F72 		.ascii	"short unsigned int\000"
+ 701      7420756E 
+ 701      7369676E 
+ 701      65642069 
+ 701      6E7400
+ 702              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

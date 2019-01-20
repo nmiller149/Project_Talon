@@ -1,0 +1,4013 @@
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"main.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.Start_SD_Card,"ax",%progbits
+  20              		.align	1
+  21              		.global	Start_SD_Card
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	Start_SD_Card, %function
+  25              	Start_SD_Card:
+  26              	.LFB65:
+  27              		.file 1 "main.c"
+   1:main.c        **** /* ========================================
+   2:main.c        ****  *
+   3:main.c        ****  * Copyright YOUR COMPANY, THE YEAR
+   4:main.c        ****  * All Rights Reserved
+   5:main.c        ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:main.c        ****  *
+   7:main.c        ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:main.c        ****  * WHICH IS THE PROPERTY OF your company.
+   9:main.c        ****  *
+  10:main.c        ****  * ========================================
+  11:main.c        **** */
+  12:main.c        **** 
+  13:main.c        **** #ifndef PROJECT_H
+  14:main.c        **** #define PROJECT_H
+  15:main.c        **** #include <project.h>
+  16:main.c        **** #endif
+  17:main.c        **** 
+  18:main.c        **** //Included files for writing to SD Card?
+  19:main.c        **** #include <FS.h>
+  20:main.c        **** #include <string.h>
+  21:main.c        **** #include <Global.h>
+  22:main.c        **** #include <stdio.h>
+  23:main.c        **** 
+  24:main.c        **** #include "Adafruit_BNO055.h"
+  25:main.c        **** #include "Adafruit_GPS.h"
+  26:main.c        **** 
+  27:main.c        **** 
+  28:main.c        **** #define DEFAULT_PRIORITY                    (3u)
+  29:main.c        **** #define HIGHER_PRIORITY                     (2u)
+  30:main.c        **** 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 2
+
+
+  31:main.c        **** 
+  32:main.c        **** 
+  33:main.c        **** 
+  34:main.c        **** 
+  35:main.c        **** //PROTOTYPES
+  36:main.c        **** void Start_SD_Card();
+  37:main.c        **** void Close_SD_Card();
+  38:main.c        **** /*
+  39:main.c        **** void Write_AGM_Config(uint8 RegisterAdrress, uint8 DataByte); 
+  40:main.c        **** void AGM_Start();
+  41:main.c        **** void AGM_EulersRefresh();
+  42:main.c        **** void AGM_AccelRefresh();
+  43:main.c        **** void AGM_GetTemp();
+  44:main.c        **** void GPS_Start();
+  45:main.c        **** void GPS_Refresh();
+  46:main.c        **** */
+  47:main.c        **** 
+  48:main.c        **** //GLOBAL VARIABLES
+  49:main.c        **** char sdFile[13] = {'T','E','M','P','D','A','T','A','.','t','x','t'};
+  50:main.c        **** FS_FILE * pFile;
+  51:main.c        **** char sdVolName[12];     /* Buffer that will hold SD card Volume name */  
+  52:main.c        **** 
+  53:main.c        **** uint8 fileNumber;
+  54:main.c        **** 
+  55:main.c        **** /*
+  56:main.c        **** int16 ROLL, PITCH; uint16 YAW;
+  57:main.c        **** int16 XACCEL, YACCEL, ZACCEL;
+  58:main.c        **** uint8 AGMTEMP;
+  59:main.c        **** 
+  60:main.c        **** char GPS_RMC_Data[100];
+  61:main.c        **** char GPS_GGA_Data[100];
+  62:main.c        **** 
+  63:main.c        **** uint8 NewGPSData = 0;
+  64:main.c        **** */
+  65:main.c        **** 
+  66:main.c        **** CY_ISR_PROTO(GPS_Handler);
+  67:main.c        **** 
+  68:main.c        **** 
+  69:main.c        **** 
+  70:main.c        **** int main(void)
+  71:main.c        **** {
+  72:main.c        ****     
+  73:main.c        ****     
+  74:main.c        ****     //=========================== Initialization =====================================
+  75:main.c        ****     CyGlobalIntEnable; /* Enable global interrupts. */
+  76:main.c        ****     
+  77:main.c        ****     //isr_GPS_StartEx(GPS_Handler);
+  78:main.c        ****     //isr_GPS_SetPriority(DEFAULT_PRIORITY);
+  79:main.c        ****       
+  80:main.c        ****     Timer_1_Start();
+  81:main.c        ****     Counter_Duration_Start();
+  82:main.c        ****     
+  83:main.c        ****     GPS_Start();
+  84:main.c        ****     UART_HC12_Start();
+  85:main.c        **** 
+  86:main.c        ****     Stabilizer_Start();
+  87:main.c        ****     Aileron_Start();
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 3
+
+
+  88:main.c        ****     Motor_Speed_Start();
+  89:main.c        ****     
+  90:main.c        ****     VDAC8_1_Start();
+  91:main.c        ****     SPI_Altitude_Start();
+  92:main.c        ****     
+  93:main.c        ****     
+  94:main.c        ****     //Start Accel/Gyro/Mag sensor
+  95:main.c        ****     AGM_Start();
+  96:main.c        **** 
+  97:main.c        ****     EEPROM_Start();
+  98:main.c        ****     /*
+  99:main.c        ****     cystatus EEPROM_WriteByte(uint8 dataByte, uint16 address)
+ 100:main.c        ****     uint8 EEPROM_ReadByte(uint16 address)
+ 101:main.c        ****     uint8 EEPROM_UpdateTemperature(void)
+ 102:main.c        ****     cystatus EEPROM_EraseSector(uint8 sectorNumber)
+ 103:main.c        ****     cystatus EEPROM_StartWrite(const uint8 *rowData, uint8 rowNumber)
+ 104:main.c        ****     cystatus EEPROM_Query(void)
+ 105:main.c        ****     */  //EEPROM useful functions
+ 106:main.c        ****     
+ 107:main.c        ****     
+ 108:main.c        ****     
+ 109:main.c        ****     
+ 110:main.c        ****     
+ 111:main.c        ****     fileNumber = EEPROM_ReadByte(0x1A); //gets the next file number from eeprom
+ 112:main.c        **** 
+ 113:main.c        ****     //Starts and configures emFile and file system
+ 114:main.c        ****     Start_SD_Card(); 
+ 115:main.c        ****         
+ 116:main.c        ****     
+ 117:main.c        ****     //===========================================================================================
+ 118:main.c        ****       
+ 119:main.c        ****     
+ 120:main.c        ****     
+ 121:main.c        ****     
+ 122:main.c        ****     
+ 123:main.c        ****     //duration,X,Y,Z,Yaw,Roll,Pitch,TEMP,$GPS,,,,,,,,,,,, 
+ 124:main.c        **** 
+ 125:main.c        ****     uint16  refreshTime = 10  ,  timerPeriod = 1000;  //mS
+ 126:main.c        ****     uint duration = 0;
+ 127:main.c        ****     uint8 endLoop = 0;
+ 128:main.c        ****     char dataArray[300]; 
+ 129:main.c        ****     
+ 130:main.c        ****     for(;;)
+ 131:main.c        ****     {
+ 132:main.c        ****       
+ 133:main.c        ****         if (Timer_1_ReadCounter() <= (timerPeriod - refreshTime))
+ 134:main.c        ****         {
+ 135:main.c        ****             
+ 136:main.c        ****             AGM_EulersRefresh();
+ 137:main.c        ****             AGM_AccelRefresh();
+ 138:main.c        ****             AGM_GetTemp();
+ 139:main.c        ****             GPS_Refresh();
+ 140:main.c        ****             
+ 141:main.c        ****             duration = Counter_Duration_ReadCounter();
+ 142:main.c        ****             
+ 143:main.c        ****             
+ 144:main.c        ****             //Write the comma seperated vector to save and send   
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 4
+
+
+ 145:main.c        ****             sprintf(dataArray,"%u,%i,%i,%i,%i,%i,%i,%i,",duration,PITCH,ROLL,YAW,XACCEL,YACCEL,ZACC
+ 146:main.c        ****             
+ 147:main.c        ****             
+ 148:main.c        ****             //Concatinate the gps data with the orientation data array
+ 149:main.c        ****             if(NewGPSData == 1){
+ 150:main.c        ****                 strcat(dataArray,GPS_RMC_Data);
+ 151:main.c        ****                 NewGPSData = 2;
+ 152:main.c        ****             }
+ 153:main.c        ****             
+ 154:main.c        ****             else if(NewGPSData == 3){
+ 155:main.c        ****                 strcat(dataArray,GPS_GGA_Data);
+ 156:main.c        ****                 NewGPSData = 0;
+ 157:main.c        ****             }
+ 158:main.c        ****             
+ 159:main.c        ****             
+ 160:main.c        ****             strcat(dataArray,"\r\n");
+ 161:main.c        ****             
+ 162:main.c        ****             
+ 163:main.c        ****             
+ 164:main.c        ****             //send it!
+ 165:main.c        ****             UART_HC12_PutString(dataArray);
+ 166:main.c        ****                    
+ 167:main.c        ****             
+ 168:main.c        ****             
+ 169:main.c        ****             
+ 170:main.c        ****             
+ 171:main.c        ****             //Save it!
+ 172:main.c        ****             if(pFile)//Checks if file was created
+ 173:main.c        ****             {
+ 174:main.c        ****                 if(0 != FS_Write(pFile, &dataArray, strlen(dataArray))) 
+ 175:main.c        ****                 {
+ 176:main.c        ****                     /* Indicate that data was written to a file */
+ 177:main.c        ****                 }
+ 178:main.c        ****                 else
+ 179:main.c        ****                 {
+ 180:main.c        **** 
+ 181:main.c        ****                 }
+ 182:main.c        ****             }
+ 183:main.c        ****             
+ 184:main.c        ****             
+ 185:main.c        ****             
+ 186:main.c        ****             //Nullify the data Array
+ 187:main.c        ****             for (U16 i = 100; i < 300; ++i){
+ 188:main.c        ****                 dataArray[i] = '\0';
+ 189:main.c        ****             }
+ 190:main.c        ****             
+ 191:main.c        ****             
+ 192:main.c        ****             
+ 193:main.c        ****             //Reset the timer
+ 194:main.c        ****             Timer_1_WriteCounter(timerPeriod);
+ 195:main.c        ****         }//End if 
+ 196:main.c        ****         
+ 197:main.c        ****         
+ 198:main.c        ****         
+ 199:main.c        ****         
+ 200:main.c        ****         //Turn off program to save the file
+ 201:main.c        ****         if (Button_Read() == 0){
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 5
+
+
+ 202:main.c        ****             
+ 203:main.c        ****             int start = Counter_Duration_ReadCounter();
+ 204:main.c        ****             int current;
+ 205:main.c        ****             
+ 206:main.c        ****             while(Button_Read() == 0){                
+ 207:main.c        ****                 current = Counter_Duration_ReadCounter();
+ 208:main.c        ****                 
+ 209:main.c        ****                 if ( (current - start) >= 2){
+ 210:main.c        ****                     LED_Write(1u);
+ 211:main.c        ****                     endLoop = 1;
+ 212:main.c        ****                     break;
+ 213:main.c        ****                 }
+ 214:main.c        ****             }
+ 215:main.c        ****         }
+ 216:main.c        ****         
+ 217:main.c        ****         if (endLoop ==1){
+ 218:main.c        ****             break;    
+ 219:main.c        ****         }
+ 220:main.c        ****         
+ 221:main.c        ****     } //End for(;;) loop   
+ 222:main.c        ****     
+ 223:main.c        ****     
+ 224:main.c        ****     //ShutDown Operation
+ 225:main.c        ****     Close_SD_Card();
+ 226:main.c        ****     
+ 227:main.c        ****     while(1){
+ 228:main.c        ****         CyDelay(100);
+ 229:main.c        ****         LED_Write(0);
+ 230:main.c        ****         CyDelay(100);
+ 231:main.c        ****         LED_Write(1);
+ 232:main.c        ****     }
+ 233:main.c        ****     
+ 234:main.c        **** }/* [] END OF MAIN  */
+ 235:main.c        **** 
+ 236:main.c        **** 
+ 237:main.c        **** 
+ 238:main.c        **** 
+ 239:main.c        **** 
+ 240:main.c        **** 
+ 241:main.c        **** 
+ 242:main.c        **** 
+ 243:main.c        **** 
+ 244:main.c        **** /*========================= FUNCTION  DEFINITIONS ============================*/
+ 245:main.c        **** //    -------------------------------------------------------------------
+ 246:main.c        **** 
+ 247:main.c        **** 
+ 248:main.c        **** 
+ 249:main.c        **** 
+ 250:main.c        **** //-------------------- SD Card Functions ----------------------------------
+ 251:main.c        **** 
+ 252:main.c        **** void Start_SD_Card(){
+  28              		.loc 1 252 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 6
+
+
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+ 253:main.c        ****     // set  'char sdFile[15];' as a global
+ 254:main.c        ****     // set 'FS_FILE * pFile;' as a global too
+ 255:main.c        ****     // set char sdVolName[12];    as a global
+ 256:main.c        ****     // fileNumber as a global
+ 257:main.c        ****    
+ 258:main.c        ****     
+ 259:main.c        ****     
+ 260:main.c        ****     /* Initialize file system */
+ 261:main.c        ****     FS_Init(); 
+  36              		.loc 1 261 0
+  37 0002 FFF7FEFF 		bl	FS_Init
+  38              	.LVL0:
+ 262:main.c        ****     CyDelay(250);
+  39              		.loc 1 262 0
+  40 0006 FA20     		movs	r0, #250
+  41 0008 FFF7FEFF 		bl	CyDelay
+  42              	.LVL1:
+ 263:main.c        ****     
+ 264:main.c        ****     
+ 265:main.c        **** 
+ 266:main.c        ****     /* Get volume name of SD card #0 */
+ 267:main.c        ****     if(0 != FS_GetVolumeName(0u, &sdVolName[0], 12u))
+  43              		.loc 1 267 0
+  44 000c 0C22     		movs	r2, #12
+  45 000e 0C49     		ldr	r1, .L4
+  46 0010 0020     		movs	r0, #0
+  47 0012 FFF7FEFF 		bl	FS_GetVolumeName
+  48              	.LVL2:
+ 268:main.c        ****     {
+ 269:main.c        ****         //CAN PUT SOMETHING HERE IF VOLUME NAME IS SUCCESFULLY FOUND
+ 270:main.c        ****     }
+ 271:main.c        ****     
+ 272:main.c        ****     else
+ 273:main.c        ****     {
+ 274:main.c        ****         //PUT SOMETHING HERE IF VOLUME IS NOT SUCCESFULLY FOUND
+ 275:main.c        ****     }
+ 276:main.c        ****      
+ 277:main.c        ****     
+ 278:main.c        ****     FS_Mount (&sdVolName[0]);
+  49              		.loc 1 278 0
+  50 0016 0A48     		ldr	r0, .L4
+  51 0018 FFF7FEFF 		bl	FS_Mount
+  52              	.LVL3:
+ 279:main.c        ****     
+ 280:main.c        ****        
+ 281:main.c        ****     
+ 282:main.c        ****     
+ 283:main.c        ****     /* Create specific file for modification */
+ 284:main.c        ****     pFile = FS_FOpen(sdFile, "a");/*
+  53              		.loc 1 284 0
+  54 001c 0949     		ldr	r1, .L4+4
+  55 001e 0A48     		ldr	r0, .L4+8
+  56 0020 FFF7FEFF 		bl	FS_FOpen
+  57              	.LVL4:
+  58 0024 094B     		ldr	r3, .L4+12
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 7
+
+
+  59 0026 1860     		str	r0, [r3]
+ 285:main.c        ****     r -for reading
+ 286:main.c        ****     w -Truncate to zero length or create file for writing
+ 287:main.c        ****     "a"	-Append; open and create file for writing at end-of-file
+ 288:main.c        ****     "r+ or rb+ or r+b"	Open file for update (reading and writing)
+ 289:main.c        ****     "w+ or wb+ or w+b"	Truncate to zero length or create file for update
+ 290:main.c        ****     "a+ or ab+ or a+b"	Append; open or create for update, writing at end-of-file
+ 291:main.c        ****     */    
+ 292:main.c        ****    
+ 293:main.c        ****     
+ 294:main.c        ****     
+ 295:main.c        ****     
+ 296:main.c        ****     if (pFile){
+  60              		.loc 1 296 0
+  61 0028 40B1     		cbz	r0, .L1
+ 297:main.c        ****         EEPROM_WriteByte((fileNumber + 1), 0x1A);   // increments, in eeprom, the file number for n
+  62              		.loc 1 297 0
+  63 002a 094B     		ldr	r3, .L4+16
+  64 002c 1A21     		movs	r1, #26
+  65 002e 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 298:main.c        ****     }
+ 299:main.c        ****     return;
+ 300:main.c        **** 
+ 301:main.c        **** 
+ 302:main.c        **** }
+  66              		.loc 1 302 0
+  67 0030 BDE80840 		pop	{r3, lr}
+  68              		.cfi_remember_state
+  69              		.cfi_restore 14
+  70              		.cfi_restore 3
+  71              		.cfi_def_cfa_offset 0
+ 297:main.c        ****         EEPROM_WriteByte((fileNumber + 1), 0x1A);   // increments, in eeprom, the file number for n
+  72              		.loc 1 297 0
+  73 0034 0130     		adds	r0, r0, #1
+  74 0036 C0B2     		uxtb	r0, r0
+  75 0038 FFF7FEBF 		b	EEPROM_WriteByte
+  76              	.LVL5:
+  77              	.L1:
+  78              		.cfi_restore_state
+  79 003c 08BD     		pop	{r3, pc}
+  80              	.L5:
+  81 003e 00BF     		.align	2
+  82              	.L4:
+  83 0040 00000000 		.word	sdVolName
+  84 0044 00000000 		.word	.LC0
+  85 0048 00000000 		.word	.LANCHOR0
+  86 004c 00000000 		.word	pFile
+  87 0050 00000000 		.word	fileNumber
+  88              		.cfi_endproc
+  89              	.LFE65:
+  90              		.size	Start_SD_Card, .-Start_SD_Card
+  91              		.section	.text.Close_SD_Card,"ax",%progbits
+  92              		.align	1
+  93              		.global	Close_SD_Card
+  94              		.thumb
+  95              		.thumb_func
+  96              		.type	Close_SD_Card, %function
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 8
+
+
+  97              	Close_SD_Card:
+  98              	.LFB66:
+ 303:main.c        **** 
+ 304:main.c        **** 
+ 305:main.c        **** 
+ 306:main.c        **** 
+ 307:main.c        **** void Close_SD_Card(){
+  99              		.loc 1 307 0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 32
+ 102              		@ frame_needed = 0, uses_anonymous_args = 0
+ 103 0000 30B5     		push	{r4, r5, lr}
+ 104              		.cfi_def_cfa_offset 12
+ 105              		.cfi_offset 4, -12
+ 106              		.cfi_offset 5, -8
+ 107              		.cfi_offset 14, -4
+ 308:main.c        ****     //close file
+ 309:main.c        ****     if(0 == FS_FClose(pFile))
+ 108              		.loc 1 309 0
+ 109 0002 0F4B     		ldr	r3, .L7
+ 307:main.c        ****     //close file
+ 110              		.loc 1 307 0
+ 111 0004 89B0     		sub	sp, sp, #36
+ 112              		.cfi_def_cfa_offset 48
+ 113              		.loc 1 309 0
+ 114 0006 1868     		ldr	r0, [r3]
+ 115 0008 FFF7FEFF 		bl	FS_FClose
+ 116              	.LVL6:
+ 310:main.c        ****     {
+ 311:main.c        ****     }
+ 312:main.c        ****     else
+ 313:main.c        ****     {
+ 314:main.c        ****     }
+ 315:main.c        ****     
+ 316:main.c        ****     
+ 317:main.c        ****   
+ 318:main.c        ****     
+ 319:main.c        ****     char NewDestination[32];
+ 320:main.c        ****     //Copy a file to a previously created directory
+ 321:main.c        ****     sprintf(NewDestination,"\\SSASPIRE\\FLIGHT%u.csv",fileNumber);
+ 117              		.loc 1 321 0
+ 118 000c 0D4B     		ldr	r3, .L7+4
+ 322:main.c        ****     if(0 == FS_CopyFile(sdFile,NewDestination))
+ 119              		.loc 1 322 0
+ 120 000e 0E4D     		ldr	r5, .L7+8
+ 321:main.c        ****     if(0 == FS_CopyFile(sdFile,NewDestination))
+ 121              		.loc 1 321 0
+ 122 0010 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 323:main.c        ****     {
+ 324:main.c        ****     }
+ 325:main.c        ****     else
+ 326:main.c        ****     {
+ 327:main.c        ****     }
+ 328:main.c        ****     FS_SetFileTime(sdFile,  0x5ADA0420);
+ 123              		.loc 1 328 0
+ 124 0012 0E4C     		ldr	r4, .L7+12
+ 321:main.c        ****     if(0 == FS_CopyFile(sdFile,NewDestination))
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 9
+
+
+ 125              		.loc 1 321 0
+ 126 0014 0E49     		ldr	r1, .L7+16
+ 127 0016 6846     		mov	r0, sp
+ 128 0018 FFF7FEFF 		bl	sprintf
+ 129              	.LVL7:
+ 322:main.c        ****     {
+ 130              		.loc 1 322 0
+ 131 001c 6946     		mov	r1, sp
+ 132 001e 2846     		mov	r0, r5
+ 133 0020 FFF7FEFF 		bl	FS_CopyFile
+ 134              	.LVL8:
+ 135              		.loc 1 328 0
+ 136 0024 2146     		mov	r1, r4
+ 137 0026 2846     		mov	r0, r5
+ 138 0028 FFF7FEFF 		bl	FS_SetFileTime
+ 139              	.LVL9:
+ 329:main.c        ****     FS_SetFileTime(NewDestination,  0x5ADA0420);
+ 140              		.loc 1 329 0
+ 141 002c 2146     		mov	r1, r4
+ 142 002e 6846     		mov	r0, sp
+ 143 0030 FFF7FEFF 		bl	FS_SetFileTime
+ 144              	.LVL10:
+ 330:main.c        ****     
+ 331:main.c        ****     FS_Unmount (&sdVolName[0]); 
+ 145              		.loc 1 331 0
+ 146 0034 0748     		ldr	r0, .L7+20
+ 147 0036 FFF7FEFF 		bl	FS_Unmount
+ 148              	.LVL11:
+ 332:main.c        ****     
+ 333:main.c        ****     
+ 334:main.c        ****     return;    
+ 335:main.c        **** }
+ 149              		.loc 1 335 0
+ 150 003a 09B0     		add	sp, sp, #36
+ 151              		.cfi_def_cfa_offset 12
+ 152              		@ sp needed
+ 153 003c 30BD     		pop	{r4, r5, pc}
+ 154              	.L8:
+ 155 003e 00BF     		.align	2
+ 156              	.L7:
+ 157 0040 00000000 		.word	pFile
+ 158 0044 00000000 		.word	fileNumber
+ 159 0048 00000000 		.word	.LANCHOR0
+ 160 004c 2004DA5A 		.word	1524237344
+ 161 0050 02000000 		.word	.LC1
+ 162 0054 00000000 		.word	sdVolName
+ 163              		.cfi_endproc
+ 164              	.LFE66:
+ 165              		.size	Close_SD_Card, .-Close_SD_Card
+ 166              		.section	.text.startup.main,"ax",%progbits
+ 167              		.align	1
+ 168              		.global	main
+ 169              		.thumb
+ 170              		.thumb_func
+ 171              		.type	main, %function
+ 172              	main:
+ 173              	.LFB64:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 10
+
+
+  71:main.c        ****     
+ 174              		.loc 1 71 0
+ 175              		.cfi_startproc
+ 176              		@ args = 0, pretend = 0, frame = 304
+ 177              		@ frame_needed = 0, uses_anonymous_args = 0
+ 178 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 179              		.cfi_def_cfa_offset 20
+ 180              		.cfi_offset 4, -20
+ 181              		.cfi_offset 5, -16
+ 182              		.cfi_offset 6, -12
+ 183              		.cfi_offset 7, -8
+ 184              		.cfi_offset 14, -4
+ 185 0002 D3B0     		sub	sp, sp, #332
+ 186              		.cfi_def_cfa_offset 352
+  75:main.c        ****     
+ 187              		.loc 1 75 0
+ 188              		.syntax unified
+ 189              	@ 75 "main.c" 1
+ 190 0004 62B6     		CPSIE   i
+ 191              	@ 0 "" 2
+  80:main.c        ****     Counter_Duration_Start();
+ 192              		.loc 1 80 0
+ 193              		.thumb
+ 194              		.syntax unified
+ 195 0006 FFF7FEFF 		bl	Timer_1_Start
+ 196              	.LVL12:
+  81:main.c        ****     
+ 197              		.loc 1 81 0
+ 198 000a FFF7FEFF 		bl	Counter_Duration_Start
+ 199              	.LVL13:
+  83:main.c        ****     UART_HC12_Start();
+ 200              		.loc 1 83 0
+ 201 000e FFF7FEFF 		bl	GPS_Start
+ 202              	.LVL14:
+  84:main.c        **** 
+ 203              		.loc 1 84 0
+ 204 0012 FFF7FEFF 		bl	UART_HC12_Start
+ 205              	.LVL15:
+  86:main.c        ****     Aileron_Start();
+ 206              		.loc 1 86 0
+ 207 0016 FFF7FEFF 		bl	Stabilizer_Start
+ 208              	.LVL16:
+  87:main.c        ****     Motor_Speed_Start();
+ 209              		.loc 1 87 0
+ 210 001a FFF7FEFF 		bl	Aileron_Start
+ 211              	.LVL17:
+  88:main.c        ****     
+ 212              		.loc 1 88 0
+ 213 001e FFF7FEFF 		bl	Motor_Speed_Start
+ 214              	.LVL18:
+  90:main.c        ****     SPI_Altitude_Start();
+ 215              		.loc 1 90 0
+ 216 0022 FFF7FEFF 		bl	VDAC8_1_Start
+ 217              	.LVL19:
+  91:main.c        ****     
+ 218              		.loc 1 91 0
+ 219 0026 FFF7FEFF 		bl	SPI_Altitude_Start
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 11
+
+
+ 220              	.LVL20:
+  95:main.c        **** 
+ 221              		.loc 1 95 0
+ 222 002a FFF7FEFF 		bl	AGM_Start
+ 223              	.LVL21:
+  97:main.c        ****     /*
+ 224              		.loc 1 97 0
+ 225 002e FFF7FEFF 		bl	EEPROM_Start
+ 226              	.LVL22:
+ 111:main.c        **** 
+ 227              		.loc 1 111 0
+ 228 0032 1A20     		movs	r0, #26
+ 229 0034 FFF7FEFF 		bl	EEPROM_ReadByte
+ 230              	.LVL23:
+ 231 0038 424B     		ldr	r3, .L26
+ 145:main.c        ****             
+ 232              		.loc 1 145 0
+ 233 003a 434D     		ldr	r5, .L26+4
+ 111:main.c        **** 
+ 234              		.loc 1 111 0
+ 235 003c 1870     		strb	r0, [r3]
+ 114:main.c        ****         
+ 236              		.loc 1 114 0
+ 237 003e FFF7FEFF 		bl	Start_SD_Card
+ 238              	.LVL24:
+ 145:main.c        ****             
+ 239              		.loc 1 145 0
+ 240 0042 424E     		ldr	r6, .L26+8
+ 241 0044 424F     		ldr	r7, .L26+12
+ 242              	.LVL25:
+ 243              	.L19:
+ 133:main.c        ****         {
+ 244              		.loc 1 133 0
+ 245 0046 FFF7FEFF 		bl	Timer_1_ReadCounter
+ 246              	.LVL26:
+ 247 004a 40F2DE33 		movw	r3, #990
+ 248 004e 9842     		cmp	r0, r3
+ 249 0050 55DC     		bgt	.L10
+ 136:main.c        ****             AGM_AccelRefresh();
+ 250              		.loc 1 136 0
+ 251 0052 FFF7FEFF 		bl	AGM_EulersRefresh
+ 252              	.LVL27:
+ 137:main.c        ****             AGM_GetTemp();
+ 253              		.loc 1 137 0
+ 254 0056 FFF7FEFF 		bl	AGM_AccelRefresh
+ 255              	.LVL28:
+ 138:main.c        ****             GPS_Refresh();
+ 256              		.loc 1 138 0
+ 257 005a FFF7FEFF 		bl	AGM_GetTemp
+ 258              	.LVL29:
+ 139:main.c        ****             
+ 259              		.loc 1 139 0
+ 260 005e FFF7FEFF 		bl	GPS_Refresh
+ 261              	.LVL30:
+ 141:main.c        ****             
+ 262              		.loc 1 141 0
+ 263 0062 FFF7FEFF 		bl	Counter_Duration_ReadCounter
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 12
+
+
+ 264              	.LVL31:
+ 145:main.c        ****             
+ 265              		.loc 1 145 0
+ 266 0066 3278     		ldrb	r2, [r6]	@ zero_extendqisi2
+ 149:main.c        ****                 strcat(dataArray,GPS_RMC_Data);
+ 267              		.loc 1 149 0
+ 268 0068 3A4C     		ldr	r4, .L26+16
+ 145:main.c        ****             
+ 269              		.loc 1 145 0
+ 270 006a 0592     		str	r2, [sp, #20]
+ 271 006c B7F90020 		ldrsh	r2, [r7]
+ 272 0070 B5F90030 		ldrsh	r3, [r5]
+ 273 0074 0492     		str	r2, [sp, #16]
+ 274 0076 384A     		ldr	r2, .L26+20
+ 275 0078 3849     		ldr	r1, .L26+24
+ 276 007a B2F90020 		ldrsh	r2, [r2]
+ 277 007e 0392     		str	r2, [sp, #12]
+ 278 0080 374A     		ldr	r2, .L26+28
+ 279 0082 B2F90020 		ldrsh	r2, [r2]
+ 280 0086 0292     		str	r2, [sp, #8]
+ 281 0088 364A     		ldr	r2, .L26+32
+ 282 008a 1288     		ldrh	r2, [r2]
+ 283 008c 0192     		str	r2, [sp, #4]
+ 284 008e 364A     		ldr	r2, .L26+36
+ 285 0090 B2F90020 		ldrsh	r2, [r2]
+ 286 0094 0092     		str	r2, [sp]
+ 287 0096 0246     		mov	r2, r0
+ 288 0098 07A8     		add	r0, sp, #28
+ 289              	.LVL32:
+ 290 009a FFF7FEFF 		bl	sprintf
+ 291              	.LVL33:
+ 149:main.c        ****                 strcat(dataArray,GPS_RMC_Data);
+ 292              		.loc 1 149 0
+ 293 009e 2378     		ldrb	r3, [r4]	@ zero_extendqisi2
+ 294 00a0 012B     		cmp	r3, #1
+ 295 00a2 05D1     		bne	.L11
+ 150:main.c        ****                 NewGPSData = 2;
+ 296              		.loc 1 150 0
+ 297 00a4 3149     		ldr	r1, .L26+40
+ 298 00a6 07A8     		add	r0, sp, #28
+ 299 00a8 FFF7FEFF 		bl	strcat
+ 300              	.LVL34:
+ 151:main.c        ****             }
+ 301              		.loc 1 151 0
+ 302 00ac 0223     		movs	r3, #2
+ 303 00ae 06E0     		b	.L25
+ 304              	.L11:
+ 154:main.c        ****                 strcat(dataArray,GPS_GGA_Data);
+ 305              		.loc 1 154 0
+ 306 00b0 032B     		cmp	r3, #3
+ 307 00b2 05D1     		bne	.L12
+ 155:main.c        ****                 NewGPSData = 0;
+ 308              		.loc 1 155 0
+ 309 00b4 2E49     		ldr	r1, .L26+44
+ 310 00b6 07A8     		add	r0, sp, #28
+ 311 00b8 FFF7FEFF 		bl	strcat
+ 312              	.LVL35:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 13
+
+
+ 156:main.c        ****             }
+ 313              		.loc 1 156 0
+ 314 00bc 0023     		movs	r3, #0
+ 315              	.L25:
+ 316 00be 2370     		strb	r3, [r4]
+ 317              	.L12:
+ 160:main.c        ****             
+ 318              		.loc 1 160 0
+ 319 00c0 2C49     		ldr	r1, .L26+48
+ 320 00c2 07A8     		add	r0, sp, #28
+ 321 00c4 FFF7FEFF 		bl	strcat
+ 322              	.LVL36:
+ 165:main.c        ****                    
+ 323              		.loc 1 165 0
+ 324 00c8 07A8     		add	r0, sp, #28
+ 325 00ca FFF7FEFF 		bl	UART_HC12_PutString
+ 326              	.LVL37:
+ 172:main.c        ****             {
+ 327              		.loc 1 172 0
+ 328 00ce 2A4B     		ldr	r3, .L26+52
+ 329 00d0 1C68     		ldr	r4, [r3]
+ 330 00d2 3CB1     		cbz	r4, .L13
+ 174:main.c        ****                 {
+ 331              		.loc 1 174 0
+ 332 00d4 07A8     		add	r0, sp, #28
+ 333 00d6 FFF7FEFF 		bl	strlen
+ 334              	.LVL38:
+ 335 00da 07A9     		add	r1, sp, #28
+ 336 00dc 0246     		mov	r2, r0
+ 337 00de 2046     		mov	r0, r4
+ 338 00e0 FFF7FEFF 		bl	FS_Write
+ 339              	.LVL39:
+ 340              	.L13:
+  71:main.c        ****     
+ 341              		.loc 1 71 0 discriminator 1
+ 342 00e4 0023     		movs	r3, #0
+ 343              	.LBB2:
+ 188:main.c        ****             }
+ 344              		.loc 1 188 0 discriminator 1
+ 345 00e6 1946     		mov	r1, r3
+ 346              	.LVL40:
+ 347              	.L14:
+ 188:main.c        ****             }
+ 348              		.loc 1 188 0 is_stmt 0 discriminator 3
+ 349 00e8 07AA     		add	r2, sp, #28
+ 350 00ea 1A44     		add	r2, r2, r3
+ 351 00ec 0133     		adds	r3, r3, #1
+ 352              	.LVL41:
+ 187:main.c        ****                 dataArray[i] = '\0';
+ 353              		.loc 1 187 0 is_stmt 1 discriminator 3
+ 354 00ee C82B     		cmp	r3, #200
+ 188:main.c        ****             }
+ 355              		.loc 1 188 0 discriminator 3
+ 356 00f0 82F86410 		strb	r1, [r2, #100]
+ 187:main.c        ****                 dataArray[i] = '\0';
+ 357              		.loc 1 187 0 discriminator 3
+ 358 00f4 F8D1     		bne	.L14
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 14
+
+
+ 359              	.LBE2:
+ 194:main.c        ****         }//End if 
+ 360              		.loc 1 194 0
+ 361 00f6 4FF47A70 		mov	r0, #1000
+ 362 00fa FFF7FEFF 		bl	Timer_1_WriteCounter
+ 363              	.LVL42:
+ 364              	.L10:
+ 201:main.c        ****             
+ 365              		.loc 1 201 0
+ 366 00fe FFF7FEFF 		bl	Button_Read
+ 367              	.LVL43:
+ 368 0102 0028     		cmp	r0, #0
+ 369 0104 9FD1     		bne	.L19
+ 370              	.LBB3:
+ 203:main.c        ****             int current;
+ 371              		.loc 1 203 0
+ 372 0106 FFF7FEFF 		bl	Counter_Duration_ReadCounter
+ 373              	.LVL44:
+ 374 010a 0446     		mov	r4, r0
+ 375              	.LVL45:
+ 376              	.L16:
+ 206:main.c        ****                 current = Counter_Duration_ReadCounter();
+ 377              		.loc 1 206 0
+ 378 010c FFF7FEFF 		bl	Button_Read
+ 379              	.LVL46:
+ 380 0110 0028     		cmp	r0, #0
+ 381 0112 98D1     		bne	.L19
+ 207:main.c        ****                 
+ 382              		.loc 1 207 0
+ 383 0114 FFF7FEFF 		bl	Counter_Duration_ReadCounter
+ 384              	.LVL47:
+ 209:main.c        ****                     LED_Write(1u);
+ 385              		.loc 1 209 0
+ 386 0118 001B     		subs	r0, r0, r4
+ 387              	.LVL48:
+ 388 011a 0128     		cmp	r0, #1
+ 389 011c F6DD     		ble	.L16
+ 210:main.c        ****                     endLoop = 1;
+ 390              		.loc 1 210 0
+ 391 011e 0120     		movs	r0, #1
+ 392 0120 FFF7FEFF 		bl	LED_Write
+ 393              	.LVL49:
+ 394              	.LBE3:
+ 225:main.c        ****     
+ 395              		.loc 1 225 0
+ 396 0124 FFF7FEFF 		bl	Close_SD_Card
+ 397              	.LVL50:
+ 398              	.L17:
+ 228:main.c        ****         LED_Write(0);
+ 399              		.loc 1 228 0 discriminator 1
+ 400 0128 6420     		movs	r0, #100
+ 401 012a FFF7FEFF 		bl	CyDelay
+ 402              	.LVL51:
+ 229:main.c        ****         CyDelay(100);
+ 403              		.loc 1 229 0 discriminator 1
+ 404 012e 0020     		movs	r0, #0
+ 405 0130 FFF7FEFF 		bl	LED_Write
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 15
+
+
+ 406              	.LVL52:
+ 230:main.c        ****         LED_Write(1);
+ 407              		.loc 1 230 0 discriminator 1
+ 408 0134 6420     		movs	r0, #100
+ 409 0136 FFF7FEFF 		bl	CyDelay
+ 410              	.LVL53:
+ 231:main.c        ****     }
+ 411              		.loc 1 231 0 discriminator 1
+ 412 013a 0120     		movs	r0, #1
+ 413 013c FFF7FEFF 		bl	LED_Write
+ 414              	.LVL54:
+ 415 0140 F2E7     		b	.L17
+ 416              	.L27:
+ 417 0142 00BF     		.align	2
+ 418              	.L26:
+ 419 0144 00000000 		.word	fileNumber
+ 420 0148 00000000 		.word	PITCH
+ 421 014c 00000000 		.word	AGMTEMP
+ 422 0150 00000000 		.word	ZACCEL
+ 423 0154 00000000 		.word	.LANCHOR1
+ 424 0158 00000000 		.word	YACCEL
+ 425 015c 19000000 		.word	.LC2
+ 426 0160 00000000 		.word	XACCEL
+ 427 0164 00000000 		.word	YAW
+ 428 0168 00000000 		.word	ROLL
+ 429 016c 00000000 		.word	GPS_RMC_Data
+ 430 0170 00000000 		.word	GPS_GGA_Data
+ 431 0174 32000000 		.word	.LC3
+ 432 0178 00000000 		.word	pFile
+ 433              		.cfi_endproc
+ 434              	.LFE64:
+ 435              		.size	main, .-main
+ 436              		.section	.text.GPS_Handler,"ax",%progbits
+ 437              		.align	1
+ 438              		.global	GPS_Handler
+ 439              		.thumb
+ 440              		.thumb_func
+ 441              		.type	GPS_Handler, %function
+ 442              	GPS_Handler:
+ 443              	.LFB67:
+ 336:main.c        **** 
+ 337:main.c        **** 
+ 338:main.c        **** 
+ 339:main.c        **** 
+ 340:main.c        **** CY_ISR(GPS_Handler)
+ 341:main.c        **** {
+ 444              		.loc 1 341 0
+ 445              		.cfi_startproc
+ 446              		@ args = 0, pretend = 0, frame = 0
+ 447              		@ frame_needed = 0, uses_anonymous_args = 0
+ 448              		@ link register save eliminated.
+ 449 0000 7047     		bx	lr
+ 450              		.cfi_endproc
+ 451              	.LFE67:
+ 452              		.size	GPS_Handler, .-GPS_Handler
+ 453              		.comm	fileNumber,1,1
+ 454              		.comm	sdVolName,12,1
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 16
+
+
+ 455              		.comm	pFile,4,4
+ 456              		.global	sdFile
+ 457              		.global	NewGPSData
+ 458              		.comm	GPS_GGA_Data,100,1
+ 459              		.comm	GPS_RMC_Data,100,1
+ 460              		.comm	AGMTEMP,1,1
+ 461              		.comm	ZACCEL,2,2
+ 462              		.comm	YACCEL,2,2
+ 463              		.comm	XACCEL,2,2
+ 464              		.comm	YAW,2,2
+ 465              		.comm	PITCH,2,2
+ 466              		.comm	ROLL,2,2
+ 467              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 468              	.LC0:
+ 469 0000 6100     		.ascii	"a\000"
+ 470              	.LC1:
+ 471 0002 5C535341 		.ascii	"\\SSASPIRE\\FLIGHT%u.csv\000"
+ 471      53504952 
+ 471      455C464C 
+ 471      49474854 
+ 471      25752E63 
+ 472              	.LC2:
+ 473 0019 25752C25 		.ascii	"%u,%i,%i,%i,%i,%i,%i,%i,\000"
+ 473      692C2569 
+ 473      2C25692C 
+ 473      25692C25 
+ 473      692C2569 
+ 474              	.LC3:
+ 475 0032 0D0A00   		.ascii	"\015\012\000"
+ 476              		.data
+ 477              		.set	.LANCHOR0,. + 0
+ 478              		.type	sdFile, %object
+ 479              		.size	sdFile, 13
+ 480              	sdFile:
+ 481 0000 54       		.byte	84
+ 482 0001 45       		.byte	69
+ 483 0002 4D       		.byte	77
+ 484 0003 50       		.byte	80
+ 485 0004 44       		.byte	68
+ 486 0005 41       		.byte	65
+ 487 0006 54       		.byte	84
+ 488 0007 41       		.byte	65
+ 489 0008 2E       		.byte	46
+ 490 0009 74       		.byte	116
+ 491 000a 78       		.byte	120
+ 492 000b 74       		.byte	116
+ 493 000c 00       		.space	1
+ 494              		.bss
+ 495              		.set	.LANCHOR1,. + 0
+ 496              		.type	NewGPSData, %object
+ 497              		.size	NewGPSData, 1
+ 498              	NewGPSData:
+ 499 0000 00       		.space	1
+ 500              		.text
+ 501              	.Letext0:
+ 502              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 503              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 17
+
+
+ 504              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 505              		.file 5 "./FS_Types.h"
+ 506              		.file 6 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 507              		.file 7 "Generated_Source\\PSoC5/core_cm3.h"
+ 508              		.file 8 "Adafruit_BNO055.h"
+ 509              		.file 9 "Adafruit_GPS.h"
+ 510              		.file 10 "./FS.h"
+ 511              		.file 11 "Generated_Source\\PSoC5/CyLib.h"
+ 512              		.file 12 "Generated_Source\\PSoC5/EEPROM.h"
+ 513              		.file 13 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4
+ 514              		.file 14 "Generated_Source\\PSoC5/Counter_Duration.h"
+ 515              		.file 15 "Generated_Source\\PSoC5/Button.h"
+ 516              		.file 16 "Generated_Source\\PSoC5/LED.h"
+ 517              		.file 17 "Generated_Source\\PSoC5/Timer_1.h"
+ 518              		.file 18 "Generated_Source\\PSoC5/UART_HC12.h"
+ 519              		.file 19 "Generated_Source\\PSoC5/Stabilizer.h"
+ 520              		.file 20 "Generated_Source\\PSoC5/Aileron.h"
+ 521              		.file 21 "Generated_Source\\PSoC5/Motor_Speed.h"
+ 522              		.file 22 "Generated_Source\\PSoC5/VDAC8_1.h"
+ 523              		.file 23 "Generated_Source\\PSoC5/SPI_Altitude.h"
+ 524              		.file 24 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4
+ 525              		.section	.debug_info,"",%progbits
+ 526              	.Ldebug_info0:
+ 527 0000 650A0000 		.4byte	0xa65
+ 528 0004 0400     		.2byte	0x4
+ 529 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 530 000a 04       		.byte	0x4
+ 531 000b 01       		.uleb128 0x1
+ 532 000c 4D020000 		.4byte	.LASF188
+ 533 0010 0C       		.byte	0xc
+ 534 0011 F2050000 		.4byte	.LASF189
+ 535 0015 1D060000 		.4byte	.LASF190
+ 536 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 537 001d 00000000 		.4byte	0
+ 538 0021 00000000 		.4byte	.Ldebug_line0
+ 539 0025 02       		.uleb128 0x2
+ 540 0026 01       		.byte	0x1
+ 541 0027 06       		.byte	0x6
+ 542 0028 41020000 		.4byte	.LASF0
+ 543 002c 02       		.uleb128 0x2
+ 544 002d 01       		.byte	0x1
+ 545 002e 08       		.byte	0x8
+ 546 002f 47090000 		.4byte	.LASF1
+ 547 0033 02       		.uleb128 0x2
+ 548 0034 02       		.byte	0x2
+ 549 0035 05       		.byte	0x5
+ 550 0036 6C060000 		.4byte	.LASF2
+ 551 003a 02       		.uleb128 0x2
+ 552 003b 02       		.byte	0x2
+ 553 003c 07       		.byte	0x7
+ 554 003d 73050000 		.4byte	.LASF3
+ 555 0041 03       		.uleb128 0x3
+ 556 0042 990C0000 		.4byte	.LASF9
+ 557 0046 02       		.byte	0x2
+ 558 0047 3F       		.byte	0x3f
+ 559 0048 4C000000 		.4byte	0x4c
+ 560 004c 02       		.uleb128 0x2
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 18
+
+
+ 561 004d 04       		.byte	0x4
+ 562 004e 05       		.byte	0x5
+ 563 004f 3D030000 		.4byte	.LASF4
+ 564 0053 02       		.uleb128 0x2
+ 565 0054 04       		.byte	0x4
+ 566 0055 07       		.byte	0x7
+ 567 0056 18050000 		.4byte	.LASF5
+ 568 005a 02       		.uleb128 0x2
+ 569 005b 08       		.byte	0x8
+ 570 005c 05       		.byte	0x5
+ 571 005d 33020000 		.4byte	.LASF6
+ 572 0061 02       		.uleb128 0x2
+ 573 0062 08       		.byte	0x8
+ 574 0063 07       		.byte	0x7
+ 575 0064 BA010000 		.4byte	.LASF7
+ 576 0068 04       		.uleb128 0x4
+ 577 0069 04       		.byte	0x4
+ 578 006a 05       		.byte	0x5
+ 579 006b 696E7400 		.ascii	"int\000"
+ 580 006f 02       		.uleb128 0x2
+ 581 0070 04       		.byte	0x4
+ 582 0071 07       		.byte	0x7
+ 583 0072 CB040000 		.4byte	.LASF8
+ 584 0076 03       		.uleb128 0x3
+ 585 0077 3F090000 		.4byte	.LASF10
+ 586 007b 03       		.byte	0x3
+ 587 007c 2C       		.byte	0x2c
+ 588 007d 41000000 		.4byte	0x41
+ 589 0081 05       		.uleb128 0x5
+ 590 0082 6D050000 		.4byte	.LASF11
+ 591 0086 04       		.byte	0x4
+ 592 0087 9201     		.2byte	0x192
+ 593 0089 2C000000 		.4byte	0x2c
+ 594 008d 05       		.uleb128 0x5
+ 595 008e 6D090000 		.4byte	.LASF12
+ 596 0092 04       		.byte	0x4
+ 597 0093 9301     		.2byte	0x193
+ 598 0095 3A000000 		.4byte	0x3a
+ 599 0099 05       		.uleb128 0x5
+ 600 009a 560E0000 		.4byte	.LASF13
+ 601 009e 04       		.byte	0x4
+ 602 009f 9601     		.2byte	0x196
+ 603 00a1 33000000 		.4byte	0x33
+ 604 00a5 02       		.uleb128 0x2
+ 605 00a6 04       		.byte	0x4
+ 606 00a7 04       		.byte	0x4
+ 607 00a8 4E0B0000 		.4byte	.LASF14
+ 608 00ac 02       		.uleb128 0x2
+ 609 00ad 08       		.byte	0x8
+ 610 00ae 04       		.byte	0x4
+ 611 00af F3030000 		.4byte	.LASF15
+ 612 00b3 02       		.uleb128 0x2
+ 613 00b4 01       		.byte	0x1
+ 614 00b5 08       		.byte	0x8
+ 615 00b6 730B0000 		.4byte	.LASF16
+ 616 00ba 02       		.uleb128 0x2
+ 617 00bb 08       		.byte	0x8
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 19
+
+
+ 618 00bc 04       		.byte	0x4
+ 619 00bd 36070000 		.4byte	.LASF17
+ 620 00c1 02       		.uleb128 0x2
+ 621 00c2 04       		.byte	0x4
+ 622 00c3 07       		.byte	0x7
+ 623 00c4 E5060000 		.4byte	.LASF18
+ 624 00c8 03       		.uleb128 0x3
+ 625 00c9 920D0000 		.4byte	.LASF19
+ 626 00cd 05       		.byte	0x5
+ 627 00ce 7E       		.byte	0x7e
+ 628 00cf D3000000 		.4byte	0xd3
+ 629 00d3 06       		.uleb128 0x6
+ 630 00d4 920D0000 		.4byte	.LASF19
+ 631 00d8 07       		.uleb128 0x7
+ 632 00d9 04       		.byte	0x4
+ 633 00da C8000000 		.4byte	0xc8
+ 634 00de 03       		.uleb128 0x3
+ 635 00df 15090000 		.4byte	.LASF20
+ 636 00e3 06       		.byte	0x6
+ 637 00e4 6C       		.byte	0x6c
+ 638 00e5 6F000000 		.4byte	0x6f
+ 639 00e9 08       		.uleb128 0x8
+ 640 00ea 01       		.byte	0x1
+ 641 00eb 2C000000 		.4byte	0x2c
+ 642 00ef 08       		.byte	0x8
+ 643 00f0 57       		.byte	0x57
+ 644 00f1 78030000 		.4byte	0x378
+ 645 00f5 09       		.uleb128 0x9
+ 646 00f6 1E0A0000 		.4byte	.LASF21
+ 647 00fa 07       		.byte	0x7
+ 648 00fb 09       		.uleb128 0x9
+ 649 00fc BF0E0000 		.4byte	.LASF22
+ 650 0100 00       		.byte	0
+ 651 0101 09       		.uleb128 0x9
+ 652 0102 C90F0000 		.4byte	.LASF23
+ 653 0106 01       		.byte	0x1
+ 654 0107 09       		.uleb128 0x9
+ 655 0108 AB0D0000 		.4byte	.LASF24
+ 656 010c 02       		.byte	0x2
+ 657 010d 09       		.uleb128 0x9
+ 658 010e 25030000 		.4byte	.LASF25
+ 659 0112 03       		.byte	0x3
+ 660 0113 09       		.uleb128 0x9
+ 661 0114 19000000 		.4byte	.LASF26
+ 662 0118 04       		.byte	0x4
+ 663 0119 09       		.uleb128 0x9
+ 664 011a 6D0A0000 		.4byte	.LASF27
+ 665 011e 05       		.byte	0x5
+ 666 011f 09       		.uleb128 0x9
+ 667 0120 A30C0000 		.4byte	.LASF28
+ 668 0124 06       		.byte	0x6
+ 669 0125 09       		.uleb128 0x9
+ 670 0126 9C030000 		.4byte	.LASF29
+ 671 012a 08       		.byte	0x8
+ 672 012b 09       		.uleb128 0x9
+ 673 012c 650E0000 		.4byte	.LASF30
+ 674 0130 09       		.byte	0x9
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 20
+
+
+ 675 0131 09       		.uleb128 0x9
+ 676 0132 B9030000 		.4byte	.LASF31
+ 677 0136 0A       		.byte	0xa
+ 678 0137 09       		.uleb128 0x9
+ 679 0138 820E0000 		.4byte	.LASF32
+ 680 013c 0B       		.byte	0xb
+ 681 013d 09       		.uleb128 0x9
+ 682 013e D6030000 		.4byte	.LASF33
+ 683 0142 0C       		.byte	0xc
+ 684 0143 09       		.uleb128 0x9
+ 685 0144 E80E0000 		.4byte	.LASF34
+ 686 0148 0D       		.byte	0xd
+ 687 0149 09       		.uleb128 0x9
+ 688 014a 710F0000 		.4byte	.LASF35
+ 689 014e 0E       		.byte	0xe
+ 690 014f 09       		.uleb128 0x9
+ 691 0150 D6090000 		.4byte	.LASF36
+ 692 0154 0F       		.byte	0xf
+ 693 0155 09       		.uleb128 0x9
+ 694 0156 8C0F0000 		.4byte	.LASF37
+ 695 015a 10       		.byte	0x10
+ 696 015b 09       		.uleb128 0x9
+ 697 015c F1090000 		.4byte	.LASF38
+ 698 0160 11       		.byte	0x11
+ 699 0161 09       		.uleb128 0x9
+ 700 0162 A70F0000 		.4byte	.LASF39
+ 701 0166 12       		.byte	0x12
+ 702 0167 09       		.uleb128 0x9
+ 703 0168 E5010000 		.4byte	.LASF40
+ 704 016c 13       		.byte	0x13
+ 705 016d 09       		.uleb128 0x9
+ 706 016e 920A0000 		.4byte	.LASF41
+ 707 0172 14       		.byte	0x14
+ 708 0173 09       		.uleb128 0x9
+ 709 0174 92050000 		.4byte	.LASF42
+ 710 0178 15       		.byte	0x15
+ 711 0179 09       		.uleb128 0x9
+ 712 017a AE0A0000 		.4byte	.LASF43
+ 713 017e 16       		.byte	0x16
+ 714 017f 09       		.uleb128 0x9
+ 715 0180 BA050000 		.4byte	.LASF44
+ 716 0184 17       		.byte	0x17
+ 717 0185 09       		.uleb128 0x9
+ 718 0186 D40A0000 		.4byte	.LASF45
+ 719 018a 18       		.byte	0x18
+ 720 018b 09       		.uleb128 0x9
+ 721 018c D6050000 		.4byte	.LASF46
+ 722 0190 19       		.byte	0x19
+ 723 0191 09       		.uleb128 0x9
+ 724 0192 83060000 		.4byte	.LASF47
+ 725 0196 1A       		.byte	0x1a
+ 726 0197 09       		.uleb128 0x9
+ 727 0198 0D030000 		.4byte	.LASF48
+ 728 019c 1B       		.byte	0x1b
+ 729 019d 09       		.uleb128 0x9
+ 730 019e E40D0000 		.4byte	.LASF49
+ 731 01a2 1C       		.byte	0x1c
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 21
+
+
+ 732 01a3 09       		.uleb128 0x9
+ 733 01a4 550A0000 		.4byte	.LASF50
+ 734 01a8 1D       		.byte	0x1d
+ 735 01a9 09       		.uleb128 0x9
+ 736 01aa 42070000 		.4byte	.LASF51
+ 737 01ae 1E       		.byte	0x1e
+ 738 01af 09       		.uleb128 0x9
+ 739 01b0 63030000 		.4byte	.LASF52
+ 740 01b4 1F       		.byte	0x1f
+ 741 01b5 09       		.uleb128 0x9
+ 742 01b6 C20D0000 		.4byte	.LASF53
+ 743 01ba 20       		.byte	0x20
+ 744 01bb 09       		.uleb128 0x9
+ 745 01bc 6E080000 		.4byte	.LASF54
+ 746 01c0 21       		.byte	0x21
+ 747 01c1 09       		.uleb128 0x9
+ 748 01c2 FC0D0000 		.4byte	.LASF55
+ 749 01c6 22       		.byte	0x22
+ 750 01c7 09       		.uleb128 0x9
+ 751 01c8 90080000 		.4byte	.LASF56
+ 752 01cc 23       		.byte	0x23
+ 753 01cd 09       		.uleb128 0x9
+ 754 01ce 1E0E0000 		.4byte	.LASF57
+ 755 01d2 24       		.byte	0x24
+ 756 01d3 09       		.uleb128 0x9
+ 757 01d4 B2080000 		.4byte	.LASF58
+ 758 01d8 25       		.byte	0x25
+ 759 01d9 09       		.uleb128 0x9
+ 760 01da B90C0000 		.4byte	.LASF59
+ 761 01de 26       		.byte	0x26
+ 762 01df 09       		.uleb128 0x9
+ 763 01e0 D4080000 		.4byte	.LASF60
+ 764 01e4 27       		.byte	0x27
+ 765 01e5 09       		.uleb128 0x9
+ 766 01e6 00020000 		.4byte	.LASF61
+ 767 01ea 28       		.byte	0x28
+ 768 01eb 09       		.uleb128 0x9
+ 769 01ec C1060000 		.4byte	.LASF62
+ 770 01f0 29       		.byte	0x29
+ 771 01f1 09       		.uleb128 0x9
+ 772 01f2 DB0C0000 		.4byte	.LASF63
+ 773 01f6 2A       		.byte	0x2a
+ 774 01f7 09       		.uleb128 0x9
+ 775 01f8 EE060000 		.4byte	.LASF64
+ 776 01fc 2B       		.byte	0x2b
+ 777 01fd 09       		.uleb128 0x9
+ 778 01fe F9050000 		.4byte	.LASF65
+ 779 0202 2C       		.byte	0x2c
+ 780 0203 09       		.uleb128 0x9
+ 781 0204 12070000 		.4byte	.LASF66
+ 782 0208 2D       		.byte	0x2d
+ 783 0209 09       		.uleb128 0x9
+ 784 020a 6E000000 		.4byte	.LASF67
+ 785 020e 2E       		.byte	0x2e
+ 786 020f 09       		.uleb128 0x9
+ 787 0210 2F0B0000 		.4byte	.LASF68
+ 788 0214 2F       		.byte	0x2f
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 22
+
+
+ 789 0215 09       		.uleb128 0x9
+ 790 0216 39040000 		.4byte	.LASF69
+ 791 021a 30       		.byte	0x30
+ 792 021b 09       		.uleb128 0x9
+ 793 021c 540B0000 		.4byte	.LASF70
+ 794 0220 31       		.byte	0x31
+ 795 0221 09       		.uleb128 0x9
+ 796 0222 F6080000 		.4byte	.LASF71
+ 797 0226 32       		.byte	0x32
+ 798 0227 09       		.uleb128 0x9
+ 799 0228 6B0D0000 		.4byte	.LASF72
+ 800 022c 33       		.byte	0x33
+ 801 022d 09       		.uleb128 0x9
+ 802 022e F1070000 		.4byte	.LASF73
+ 803 0232 34       		.byte	0x34
+ 804 0233 09       		.uleb128 0x9
+ 805 0234 820C0000 		.4byte	.LASF74
+ 806 0238 35       		.byte	0x35
+ 807 0239 09       		.uleb128 0x9
+ 808 023a AA040000 		.4byte	.LASF75
+ 809 023e 36       		.byte	0x36
+ 810 023f 09       		.uleb128 0x9
+ 811 0240 9F0E0000 		.4byte	.LASF76
+ 812 0244 37       		.byte	0x37
+ 813 0245 09       		.uleb128 0x9
+ 814 0246 88070000 		.4byte	.LASF77
+ 815 024a 38       		.byte	0x38
+ 816 024b 09       		.uleb128 0x9
+ 817 024c 380D0000 		.4byte	.LASF78
+ 818 0250 39       		.byte	0x39
+ 819 0251 09       		.uleb128 0x9
+ 820 0252 2D0C0000 		.4byte	.LASF79
+ 821 0256 3A       		.byte	0x3a
+ 822 0257 09       		.uleb128 0x9
+ 823 0258 58050000 		.4byte	.LASF80
+ 824 025c 3B       		.byte	0x3b
+ 825 025d 09       		.uleb128 0x9
+ 826 025e 6E040000 		.4byte	.LASF81
+ 827 0262 3C       		.byte	0x3c
+ 828 0263 09       		.uleb128 0x9
+ 829 0264 D30E0000 		.4byte	.LASF82
+ 830 0268 3D       		.byte	0x3d
+ 831 0269 09       		.uleb128 0x9
+ 832 026a CF070000 		.4byte	.LASF83
+ 833 026e 3E       		.byte	0x3e
+ 834 026f 09       		.uleb128 0x9
+ 835 0270 16080000 		.4byte	.LASF84
+ 836 0274 3F       		.byte	0x3f
+ 837 0275 09       		.uleb128 0x9
+ 838 0276 6A0C0000 		.4byte	.LASF85
+ 839 027a 40       		.byte	0x40
+ 840 027b 09       		.uleb128 0x9
+ 841 027c AA000000 		.4byte	.LASF86
+ 842 0280 41       		.byte	0x41
+ 843 0281 09       		.uleb128 0x9
+ 844 0282 3C0F0000 		.4byte	.LASF87
+ 845 0286 42       		.byte	0x42
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 23
+
+
+ 846 0287 09       		.uleb128 0x9
+ 847 0288 46030000 		.4byte	.LASF88
+ 848 028c 43       		.byte	0x43
+ 849 028d 09       		.uleb128 0x9
+ 850 028e 8D000000 		.4byte	.LASF89
+ 851 0292 44       		.byte	0x44
+ 852 0293 09       		.uleb128 0x9
+ 853 0294 2E080000 		.4byte	.LASF90
+ 854 0298 45       		.byte	0x45
+ 855 0299 09       		.uleb128 0x9
+ 856 029a C6000000 		.4byte	.LASF91
+ 857 029e 46       		.byte	0x46
+ 858 029f 09       		.uleb128 0x9
+ 859 02a0 E3000000 		.4byte	.LASF92
+ 860 02a4 47       		.byte	0x47
+ 861 02a5 09       		.uleb128 0x9
+ 862 02a6 780B0000 		.4byte	.LASF93
+ 863 02aa 48       		.byte	0x48
+ 864 02ab 09       		.uleb128 0x9
+ 865 02ac 00010000 		.4byte	.LASF94
+ 866 02b0 49       		.byte	0x49
+ 867 02b1 09       		.uleb128 0x9
+ 868 02b2 950B0000 		.4byte	.LASF95
+ 869 02b6 4A       		.byte	0x4a
+ 870 02b7 09       		.uleb128 0x9
+ 871 02b8 1D010000 		.4byte	.LASF96
+ 872 02bc 4B       		.byte	0x4b
+ 873 02bd 09       		.uleb128 0x9
+ 874 02be B20B0000 		.4byte	.LASF97
+ 875 02c2 4C       		.byte	0x4c
+ 876 02c3 09       		.uleb128 0x9
+ 877 02c4 3A010000 		.4byte	.LASF98
+ 878 02c8 4D       		.byte	0x4d
+ 879 02c9 09       		.uleb128 0x9
+ 880 02ca CF0B0000 		.4byte	.LASF99
+ 881 02ce 4E       		.byte	0x4e
+ 882 02cf 09       		.uleb128 0x9
+ 883 02d0 63010000 		.4byte	.LASF100
+ 884 02d4 4F       		.byte	0x4f
+ 885 02d5 09       		.uleb128 0x9
+ 886 02d6 020C0000 		.4byte	.LASF101
+ 887 02da 50       		.byte	0x50
+ 888 02db 09       		.uleb128 0x9
+ 889 02dc 9D010000 		.4byte	.LASF102
+ 890 02e0 51       		.byte	0x51
+ 891 02e1 09       		.uleb128 0x9
+ 892 02e2 1F0F0000 		.4byte	.LASF103
+ 893 02e6 52       		.byte	0x52
+ 894 02e7 09       		.uleb128 0x9
+ 895 02e8 80010000 		.4byte	.LASF104
+ 896 02ec 53       		.byte	0x53
+ 897 02ed 09       		.uleb128 0x9
+ 898 02ee 410C0000 		.4byte	.LASF105
+ 899 02f2 54       		.byte	0x54
+ 900 02f3 09       		.uleb128 0x9
+ 901 02f4 55090000 		.4byte	.LASF106
+ 902 02f8 55       		.byte	0x55
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 24
+
+
+ 903 02f9 09       		.uleb128 0x9
+ 904 02fa E8040000 		.4byte	.LASF107
+ 905 02fe 56       		.byte	0x56
+ 906 02ff 09       		.uleb128 0x9
+ 907 0300 74090000 		.4byte	.LASF108
+ 908 0304 57       		.byte	0x57
+ 909 0305 09       		.uleb128 0x9
+ 910 0306 00050000 		.4byte	.LASF109
+ 911 030a 58       		.byte	0x58
+ 912 030b 09       		.uleb128 0x9
+ 913 030c 8C090000 		.4byte	.LASF110
+ 914 0310 59       		.byte	0x59
+ 915 0311 09       		.uleb128 0x9
+ 916 0312 170B0000 		.4byte	.LASF111
+ 917 0316 5A       		.byte	0x5a
+ 918 0317 09       		.uleb128 0x9
+ 919 0318 58040000 		.4byte	.LASF112
+ 920 031c 5B       		.byte	0x5b
+ 921 031d 09       		.uleb128 0x9
+ 922 031e EC0B0000 		.4byte	.LASF113
+ 923 0322 5C       		.byte	0x5c
+ 924 0323 09       		.uleb128 0x9
+ 925 0324 AB060000 		.4byte	.LASF114
+ 926 0328 5D       		.byte	0x5d
+ 927 0329 09       		.uleb128 0x9
+ 928 032a 560F0000 		.4byte	.LASF115
+ 929 032e 5E       		.byte	0x5e
+ 930 032f 09       		.uleb128 0x9
+ 931 0330 550D0000 		.4byte	.LASF116
+ 932 0334 5F       		.byte	0x5f
+ 933 0335 09       		.uleb128 0x9
+ 934 0336 AF090000 		.4byte	.LASF117
+ 935 033a 60       		.byte	0x60
+ 936 033b 09       		.uleb128 0x9
+ 937 033c 71070000 		.4byte	.LASF118
+ 938 0340 61       		.byte	0x61
+ 939 0341 09       		.uleb128 0x9
+ 940 0342 85030000 		.4byte	.LASF119
+ 941 0346 62       		.byte	0x62
+ 942 0347 09       		.uleb128 0x9
+ 943 0348 A1070000 		.4byte	.LASF120
+ 944 034c 63       		.byte	0x63
+ 945 034d 09       		.uleb128 0x9
+ 946 034e E8020000 		.4byte	.LASF121
+ 947 0352 64       		.byte	0x64
+ 948 0353 09       		.uleb128 0x9
+ 949 0354 B8070000 		.4byte	.LASF122
+ 950 0358 65       		.byte	0x65
+ 951 0359 09       		.uleb128 0x9
+ 952 035a 5A070000 		.4byte	.LASF123
+ 953 035e 66       		.byte	0x66
+ 954 035f 09       		.uleb128 0x9
+ 955 0360 400E0000 		.4byte	.LASF124
+ 956 0364 67       		.byte	0x67
+ 957 0365 09       		.uleb128 0x9
+ 958 0366 010B0000 		.4byte	.LASF125
+ 959 036a 68       		.byte	0x68
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 25
+
+
+ 960 036b 09       		.uleb128 0x9
+ 961 036c 0B0F0000 		.4byte	.LASF126
+ 962 0370 69       		.byte	0x69
+ 963 0371 09       		.uleb128 0x9
+ 964 0372 410A0000 		.4byte	.LASF127
+ 965 0376 6A       		.byte	0x6a
+ 966 0377 00       		.byte	0
+ 967 0378 0A       		.uleb128 0xa
+ 968 0379 27090000 		.4byte	.LASF128
+ 969 037d 01       		.byte	0x1
+ 970 037e FC       		.byte	0xfc
+ 971 037f 00000000 		.4byte	.LFB65
+ 972 0383 54000000 		.4byte	.LFE65-.LFB65
+ 973 0387 01       		.uleb128 0x1
+ 974 0388 9C       		.byte	0x9c
+ 975 0389 12040000 		.4byte	0x412
+ 976 038d 0B       		.uleb128 0xb
+ 977 038e 06000000 		.4byte	.LVL0
+ 978 0392 D3080000 		.4byte	0x8d3
+ 979 0396 0C       		.uleb128 0xc
+ 980 0397 0C000000 		.4byte	.LVL1
+ 981 039b DF080000 		.4byte	0x8df
+ 982 039f AA030000 		.4byte	0x3aa
+ 983 03a3 0D       		.uleb128 0xd
+ 984 03a4 01       		.uleb128 0x1
+ 985 03a5 50       		.byte	0x50
+ 986 03a6 02       		.uleb128 0x2
+ 987 03a7 08       		.byte	0x8
+ 988 03a8 FA       		.byte	0xfa
+ 989 03a9 00       		.byte	0
+ 990 03aa 0C       		.uleb128 0xc
+ 991 03ab 16000000 		.4byte	.LVL2
+ 992 03af EA080000 		.4byte	0x8ea
+ 993 03b3 CB030000 		.4byte	0x3cb
+ 994 03b7 0D       		.uleb128 0xd
+ 995 03b8 01       		.uleb128 0x1
+ 996 03b9 50       		.byte	0x50
+ 997 03ba 01       		.uleb128 0x1
+ 998 03bb 30       		.byte	0x30
+ 999 03bc 0D       		.uleb128 0xd
+ 1000 03bd 01       		.uleb128 0x1
+ 1001 03be 51       		.byte	0x51
+ 1002 03bf 05       		.uleb128 0x5
+ 1003 03c0 03       		.byte	0x3
+ 1004 03c1 00000000 		.4byte	sdVolName
+ 1005 03c5 0D       		.uleb128 0xd
+ 1006 03c6 01       		.uleb128 0x1
+ 1007 03c7 52       		.byte	0x52
+ 1008 03c8 01       		.uleb128 0x1
+ 1009 03c9 3C       		.byte	0x3c
+ 1010 03ca 00       		.byte	0
+ 1011 03cb 0C       		.uleb128 0xc
+ 1012 03cc 1C000000 		.4byte	.LVL3
+ 1013 03d0 F6080000 		.4byte	0x8f6
+ 1014 03d4 E2030000 		.4byte	0x3e2
+ 1015 03d8 0D       		.uleb128 0xd
+ 1016 03d9 01       		.uleb128 0x1
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 26
+
+
+ 1017 03da 50       		.byte	0x50
+ 1018 03db 05       		.uleb128 0x5
+ 1019 03dc 03       		.byte	0x3
+ 1020 03dd 00000000 		.4byte	sdVolName
+ 1021 03e1 00       		.byte	0
+ 1022 03e2 0C       		.uleb128 0xc
+ 1023 03e3 24000000 		.4byte	.LVL4
+ 1024 03e7 02090000 		.4byte	0x902
+ 1025 03eb 02040000 		.4byte	0x402
+ 1026 03ef 0D       		.uleb128 0xd
+ 1027 03f0 01       		.uleb128 0x1
+ 1028 03f1 50       		.byte	0x50
+ 1029 03f2 05       		.uleb128 0x5
+ 1030 03f3 03       		.byte	0x3
+ 1031 03f4 00000000 		.4byte	.LANCHOR0
+ 1032 03f8 0D       		.uleb128 0xd
+ 1033 03f9 01       		.uleb128 0x1
+ 1034 03fa 51       		.byte	0x51
+ 1035 03fb 05       		.uleb128 0x5
+ 1036 03fc 03       		.byte	0x3
+ 1037 03fd 00000000 		.4byte	.LC0
+ 1038 0401 00       		.byte	0
+ 1039 0402 0E       		.uleb128 0xe
+ 1040 0403 3C000000 		.4byte	.LVL5
+ 1041 0407 0E090000 		.4byte	0x90e
+ 1042 040b 0D       		.uleb128 0xd
+ 1043 040c 01       		.uleb128 0x1
+ 1044 040d 51       		.byte	0x51
+ 1045 040e 01       		.uleb128 0x1
+ 1046 040f 4A       		.byte	0x4a
+ 1047 0410 00       		.byte	0
+ 1048 0411 00       		.byte	0
+ 1049 0412 0F       		.uleb128 0xf
+ 1050 0413 1F0C0000 		.4byte	.LASF129
+ 1051 0417 01       		.byte	0x1
+ 1052 0418 3301     		.2byte	0x133
+ 1053 041a 00000000 		.4byte	.LFB66
+ 1054 041e 58000000 		.4byte	.LFE66-.LFB66
+ 1055 0422 01       		.uleb128 0x1
+ 1056 0423 9C       		.byte	0x9c
+ 1057 0424 BF040000 		.4byte	0x4bf
+ 1058 0428 10       		.uleb128 0x10
+ 1059 0429 320A0000 		.4byte	.LASF130
+ 1060 042d 01       		.byte	0x1
+ 1061 042e 3F01     		.2byte	0x13f
+ 1062 0430 BF040000 		.4byte	0x4bf
+ 1063 0434 02       		.uleb128 0x2
+ 1064 0435 91       		.byte	0x91
+ 1065 0436 50       		.sleb128 -48
+ 1066 0437 0B       		.uleb128 0xb
+ 1067 0438 0C000000 		.4byte	.LVL6
+ 1068 043c 19090000 		.4byte	0x919
+ 1069 0440 0C       		.uleb128 0xc
+ 1070 0441 1C000000 		.4byte	.LVL7
+ 1071 0445 25090000 		.4byte	0x925
+ 1072 0449 5D040000 		.4byte	0x45d
+ 1073 044d 0D       		.uleb128 0xd
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 27
+
+
+ 1074 044e 01       		.uleb128 0x1
+ 1075 044f 50       		.byte	0x50
+ 1076 0450 02       		.uleb128 0x2
+ 1077 0451 7D       		.byte	0x7d
+ 1078 0452 00       		.sleb128 0
+ 1079 0453 0D       		.uleb128 0xd
+ 1080 0454 01       		.uleb128 0x1
+ 1081 0455 51       		.byte	0x51
+ 1082 0456 05       		.uleb128 0x5
+ 1083 0457 03       		.byte	0x3
+ 1084 0458 02000000 		.4byte	.LC1
+ 1085 045c 00       		.byte	0
+ 1086 045d 0C       		.uleb128 0xc
+ 1087 045e 24000000 		.4byte	.LVL8
+ 1088 0462 30090000 		.4byte	0x930
+ 1089 0466 77040000 		.4byte	0x477
+ 1090 046a 0D       		.uleb128 0xd
+ 1091 046b 01       		.uleb128 0x1
+ 1092 046c 50       		.byte	0x50
+ 1093 046d 02       		.uleb128 0x2
+ 1094 046e 75       		.byte	0x75
+ 1095 046f 00       		.sleb128 0
+ 1096 0470 0D       		.uleb128 0xd
+ 1097 0471 01       		.uleb128 0x1
+ 1098 0472 51       		.byte	0x51
+ 1099 0473 02       		.uleb128 0x2
+ 1100 0474 7D       		.byte	0x7d
+ 1101 0475 00       		.sleb128 0
+ 1102 0476 00       		.byte	0
+ 1103 0477 0C       		.uleb128 0xc
+ 1104 0478 2C000000 		.4byte	.LVL9
+ 1105 047c 3C090000 		.4byte	0x93c
+ 1106 0480 91040000 		.4byte	0x491
+ 1107 0484 0D       		.uleb128 0xd
+ 1108 0485 01       		.uleb128 0x1
+ 1109 0486 50       		.byte	0x50
+ 1110 0487 02       		.uleb128 0x2
+ 1111 0488 75       		.byte	0x75
+ 1112 0489 00       		.sleb128 0
+ 1113 048a 0D       		.uleb128 0xd
+ 1114 048b 01       		.uleb128 0x1
+ 1115 048c 51       		.byte	0x51
+ 1116 048d 02       		.uleb128 0x2
+ 1117 048e 74       		.byte	0x74
+ 1118 048f 00       		.sleb128 0
+ 1119 0490 00       		.byte	0
+ 1120 0491 0C       		.uleb128 0xc
+ 1121 0492 34000000 		.4byte	.LVL10
+ 1122 0496 3C090000 		.4byte	0x93c
+ 1123 049a AB040000 		.4byte	0x4ab
+ 1124 049e 0D       		.uleb128 0xd
+ 1125 049f 01       		.uleb128 0x1
+ 1126 04a0 50       		.byte	0x50
+ 1127 04a1 02       		.uleb128 0x2
+ 1128 04a2 7D       		.byte	0x7d
+ 1129 04a3 00       		.sleb128 0
+ 1130 04a4 0D       		.uleb128 0xd
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 28
+
+
+ 1131 04a5 01       		.uleb128 0x1
+ 1132 04a6 51       		.byte	0x51
+ 1133 04a7 02       		.uleb128 0x2
+ 1134 04a8 74       		.byte	0x74
+ 1135 04a9 00       		.sleb128 0
+ 1136 04aa 00       		.byte	0
+ 1137 04ab 11       		.uleb128 0x11
+ 1138 04ac 3A000000 		.4byte	.LVL11
+ 1139 04b0 48090000 		.4byte	0x948
+ 1140 04b4 0D       		.uleb128 0xd
+ 1141 04b5 01       		.uleb128 0x1
+ 1142 04b6 50       		.byte	0x50
+ 1143 04b7 05       		.uleb128 0x5
+ 1144 04b8 03       		.byte	0x3
+ 1145 04b9 00000000 		.4byte	sdVolName
+ 1146 04bd 00       		.byte	0
+ 1147 04be 00       		.byte	0
+ 1148 04bf 12       		.uleb128 0x12
+ 1149 04c0 B3000000 		.4byte	0xb3
+ 1150 04c4 CF040000 		.4byte	0x4cf
+ 1151 04c8 13       		.uleb128 0x13
+ 1152 04c9 C1000000 		.4byte	0xc1
+ 1153 04cd 1F       		.byte	0x1f
+ 1154 04ce 00       		.byte	0
+ 1155 04cf 14       		.uleb128 0x14
+ 1156 04d0 6C0F0000 		.4byte	.LASF191
+ 1157 04d4 01       		.byte	0x1
+ 1158 04d5 46       		.byte	0x46
+ 1159 04d6 68000000 		.4byte	0x68
+ 1160 04da 00000000 		.4byte	.LFB64
+ 1161 04de 7C010000 		.4byte	.LFE64-.LFB64
+ 1162 04e2 01       		.uleb128 0x1
+ 1163 04e3 9C       		.byte	0x9c
+ 1164 04e4 81070000 		.4byte	0x781
+ 1165 04e8 15       		.uleb128 0x15
+ 1166 04e9 2D040000 		.4byte	.LASF131
+ 1167 04ed 01       		.byte	0x1
+ 1168 04ee 7D       		.byte	0x7d
+ 1169 04ef 8D000000 		.4byte	0x8d
+ 1170 04f3 0A       		.byte	0xa
+ 1171 04f4 16       		.uleb128 0x16
+ 1172 04f5 AE050000 		.4byte	.LASF132
+ 1173 04f9 01       		.byte	0x1
+ 1174 04fa 7D       		.byte	0x7d
+ 1175 04fb 8D000000 		.4byte	0x8d
+ 1176 04ff E803     		.2byte	0x3e8
+ 1177 0501 17       		.uleb128 0x17
+ 1178 0502 A1040000 		.4byte	.LASF133
+ 1179 0506 01       		.byte	0x1
+ 1180 0507 7E       		.byte	0x7e
+ 1181 0508 DE000000 		.4byte	0xde
+ 1182 050c 00000000 		.4byte	.LLST0
+ 1183 0510 17       		.uleb128 0x17
+ 1184 0511 4D0D0000 		.4byte	.LASF134
+ 1185 0515 01       		.byte	0x1
+ 1186 0516 7F       		.byte	0x7f
+ 1187 0517 81000000 		.4byte	0x81
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 29
+
+
+ 1188 051b 2A000000 		.4byte	.LLST1
+ 1189 051f 18       		.uleb128 0x18
+ 1190 0520 0F0D0000 		.4byte	.LASF135
+ 1191 0524 01       		.byte	0x1
+ 1192 0525 80       		.byte	0x80
+ 1193 0526 81070000 		.4byte	0x781
+ 1194 052a 03       		.uleb128 0x3
+ 1195 052b 91       		.byte	0x91
+ 1196 052c BC7D     		.sleb128 -324
+ 1197 052e 19       		.uleb128 0x19
+ 1198 052f E6000000 		.4byte	.LBB2
+ 1199 0533 10000000 		.4byte	.LBE2-.LBB2
+ 1200 0537 49050000 		.4byte	0x549
+ 1201 053b 1A       		.uleb128 0x1a
+ 1202 053c 6900     		.ascii	"i\000"
+ 1203 053e 01       		.byte	0x1
+ 1204 053f BB       		.byte	0xbb
+ 1205 0540 3A000000 		.4byte	0x3a
+ 1206 0544 4A000000 		.4byte	.LLST2
+ 1207 0548 00       		.byte	0
+ 1208 0549 19       		.uleb128 0x19
+ 1209 054a 06010000 		.4byte	.LBB3
+ 1210 054e 1E000000 		.4byte	.LBE3-.LBB3
+ 1211 0552 9D050000 		.4byte	0x59d
+ 1212 0556 18       		.uleb128 0x18
+ 1213 0557 050F0000 		.4byte	.LASF136
+ 1214 055b 01       		.byte	0x1
+ 1215 055c CB       		.byte	0xcb
+ 1216 055d 68000000 		.4byte	0x68
+ 1217 0561 01       		.uleb128 0x1
+ 1218 0562 54       		.byte	0x54
+ 1219 0563 17       		.uleb128 0x17
+ 1220 0564 66080000 		.4byte	.LASF137
+ 1221 0568 01       		.byte	0x1
+ 1222 0569 CC       		.byte	0xcc
+ 1223 056a 68000000 		.4byte	0x68
+ 1224 056e 6D000000 		.4byte	.LLST3
+ 1225 0572 0B       		.uleb128 0xb
+ 1226 0573 0A010000 		.4byte	.LVL44
+ 1227 0577 54090000 		.4byte	0x954
+ 1228 057b 0B       		.uleb128 0xb
+ 1229 057c 10010000 		.4byte	.LVL46
+ 1230 0580 5F090000 		.4byte	0x95f
+ 1231 0584 0B       		.uleb128 0xb
+ 1232 0585 18010000 		.4byte	.LVL47
+ 1233 0589 54090000 		.4byte	0x954
+ 1234 058d 11       		.uleb128 0x11
+ 1235 058e 24010000 		.4byte	.LVL49
+ 1236 0592 6A090000 		.4byte	0x96a
+ 1237 0596 0D       		.uleb128 0xd
+ 1238 0597 01       		.uleb128 0x1
+ 1239 0598 50       		.byte	0x50
+ 1240 0599 01       		.uleb128 0x1
+ 1241 059a 31       		.byte	0x31
+ 1242 059b 00       		.byte	0
+ 1243 059c 00       		.byte	0
+ 1244 059d 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 30
+
+
+ 1245 059e 0A000000 		.4byte	.LVL12
+ 1246 05a2 75090000 		.4byte	0x975
+ 1247 05a6 0B       		.uleb128 0xb
+ 1248 05a7 0E000000 		.4byte	.LVL13
+ 1249 05ab 80090000 		.4byte	0x980
+ 1250 05af 0B       		.uleb128 0xb
+ 1251 05b0 12000000 		.4byte	.LVL14
+ 1252 05b4 8B090000 		.4byte	0x98b
+ 1253 05b8 0B       		.uleb128 0xb
+ 1254 05b9 16000000 		.4byte	.LVL15
+ 1255 05bd 96090000 		.4byte	0x996
+ 1256 05c1 0B       		.uleb128 0xb
+ 1257 05c2 1A000000 		.4byte	.LVL16
+ 1258 05c6 A1090000 		.4byte	0x9a1
+ 1259 05ca 0B       		.uleb128 0xb
+ 1260 05cb 1E000000 		.4byte	.LVL17
+ 1261 05cf AC090000 		.4byte	0x9ac
+ 1262 05d3 0B       		.uleb128 0xb
+ 1263 05d4 22000000 		.4byte	.LVL18
+ 1264 05d8 B7090000 		.4byte	0x9b7
+ 1265 05dc 0B       		.uleb128 0xb
+ 1266 05dd 26000000 		.4byte	.LVL19
+ 1267 05e1 C2090000 		.4byte	0x9c2
+ 1268 05e5 0B       		.uleb128 0xb
+ 1269 05e6 2A000000 		.4byte	.LVL20
+ 1270 05ea CD090000 		.4byte	0x9cd
+ 1271 05ee 0B       		.uleb128 0xb
+ 1272 05ef 2E000000 		.4byte	.LVL21
+ 1273 05f3 D8090000 		.4byte	0x9d8
+ 1274 05f7 0B       		.uleb128 0xb
+ 1275 05f8 32000000 		.4byte	.LVL22
+ 1276 05fc E3090000 		.4byte	0x9e3
+ 1277 0600 0C       		.uleb128 0xc
+ 1278 0601 38000000 		.4byte	.LVL23
+ 1279 0605 EE090000 		.4byte	0x9ee
+ 1280 0609 13060000 		.4byte	0x613
+ 1281 060d 0D       		.uleb128 0xd
+ 1282 060e 01       		.uleb128 0x1
+ 1283 060f 50       		.byte	0x50
+ 1284 0610 01       		.uleb128 0x1
+ 1285 0611 4A       		.byte	0x4a
+ 1286 0612 00       		.byte	0
+ 1287 0613 0B       		.uleb128 0xb
+ 1288 0614 42000000 		.4byte	.LVL24
+ 1289 0618 78030000 		.4byte	0x378
+ 1290 061c 0B       		.uleb128 0xb
+ 1291 061d 4A000000 		.4byte	.LVL26
+ 1292 0621 F9090000 		.4byte	0x9f9
+ 1293 0625 0B       		.uleb128 0xb
+ 1294 0626 56000000 		.4byte	.LVL27
+ 1295 062a 040A0000 		.4byte	0xa04
+ 1296 062e 0B       		.uleb128 0xb
+ 1297 062f 5A000000 		.4byte	.LVL28
+ 1298 0633 0F0A0000 		.4byte	0xa0f
+ 1299 0637 0B       		.uleb128 0xb
+ 1300 0638 5E000000 		.4byte	.LVL29
+ 1301 063c 1A0A0000 		.4byte	0xa1a
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 31
+
+
+ 1302 0640 0B       		.uleb128 0xb
+ 1303 0641 62000000 		.4byte	.LVL30
+ 1304 0645 250A0000 		.4byte	0xa25
+ 1305 0649 0B       		.uleb128 0xb
+ 1306 064a 66000000 		.4byte	.LVL31
+ 1307 064e 54090000 		.4byte	0x954
+ 1308 0652 0C       		.uleb128 0xc
+ 1309 0653 9E000000 		.4byte	.LVL33
+ 1310 0657 25090000 		.4byte	0x925
+ 1311 065b 70060000 		.4byte	0x670
+ 1312 065f 0D       		.uleb128 0xd
+ 1313 0660 01       		.uleb128 0x1
+ 1314 0661 50       		.byte	0x50
+ 1315 0662 03       		.uleb128 0x3
+ 1316 0663 91       		.byte	0x91
+ 1317 0664 BC7D     		.sleb128 -324
+ 1318 0666 0D       		.uleb128 0xd
+ 1319 0667 01       		.uleb128 0x1
+ 1320 0668 51       		.byte	0x51
+ 1321 0669 05       		.uleb128 0x5
+ 1322 066a 03       		.byte	0x3
+ 1323 066b 19000000 		.4byte	.LC2
+ 1324 066f 00       		.byte	0
+ 1325 0670 0C       		.uleb128 0xc
+ 1326 0671 AC000000 		.4byte	.LVL34
+ 1327 0675 300A0000 		.4byte	0xa30
+ 1328 0679 8E060000 		.4byte	0x68e
+ 1329 067d 0D       		.uleb128 0xd
+ 1330 067e 01       		.uleb128 0x1
+ 1331 067f 50       		.byte	0x50
+ 1332 0680 03       		.uleb128 0x3
+ 1333 0681 91       		.byte	0x91
+ 1334 0682 BC7D     		.sleb128 -324
+ 1335 0684 0D       		.uleb128 0xd
+ 1336 0685 01       		.uleb128 0x1
+ 1337 0686 51       		.byte	0x51
+ 1338 0687 05       		.uleb128 0x5
+ 1339 0688 03       		.byte	0x3
+ 1340 0689 00000000 		.4byte	GPS_RMC_Data
+ 1341 068d 00       		.byte	0
+ 1342 068e 0C       		.uleb128 0xc
+ 1343 068f BC000000 		.4byte	.LVL35
+ 1344 0693 300A0000 		.4byte	0xa30
+ 1345 0697 AC060000 		.4byte	0x6ac
+ 1346 069b 0D       		.uleb128 0xd
+ 1347 069c 01       		.uleb128 0x1
+ 1348 069d 50       		.byte	0x50
+ 1349 069e 03       		.uleb128 0x3
+ 1350 069f 91       		.byte	0x91
+ 1351 06a0 BC7D     		.sleb128 -324
+ 1352 06a2 0D       		.uleb128 0xd
+ 1353 06a3 01       		.uleb128 0x1
+ 1354 06a4 51       		.byte	0x51
+ 1355 06a5 05       		.uleb128 0x5
+ 1356 06a6 03       		.byte	0x3
+ 1357 06a7 00000000 		.4byte	GPS_GGA_Data
+ 1358 06ab 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 32
+
+
+ 1359 06ac 0C       		.uleb128 0xc
+ 1360 06ad C8000000 		.4byte	.LVL36
+ 1361 06b1 300A0000 		.4byte	0xa30
+ 1362 06b5 CA060000 		.4byte	0x6ca
+ 1363 06b9 0D       		.uleb128 0xd
+ 1364 06ba 01       		.uleb128 0x1
+ 1365 06bb 50       		.byte	0x50
+ 1366 06bc 03       		.uleb128 0x3
+ 1367 06bd 91       		.byte	0x91
+ 1368 06be BC7D     		.sleb128 -324
+ 1369 06c0 0D       		.uleb128 0xd
+ 1370 06c1 01       		.uleb128 0x1
+ 1371 06c2 51       		.byte	0x51
+ 1372 06c3 05       		.uleb128 0x5
+ 1373 06c4 03       		.byte	0x3
+ 1374 06c5 32000000 		.4byte	.LC3
+ 1375 06c9 00       		.byte	0
+ 1376 06ca 0C       		.uleb128 0xc
+ 1377 06cb CE000000 		.4byte	.LVL37
+ 1378 06cf 3B0A0000 		.4byte	0xa3b
+ 1379 06d3 DF060000 		.4byte	0x6df
+ 1380 06d7 0D       		.uleb128 0xd
+ 1381 06d8 01       		.uleb128 0x1
+ 1382 06d9 50       		.byte	0x50
+ 1383 06da 03       		.uleb128 0x3
+ 1384 06db 91       		.byte	0x91
+ 1385 06dc BC7D     		.sleb128 -324
+ 1386 06de 00       		.byte	0
+ 1387 06df 0C       		.uleb128 0xc
+ 1388 06e0 DA000000 		.4byte	.LVL38
+ 1389 06e4 460A0000 		.4byte	0xa46
+ 1390 06e8 F4060000 		.4byte	0x6f4
+ 1391 06ec 0D       		.uleb128 0xd
+ 1392 06ed 01       		.uleb128 0x1
+ 1393 06ee 50       		.byte	0x50
+ 1394 06ef 03       		.uleb128 0x3
+ 1395 06f0 91       		.byte	0x91
+ 1396 06f1 BC7D     		.sleb128 -324
+ 1397 06f3 00       		.byte	0
+ 1398 06f4 0C       		.uleb128 0xc
+ 1399 06f5 E4000000 		.4byte	.LVL39
+ 1400 06f9 510A0000 		.4byte	0xa51
+ 1401 06fd 0F070000 		.4byte	0x70f
+ 1402 0701 0D       		.uleb128 0xd
+ 1403 0702 01       		.uleb128 0x1
+ 1404 0703 50       		.byte	0x50
+ 1405 0704 02       		.uleb128 0x2
+ 1406 0705 74       		.byte	0x74
+ 1407 0706 00       		.sleb128 0
+ 1408 0707 0D       		.uleb128 0xd
+ 1409 0708 01       		.uleb128 0x1
+ 1410 0709 51       		.byte	0x51
+ 1411 070a 03       		.uleb128 0x3
+ 1412 070b 91       		.byte	0x91
+ 1413 070c BC7D     		.sleb128 -324
+ 1414 070e 00       		.byte	0
+ 1415 070f 0C       		.uleb128 0xc
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 33
+
+
+ 1416 0710 FE000000 		.4byte	.LVL42
+ 1417 0714 5D0A0000 		.4byte	0xa5d
+ 1418 0718 24070000 		.4byte	0x724
+ 1419 071c 0D       		.uleb128 0xd
+ 1420 071d 01       		.uleb128 0x1
+ 1421 071e 50       		.byte	0x50
+ 1422 071f 03       		.uleb128 0x3
+ 1423 0720 0A       		.byte	0xa
+ 1424 0721 E803     		.2byte	0x3e8
+ 1425 0723 00       		.byte	0
+ 1426 0724 0B       		.uleb128 0xb
+ 1427 0725 02010000 		.4byte	.LVL43
+ 1428 0729 5F090000 		.4byte	0x95f
+ 1429 072d 0B       		.uleb128 0xb
+ 1430 072e 28010000 		.4byte	.LVL50
+ 1431 0732 12040000 		.4byte	0x412
+ 1432 0736 0C       		.uleb128 0xc
+ 1433 0737 2E010000 		.4byte	.LVL51
+ 1434 073b DF080000 		.4byte	0x8df
+ 1435 073f 4A070000 		.4byte	0x74a
+ 1436 0743 0D       		.uleb128 0xd
+ 1437 0744 01       		.uleb128 0x1
+ 1438 0745 50       		.byte	0x50
+ 1439 0746 02       		.uleb128 0x2
+ 1440 0747 08       		.byte	0x8
+ 1441 0748 64       		.byte	0x64
+ 1442 0749 00       		.byte	0
+ 1443 074a 0C       		.uleb128 0xc
+ 1444 074b 34010000 		.4byte	.LVL52
+ 1445 074f 6A090000 		.4byte	0x96a
+ 1446 0753 5D070000 		.4byte	0x75d
+ 1447 0757 0D       		.uleb128 0xd
+ 1448 0758 01       		.uleb128 0x1
+ 1449 0759 50       		.byte	0x50
+ 1450 075a 01       		.uleb128 0x1
+ 1451 075b 30       		.byte	0x30
+ 1452 075c 00       		.byte	0
+ 1453 075d 0C       		.uleb128 0xc
+ 1454 075e 3A010000 		.4byte	.LVL53
+ 1455 0762 DF080000 		.4byte	0x8df
+ 1456 0766 71070000 		.4byte	0x771
+ 1457 076a 0D       		.uleb128 0xd
+ 1458 076b 01       		.uleb128 0x1
+ 1459 076c 50       		.byte	0x50
+ 1460 076d 02       		.uleb128 0x2
+ 1461 076e 08       		.byte	0x8
+ 1462 076f 64       		.byte	0x64
+ 1463 0770 00       		.byte	0
+ 1464 0771 11       		.uleb128 0x11
+ 1465 0772 40010000 		.4byte	.LVL54
+ 1466 0776 6A090000 		.4byte	0x96a
+ 1467 077a 0D       		.uleb128 0xd
+ 1468 077b 01       		.uleb128 0x1
+ 1469 077c 50       		.byte	0x50
+ 1470 077d 01       		.uleb128 0x1
+ 1471 077e 31       		.byte	0x31
+ 1472 077f 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 34
+
+
+ 1473 0780 00       		.byte	0
+ 1474 0781 12       		.uleb128 0x12
+ 1475 0782 B3000000 		.4byte	0xb3
+ 1476 0786 92070000 		.4byte	0x792
+ 1477 078a 1B       		.uleb128 0x1b
+ 1478 078b C1000000 		.4byte	0xc1
+ 1479 078f 2B01     		.2byte	0x12b
+ 1480 0791 00       		.byte	0
+ 1481 0792 1C       		.uleb128 0x1c
+ 1482 0793 5E0C0000 		.4byte	.LASF192
+ 1483 0797 01       		.byte	0x1
+ 1484 0798 5401     		.2byte	0x154
+ 1485 079a 00000000 		.4byte	.LFB67
+ 1486 079e 02000000 		.4byte	.LFE67-.LFB67
+ 1487 07a2 01       		.uleb128 0x1
+ 1488 07a3 9C       		.byte	0x9c
+ 1489 07a4 1D       		.uleb128 0x1d
+ 1490 07a5 D8010000 		.4byte	.LASF138
+ 1491 07a9 07       		.byte	0x7
+ 1492 07aa 1207     		.2byte	0x712
+ 1493 07ac B0070000 		.4byte	0x7b0
+ 1494 07b0 1E       		.uleb128 0x1e
+ 1495 07b1 76000000 		.4byte	0x76
+ 1496 07b5 1F       		.uleb128 0x1f
+ 1497 07b6 C6040000 		.4byte	.LASF139
+ 1498 07ba 08       		.byte	0x8
+ 1499 07bb 2B       		.byte	0x2b
+ 1500 07bc 99000000 		.4byte	0x99
+ 1501 07c0 05       		.uleb128 0x5
+ 1502 07c1 03       		.byte	0x3
+ 1503 07c2 00000000 		.4byte	ROLL
+ 1504 07c6 1F       		.uleb128 0x1f
+ 1505 07c7 7D060000 		.4byte	.LASF140
+ 1506 07cb 08       		.byte	0x8
+ 1507 07cc 2B       		.byte	0x2b
+ 1508 07cd 99000000 		.4byte	0x99
+ 1509 07d1 05       		.uleb128 0x5
+ 1510 07d2 03       		.byte	0x3
+ 1511 07d3 00000000 		.4byte	PITCH
+ 1512 07d7 20       		.uleb128 0x20
+ 1513 07d8 59415700 		.ascii	"YAW\000"
+ 1514 07dc 08       		.byte	0x8
+ 1515 07dd 2B       		.byte	0x2b
+ 1516 07de 8D000000 		.4byte	0x8d
+ 1517 07e2 05       		.uleb128 0x5
+ 1518 07e3 03       		.byte	0x3
+ 1519 07e4 00000000 		.4byte	YAW
+ 1520 07e8 1F       		.uleb128 0x1f
+ 1521 07e9 51080000 		.4byte	.LASF141
+ 1522 07ed 08       		.byte	0x8
+ 1523 07ee 2C       		.byte	0x2c
+ 1524 07ef 99000000 		.4byte	0x99
+ 1525 07f3 05       		.uleb128 0x5
+ 1526 07f4 03       		.byte	0x3
+ 1527 07f5 00000000 		.4byte	XACCEL
+ 1528 07f9 1F       		.uleb128 0x1f
+ 1529 07fa C20F0000 		.4byte	.LASF142
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 35
+
+
+ 1530 07fe 08       		.byte	0x8
+ 1531 07ff 2C       		.byte	0x2c
+ 1532 0800 99000000 		.4byte	0x99
+ 1533 0804 05       		.uleb128 0x5
+ 1534 0805 03       		.byte	0x3
+ 1535 0806 00000000 		.4byte	YACCEL
+ 1536 080a 1F       		.uleb128 0x1f
+ 1537 080b D1010000 		.4byte	.LASF143
+ 1538 080f 08       		.byte	0x8
+ 1539 0810 2C       		.byte	0x2c
+ 1540 0811 99000000 		.4byte	0x99
+ 1541 0815 05       		.uleb128 0x5
+ 1542 0816 03       		.byte	0x3
+ 1543 0817 00000000 		.4byte	ZACCEL
+ 1544 081b 1F       		.uleb128 0x1f
+ 1545 081c F00A0000 		.4byte	.LASF144
+ 1546 0820 08       		.byte	0x8
+ 1547 0821 2D       		.byte	0x2d
+ 1548 0822 81000000 		.4byte	0x81
+ 1549 0826 05       		.uleb128 0x5
+ 1550 0827 03       		.byte	0x3
+ 1551 0828 00000000 		.4byte	AGMTEMP
+ 1552 082c 12       		.uleb128 0x12
+ 1553 082d B3000000 		.4byte	0xb3
+ 1554 0831 3C080000 		.4byte	0x83c
+ 1555 0835 13       		.uleb128 0x13
+ 1556 0836 C1000000 		.4byte	0xc1
+ 1557 083a 63       		.byte	0x63
+ 1558 083b 00       		.byte	0
+ 1559 083c 1F       		.uleb128 0x1f
+ 1560 083d DB020000 		.4byte	.LASF145
+ 1561 0841 09       		.byte	0x9
+ 1562 0842 26       		.byte	0x26
+ 1563 0843 2C080000 		.4byte	0x82c
+ 1564 0847 05       		.uleb128 0x5
+ 1565 0848 03       		.byte	0x3
+ 1566 0849 00000000 		.4byte	GPS_RMC_Data
+ 1567 084d 1F       		.uleb128 0x1f
+ 1568 084e E4070000 		.4byte	.LASF146
+ 1569 0852 09       		.byte	0x9
+ 1570 0853 27       		.byte	0x27
+ 1571 0854 2C080000 		.4byte	0x82c
+ 1572 0858 05       		.uleb128 0x5
+ 1573 0859 03       		.byte	0x3
+ 1574 085a 00000000 		.4byte	GPS_GGA_Data
+ 1575 085e 1F       		.uleb128 0x1f
+ 1576 085f A4090000 		.4byte	.LASF147
+ 1577 0863 09       		.byte	0x9
+ 1578 0864 29       		.byte	0x29
+ 1579 0865 81000000 		.4byte	0x81
+ 1580 0869 05       		.uleb128 0x5
+ 1581 086a 03       		.byte	0x3
+ 1582 086b 00000000 		.4byte	NewGPSData
+ 1583 086f 12       		.uleb128 0x12
+ 1584 0870 B3000000 		.4byte	0xb3
+ 1585 0874 7F080000 		.4byte	0x87f
+ 1586 0878 13       		.uleb128 0x13
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 36
+
+
+ 1587 0879 C1000000 		.4byte	0xc1
+ 1588 087d 0C       		.byte	0xc
+ 1589 087e 00       		.byte	0
+ 1590 087f 1F       		.uleb128 0x1f
+ 1591 0880 65060000 		.4byte	.LASF148
+ 1592 0884 01       		.byte	0x1
+ 1593 0885 31       		.byte	0x31
+ 1594 0886 6F080000 		.4byte	0x86f
+ 1595 088a 05       		.uleb128 0x5
+ 1596 088b 03       		.byte	0x3
+ 1597 088c 00000000 		.4byte	sdFile
+ 1598 0890 1F       		.uleb128 0x1f
+ 1599 0891 4B080000 		.4byte	.LASF149
+ 1600 0895 01       		.byte	0x1
+ 1601 0896 32       		.byte	0x32
+ 1602 0897 D8000000 		.4byte	0xd8
+ 1603 089b 05       		.uleb128 0x5
+ 1604 089c 03       		.byte	0x3
+ 1605 089d 00000000 		.4byte	pFile
+ 1606 08a1 12       		.uleb128 0x12
+ 1607 08a2 B3000000 		.4byte	0xb3
+ 1608 08a6 B1080000 		.4byte	0x8b1
+ 1609 08aa 13       		.uleb128 0x13
+ 1610 08ab C1000000 		.4byte	0xc1
+ 1611 08af 0B       		.byte	0xb
+ 1612 08b0 00       		.byte	0
+ 1613 08b1 1F       		.uleb128 0x1f
+ 1614 08b2 B50E0000 		.4byte	.LASF150
+ 1615 08b6 01       		.byte	0x1
+ 1616 08b7 33       		.byte	0x33
+ 1617 08b8 A1080000 		.4byte	0x8a1
+ 1618 08bc 05       		.uleb128 0x5
+ 1619 08bd 03       		.byte	0x3
+ 1620 08be 00000000 		.4byte	sdVolName
+ 1621 08c2 1F       		.uleb128 0x1f
+ 1622 08c3 870A0000 		.4byte	.LASF151
+ 1623 08c7 01       		.byte	0x1
+ 1624 08c8 35       		.byte	0x35
+ 1625 08c9 81000000 		.4byte	0x81
+ 1626 08cd 05       		.uleb128 0x5
+ 1627 08ce 03       		.byte	0x3
+ 1628 08cf 00000000 		.4byte	fileNumber
+ 1629 08d3 21       		.uleb128 0x21
+ 1630 08d4 8A0D0000 		.4byte	.LASF152
+ 1631 08d8 8A0D0000 		.4byte	.LASF152
+ 1632 08dc 0A       		.byte	0xa
+ 1633 08dd DA01     		.2byte	0x1da
+ 1634 08df 22       		.uleb128 0x22
+ 1635 08e0 300D0000 		.4byte	.LASF153
+ 1636 08e4 300D0000 		.4byte	.LASF153
+ 1637 08e8 0B       		.byte	0xb
+ 1638 08e9 76       		.byte	0x76
+ 1639 08ea 21       		.uleb128 0x21
+ 1640 08eb 2A050000 		.4byte	.LASF154
+ 1641 08ef 2A050000 		.4byte	.LASF154
+ 1642 08f3 0A       		.byte	0xa
+ 1643 08f4 7001     		.2byte	0x170
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 37
+
+
+ 1644 08f6 21       		.uleb128 0x21
+ 1645 08f7 5C0E0000 		.4byte	.LASF155
+ 1646 08fb 5C0E0000 		.4byte	.LASF155
+ 1647 08ff 0A       		.byte	0xa
+ 1648 0900 7801     		.2byte	0x178
+ 1649 0902 21       		.uleb128 0x21
+ 1650 0903 F80A0000 		.4byte	.LASF156
+ 1651 0907 F80A0000 		.4byte	.LASF156
+ 1652 090b 0A       		.byte	0xa
+ 1653 090c 3A01     		.2byte	0x13a
+ 1654 090e 22       		.uleb128 0x22
+ 1655 090f 90040000 		.4byte	.LASF157
+ 1656 0913 90040000 		.4byte	.LASF157
+ 1657 0917 0C       		.byte	0xc
+ 1658 0918 21       		.byte	0x21
+ 1659 0919 21       		.uleb128 0x21
+ 1660 091a 35090000 		.4byte	.LASF158
+ 1661 091e 35090000 		.4byte	.LASF158
+ 1662 0922 0A       		.byte	0xa
+ 1663 0923 3B01     		.2byte	0x13b
+ 1664 0925 22       		.uleb128 0x22
+ 1665 0926 3F000000 		.4byte	.LASF159
+ 1666 092a 3F000000 		.4byte	.LASF159
+ 1667 092e 0D       		.byte	0xd
+ 1668 092f E7       		.byte	0xe7
+ 1669 0930 21       		.uleb128 0x21
+ 1670 0931 57010000 		.4byte	.LASF160
+ 1671 0935 57010000 		.4byte	.LASF160
+ 1672 0939 0A       		.byte	0xa
+ 1673 093a 5E01     		.2byte	0x15e
+ 1674 093c 21       		.uleb128 0x21
+ 1675 093d 24020000 		.4byte	.LASF161
+ 1676 0941 24020000 		.4byte	.LASF161
+ 1677 0945 0A       		.byte	0xa
+ 1678 0946 A601     		.2byte	0x1a6
+ 1679 0948 21       		.uleb128 0x21
+ 1680 0949 0E000000 		.4byte	.LASF162
+ 1681 094d 0E000000 		.4byte	.LASF162
+ 1682 0951 0A       		.byte	0xa
+ 1683 0952 7701     		.2byte	0x177
+ 1684 0954 22       		.uleb128 0x22
+ 1685 0955 3B050000 		.4byte	.LASF163
+ 1686 0959 3B050000 		.4byte	.LASF163
+ 1687 095d 0E       		.byte	0xe
+ 1688 095e 5D       		.byte	0x5d
+ 1689 095f 22       		.uleb128 0x22
+ 1690 0960 86050000 		.4byte	.LASF164
+ 1691 0964 86050000 		.4byte	.LASF164
+ 1692 0968 0F       		.byte	0xf
+ 1693 0969 29       		.byte	0x29
+ 1694 096a 22       		.uleb128 0x22
+ 1695 096b 7B030000 		.4byte	.LASF165
+ 1696 096f 7B030000 		.4byte	.LASF165
+ 1697 0973 10       		.byte	0x10
+ 1698 0974 26       		.byte	0x26
+ 1699 0975 22       		.uleb128 0x22
+ 1700 0976 00000000 		.4byte	.LASF166
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 38
+
+
+ 1701 097a 00000000 		.4byte	.LASF166
+ 1702 097e 11       		.byte	0x11
+ 1703 097f 5A       		.byte	0x5a
+ 1704 0980 22       		.uleb128 0x22
+ 1705 0981 190D0000 		.4byte	.LASF167
+ 1706 0985 190D0000 		.4byte	.LASF167
+ 1707 0989 0E       		.byte	0xe
+ 1708 098a 4F       		.byte	0x4f
+ 1709 098b 22       		.uleb128 0x22
+ 1710 098c 86040000 		.4byte	.LASF168
+ 1711 0990 86040000 		.4byte	.LASF168
+ 1712 0994 09       		.byte	0x9
+ 1713 0995 2D       		.byte	0x2d
+ 1714 0996 22       		.uleb128 0x22
+ 1715 0997 9B060000 		.4byte	.LASF169
+ 1716 099b 9B060000 		.4byte	.LASF169
+ 1717 099f 12       		.byte	0x12
+ 1718 09a0 54       		.byte	0x54
+ 1719 09a1 22       		.uleb128 0x22
+ 1720 09a2 C5090000 		.4byte	.LASF170
+ 1721 09a6 C5090000 		.4byte	.LASF170
+ 1722 09aa 13       		.byte	0x13
+ 1723 09ab 92       		.byte	0x92
+ 1724 09ac 22       		.uleb128 0x22
+ 1725 09ad FF020000 		.4byte	.LASF171
+ 1726 09b1 FF020000 		.4byte	.LASF171
+ 1727 09b5 14       		.byte	0x14
+ 1728 09b6 92       		.byte	0x92
+ 1729 09b7 22       		.uleb128 0x22
+ 1730 09b8 FA030000 		.4byte	.LASF172
+ 1731 09bc FA030000 		.4byte	.LASF172
+ 1732 09c0 15       		.byte	0x15
+ 1733 09c1 92       		.byte	0x92
+ 1734 09c2 22       		.uleb128 0x22
+ 1735 09c3 58080000 		.4byte	.LASF173
+ 1736 09c7 58080000 		.4byte	.LASF173
+ 1737 09cb 16       		.byte	0x16
+ 1738 09cc 33       		.byte	0x33
+ 1739 09cd 22       		.uleb128 0x22
+ 1740 09ce 47000000 		.4byte	.LASF174
+ 1741 09d2 47000000 		.4byte	.LASF174
+ 1742 09d6 17       		.byte	0x17
+ 1743 09d7 4D       		.byte	0x4d
+ 1744 09d8 22       		.uleb128 0x22
+ 1745 09d9 CA0A0000 		.4byte	.LASF175
+ 1746 09dd CA0A0000 		.4byte	.LASF175
+ 1747 09e1 08       		.byte	0x8
+ 1748 09e2 33       		.byte	0x33
+ 1749 09e3 22       		.uleb128 0x22
+ 1750 09e4 1A090000 		.4byte	.LASF176
+ 1751 09e8 1A090000 		.4byte	.LASF176
+ 1752 09ec 0C       		.byte	0xc
+ 1753 09ed 1F       		.byte	0x1f
+ 1754 09ee 22       		.uleb128 0x22
+ 1755 09ef FF0C0000 		.4byte	.LASF177
+ 1756 09f3 FF0C0000 		.4byte	.LASF177
+ 1757 09f7 0C       		.byte	0xc
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 39
+
+
+ 1758 09f8 23       		.byte	0x23
+ 1759 09f9 22       		.uleb128 0x22
+ 1760 09fa 02080000 		.4byte	.LASF178
+ 1761 09fe 02080000 		.4byte	.LASF178
+ 1762 0a02 11       		.byte	0x11
+ 1763 0a03 69       		.byte	0x69
+ 1764 0a04 22       		.uleb128 0x22
+ 1765 0a05 0C0A0000 		.4byte	.LASF179
+ 1766 0a09 0C0A0000 		.4byte	.LASF179
+ 1767 0a0d 08       		.byte	0x8
+ 1768 0a0e 34       		.byte	0x34
+ 1769 0a0f 22       		.uleb128 0x22
+ 1770 0a10 9A0D0000 		.4byte	.LASF180
+ 1771 0a14 9A0D0000 		.4byte	.LASF180
+ 1772 0a18 08       		.byte	0x8
+ 1773 0a19 35       		.byte	0x35
+ 1774 0a1a 22       		.uleb128 0x22
+ 1775 0a1b 33000000 		.4byte	.LASF181
+ 1776 0a1f 33000000 		.4byte	.LASF181
+ 1777 0a23 08       		.byte	0x8
+ 1778 0a24 36       		.byte	0x36
+ 1779 0a25 22       		.uleb128 0x22
+ 1780 0a26 21040000 		.4byte	.LASF182
+ 1781 0a2a 21040000 		.4byte	.LASF182
+ 1782 0a2e 09       		.byte	0x9
+ 1783 0a2f 2E       		.byte	0x2e
+ 1784 0a30 22       		.uleb128 0x22
+ 1785 0a31 76060000 		.4byte	.LASF183
+ 1786 0a35 76060000 		.4byte	.LASF183
+ 1787 0a39 18       		.byte	0x18
+ 1788 0a3a 1A       		.byte	0x1a
+ 1789 0a3b 22       		.uleb128 0x22
+ 1790 0a3c 5A000000 		.4byte	.LASF184
+ 1791 0a40 5A000000 		.4byte	.LASF184
+ 1792 0a44 12       		.byte	0x12
+ 1793 0a45 8B       		.byte	0x8b
+ 1794 0a46 22       		.uleb128 0x22
+ 1795 0a47 E1040000 		.4byte	.LASF185
+ 1796 0a4b E1040000 		.4byte	.LASF185
+ 1797 0a4f 18       		.byte	0x18
+ 1798 0a50 21       		.byte	0x21
+ 1799 0a51 21       		.uleb128 0x21
+ 1800 0a52 D8040000 		.4byte	.LASF186
+ 1801 0a56 D8040000 		.4byte	.LASF186
+ 1802 0a5a 0A       		.byte	0xa
+ 1803 0a5b 4401     		.2byte	0x144
+ 1804 0a5d 22       		.uleb128 0x22
+ 1805 0a5e 0C040000 		.4byte	.LASF187
+ 1806 0a62 0C040000 		.4byte	.LASF187
+ 1807 0a66 11       		.byte	0x11
+ 1808 0a67 6A       		.byte	0x6a
+ 1809 0a68 00       		.byte	0
+ 1810              		.section	.debug_abbrev,"",%progbits
+ 1811              	.Ldebug_abbrev0:
+ 1812 0000 01       		.uleb128 0x1
+ 1813 0001 11       		.uleb128 0x11
+ 1814 0002 01       		.byte	0x1
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 40
+
+
+ 1815 0003 25       		.uleb128 0x25
+ 1816 0004 0E       		.uleb128 0xe
+ 1817 0005 13       		.uleb128 0x13
+ 1818 0006 0B       		.uleb128 0xb
+ 1819 0007 03       		.uleb128 0x3
+ 1820 0008 0E       		.uleb128 0xe
+ 1821 0009 1B       		.uleb128 0x1b
+ 1822 000a 0E       		.uleb128 0xe
+ 1823 000b 55       		.uleb128 0x55
+ 1824 000c 17       		.uleb128 0x17
+ 1825 000d 11       		.uleb128 0x11
+ 1826 000e 01       		.uleb128 0x1
+ 1827 000f 10       		.uleb128 0x10
+ 1828 0010 17       		.uleb128 0x17
+ 1829 0011 00       		.byte	0
+ 1830 0012 00       		.byte	0
+ 1831 0013 02       		.uleb128 0x2
+ 1832 0014 24       		.uleb128 0x24
+ 1833 0015 00       		.byte	0
+ 1834 0016 0B       		.uleb128 0xb
+ 1835 0017 0B       		.uleb128 0xb
+ 1836 0018 3E       		.uleb128 0x3e
+ 1837 0019 0B       		.uleb128 0xb
+ 1838 001a 03       		.uleb128 0x3
+ 1839 001b 0E       		.uleb128 0xe
+ 1840 001c 00       		.byte	0
+ 1841 001d 00       		.byte	0
+ 1842 001e 03       		.uleb128 0x3
+ 1843 001f 16       		.uleb128 0x16
+ 1844 0020 00       		.byte	0
+ 1845 0021 03       		.uleb128 0x3
+ 1846 0022 0E       		.uleb128 0xe
+ 1847 0023 3A       		.uleb128 0x3a
+ 1848 0024 0B       		.uleb128 0xb
+ 1849 0025 3B       		.uleb128 0x3b
+ 1850 0026 0B       		.uleb128 0xb
+ 1851 0027 49       		.uleb128 0x49
+ 1852 0028 13       		.uleb128 0x13
+ 1853 0029 00       		.byte	0
+ 1854 002a 00       		.byte	0
+ 1855 002b 04       		.uleb128 0x4
+ 1856 002c 24       		.uleb128 0x24
+ 1857 002d 00       		.byte	0
+ 1858 002e 0B       		.uleb128 0xb
+ 1859 002f 0B       		.uleb128 0xb
+ 1860 0030 3E       		.uleb128 0x3e
+ 1861 0031 0B       		.uleb128 0xb
+ 1862 0032 03       		.uleb128 0x3
+ 1863 0033 08       		.uleb128 0x8
+ 1864 0034 00       		.byte	0
+ 1865 0035 00       		.byte	0
+ 1866 0036 05       		.uleb128 0x5
+ 1867 0037 16       		.uleb128 0x16
+ 1868 0038 00       		.byte	0
+ 1869 0039 03       		.uleb128 0x3
+ 1870 003a 0E       		.uleb128 0xe
+ 1871 003b 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 41
+
+
+ 1872 003c 0B       		.uleb128 0xb
+ 1873 003d 3B       		.uleb128 0x3b
+ 1874 003e 05       		.uleb128 0x5
+ 1875 003f 49       		.uleb128 0x49
+ 1876 0040 13       		.uleb128 0x13
+ 1877 0041 00       		.byte	0
+ 1878 0042 00       		.byte	0
+ 1879 0043 06       		.uleb128 0x6
+ 1880 0044 13       		.uleb128 0x13
+ 1881 0045 00       		.byte	0
+ 1882 0046 03       		.uleb128 0x3
+ 1883 0047 0E       		.uleb128 0xe
+ 1884 0048 3C       		.uleb128 0x3c
+ 1885 0049 19       		.uleb128 0x19
+ 1886 004a 00       		.byte	0
+ 1887 004b 00       		.byte	0
+ 1888 004c 07       		.uleb128 0x7
+ 1889 004d 0F       		.uleb128 0xf
+ 1890 004e 00       		.byte	0
+ 1891 004f 0B       		.uleb128 0xb
+ 1892 0050 0B       		.uleb128 0xb
+ 1893 0051 49       		.uleb128 0x49
+ 1894 0052 13       		.uleb128 0x13
+ 1895 0053 00       		.byte	0
+ 1896 0054 00       		.byte	0
+ 1897 0055 08       		.uleb128 0x8
+ 1898 0056 04       		.uleb128 0x4
+ 1899 0057 01       		.byte	0x1
+ 1900 0058 0B       		.uleb128 0xb
+ 1901 0059 0B       		.uleb128 0xb
+ 1902 005a 49       		.uleb128 0x49
+ 1903 005b 13       		.uleb128 0x13
+ 1904 005c 3A       		.uleb128 0x3a
+ 1905 005d 0B       		.uleb128 0xb
+ 1906 005e 3B       		.uleb128 0x3b
+ 1907 005f 0B       		.uleb128 0xb
+ 1908 0060 01       		.uleb128 0x1
+ 1909 0061 13       		.uleb128 0x13
+ 1910 0062 00       		.byte	0
+ 1911 0063 00       		.byte	0
+ 1912 0064 09       		.uleb128 0x9
+ 1913 0065 28       		.uleb128 0x28
+ 1914 0066 00       		.byte	0
+ 1915 0067 03       		.uleb128 0x3
+ 1916 0068 0E       		.uleb128 0xe
+ 1917 0069 1C       		.uleb128 0x1c
+ 1918 006a 0B       		.uleb128 0xb
+ 1919 006b 00       		.byte	0
+ 1920 006c 00       		.byte	0
+ 1921 006d 0A       		.uleb128 0xa
+ 1922 006e 2E       		.uleb128 0x2e
+ 1923 006f 01       		.byte	0x1
+ 1924 0070 3F       		.uleb128 0x3f
+ 1925 0071 19       		.uleb128 0x19
+ 1926 0072 03       		.uleb128 0x3
+ 1927 0073 0E       		.uleb128 0xe
+ 1928 0074 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 42
+
+
+ 1929 0075 0B       		.uleb128 0xb
+ 1930 0076 3B       		.uleb128 0x3b
+ 1931 0077 0B       		.uleb128 0xb
+ 1932 0078 11       		.uleb128 0x11
+ 1933 0079 01       		.uleb128 0x1
+ 1934 007a 12       		.uleb128 0x12
+ 1935 007b 06       		.uleb128 0x6
+ 1936 007c 40       		.uleb128 0x40
+ 1937 007d 18       		.uleb128 0x18
+ 1938 007e 9742     		.uleb128 0x2117
+ 1939 0080 19       		.uleb128 0x19
+ 1940 0081 01       		.uleb128 0x1
+ 1941 0082 13       		.uleb128 0x13
+ 1942 0083 00       		.byte	0
+ 1943 0084 00       		.byte	0
+ 1944 0085 0B       		.uleb128 0xb
+ 1945 0086 898201   		.uleb128 0x4109
+ 1946 0089 00       		.byte	0
+ 1947 008a 11       		.uleb128 0x11
+ 1948 008b 01       		.uleb128 0x1
+ 1949 008c 31       		.uleb128 0x31
+ 1950 008d 13       		.uleb128 0x13
+ 1951 008e 00       		.byte	0
+ 1952 008f 00       		.byte	0
+ 1953 0090 0C       		.uleb128 0xc
+ 1954 0091 898201   		.uleb128 0x4109
+ 1955 0094 01       		.byte	0x1
+ 1956 0095 11       		.uleb128 0x11
+ 1957 0096 01       		.uleb128 0x1
+ 1958 0097 31       		.uleb128 0x31
+ 1959 0098 13       		.uleb128 0x13
+ 1960 0099 01       		.uleb128 0x1
+ 1961 009a 13       		.uleb128 0x13
+ 1962 009b 00       		.byte	0
+ 1963 009c 00       		.byte	0
+ 1964 009d 0D       		.uleb128 0xd
+ 1965 009e 8A8201   		.uleb128 0x410a
+ 1966 00a1 00       		.byte	0
+ 1967 00a2 02       		.uleb128 0x2
+ 1968 00a3 18       		.uleb128 0x18
+ 1969 00a4 9142     		.uleb128 0x2111
+ 1970 00a6 18       		.uleb128 0x18
+ 1971 00a7 00       		.byte	0
+ 1972 00a8 00       		.byte	0
+ 1973 00a9 0E       		.uleb128 0xe
+ 1974 00aa 898201   		.uleb128 0x4109
+ 1975 00ad 01       		.byte	0x1
+ 1976 00ae 11       		.uleb128 0x11
+ 1977 00af 01       		.uleb128 0x1
+ 1978 00b0 9542     		.uleb128 0x2115
+ 1979 00b2 19       		.uleb128 0x19
+ 1980 00b3 31       		.uleb128 0x31
+ 1981 00b4 13       		.uleb128 0x13
+ 1982 00b5 00       		.byte	0
+ 1983 00b6 00       		.byte	0
+ 1984 00b7 0F       		.uleb128 0xf
+ 1985 00b8 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 43
+
+
+ 1986 00b9 01       		.byte	0x1
+ 1987 00ba 3F       		.uleb128 0x3f
+ 1988 00bb 19       		.uleb128 0x19
+ 1989 00bc 03       		.uleb128 0x3
+ 1990 00bd 0E       		.uleb128 0xe
+ 1991 00be 3A       		.uleb128 0x3a
+ 1992 00bf 0B       		.uleb128 0xb
+ 1993 00c0 3B       		.uleb128 0x3b
+ 1994 00c1 05       		.uleb128 0x5
+ 1995 00c2 11       		.uleb128 0x11
+ 1996 00c3 01       		.uleb128 0x1
+ 1997 00c4 12       		.uleb128 0x12
+ 1998 00c5 06       		.uleb128 0x6
+ 1999 00c6 40       		.uleb128 0x40
+ 2000 00c7 18       		.uleb128 0x18
+ 2001 00c8 9742     		.uleb128 0x2117
+ 2002 00ca 19       		.uleb128 0x19
+ 2003 00cb 01       		.uleb128 0x1
+ 2004 00cc 13       		.uleb128 0x13
+ 2005 00cd 00       		.byte	0
+ 2006 00ce 00       		.byte	0
+ 2007 00cf 10       		.uleb128 0x10
+ 2008 00d0 34       		.uleb128 0x34
+ 2009 00d1 00       		.byte	0
+ 2010 00d2 03       		.uleb128 0x3
+ 2011 00d3 0E       		.uleb128 0xe
+ 2012 00d4 3A       		.uleb128 0x3a
+ 2013 00d5 0B       		.uleb128 0xb
+ 2014 00d6 3B       		.uleb128 0x3b
+ 2015 00d7 05       		.uleb128 0x5
+ 2016 00d8 49       		.uleb128 0x49
+ 2017 00d9 13       		.uleb128 0x13
+ 2018 00da 02       		.uleb128 0x2
+ 2019 00db 18       		.uleb128 0x18
+ 2020 00dc 00       		.byte	0
+ 2021 00dd 00       		.byte	0
+ 2022 00de 11       		.uleb128 0x11
+ 2023 00df 898201   		.uleb128 0x4109
+ 2024 00e2 01       		.byte	0x1
+ 2025 00e3 11       		.uleb128 0x11
+ 2026 00e4 01       		.uleb128 0x1
+ 2027 00e5 31       		.uleb128 0x31
+ 2028 00e6 13       		.uleb128 0x13
+ 2029 00e7 00       		.byte	0
+ 2030 00e8 00       		.byte	0
+ 2031 00e9 12       		.uleb128 0x12
+ 2032 00ea 01       		.uleb128 0x1
+ 2033 00eb 01       		.byte	0x1
+ 2034 00ec 49       		.uleb128 0x49
+ 2035 00ed 13       		.uleb128 0x13
+ 2036 00ee 01       		.uleb128 0x1
+ 2037 00ef 13       		.uleb128 0x13
+ 2038 00f0 00       		.byte	0
+ 2039 00f1 00       		.byte	0
+ 2040 00f2 13       		.uleb128 0x13
+ 2041 00f3 21       		.uleb128 0x21
+ 2042 00f4 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 44
+
+
+ 2043 00f5 49       		.uleb128 0x49
+ 2044 00f6 13       		.uleb128 0x13
+ 2045 00f7 2F       		.uleb128 0x2f
+ 2046 00f8 0B       		.uleb128 0xb
+ 2047 00f9 00       		.byte	0
+ 2048 00fa 00       		.byte	0
+ 2049 00fb 14       		.uleb128 0x14
+ 2050 00fc 2E       		.uleb128 0x2e
+ 2051 00fd 01       		.byte	0x1
+ 2052 00fe 3F       		.uleb128 0x3f
+ 2053 00ff 19       		.uleb128 0x19
+ 2054 0100 03       		.uleb128 0x3
+ 2055 0101 0E       		.uleb128 0xe
+ 2056 0102 3A       		.uleb128 0x3a
+ 2057 0103 0B       		.uleb128 0xb
+ 2058 0104 3B       		.uleb128 0x3b
+ 2059 0105 0B       		.uleb128 0xb
+ 2060 0106 27       		.uleb128 0x27
+ 2061 0107 19       		.uleb128 0x19
+ 2062 0108 49       		.uleb128 0x49
+ 2063 0109 13       		.uleb128 0x13
+ 2064 010a 8701     		.uleb128 0x87
+ 2065 010c 19       		.uleb128 0x19
+ 2066 010d 11       		.uleb128 0x11
+ 2067 010e 01       		.uleb128 0x1
+ 2068 010f 12       		.uleb128 0x12
+ 2069 0110 06       		.uleb128 0x6
+ 2070 0111 40       		.uleb128 0x40
+ 2071 0112 18       		.uleb128 0x18
+ 2072 0113 9742     		.uleb128 0x2117
+ 2073 0115 19       		.uleb128 0x19
+ 2074 0116 01       		.uleb128 0x1
+ 2075 0117 13       		.uleb128 0x13
+ 2076 0118 00       		.byte	0
+ 2077 0119 00       		.byte	0
+ 2078 011a 15       		.uleb128 0x15
+ 2079 011b 34       		.uleb128 0x34
+ 2080 011c 00       		.byte	0
+ 2081 011d 03       		.uleb128 0x3
+ 2082 011e 0E       		.uleb128 0xe
+ 2083 011f 3A       		.uleb128 0x3a
+ 2084 0120 0B       		.uleb128 0xb
+ 2085 0121 3B       		.uleb128 0x3b
+ 2086 0122 0B       		.uleb128 0xb
+ 2087 0123 49       		.uleb128 0x49
+ 2088 0124 13       		.uleb128 0x13
+ 2089 0125 1C       		.uleb128 0x1c
+ 2090 0126 0B       		.uleb128 0xb
+ 2091 0127 00       		.byte	0
+ 2092 0128 00       		.byte	0
+ 2093 0129 16       		.uleb128 0x16
+ 2094 012a 34       		.uleb128 0x34
+ 2095 012b 00       		.byte	0
+ 2096 012c 03       		.uleb128 0x3
+ 2097 012d 0E       		.uleb128 0xe
+ 2098 012e 3A       		.uleb128 0x3a
+ 2099 012f 0B       		.uleb128 0xb
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 45
+
+
+ 2100 0130 3B       		.uleb128 0x3b
+ 2101 0131 0B       		.uleb128 0xb
+ 2102 0132 49       		.uleb128 0x49
+ 2103 0133 13       		.uleb128 0x13
+ 2104 0134 1C       		.uleb128 0x1c
+ 2105 0135 05       		.uleb128 0x5
+ 2106 0136 00       		.byte	0
+ 2107 0137 00       		.byte	0
+ 2108 0138 17       		.uleb128 0x17
+ 2109 0139 34       		.uleb128 0x34
+ 2110 013a 00       		.byte	0
+ 2111 013b 03       		.uleb128 0x3
+ 2112 013c 0E       		.uleb128 0xe
+ 2113 013d 3A       		.uleb128 0x3a
+ 2114 013e 0B       		.uleb128 0xb
+ 2115 013f 3B       		.uleb128 0x3b
+ 2116 0140 0B       		.uleb128 0xb
+ 2117 0141 49       		.uleb128 0x49
+ 2118 0142 13       		.uleb128 0x13
+ 2119 0143 02       		.uleb128 0x2
+ 2120 0144 17       		.uleb128 0x17
+ 2121 0145 00       		.byte	0
+ 2122 0146 00       		.byte	0
+ 2123 0147 18       		.uleb128 0x18
+ 2124 0148 34       		.uleb128 0x34
+ 2125 0149 00       		.byte	0
+ 2126 014a 03       		.uleb128 0x3
+ 2127 014b 0E       		.uleb128 0xe
+ 2128 014c 3A       		.uleb128 0x3a
+ 2129 014d 0B       		.uleb128 0xb
+ 2130 014e 3B       		.uleb128 0x3b
+ 2131 014f 0B       		.uleb128 0xb
+ 2132 0150 49       		.uleb128 0x49
+ 2133 0151 13       		.uleb128 0x13
+ 2134 0152 02       		.uleb128 0x2
+ 2135 0153 18       		.uleb128 0x18
+ 2136 0154 00       		.byte	0
+ 2137 0155 00       		.byte	0
+ 2138 0156 19       		.uleb128 0x19
+ 2139 0157 0B       		.uleb128 0xb
+ 2140 0158 01       		.byte	0x1
+ 2141 0159 11       		.uleb128 0x11
+ 2142 015a 01       		.uleb128 0x1
+ 2143 015b 12       		.uleb128 0x12
+ 2144 015c 06       		.uleb128 0x6
+ 2145 015d 01       		.uleb128 0x1
+ 2146 015e 13       		.uleb128 0x13
+ 2147 015f 00       		.byte	0
+ 2148 0160 00       		.byte	0
+ 2149 0161 1A       		.uleb128 0x1a
+ 2150 0162 34       		.uleb128 0x34
+ 2151 0163 00       		.byte	0
+ 2152 0164 03       		.uleb128 0x3
+ 2153 0165 08       		.uleb128 0x8
+ 2154 0166 3A       		.uleb128 0x3a
+ 2155 0167 0B       		.uleb128 0xb
+ 2156 0168 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 46
+
+
+ 2157 0169 0B       		.uleb128 0xb
+ 2158 016a 49       		.uleb128 0x49
+ 2159 016b 13       		.uleb128 0x13
+ 2160 016c 02       		.uleb128 0x2
+ 2161 016d 17       		.uleb128 0x17
+ 2162 016e 00       		.byte	0
+ 2163 016f 00       		.byte	0
+ 2164 0170 1B       		.uleb128 0x1b
+ 2165 0171 21       		.uleb128 0x21
+ 2166 0172 00       		.byte	0
+ 2167 0173 49       		.uleb128 0x49
+ 2168 0174 13       		.uleb128 0x13
+ 2169 0175 2F       		.uleb128 0x2f
+ 2170 0176 05       		.uleb128 0x5
+ 2171 0177 00       		.byte	0
+ 2172 0178 00       		.byte	0
+ 2173 0179 1C       		.uleb128 0x1c
+ 2174 017a 2E       		.uleb128 0x2e
+ 2175 017b 00       		.byte	0
+ 2176 017c 3F       		.uleb128 0x3f
+ 2177 017d 19       		.uleb128 0x19
+ 2178 017e 03       		.uleb128 0x3
+ 2179 017f 0E       		.uleb128 0xe
+ 2180 0180 3A       		.uleb128 0x3a
+ 2181 0181 0B       		.uleb128 0xb
+ 2182 0182 3B       		.uleb128 0x3b
+ 2183 0183 05       		.uleb128 0x5
+ 2184 0184 27       		.uleb128 0x27
+ 2185 0185 19       		.uleb128 0x19
+ 2186 0186 11       		.uleb128 0x11
+ 2187 0187 01       		.uleb128 0x1
+ 2188 0188 12       		.uleb128 0x12
+ 2189 0189 06       		.uleb128 0x6
+ 2190 018a 40       		.uleb128 0x40
+ 2191 018b 18       		.uleb128 0x18
+ 2192 018c 9742     		.uleb128 0x2117
+ 2193 018e 19       		.uleb128 0x19
+ 2194 018f 00       		.byte	0
+ 2195 0190 00       		.byte	0
+ 2196 0191 1D       		.uleb128 0x1d
+ 2197 0192 34       		.uleb128 0x34
+ 2198 0193 00       		.byte	0
+ 2199 0194 03       		.uleb128 0x3
+ 2200 0195 0E       		.uleb128 0xe
+ 2201 0196 3A       		.uleb128 0x3a
+ 2202 0197 0B       		.uleb128 0xb
+ 2203 0198 3B       		.uleb128 0x3b
+ 2204 0199 05       		.uleb128 0x5
+ 2205 019a 49       		.uleb128 0x49
+ 2206 019b 13       		.uleb128 0x13
+ 2207 019c 3F       		.uleb128 0x3f
+ 2208 019d 19       		.uleb128 0x19
+ 2209 019e 3C       		.uleb128 0x3c
+ 2210 019f 19       		.uleb128 0x19
+ 2211 01a0 00       		.byte	0
+ 2212 01a1 00       		.byte	0
+ 2213 01a2 1E       		.uleb128 0x1e
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 47
+
+
+ 2214 01a3 35       		.uleb128 0x35
+ 2215 01a4 00       		.byte	0
+ 2216 01a5 49       		.uleb128 0x49
+ 2217 01a6 13       		.uleb128 0x13
+ 2218 01a7 00       		.byte	0
+ 2219 01a8 00       		.byte	0
+ 2220 01a9 1F       		.uleb128 0x1f
+ 2221 01aa 34       		.uleb128 0x34
+ 2222 01ab 00       		.byte	0
+ 2223 01ac 03       		.uleb128 0x3
+ 2224 01ad 0E       		.uleb128 0xe
+ 2225 01ae 3A       		.uleb128 0x3a
+ 2226 01af 0B       		.uleb128 0xb
+ 2227 01b0 3B       		.uleb128 0x3b
+ 2228 01b1 0B       		.uleb128 0xb
+ 2229 01b2 49       		.uleb128 0x49
+ 2230 01b3 13       		.uleb128 0x13
+ 2231 01b4 3F       		.uleb128 0x3f
+ 2232 01b5 19       		.uleb128 0x19
+ 2233 01b6 02       		.uleb128 0x2
+ 2234 01b7 18       		.uleb128 0x18
+ 2235 01b8 00       		.byte	0
+ 2236 01b9 00       		.byte	0
+ 2237 01ba 20       		.uleb128 0x20
+ 2238 01bb 34       		.uleb128 0x34
+ 2239 01bc 00       		.byte	0
+ 2240 01bd 03       		.uleb128 0x3
+ 2241 01be 08       		.uleb128 0x8
+ 2242 01bf 3A       		.uleb128 0x3a
+ 2243 01c0 0B       		.uleb128 0xb
+ 2244 01c1 3B       		.uleb128 0x3b
+ 2245 01c2 0B       		.uleb128 0xb
+ 2246 01c3 49       		.uleb128 0x49
+ 2247 01c4 13       		.uleb128 0x13
+ 2248 01c5 3F       		.uleb128 0x3f
+ 2249 01c6 19       		.uleb128 0x19
+ 2250 01c7 02       		.uleb128 0x2
+ 2251 01c8 18       		.uleb128 0x18
+ 2252 01c9 00       		.byte	0
+ 2253 01ca 00       		.byte	0
+ 2254 01cb 21       		.uleb128 0x21
+ 2255 01cc 2E       		.uleb128 0x2e
+ 2256 01cd 00       		.byte	0
+ 2257 01ce 3F       		.uleb128 0x3f
+ 2258 01cf 19       		.uleb128 0x19
+ 2259 01d0 3C       		.uleb128 0x3c
+ 2260 01d1 19       		.uleb128 0x19
+ 2261 01d2 6E       		.uleb128 0x6e
+ 2262 01d3 0E       		.uleb128 0xe
+ 2263 01d4 03       		.uleb128 0x3
+ 2264 01d5 0E       		.uleb128 0xe
+ 2265 01d6 3A       		.uleb128 0x3a
+ 2266 01d7 0B       		.uleb128 0xb
+ 2267 01d8 3B       		.uleb128 0x3b
+ 2268 01d9 05       		.uleb128 0x5
+ 2269 01da 00       		.byte	0
+ 2270 01db 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 48
+
+
+ 2271 01dc 22       		.uleb128 0x22
+ 2272 01dd 2E       		.uleb128 0x2e
+ 2273 01de 00       		.byte	0
+ 2274 01df 3F       		.uleb128 0x3f
+ 2275 01e0 19       		.uleb128 0x19
+ 2276 01e1 3C       		.uleb128 0x3c
+ 2277 01e2 19       		.uleb128 0x19
+ 2278 01e3 6E       		.uleb128 0x6e
+ 2279 01e4 0E       		.uleb128 0xe
+ 2280 01e5 03       		.uleb128 0x3
+ 2281 01e6 0E       		.uleb128 0xe
+ 2282 01e7 3A       		.uleb128 0x3a
+ 2283 01e8 0B       		.uleb128 0xb
+ 2284 01e9 3B       		.uleb128 0x3b
+ 2285 01ea 0B       		.uleb128 0xb
+ 2286 01eb 00       		.byte	0
+ 2287 01ec 00       		.byte	0
+ 2288 01ed 00       		.byte	0
+ 2289              		.section	.debug_loc,"",%progbits
+ 2290              	.Ldebug_loc0:
+ 2291              	.LLST0:
+ 2292 0000 42000000 		.4byte	.LVL24
+ 2293 0004 46000000 		.4byte	.LVL25
+ 2294 0008 0200     		.2byte	0x2
+ 2295 000a 30       		.byte	0x30
+ 2296 000b 9F       		.byte	0x9f
+ 2297 000c 66000000 		.4byte	.LVL31
+ 2298 0010 9A000000 		.4byte	.LVL32
+ 2299 0014 0100     		.2byte	0x1
+ 2300 0016 50       		.byte	0x50
+ 2301 0017 9A000000 		.4byte	.LVL32
+ 2302 001b 9D000000 		.4byte	.LVL33-1
+ 2303 001f 0100     		.2byte	0x1
+ 2304 0021 52       		.byte	0x52
+ 2305 0022 00000000 		.4byte	0
+ 2306 0026 00000000 		.4byte	0
+ 2307              	.LLST1:
+ 2308 002a 42000000 		.4byte	.LVL24
+ 2309 002e 24010000 		.4byte	.LVL49
+ 2310 0032 0200     		.2byte	0x2
+ 2311 0034 30       		.byte	0x30
+ 2312 0035 9F       		.byte	0x9f
+ 2313 0036 24010000 		.4byte	.LVL49
+ 2314 003a 7C010000 		.4byte	.LFE64
+ 2315 003e 0200     		.2byte	0x2
+ 2316 0040 31       		.byte	0x31
+ 2317 0041 9F       		.byte	0x9f
+ 2318 0042 00000000 		.4byte	0
+ 2319 0046 00000000 		.4byte	0
+ 2320              	.LLST2:
+ 2321 004a E4000000 		.4byte	.LVL39
+ 2322 004e E8000000 		.4byte	.LVL40
+ 2323 0052 0300     		.2byte	0x3
+ 2324 0054 08       		.byte	0x8
+ 2325 0055 64       		.byte	0x64
+ 2326 0056 9F       		.byte	0x9f
+ 2327 0057 E8000000 		.4byte	.LVL40
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 49
+
+
+ 2328 005b EE000000 		.4byte	.LVL41
+ 2329 005f 0400     		.2byte	0x4
+ 2330 0061 73       		.byte	0x73
+ 2331 0062 E400     		.sleb128 100
+ 2332 0064 9F       		.byte	0x9f
+ 2333 0065 00000000 		.4byte	0
+ 2334 0069 00000000 		.4byte	0
+ 2335              	.LLST3:
+ 2336 006d 18010000 		.4byte	.LVL47
+ 2337 0071 1A010000 		.4byte	.LVL48
+ 2338 0075 0100     		.2byte	0x1
+ 2339 0077 50       		.byte	0x50
+ 2340 0078 00000000 		.4byte	0
+ 2341 007c 00000000 		.4byte	0
+ 2342              		.section	.debug_aranges,"",%progbits
+ 2343 0000 34000000 		.4byte	0x34
+ 2344 0004 0200     		.2byte	0x2
+ 2345 0006 00000000 		.4byte	.Ldebug_info0
+ 2346 000a 04       		.byte	0x4
+ 2347 000b 00       		.byte	0
+ 2348 000c 0000     		.2byte	0
+ 2349 000e 0000     		.2byte	0
+ 2350 0010 00000000 		.4byte	.LFB65
+ 2351 0014 54000000 		.4byte	.LFE65-.LFB65
+ 2352 0018 00000000 		.4byte	.LFB66
+ 2353 001c 58000000 		.4byte	.LFE66-.LFB66
+ 2354 0020 00000000 		.4byte	.LFB64
+ 2355 0024 7C010000 		.4byte	.LFE64-.LFB64
+ 2356 0028 00000000 		.4byte	.LFB67
+ 2357 002c 02000000 		.4byte	.LFE67-.LFB67
+ 2358 0030 00000000 		.4byte	0
+ 2359 0034 00000000 		.4byte	0
+ 2360              		.section	.debug_ranges,"",%progbits
+ 2361              	.Ldebug_ranges0:
+ 2362 0000 00000000 		.4byte	.LFB65
+ 2363 0004 54000000 		.4byte	.LFE65
+ 2364 0008 00000000 		.4byte	.LFB66
+ 2365 000c 58000000 		.4byte	.LFE66
+ 2366 0010 00000000 		.4byte	.LFB64
+ 2367 0014 7C010000 		.4byte	.LFE64
+ 2368 0018 00000000 		.4byte	.LFB67
+ 2369 001c 02000000 		.4byte	.LFE67
+ 2370 0020 00000000 		.4byte	0
+ 2371 0024 00000000 		.4byte	0
+ 2372              		.section	.debug_line,"",%progbits
+ 2373              	.Ldebug_line0:
+ 2374 0000 9B030000 		.section	.debug_str,"MS",%progbits,1
+ 2374      0200C202 
+ 2374      00000201 
+ 2374      FB0E0D00 
+ 2374      01010101 
+ 2375              	.LASF166:
+ 2376 0000 54696D65 		.ascii	"Timer_1_Start\000"
+ 2376      725F315F 
+ 2376      53746172 
+ 2376      7400
+ 2377              	.LASF162:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 50
+
+
+ 2378 000e 46535F55 		.ascii	"FS_Unmount\000"
+ 2378      6E6D6F75 
+ 2378      6E7400
+ 2379              	.LASF26:
+ 2380 0019 424E4F30 		.ascii	"BNO055_SW_REV_ID_LSB_ADDR\000"
+ 2380      35355F53 
+ 2380      575F5245 
+ 2380      565F4944 
+ 2380      5F4C5342 
+ 2381              	.LASF181:
+ 2382 0033 41474D5F 		.ascii	"AGM_GetTemp\000"
+ 2382      47657454 
+ 2382      656D7000 
+ 2383              	.LASF159:
+ 2384 003f 73707269 		.ascii	"sprintf\000"
+ 2384      6E746600 
+ 2385              	.LASF174:
+ 2386 0047 5350495F 		.ascii	"SPI_Altitude_Start\000"
+ 2386      416C7469 
+ 2386      74756465 
+ 2386      5F537461 
+ 2386      727400
+ 2387              	.LASF184:
+ 2388 005a 55415254 		.ascii	"UART_HC12_PutString\000"
+ 2388      5F484331 
+ 2388      325F5075 
+ 2388      74537472 
+ 2388      696E6700 
+ 2389              	.LASF67:
+ 2390 006e 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_X_LSB_ADDR\000"
+ 2390      35355F47 
+ 2390      52415649 
+ 2390      54595F44 
+ 2390      4154415F 
+ 2391              	.LASF89:
+ 2392 008d 424E4F30 		.ascii	"BNO055_SIC_MATRIX_0_MSB_ADDR\000"
+ 2392      35355F53 
+ 2392      49435F4D 
+ 2392      41545249 
+ 2392      585F305F 
+ 2393              	.LASF86:
+ 2394 00aa 424E4F30 		.ascii	"BNO055_AXIS_MAP_CONFIG_ADDR\000"
+ 2394      35355F41 
+ 2394      5849535F 
+ 2394      4D41505F 
+ 2394      434F4E46 
+ 2395              	.LASF91:
+ 2396 00c6 424E4F30 		.ascii	"BNO055_SIC_MATRIX_1_MSB_ADDR\000"
+ 2396      35355F53 
+ 2396      49435F4D 
+ 2396      41545249 
+ 2396      585F315F 
+ 2397              	.LASF92:
+ 2398 00e3 424E4F30 		.ascii	"BNO055_SIC_MATRIX_2_LSB_ADDR\000"
+ 2398      35355F53 
+ 2398      49435F4D 
+ 2398      41545249 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 51
+
+
+ 2398      585F325F 
+ 2399              	.LASF94:
+ 2400 0100 424E4F30 		.ascii	"BNO055_SIC_MATRIX_3_LSB_ADDR\000"
+ 2400      35355F53 
+ 2400      49435F4D 
+ 2400      41545249 
+ 2400      585F335F 
+ 2401              	.LASF96:
+ 2402 011d 424E4F30 		.ascii	"BNO055_SIC_MATRIX_4_LSB_ADDR\000"
+ 2402      35355F53 
+ 2402      49435F4D 
+ 2402      41545249 
+ 2402      585F345F 
+ 2403              	.LASF98:
+ 2404 013a 424E4F30 		.ascii	"BNO055_SIC_MATRIX_5_LSB_ADDR\000"
+ 2404      35355F53 
+ 2404      49435F4D 
+ 2404      41545249 
+ 2404      585F355F 
+ 2405              	.LASF160:
+ 2406 0157 46535F43 		.ascii	"FS_CopyFile\000"
+ 2406      6F707946 
+ 2406      696C6500 
+ 2407              	.LASF100:
+ 2408 0163 424E4F30 		.ascii	"BNO055_SIC_MATRIX_6_LSB_ADDR\000"
+ 2408      35355F53 
+ 2408      49435F4D 
+ 2408      41545249 
+ 2408      585F365F 
+ 2409              	.LASF104:
+ 2410 0180 424E4F30 		.ascii	"BNO055_SIC_MATRIX_8_LSB_ADDR\000"
+ 2410      35355F53 
+ 2410      49435F4D 
+ 2410      41545249 
+ 2410      585F385F 
+ 2411              	.LASF102:
+ 2412 019d 424E4F30 		.ascii	"BNO055_SIC_MATRIX_7_LSB_ADDR\000"
+ 2412      35355F53 
+ 2412      49435F4D 
+ 2412      41545249 
+ 2412      585F375F 
+ 2413              	.LASF7:
+ 2414 01ba 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2414      206C6F6E 
+ 2414      6720756E 
+ 2414      7369676E 
+ 2414      65642069 
+ 2415              	.LASF143:
+ 2416 01d1 5A414343 		.ascii	"ZACCEL\000"
+ 2416      454C00
+ 2417              	.LASF138:
+ 2418 01d8 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 2418      52784275 
+ 2418      66666572 
+ 2418      00
+ 2419              	.LASF40:
+ 2420 01e5 424E4F30 		.ascii	"BNO055_MAG_DATA_Z_MSB_ADDR\000"
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 52
+
+
+ 2420      35355F4D 
+ 2420      41475F44 
+ 2420      4154415F 
+ 2420      5A5F4D53 
+ 2421              	.LASF61:
+ 2422 0200 424E4F30 		.ascii	"BNO055_LINEAR_ACCEL_DATA_X_LSB_ADDR\000"
+ 2422      35355F4C 
+ 2422      494E4541 
+ 2422      525F4143 
+ 2422      43454C5F 
+ 2423              	.LASF161:
+ 2424 0224 46535F53 		.ascii	"FS_SetFileTime\000"
+ 2424      65744669 
+ 2424      6C655469 
+ 2424      6D6500
+ 2425              	.LASF6:
+ 2426 0233 6C6F6E67 		.ascii	"long long int\000"
+ 2426      206C6F6E 
+ 2426      6720696E 
+ 2426      7400
+ 2427              	.LASF0:
+ 2428 0241 7369676E 		.ascii	"signed char\000"
+ 2428      65642063 
+ 2428      68617200 
+ 2429              	.LASF188:
+ 2430 024d 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 2430      43313120 
+ 2430      352E342E 
+ 2430      31203230 
+ 2430      31363036 
+ 2431 0280 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 2431      20726576 
+ 2431      6973696F 
+ 2431      6E203233 
+ 2431      37373135 
+ 2432 02b3 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 2432      66756E63 
+ 2432      74696F6E 
+ 2432      2D736563 
+ 2432      74696F6E 
+ 2433              	.LASF145:
+ 2434 02db 4750535F 		.ascii	"GPS_RMC_Data\000"
+ 2434      524D435F 
+ 2434      44617461 
+ 2434      00
+ 2435              	.LASF121:
+ 2436 02e8 4759524F 		.ascii	"GYRO_OFFSET_Y_MSB_ADDR\000"
+ 2436      5F4F4646 
+ 2436      5345545F 
+ 2436      595F4D53 
+ 2436      425F4144 
+ 2437              	.LASF171:
+ 2438 02ff 41696C65 		.ascii	"Aileron_Start\000"
+ 2438      726F6E5F 
+ 2438      53746172 
+ 2438      7400
+ 2439              	.LASF48:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 53
+
+
+ 2440 030d 424E4F30 		.ascii	"BNO055_EULER_H_MSB_ADDR\000"
+ 2440      35355F45 
+ 2440      554C4552 
+ 2440      5F485F4D 
+ 2440      53425F41 
+ 2441              	.LASF25:
+ 2442 0325 424E4F30 		.ascii	"BNO055_GYRO_REV_ID_ADDR\000"
+ 2442      35355F47 
+ 2442      59524F5F 
+ 2442      5245565F 
+ 2442      49445F41 
+ 2443              	.LASF4:
+ 2444 033d 6C6F6E67 		.ascii	"long int\000"
+ 2444      20696E74 
+ 2444      00
+ 2445              	.LASF88:
+ 2446 0346 424E4F30 		.ascii	"BNO055_SIC_MATRIX_0_LSB_ADDR\000"
+ 2446      35355F53 
+ 2446      49435F4D 
+ 2446      41545249 
+ 2446      585F305F 
+ 2447              	.LASF52:
+ 2448 0363 424E4F30 		.ascii	"BNO055_EULER_P_MSB_ADDR\000"
+ 2448      35355F45 
+ 2448      554C4552 
+ 2448      5F505F4D 
+ 2448      53425F41 
+ 2449              	.LASF165:
+ 2450 037b 4C45445F 		.ascii	"LED_Write\000"
+ 2450      57726974 
+ 2450      6500
+ 2451              	.LASF119:
+ 2452 0385 4759524F 		.ascii	"GYRO_OFFSET_X_MSB_ADDR\000"
+ 2452      5F4F4646 
+ 2452      5345545F 
+ 2452      585F4D53 
+ 2452      425F4144 
+ 2453              	.LASF29:
+ 2454 039c 424E4F30 		.ascii	"BNO055_ACCEL_DATA_X_LSB_ADDR\000"
+ 2454      35355F41 
+ 2454      4343454C 
+ 2454      5F444154 
+ 2454      415F585F 
+ 2455              	.LASF31:
+ 2456 03b9 424E4F30 		.ascii	"BNO055_ACCEL_DATA_Y_LSB_ADDR\000"
+ 2456      35355F41 
+ 2456      4343454C 
+ 2456      5F444154 
+ 2456      415F595F 
+ 2457              	.LASF33:
+ 2458 03d6 424E4F30 		.ascii	"BNO055_ACCEL_DATA_Z_LSB_ADDR\000"
+ 2458      35355F41 
+ 2458      4343454C 
+ 2458      5F444154 
+ 2458      415F5A5F 
+ 2459              	.LASF15:
+ 2460 03f3 646F7562 		.ascii	"double\000"
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 54
+
+
+ 2460      6C6500
+ 2461              	.LASF172:
+ 2462 03fa 4D6F746F 		.ascii	"Motor_Speed_Start\000"
+ 2462      725F5370 
+ 2462      6565645F 
+ 2462      53746172 
+ 2462      7400
+ 2463              	.LASF187:
+ 2464 040c 54696D65 		.ascii	"Timer_1_WriteCounter\000"
+ 2464      725F315F 
+ 2464      57726974 
+ 2464      65436F75 
+ 2464      6E746572 
+ 2465              	.LASF182:
+ 2466 0421 4750535F 		.ascii	"GPS_Refresh\000"
+ 2466      52656672 
+ 2466      65736800 
+ 2467              	.LASF131:
+ 2468 042d 72656672 		.ascii	"refreshTime\000"
+ 2468      65736854 
+ 2468      696D6500 
+ 2469              	.LASF69:
+ 2470 0439 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_Y_LSB_ADDR\000"
+ 2470      35355F47 
+ 2470      52415649 
+ 2470      54595F44 
+ 2470      4154415F 
+ 2471              	.LASF112:
+ 2472 0458 4D41475F 		.ascii	"MAG_OFFSET_X_LSB_ADDR\000"
+ 2472      4F464653 
+ 2472      45545F58 
+ 2472      5F4C5342 
+ 2472      5F414444 
+ 2473              	.LASF81:
+ 2474 046e 424E4F30 		.ascii	"BNO055_DATA_SELECT_ADDR\000"
+ 2474      35355F44 
+ 2474      4154415F 
+ 2474      53454C45 
+ 2474      43545F41 
+ 2475              	.LASF168:
+ 2476 0486 4750535F 		.ascii	"GPS_Start\000"
+ 2476      53746172 
+ 2476      7400
+ 2477              	.LASF157:
+ 2478 0490 45455052 		.ascii	"EEPROM_WriteByte\000"
+ 2478      4F4D5F57 
+ 2478      72697465 
+ 2478      42797465 
+ 2478      00
+ 2479              	.LASF133:
+ 2480 04a1 64757261 		.ascii	"duration\000"
+ 2480      74696F6E 
+ 2480      00
+ 2481              	.LASF75:
+ 2482 04aa 424E4F30 		.ascii	"BNO055_SELFTEST_RESULT_ADDR\000"
+ 2482      35355F53 
+ 2482      454C4654 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 55
+
+
+ 2482      4553545F 
+ 2482      52455355 
+ 2483              	.LASF139:
+ 2484 04c6 524F4C4C 		.ascii	"ROLL\000"
+ 2484      00
+ 2485              	.LASF8:
+ 2486 04cb 756E7369 		.ascii	"unsigned int\000"
+ 2486      676E6564 
+ 2486      20696E74 
+ 2486      00
+ 2487              	.LASF186:
+ 2488 04d8 46535F57 		.ascii	"FS_Write\000"
+ 2488      72697465 
+ 2488      00
+ 2489              	.LASF185:
+ 2490 04e1 7374726C 		.ascii	"strlen\000"
+ 2490      656E00
+ 2491              	.LASF107:
+ 2492 04e8 41434345 		.ascii	"ACCEL_OFFSET_X_MSB_ADDR\000"
+ 2492      4C5F4F46 
+ 2492      46534554 
+ 2492      5F585F4D 
+ 2492      53425F41 
+ 2493              	.LASF109:
+ 2494 0500 41434345 		.ascii	"ACCEL_OFFSET_Y_MSB_ADDR\000"
+ 2494      4C5F4F46 
+ 2494      46534554 
+ 2494      5F595F4D 
+ 2494      53425F41 
+ 2495              	.LASF5:
+ 2496 0518 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2496      20756E73 
+ 2496      69676E65 
+ 2496      6420696E 
+ 2496      7400
+ 2497              	.LASF154:
+ 2498 052a 46535F47 		.ascii	"FS_GetVolumeName\000"
+ 2498      6574566F 
+ 2498      6C756D65 
+ 2498      4E616D65 
+ 2498      00
+ 2499              	.LASF163:
+ 2500 053b 436F756E 		.ascii	"Counter_Duration_ReadCounter\000"
+ 2500      7465725F 
+ 2500      44757261 
+ 2500      74696F6E 
+ 2500      5F526561 
+ 2501              	.LASF80:
+ 2502 0558 424E4F30 		.ascii	"BNO055_UNIT_SEL_ADDR\000"
+ 2502      35355F55 
+ 2502      4E49545F 
+ 2502      53454C5F 
+ 2502      41444452 
+ 2503              	.LASF11:
+ 2504 056d 75696E74 		.ascii	"uint8\000"
+ 2504      3800
+ 2505              	.LASF3:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 56
+
+
+ 2506 0573 73686F72 		.ascii	"short unsigned int\000"
+ 2506      7420756E 
+ 2506      7369676E 
+ 2506      65642069 
+ 2506      6E7400
+ 2507              	.LASF164:
+ 2508 0586 42757474 		.ascii	"Button_Read\000"
+ 2508      6F6E5F52 
+ 2508      65616400 
+ 2509              	.LASF42:
+ 2510 0592 424E4F30 		.ascii	"BNO055_GYRO_DATA_X_MSB_ADDR\000"
+ 2510      35355F47 
+ 2510      59524F5F 
+ 2510      44415441 
+ 2510      5F585F4D 
+ 2511              	.LASF132:
+ 2512 05ae 74696D65 		.ascii	"timerPeriod\000"
+ 2512      72506572 
+ 2512      696F6400 
+ 2513              	.LASF44:
+ 2514 05ba 424E4F30 		.ascii	"BNO055_GYRO_DATA_Y_MSB_ADDR\000"
+ 2514      35355F47 
+ 2514      59524F5F 
+ 2514      44415441 
+ 2514      5F595F4D 
+ 2515              	.LASF46:
+ 2516 05d6 424E4F30 		.ascii	"BNO055_GYRO_DATA_Z_MSB_ADDR\000"
+ 2516      35355F47 
+ 2516      59524F5F 
+ 2516      44415441 
+ 2516      5F5A5F4D 
+ 2517              	.LASF189:
+ 2518 05f2 6D61696E 		.ascii	"main.c\000"
+ 2518      2E6300
+ 2519              	.LASF65:
+ 2520 05f9 424E4F30 		.ascii	"BNO055_LINEAR_ACCEL_DATA_Z_LSB_ADDR\000"
+ 2520      35355F4C 
+ 2520      494E4541 
+ 2520      525F4143 
+ 2520      43454C5F 
+ 2521              	.LASF190:
+ 2522 061d 433A5C55 		.ascii	"C:\\Users\\Nathan\\Documents\\MyBuilds\\Flight Cont"
+ 2522      73657273 
+ 2522      5C4E6174 
+ 2522      68616E5C 
+ 2522      446F6375 
+ 2523 064b 726F6C6C 		.ascii	"roller\\ServoControl.cydsn\000"
+ 2523      65725C53 
+ 2523      6572766F 
+ 2523      436F6E74 
+ 2523      726F6C2E 
+ 2524              	.LASF148:
+ 2525 0665 73644669 		.ascii	"sdFile\000"
+ 2525      6C6500
+ 2526              	.LASF2:
+ 2527 066c 73686F72 		.ascii	"short int\000"
+ 2527      7420696E 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 57
+
+
+ 2527      7400
+ 2528              	.LASF183:
+ 2529 0676 73747263 		.ascii	"strcat\000"
+ 2529      617400
+ 2530              	.LASF140:
+ 2531 067d 50495443 		.ascii	"PITCH\000"
+ 2531      4800
+ 2532              	.LASF47:
+ 2533 0683 424E4F30 		.ascii	"BNO055_EULER_H_LSB_ADDR\000"
+ 2533      35355F45 
+ 2533      554C4552 
+ 2533      5F485F4C 
+ 2533      53425F41 
+ 2534              	.LASF169:
+ 2535 069b 55415254 		.ascii	"UART_HC12_Start\000"
+ 2535      5F484331 
+ 2535      325F5374 
+ 2535      61727400 
+ 2536              	.LASF114:
+ 2537 06ab 4D41475F 		.ascii	"MAG_OFFSET_Y_LSB_ADDR\000"
+ 2537      4F464653 
+ 2537      45545F59 
+ 2537      5F4C5342 
+ 2537      5F414444 
+ 2538              	.LASF62:
+ 2539 06c1 424E4F30 		.ascii	"BNO055_LINEAR_ACCEL_DATA_X_MSB_ADDR\000"
+ 2539      35355F4C 
+ 2539      494E4541 
+ 2539      525F4143 
+ 2539      43454C5F 
+ 2540              	.LASF18:
+ 2541 06e5 73697A65 		.ascii	"sizetype\000"
+ 2541      74797065 
+ 2541      00
+ 2542              	.LASF64:
+ 2543 06ee 424E4F30 		.ascii	"BNO055_LINEAR_ACCEL_DATA_Y_MSB_ADDR\000"
+ 2543      35355F4C 
+ 2543      494E4541 
+ 2543      525F4143 
+ 2543      43454C5F 
+ 2544              	.LASF66:
+ 2545 0712 424E4F30 		.ascii	"BNO055_LINEAR_ACCEL_DATA_Z_MSB_ADDR\000"
+ 2545      35355F4C 
+ 2545      494E4541 
+ 2545      525F4143 
+ 2545      43454C5F 
+ 2546              	.LASF17:
+ 2547 0736 6C6F6E67 		.ascii	"long double\000"
+ 2547      20646F75 
+ 2547      626C6500 
+ 2548              	.LASF51:
+ 2549 0742 424E4F30 		.ascii	"BNO055_EULER_P_LSB_ADDR\000"
+ 2549      35355F45 
+ 2549      554C4552 
+ 2549      5F505F4C 
+ 2549      53425F41 
+ 2550              	.LASF123:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 58
+
+
+ 2551 075a 4759524F 		.ascii	"GYRO_OFFSET_Z_MSB_ADDR\000"
+ 2551      5F4F4646 
+ 2551      5345545F 
+ 2551      5A5F4D53 
+ 2551      425F4144 
+ 2552              	.LASF118:
+ 2553 0771 4759524F 		.ascii	"GYRO_OFFSET_X_LSB_ADDR\000"
+ 2553      5F4F4646 
+ 2553      5345545F 
+ 2553      585F4C53 
+ 2553      425F4144 
+ 2554              	.LASF77:
+ 2555 0788 424E4F30 		.ascii	"BNO055_SYS_CLK_STAT_ADDR\000"
+ 2555      35355F53 
+ 2555      59535F43 
+ 2555      4C4B5F53 
+ 2555      5441545F 
+ 2556              	.LASF120:
+ 2557 07a1 4759524F 		.ascii	"GYRO_OFFSET_Y_LSB_ADDR\000"
+ 2557      5F4F4646 
+ 2557      5345545F 
+ 2557      595F4C53 
+ 2557      425F4144 
+ 2558              	.LASF122:
+ 2559 07b8 4759524F 		.ascii	"GYRO_OFFSET_Z_LSB_ADDR\000"
+ 2559      5F4F4646 
+ 2559      5345545F 
+ 2559      5A5F4C53 
+ 2559      425F4144 
+ 2560              	.LASF83:
+ 2561 07cf 424E4F30 		.ascii	"BNO055_PWR_MODE_ADDR\000"
+ 2561      35355F50 
+ 2561      57525F4D 
+ 2561      4F44455F 
+ 2561      41444452 
+ 2562              	.LASF146:
+ 2563 07e4 4750535F 		.ascii	"GPS_GGA_Data\000"
+ 2563      4747415F 
+ 2563      44617461 
+ 2563      00
+ 2564              	.LASF73:
+ 2565 07f1 424E4F30 		.ascii	"BNO055_TEMP_ADDR\000"
+ 2565      35355F54 
+ 2565      454D505F 
+ 2565      41444452 
+ 2565      00
+ 2566              	.LASF178:
+ 2567 0802 54696D65 		.ascii	"Timer_1_ReadCounter\000"
+ 2567      725F315F 
+ 2567      52656164 
+ 2567      436F756E 
+ 2567      74657200 
+ 2568              	.LASF84:
+ 2569 0816 424E4F30 		.ascii	"BNO055_SYS_TRIGGER_ADDR\000"
+ 2569      35355F53 
+ 2569      59535F54 
+ 2569      52494747 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 59
+
+
+ 2569      45525F41 
+ 2570              	.LASF90:
+ 2571 082e 424E4F30 		.ascii	"BNO055_SIC_MATRIX_1_LSB_ADDR\000"
+ 2571      35355F53 
+ 2571      49435F4D 
+ 2571      41545249 
+ 2571      585F315F 
+ 2572              	.LASF149:
+ 2573 084b 7046696C 		.ascii	"pFile\000"
+ 2573      6500
+ 2574              	.LASF141:
+ 2575 0851 58414343 		.ascii	"XACCEL\000"
+ 2575      454C00
+ 2576              	.LASF173:
+ 2577 0858 56444143 		.ascii	"VDAC8_1_Start\000"
+ 2577      385F315F 
+ 2577      53746172 
+ 2577      7400
+ 2578              	.LASF137:
+ 2579 0866 63757272 		.ascii	"current\000"
+ 2579      656E7400 
+ 2580              	.LASF54:
+ 2581 086e 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_W_MSB_ADDR\000"
+ 2581      35355F51 
+ 2581      55415445 
+ 2581      524E494F 
+ 2581      4E5F4441 
+ 2582              	.LASF56:
+ 2583 0890 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_X_MSB_ADDR\000"
+ 2583      35355F51 
+ 2583      55415445 
+ 2583      524E494F 
+ 2583      4E5F4441 
+ 2584              	.LASF58:
+ 2585 08b2 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_Y_MSB_ADDR\000"
+ 2585      35355F51 
+ 2585      55415445 
+ 2585      524E494F 
+ 2585      4E5F4441 
+ 2586              	.LASF60:
+ 2587 08d4 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_Z_MSB_ADDR\000"
+ 2587      35355F51 
+ 2587      55415445 
+ 2587      524E494F 
+ 2587      4E5F4441 
+ 2588              	.LASF71:
+ 2589 08f6 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_Z_LSB_ADDR\000"
+ 2589      35355F47 
+ 2589      52415649 
+ 2589      54595F44 
+ 2589      4154415F 
+ 2590              	.LASF20:
+ 2591 0915 75696E74 		.ascii	"uint\000"
+ 2591      00
+ 2592              	.LASF176:
+ 2593 091a 45455052 		.ascii	"EEPROM_Start\000"
+ 2593      4F4D5F53 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 60
+
+
+ 2593      74617274 
+ 2593      00
+ 2594              	.LASF128:
+ 2595 0927 53746172 		.ascii	"Start_SD_Card\000"
+ 2595      745F5344 
+ 2595      5F436172 
+ 2595      6400
+ 2596              	.LASF158:
+ 2597 0935 46535F46 		.ascii	"FS_FClose\000"
+ 2597      436C6F73 
+ 2597      6500
+ 2598              	.LASF10:
+ 2599 093f 696E7433 		.ascii	"int32_t\000"
+ 2599      325F7400 
+ 2600              	.LASF1:
+ 2601 0947 756E7369 		.ascii	"unsigned char\000"
+ 2601      676E6564 
+ 2601      20636861 
+ 2601      7200
+ 2602              	.LASF106:
+ 2603 0955 41434345 		.ascii	"ACCEL_OFFSET_X_LSB_ADDR\000"
+ 2603      4C5F4F46 
+ 2603      46534554 
+ 2603      5F585F4C 
+ 2603      53425F41 
+ 2604              	.LASF12:
+ 2605 096d 75696E74 		.ascii	"uint16\000"
+ 2605      313600
+ 2606              	.LASF108:
+ 2607 0974 41434345 		.ascii	"ACCEL_OFFSET_Y_LSB_ADDR\000"
+ 2607      4C5F4F46 
+ 2607      46534554 
+ 2607      5F595F4C 
+ 2607      53425F41 
+ 2608              	.LASF110:
+ 2609 098c 41434345 		.ascii	"ACCEL_OFFSET_Z_LSB_ADDR\000"
+ 2609      4C5F4F46 
+ 2609      46534554 
+ 2609      5F5A5F4C 
+ 2609      53425F41 
+ 2610              	.LASF147:
+ 2611 09a4 4E657747 		.ascii	"NewGPSData\000"
+ 2611      50534461 
+ 2611      746100
+ 2612              	.LASF117:
+ 2613 09af 4D41475F 		.ascii	"MAG_OFFSET_Z_MSB_ADDR\000"
+ 2613      4F464653 
+ 2613      45545F5A 
+ 2613      5F4D5342 
+ 2613      5F414444 
+ 2614              	.LASF170:
+ 2615 09c5 53746162 		.ascii	"Stabilizer_Start\000"
+ 2615      696C697A 
+ 2615      65725F53 
+ 2615      74617274 
+ 2615      00
+ 2616              	.LASF36:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 61
+
+
+ 2617 09d6 424E4F30 		.ascii	"BNO055_MAG_DATA_X_MSB_ADDR\000"
+ 2617      35355F4D 
+ 2617      41475F44 
+ 2617      4154415F 
+ 2617      585F4D53 
+ 2618              	.LASF38:
+ 2619 09f1 424E4F30 		.ascii	"BNO055_MAG_DATA_Y_MSB_ADDR\000"
+ 2619      35355F4D 
+ 2619      41475F44 
+ 2619      4154415F 
+ 2619      595F4D53 
+ 2620              	.LASF179:
+ 2621 0a0c 41474D5F 		.ascii	"AGM_EulersRefresh\000"
+ 2621      45756C65 
+ 2621      72735265 
+ 2621      66726573 
+ 2621      6800
+ 2622              	.LASF21:
+ 2623 0a1e 424E4F30 		.ascii	"BNO055_PAGE_ID_ADDR\000"
+ 2623      35355F50 
+ 2623      4147455F 
+ 2623      49445F41 
+ 2623      44445200 
+ 2624              	.LASF130:
+ 2625 0a32 4E657744 		.ascii	"NewDestination\000"
+ 2625      65737469 
+ 2625      6E617469 
+ 2625      6F6E00
+ 2626              	.LASF127:
+ 2627 0a41 4D41475F 		.ascii	"MAG_RADIUS_MSB_ADDR\000"
+ 2627      52414449 
+ 2627      55535F4D 
+ 2627      53425F41 
+ 2627      44445200 
+ 2628              	.LASF50:
+ 2629 0a55 424E4F30 		.ascii	"BNO055_EULER_R_MSB_ADDR\000"
+ 2629      35355F45 
+ 2629      554C4552 
+ 2629      5F525F4D 
+ 2629      53425F41 
+ 2630              	.LASF27:
+ 2631 0a6d 424E4F30 		.ascii	"BNO055_SW_REV_ID_MSB_ADDR\000"
+ 2631      35355F53 
+ 2631      575F5245 
+ 2631      565F4944 
+ 2631      5F4D5342 
+ 2632              	.LASF151:
+ 2633 0a87 66696C65 		.ascii	"fileNumber\000"
+ 2633      4E756D62 
+ 2633      657200
+ 2634              	.LASF41:
+ 2635 0a92 424E4F30 		.ascii	"BNO055_GYRO_DATA_X_LSB_ADDR\000"
+ 2635      35355F47 
+ 2635      59524F5F 
+ 2635      44415441 
+ 2635      5F585F4C 
+ 2636              	.LASF43:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 62
+
+
+ 2637 0aae 424E4F30 		.ascii	"BNO055_GYRO_DATA_Y_LSB_ADDR\000"
+ 2637      35355F47 
+ 2637      59524F5F 
+ 2637      44415441 
+ 2637      5F595F4C 
+ 2638              	.LASF175:
+ 2639 0aca 41474D5F 		.ascii	"AGM_Start\000"
+ 2639      53746172 
+ 2639      7400
+ 2640              	.LASF45:
+ 2641 0ad4 424E4F30 		.ascii	"BNO055_GYRO_DATA_Z_LSB_ADDR\000"
+ 2641      35355F47 
+ 2641      59524F5F 
+ 2641      44415441 
+ 2641      5F5A5F4C 
+ 2642              	.LASF144:
+ 2643 0af0 41474D54 		.ascii	"AGMTEMP\000"
+ 2643      454D5000 
+ 2644              	.LASF156:
+ 2645 0af8 46535F46 		.ascii	"FS_FOpen\000"
+ 2645      4F70656E 
+ 2645      00
+ 2646              	.LASF125:
+ 2647 0b01 41434345 		.ascii	"ACCEL_RADIUS_MSB_ADDR\000"
+ 2647      4C5F5241 
+ 2647      44495553 
+ 2647      5F4D5342 
+ 2647      5F414444 
+ 2648              	.LASF111:
+ 2649 0b17 41434345 		.ascii	"ACCEL_OFFSET_Z_MSB_ADDR\000"
+ 2649      4C5F4F46 
+ 2649      46534554 
+ 2649      5F5A5F4D 
+ 2649      53425F41 
+ 2650              	.LASF68:
+ 2651 0b2f 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_X_MSB_ADDR\000"
+ 2651      35355F47 
+ 2651      52415649 
+ 2651      54595F44 
+ 2651      4154415F 
+ 2652              	.LASF14:
+ 2653 0b4e 666C6F61 		.ascii	"float\000"
+ 2653      7400
+ 2654              	.LASF70:
+ 2655 0b54 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_Y_MSB_ADDR\000"
+ 2655      35355F47 
+ 2655      52415649 
+ 2655      54595F44 
+ 2655      4154415F 
+ 2656              	.LASF16:
+ 2657 0b73 63686172 		.ascii	"char\000"
+ 2657      00
+ 2658              	.LASF93:
+ 2659 0b78 424E4F30 		.ascii	"BNO055_SIC_MATRIX_2_MSB_ADDR\000"
+ 2659      35355F53 
+ 2659      49435F4D 
+ 2659      41545249 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 63
+
+
+ 2659      585F325F 
+ 2660              	.LASF95:
+ 2661 0b95 424E4F30 		.ascii	"BNO055_SIC_MATRIX_3_MSB_ADDR\000"
+ 2661      35355F53 
+ 2661      49435F4D 
+ 2661      41545249 
+ 2661      585F335F 
+ 2662              	.LASF97:
+ 2663 0bb2 424E4F30 		.ascii	"BNO055_SIC_MATRIX_4_MSB_ADDR\000"
+ 2663      35355F53 
+ 2663      49435F4D 
+ 2663      41545249 
+ 2663      585F345F 
+ 2664              	.LASF99:
+ 2665 0bcf 424E4F30 		.ascii	"BNO055_SIC_MATRIX_5_MSB_ADDR\000"
+ 2665      35355F53 
+ 2665      49435F4D 
+ 2665      41545249 
+ 2665      585F355F 
+ 2666              	.LASF113:
+ 2667 0bec 4D41475F 		.ascii	"MAG_OFFSET_X_MSB_ADDR\000"
+ 2667      4F464653 
+ 2667      45545F58 
+ 2667      5F4D5342 
+ 2667      5F414444 
+ 2668              	.LASF101:
+ 2669 0c02 424E4F30 		.ascii	"BNO055_SIC_MATRIX_6_MSB_ADDR\000"
+ 2669      35355F53 
+ 2669      49435F4D 
+ 2669      41545249 
+ 2669      585F365F 
+ 2670              	.LASF129:
+ 2671 0c1f 436C6F73 		.ascii	"Close_SD_Card\000"
+ 2671      655F5344 
+ 2671      5F436172 
+ 2671      6400
+ 2672              	.LASF79:
+ 2673 0c2d 424E4F30 		.ascii	"BNO055_SYS_ERR_ADDR\000"
+ 2673      35355F53 
+ 2673      59535F45 
+ 2673      52525F41 
+ 2673      44445200 
+ 2674              	.LASF105:
+ 2675 0c41 424E4F30 		.ascii	"BNO055_SIC_MATRIX_8_MSB_ADDR\000"
+ 2675      35355F53 
+ 2675      49435F4D 
+ 2675      41545249 
+ 2675      585F385F 
+ 2676              	.LASF192:
+ 2677 0c5e 4750535F 		.ascii	"GPS_Handler\000"
+ 2677      48616E64 
+ 2677      6C657200 
+ 2678              	.LASF85:
+ 2679 0c6a 424E4F30 		.ascii	"BNO055_TEMP_SOURCE_ADDR\000"
+ 2679      35355F54 
+ 2679      454D505F 
+ 2679      534F5552 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 64
+
+
+ 2679      43455F41 
+ 2680              	.LASF74:
+ 2681 0c82 424E4F30 		.ascii	"BNO055_CALIB_STAT_ADDR\000"
+ 2681      35355F43 
+ 2681      414C4942 
+ 2681      5F535441 
+ 2681      545F4144 
+ 2682              	.LASF9:
+ 2683 0c99 5F5F696E 		.ascii	"__int32_t\000"
+ 2683      7433325F 
+ 2683      7400
+ 2684              	.LASF28:
+ 2685 0ca3 424E4F30 		.ascii	"BNO055_BL_REV_ID_ADDR\000"
+ 2685      35355F42 
+ 2685      4C5F5245 
+ 2685      565F4944 
+ 2685      5F414444 
+ 2686              	.LASF59:
+ 2687 0cb9 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_Z_LSB_ADDR\000"
+ 2687      35355F51 
+ 2687      55415445 
+ 2687      524E494F 
+ 2687      4E5F4441 
+ 2688              	.LASF63:
+ 2689 0cdb 424E4F30 		.ascii	"BNO055_LINEAR_ACCEL_DATA_Y_LSB_ADDR\000"
+ 2689      35355F4C 
+ 2689      494E4541 
+ 2689      525F4143 
+ 2689      43454C5F 
+ 2690              	.LASF177:
+ 2691 0cff 45455052 		.ascii	"EEPROM_ReadByte\000"
+ 2691      4F4D5F52 
+ 2691      65616442 
+ 2691      79746500 
+ 2692              	.LASF135:
+ 2693 0d0f 64617461 		.ascii	"dataArray\000"
+ 2693      41727261 
+ 2693      7900
+ 2694              	.LASF167:
+ 2695 0d19 436F756E 		.ascii	"Counter_Duration_Start\000"
+ 2695      7465725F 
+ 2695      44757261 
+ 2695      74696F6E 
+ 2695      5F537461 
+ 2696              	.LASF153:
+ 2697 0d30 43794465 		.ascii	"CyDelay\000"
+ 2697      6C617900 
+ 2698              	.LASF78:
+ 2699 0d38 424E4F30 		.ascii	"BNO055_SYS_STAT_ADDR\000"
+ 2699      35355F53 
+ 2699      59535F53 
+ 2699      5441545F 
+ 2699      41444452 
+ 2700              	.LASF134:
+ 2701 0d4d 656E644C 		.ascii	"endLoop\000"
+ 2701      6F6F7000 
+ 2702              	.LASF116:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 65
+
+
+ 2703 0d55 4D41475F 		.ascii	"MAG_OFFSET_Z_LSB_ADDR\000"
+ 2703      4F464653 
+ 2703      45545F5A 
+ 2703      5F4C5342 
+ 2703      5F414444 
+ 2704              	.LASF72:
+ 2705 0d6b 424E4F30 		.ascii	"BNO055_GRAVITY_DATA_Z_MSB_ADDR\000"
+ 2705      35355F47 
+ 2705      52415649 
+ 2705      54595F44 
+ 2705      4154415F 
+ 2706              	.LASF152:
+ 2707 0d8a 46535F49 		.ascii	"FS_Init\000"
+ 2707      6E697400 
+ 2708              	.LASF19:
+ 2709 0d92 46535F46 		.ascii	"FS_FILE\000"
+ 2709      494C4500 
+ 2710              	.LASF180:
+ 2711 0d9a 41474D5F 		.ascii	"AGM_AccelRefresh\000"
+ 2711      41636365 
+ 2711      6C526566 
+ 2711      72657368 
+ 2711      00
+ 2712              	.LASF24:
+ 2713 0dab 424E4F30 		.ascii	"BNO055_MAG_REV_ID_ADDR\000"
+ 2713      35355F4D 
+ 2713      41475F52 
+ 2713      45565F49 
+ 2713      445F4144 
+ 2714              	.LASF53:
+ 2715 0dc2 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_W_LSB_ADDR\000"
+ 2715      35355F51 
+ 2715      55415445 
+ 2715      524E494F 
+ 2715      4E5F4441 
+ 2716              	.LASF49:
+ 2717 0de4 424E4F30 		.ascii	"BNO055_EULER_R_LSB_ADDR\000"
+ 2717      35355F45 
+ 2717      554C4552 
+ 2717      5F525F4C 
+ 2717      53425F41 
+ 2718              	.LASF55:
+ 2719 0dfc 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_X_LSB_ADDR\000"
+ 2719      35355F51 
+ 2719      55415445 
+ 2719      524E494F 
+ 2719      4E5F4441 
+ 2720              	.LASF57:
+ 2721 0e1e 424E4F30 		.ascii	"BNO055_QUATERNION_DATA_Y_LSB_ADDR\000"
+ 2721      35355F51 
+ 2721      55415445 
+ 2721      524E494F 
+ 2721      4E5F4441 
+ 2722              	.LASF124:
+ 2723 0e40 41434345 		.ascii	"ACCEL_RADIUS_LSB_ADDR\000"
+ 2723      4C5F5241 
+ 2723      44495553 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 66
+
+
+ 2723      5F4C5342 
+ 2723      5F414444 
+ 2724              	.LASF13:
+ 2725 0e56 696E7431 		.ascii	"int16\000"
+ 2725      3600
+ 2726              	.LASF155:
+ 2727 0e5c 46535F4D 		.ascii	"FS_Mount\000"
+ 2727      6F756E74 
+ 2727      00
+ 2728              	.LASF30:
+ 2729 0e65 424E4F30 		.ascii	"BNO055_ACCEL_DATA_X_MSB_ADDR\000"
+ 2729      35355F41 
+ 2729      4343454C 
+ 2729      5F444154 
+ 2729      415F585F 
+ 2730              	.LASF32:
+ 2731 0e82 424E4F30 		.ascii	"BNO055_ACCEL_DATA_Y_MSB_ADDR\000"
+ 2731      35355F41 
+ 2731      4343454C 
+ 2731      5F444154 
+ 2731      415F595F 
+ 2732              	.LASF76:
+ 2733 0e9f 424E4F30 		.ascii	"BNO055_INTR_STAT_ADDR\000"
+ 2733      35355F49 
+ 2733      4E54525F 
+ 2733      53544154 
+ 2733      5F414444 
+ 2734              	.LASF150:
+ 2735 0eb5 7364566F 		.ascii	"sdVolName\000"
+ 2735      6C4E616D 
+ 2735      6500
+ 2736              	.LASF22:
+ 2737 0ebf 424E4F30 		.ascii	"BNO055_CHIP_ID_ADDR\000"
+ 2737      35355F43 
+ 2737      4849505F 
+ 2737      49445F41 
+ 2737      44445200 
+ 2738              	.LASF82:
+ 2739 0ed3 424E4F30 		.ascii	"BNO055_OPR_MODE_ADDR\000"
+ 2739      35355F4F 
+ 2739      50525F4D 
+ 2739      4F44455F 
+ 2739      41444452 
+ 2740              	.LASF34:
+ 2741 0ee8 424E4F30 		.ascii	"BNO055_ACCEL_DATA_Z_MSB_ADDR\000"
+ 2741      35355F41 
+ 2741      4343454C 
+ 2741      5F444154 
+ 2741      415F5A5F 
+ 2742              	.LASF136:
+ 2743 0f05 73746172 		.ascii	"start\000"
+ 2743      7400
+ 2744              	.LASF126:
+ 2745 0f0b 4D41475F 		.ascii	"MAG_RADIUS_LSB_ADDR\000"
+ 2745      52414449 
+ 2745      55535F4C 
+ 2745      53425F41 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccyb9Lfo.s 			page 67
+
+
+ 2745      44445200 
+ 2746              	.LASF103:
+ 2747 0f1f 424E4F30 		.ascii	"BNO055_SIC_MATRIX_7_MSB_ADDR\000"
+ 2747      35355F53 
+ 2747      49435F4D 
+ 2747      41545249 
+ 2747      585F375F 
+ 2748              	.LASF87:
+ 2749 0f3c 424E4F30 		.ascii	"BNO055_AXIS_MAP_SIGN_ADDR\000"
+ 2749      35355F41 
+ 2749      5849535F 
+ 2749      4D41505F 
+ 2749      5349474E 
+ 2750              	.LASF115:
+ 2751 0f56 4D41475F 		.ascii	"MAG_OFFSET_Y_MSB_ADDR\000"
+ 2751      4F464653 
+ 2751      45545F59 
+ 2751      5F4D5342 
+ 2751      5F414444 
+ 2752              	.LASF191:
+ 2753 0f6c 6D61696E 		.ascii	"main\000"
+ 2753      00
+ 2754              	.LASF35:
+ 2755 0f71 424E4F30 		.ascii	"BNO055_MAG_DATA_X_LSB_ADDR\000"
+ 2755      35355F4D 
+ 2755      41475F44 
+ 2755      4154415F 
+ 2755      585F4C53 
+ 2756              	.LASF37:
+ 2757 0f8c 424E4F30 		.ascii	"BNO055_MAG_DATA_Y_LSB_ADDR\000"
+ 2757      35355F4D 
+ 2757      41475F44 
+ 2757      4154415F 
+ 2757      595F4C53 
+ 2758              	.LASF39:
+ 2759 0fa7 424E4F30 		.ascii	"BNO055_MAG_DATA_Z_LSB_ADDR\000"
+ 2759      35355F4D 
+ 2759      41475F44 
+ 2759      4154415F 
+ 2759      5A5F4C53 
+ 2760              	.LASF142:
+ 2761 0fc2 59414343 		.ascii	"YACCEL\000"
+ 2761      454C00
+ 2762              	.LASF23:
+ 2763 0fc9 424E4F30 		.ascii	"BNO055_ACCEL_REV_ID_ADDR\000"
+ 2763      35355F41 
+ 2763      4343454C 
+ 2763      5F524556 
+ 2763      5F49445F 
+ 2764              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

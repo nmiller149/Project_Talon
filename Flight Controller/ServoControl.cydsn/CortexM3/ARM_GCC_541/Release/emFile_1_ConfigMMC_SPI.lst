@@ -1,0 +1,1154 @@
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"emFile_1_ConfigMMC_SPI.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.FS_X_AddDevices,"ax",%progbits
+  20              		.align	1
+  21              		.global	FS_X_AddDevices
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	FS_X_AddDevices, %function
+  25              	FS_X_AddDevices:
+  26              	.LFB0:
+  27              		.file 1 "Generated_Source\\PSoC5\\emFile_1_ConfigMMC_SPI.c"
+   1:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** * File Name: emFile_1_MMC_HW_SPI.c
+   3:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** * Version 1.20
+   4:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+   5:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** * Description:
+   6:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *  Contains a set of File System APIs that implement SPI mode driver operation.
+   7:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+   8:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** * Note:
+   9:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+  10:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** ********************************************************************************
+  11:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** * Copyright 2011-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  12:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** * You may use this file only in accordance with the license, terms, conditions,
+  13:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  14:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** * the software package with which this file was provided.
+  15:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *******************************************************************************/
+  16:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** 
+  17:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** 
+  18:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** /*********************************************************************
+  19:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *                SEGGER MICROCONTROLLER GmbH & Co. KG                *
+  20:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *        Solutions for real time microcontroller applications        *
+  21:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** **********************************************************************
+  22:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *                                                                    *
+  23:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *        (c) 2003-2010     SEGGER Microcontroller GmbH & Co KG       *
+  24:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *                                                                    *
+  25:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *        Internet: www.segger.com    Support:  support@segger.com    *
+  26:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *                                                                    *
+  27:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** **********************************************************************
+  28:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** 
+  29:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** **** emFile file system for embedded applications ****
+  30:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** emFile is protected by international copyright laws. Knowledge of the
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 2
+
+
+  31:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** source code may not be used to write a similar product. This file may
+  32:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** only be used in accordance with a license and should not be re-
+  33:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** distributed in any way. We appreciate your understanding and fairness.
+  34:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** ----------------------------------------------------------------------
+  35:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** ----------------------------------------------------------------------
+  36:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** File        : ConfigMMC_SPI.c
+  37:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** Purpose     : Configuration file for FS with MMC SPI mode driver
+  38:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** ---------------------------END-OF-HEADER------------------------------
+  39:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** */
+  40:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** 
+  41:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** #include "FS.h"
+  42:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** #include "emFile_1.h"
+  43:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** 
+  44:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** /*********************************************************************
+  45:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+  46:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *       Defines, configurable
+  47:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+  48:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *       This section is the only section which requires changes
+  49:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *       using the MMC/SD card mode disk driver as a single device.
+  50:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+  51:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** **********************************************************************
+  52:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** */
+  53:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** #define ALLOC_SIZE                 (0x1000)      /* Size defined in bytes */
+  54:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** 
+  55:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** /*********************************************************************
+  56:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+  57:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *       Static data
+  58:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+  59:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** **********************************************************************
+  60:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** */
+  61:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** static U32   _aMemBlock[ALLOC_SIZE / 4u];      /* Memory pool used for semi-dynamic allocation. */
+  62:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** 
+  63:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** /*********************************************************************
+  64:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+  65:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *       Public code
+  66:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+  67:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *       This section does not require modifications in most systems.
+  68:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+  69:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** **********************************************************************
+  70:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** */
+  71:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** 
+  72:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** /*********************************************************************
+  73:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+  74:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *       FS_X_AddDevices
+  75:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+  76:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *  Function description
+  77:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *    This function is called by the FS during FS_Init().
+  78:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *    It is supposed to add all devices, using primarily FS_AddDevice().
+  79:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+  80:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *  Note
+  81:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *    (1) Other API functions
+  82:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *        Other API functions may NOT be called, since this function is called
+  83:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *        during initialization. The devices are not yet ready at this point.
+  84:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** */
+  85:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** void FS_X_AddDevices(void)
+  86:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** {
+  28              		.loc 1 86 0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 3
+
+
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  87:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****     #if(CY_PSOC5)
+  88:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****         FS_AssignMemory(&_aMemBlock[0u], sizeof(_aMemBlock));
+  36              		.loc 1 88 0
+  37 0002 0548     		ldr	r0, .L2
+  38 0004 4FF48051 		mov	r1, #4096
+  39 0008 FFF7FEFF 		bl	FS_AssignMemory
+  40              	.LVL0:
+  89:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****     #else
+  90:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****         FS_AssignMemory(&_aMemBlock[1u], sizeof(_aMemBlock));
+  91:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****     #endif/* (CY_PSOC5) */
+  92:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** 
+  93:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****     #if (emFile_1_NUMBER_SD_CARDS == 4u)
+  94:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****         FS_AddDevice(&FS_MMC_SPI_Driver);
+  95:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****         FS_AddDevice(&FS_MMC_SPI_Driver);
+  96:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****         FS_AddDevice(&FS_MMC_SPI_Driver);
+  97:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****         FS_AddDevice(&FS_MMC_SPI_Driver);
+  98:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****     #elif (emFile_1_NUMBER_SD_CARDS == 3u)
+  99:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****         FS_AddDevice(&FS_MMC_SPI_Driver);
+ 100:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****         FS_AddDevice(&FS_MMC_SPI_Driver);
+ 101:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****         FS_AddDevice(&FS_MMC_SPI_Driver);
+ 102:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****     #elif (emFile_1_NUMBER_SD_CARDS == 2u)
+ 103:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****         FS_AddDevice(&FS_MMC_SPI_Driver);
+ 104:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****         FS_AddDevice(&FS_MMC_SPI_Driver);
+ 105:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****     #else
+ 106:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****         FS_AddDevice(&FS_MMC_SPI_Driver);
+ 107:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****     #endif /* (emFile_1_NUMBER_SD_CARDS == 4u) */
+ 108:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** }
+  41              		.loc 1 108 0
+  42 000c BDE80840 		pop	{r3, lr}
+  43              		.cfi_restore 14
+  44              		.cfi_restore 3
+  45              		.cfi_def_cfa_offset 0
+ 106:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****     #endif /* (emFile_1_NUMBER_SD_CARDS == 4u) */
+  46              		.loc 1 106 0
+  47 0010 0248     		ldr	r0, .L2+4
+  48 0012 FFF7FEBF 		b	FS_AddDevice
+  49              	.LVL1:
+  50              	.L3:
+  51 0016 00BF     		.align	2
+  52              	.L2:
+  53 0018 00000000 		.word	.LANCHOR0
+  54 001c 00000000 		.word	FS_MMC_SPI_Driver
+  55              		.cfi_endproc
+  56              	.LFE0:
+  57              		.size	FS_X_AddDevices, .-FS_X_AddDevices
+  58              		.section	.text.FS_X_GetTimeDate,"ax",%progbits
+  59              		.align	1
+  60              		.global	FS_X_GetTimeDate
+  61              		.thumb
+  62              		.thumb_func
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 4
+
+
+  63              		.type	FS_X_GetTimeDate, %function
+  64              	FS_X_GetTimeDate:
+  65              	.LFB1:
+ 109:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** 
+ 110:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** /*********************************************************************
+ 111:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+ 112:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *       FS_X_GetTimeDate
+ 113:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+ 114:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *  Description:
+ 115:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *    Current time and date in a format suitable for the file system.
+ 116:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+ 117:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *    Bit 0-4:   2-second count (0-29)
+ 118:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *    Bit 5-10:  Minutes (0-59)
+ 119:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *    Bit 11-15: Hours (0-23)
+ 120:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *    Bit 16-20: Day of month (1-31)
+ 121:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *    Bit 21-24: Month of year (1-12)
+ 122:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *    Bit 25-31: Count of years from 1980 (0-127)
+ 123:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** *
+ 124:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** */
+ 125:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** U32 FS_X_GetTimeDate(void)
+ 126:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** {
+  66              		.loc 1 126 0
+  67              		.cfi_startproc
+  68              		@ args = 0, pretend = 0, frame = 0
+  69              		@ frame_needed = 0, uses_anonymous_args = 0
+  70              		@ link register save eliminated.
+  71              	.LVL2:
+ 127:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****   U32 r;
+ 128:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****   U16 Sec, Min, Hour;
+ 129:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****   U16 Day, Month, Year;
+ 130:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** 
+ 131:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****   Sec   = 0;        /* 0 based.  Valid range: 0..59 */
+ 132:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****   Min   = 0;        /* 0 based.  Valid range: 0..59 */
+ 133:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****   Hour  = 0;        /* 0 based.  Valid range: 0..23 */
+ 134:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****   Day   = 1;        /* 1 based.    Means that 1 is 1. Valid range is 1..31 (depending on month) */
+ 135:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****   Month = 1;        /* 1 based.    Means that January is 1. Valid range is 1..12. */
+ 136:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****   Year  = 0;        /* 1980 based. Means that 2007 would be 27. */
+ 137:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****   r   = Sec / 2 + (Min << 5) + (Hour  << 11);
+ 138:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****   r  |= (U32)(Day + (Month << 5) + (Year  << 9)) << 16;
+ 139:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c ****   return r;
+ 140:Generated_Source\PSoC5/emFile_1_ConfigMMC_SPI.c **** }
+  72              		.loc 1 140 0
+  73 0000 4FF40410 		mov	r0, #2162688
+  74 0004 7047     		bx	lr
+  75              		.cfi_endproc
+  76              	.LFE1:
+  77              		.size	FS_X_GetTimeDate, .-FS_X_GetTimeDate
+  78              		.bss
+  79              		.align	2
+  80              		.set	.LANCHOR0,. + 0
+  81              		.type	_aMemBlock, %object
+  82              		.size	_aMemBlock, 4096
+  83              	_aMemBlock:
+  84 0000 00000000 		.space	4096
+  84      00000000 
+  84      00000000 
+  84      00000000 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 5
+
+
+  84      00000000 
+  85              		.text
+  86              	.Letext0:
+  87              		.file 2 "./FS.h"
+  88              		.file 3 "./FS_Types.h"
+  89              		.section	.debug_info,"",%progbits
+  90              	.Ldebug_info0:
+  91 0000 B6020000 		.4byte	0x2b6
+  92 0004 0400     		.2byte	0x4
+  93 0006 00000000 		.4byte	.Ldebug_abbrev0
+  94 000a 04       		.byte	0x4
+  95 000b 01       		.uleb128 0x1
+  96 000c 5D000000 		.4byte	.LASF27
+  97 0010 0C       		.byte	0xc
+  98 0011 A7010000 		.4byte	.LASF28
+  99 0015 FE000000 		.4byte	.LASF29
+ 100 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 101 001d 00000000 		.4byte	0
+ 102 0021 00000000 		.4byte	.Ldebug_line0
+ 103 0025 02       		.uleb128 0x2
+ 104 0026 08000000 		.4byte	.LASF30
+ 105 002a 03       		.byte	0x3
+ 106 002b 81       		.byte	0x81
+ 107 002c 30000000 		.4byte	0x30
+ 108 0030 03       		.uleb128 0x3
+ 109 0031 08000000 		.4byte	.LASF30
+ 110 0035 20       		.byte	0x20
+ 111 0036 02       		.byte	0x2
+ 112 0037 2B02     		.2byte	0x22b
+ 113 0039 A6000000 		.4byte	0xa6
+ 114 003d 04       		.uleb128 0x4
+ 115 003e 24020000 		.4byte	.LASF0
+ 116 0042 02       		.byte	0x2
+ 117 0043 2C02     		.2byte	0x22c
+ 118 0045 FA000000 		.4byte	0xfa
+ 119 0049 00       		.byte	0
+ 120 004a 04       		.uleb128 0x4
+ 121 004b 65010000 		.4byte	.LASF1
+ 122 004f 02       		.byte	0x2
+ 123 0050 2D02     		.2byte	0x22d
+ 124 0052 05010000 		.4byte	0x105
+ 125 0056 04       		.byte	0x4
+ 126 0057 04       		.uleb128 0x4
+ 127 0058 0E020000 		.4byte	.LASF2
+ 128 005c 02       		.byte	0x2
+ 129 005d 2E02     		.2byte	0x22e
+ 130 005f 29010000 		.4byte	0x129
+ 131 0063 08       		.byte	0x8
+ 132 0064 04       		.uleb128 0x4
+ 133 0065 00000000 		.4byte	.LASF3
+ 134 0069 02       		.byte	0x2
+ 135 006a 2F02     		.2byte	0x22f
+ 136 006c 59010000 		.4byte	0x159
+ 137 0070 0C       		.byte	0xc
+ 138 0071 04       		.uleb128 0x4
+ 139 0072 59020000 		.4byte	.LASF4
+ 140 0076 02       		.byte	0x2
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 6
+
+
+ 141 0077 3002     		.2byte	0x230
+ 142 0079 84010000 		.4byte	0x184
+ 143 007d 10       		.byte	0x10
+ 144 007e 04       		.uleb128 0x4
+ 145 007f 4C010000 		.4byte	.LASF5
+ 146 0083 02       		.byte	0x2
+ 147 0084 3102     		.2byte	0x231
+ 148 0086 99010000 		.4byte	0x199
+ 149 008a 14       		.byte	0x14
+ 150 008b 04       		.uleb128 0x4
+ 151 008c 22000000 		.4byte	.LASF6
+ 152 0090 02       		.byte	0x2
+ 153 0091 3202     		.2byte	0x232
+ 154 0093 99010000 		.4byte	0x199
+ 155 0097 18       		.byte	0x18
+ 156 0098 04       		.uleb128 0x4
+ 157 0099 41000000 		.4byte	.LASF7
+ 158 009d 02       		.byte	0x2
+ 159 009e 3302     		.2byte	0x233
+ 160 00a0 05010000 		.4byte	0x105
+ 161 00a4 1C       		.byte	0x1c
+ 162 00a5 00       		.byte	0
+ 163 00a6 05       		.uleb128 0x5
+ 164 00a7 02       		.byte	0x2
+ 165 00a8 07       		.byte	0x7
+ 166 00a9 EB000000 		.4byte	.LASF8
+ 167 00ad 05       		.uleb128 0x5
+ 168 00ae 04       		.byte	0x4
+ 169 00af 07       		.byte	0x7
+ 170 00b0 71010000 		.4byte	.LASF9
+ 171 00b4 05       		.uleb128 0x5
+ 172 00b5 04       		.byte	0x4
+ 173 00b6 07       		.byte	0x7
+ 174 00b7 83010000 		.4byte	.LASF10
+ 175 00bb 06       		.uleb128 0x6
+ 176 00bc 04       		.byte	0x4
+ 177 00bd 05       		.byte	0x5
+ 178 00be 696E7400 		.ascii	"int\000"
+ 179 00c2 05       		.uleb128 0x5
+ 180 00c3 01       		.byte	0x1
+ 181 00c4 08       		.byte	0x8
+ 182 00c5 4F000000 		.4byte	.LASF11
+ 183 00c9 07       		.uleb128 0x7
+ 184 00ca 04       		.byte	0x4
+ 185 00cb 05       		.uleb128 0x5
+ 186 00cc 04       		.byte	0x4
+ 187 00cd 07       		.byte	0x7
+ 188 00ce D7010000 		.4byte	.LASF12
+ 189 00d2 05       		.uleb128 0x5
+ 190 00d3 01       		.byte	0x1
+ 191 00d4 08       		.byte	0x8
+ 192 00d5 37020000 		.4byte	.LASF13
+ 193 00d9 05       		.uleb128 0x5
+ 194 00da 02       		.byte	0x2
+ 195 00db 05       		.byte	0x5
+ 196 00dc 15020000 		.4byte	.LASF14
+ 197 00e0 08       		.uleb128 0x8
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 7
+
+
+ 198 00e1 EF000000 		.4byte	0xef
+ 199 00e5 EF000000 		.4byte	0xef
+ 200 00e9 09       		.uleb128 0x9
+ 201 00ea C2000000 		.4byte	0xc2
+ 202 00ee 00       		.byte	0
+ 203 00ef 0A       		.uleb128 0xa
+ 204 00f0 04       		.byte	0x4
+ 205 00f1 F5000000 		.4byte	0xf5
+ 206 00f5 0B       		.uleb128 0xb
+ 207 00f6 D2000000 		.4byte	0xd2
+ 208 00fa 0A       		.uleb128 0xa
+ 209 00fb 04       		.byte	0x4
+ 210 00fc E0000000 		.4byte	0xe0
+ 211 0100 0C       		.uleb128 0xc
+ 212 0101 BB000000 		.4byte	0xbb
+ 213 0105 0A       		.uleb128 0xa
+ 214 0106 04       		.byte	0x4
+ 215 0107 00010000 		.4byte	0x100
+ 216 010b 08       		.uleb128 0x8
+ 217 010c BB000000 		.4byte	0xbb
+ 218 0110 29010000 		.4byte	0x129
+ 219 0114 09       		.uleb128 0x9
+ 220 0115 C2000000 		.4byte	0xc2
+ 221 0119 09       		.uleb128 0x9
+ 222 011a AD000000 		.4byte	0xad
+ 223 011e 09       		.uleb128 0x9
+ 224 011f C9000000 		.4byte	0xc9
+ 225 0123 09       		.uleb128 0x9
+ 226 0124 AD000000 		.4byte	0xad
+ 227 0128 00       		.byte	0
+ 228 0129 0A       		.uleb128 0xa
+ 229 012a 04       		.byte	0x4
+ 230 012b 0B010000 		.4byte	0x10b
+ 231 012f 08       		.uleb128 0x8
+ 232 0130 BB000000 		.4byte	0xbb
+ 233 0134 52010000 		.4byte	0x152
+ 234 0138 09       		.uleb128 0x9
+ 235 0139 C2000000 		.4byte	0xc2
+ 236 013d 09       		.uleb128 0x9
+ 237 013e AD000000 		.4byte	0xad
+ 238 0142 09       		.uleb128 0x9
+ 239 0143 52010000 		.4byte	0x152
+ 240 0147 09       		.uleb128 0x9
+ 241 0148 AD000000 		.4byte	0xad
+ 242 014c 09       		.uleb128 0x9
+ 243 014d C2000000 		.4byte	0xc2
+ 244 0151 00       		.byte	0
+ 245 0152 0A       		.uleb128 0xa
+ 246 0153 04       		.byte	0x4
+ 247 0154 58010000 		.4byte	0x158
+ 248 0158 0D       		.uleb128 0xd
+ 249 0159 0A       		.uleb128 0xa
+ 250 015a 04       		.byte	0x4
+ 251 015b 2F010000 		.4byte	0x12f
+ 252 015f 08       		.uleb128 0x8
+ 253 0160 BB000000 		.4byte	0xbb
+ 254 0164 7D010000 		.4byte	0x17d
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 8
+
+
+ 255 0168 09       		.uleb128 0x9
+ 256 0169 C2000000 		.4byte	0xc2
+ 257 016d 09       		.uleb128 0x9
+ 258 016e 7D010000 		.4byte	0x17d
+ 259 0172 09       		.uleb128 0x9
+ 260 0173 7D010000 		.4byte	0x17d
+ 261 0177 09       		.uleb128 0x9
+ 262 0178 C9000000 		.4byte	0xc9
+ 263 017c 00       		.byte	0
+ 264 017d 05       		.uleb128 0x5
+ 265 017e 04       		.byte	0x4
+ 266 017f 05       		.byte	0x5
+ 267 0180 2E020000 		.4byte	.LASF15
+ 268 0184 0A       		.uleb128 0xa
+ 269 0185 04       		.byte	0x4
+ 270 0186 5F010000 		.4byte	0x15f
+ 271 018a 08       		.uleb128 0x8
+ 272 018b BB000000 		.4byte	0xbb
+ 273 018f 99010000 		.4byte	0x199
+ 274 0193 09       		.uleb128 0x9
+ 275 0194 C2000000 		.4byte	0xc2
+ 276 0198 00       		.byte	0
+ 277 0199 0A       		.uleb128 0xa
+ 278 019a 04       		.byte	0x4
+ 279 019b 8A010000 		.4byte	0x18a
+ 280 019f 05       		.uleb128 0x5
+ 281 01a0 01       		.byte	0x1
+ 282 01a1 06       		.byte	0x6
+ 283 01a2 4D020000 		.4byte	.LASF16
+ 284 01a6 05       		.uleb128 0x5
+ 285 01a7 08       		.byte	0x8
+ 286 01a8 05       		.byte	0x5
+ 287 01a9 E0010000 		.4byte	.LASF17
+ 288 01ad 05       		.uleb128 0x5
+ 289 01ae 08       		.byte	0x8
+ 290 01af 07       		.byte	0x7
+ 291 01b0 90010000 		.4byte	.LASF18
+ 292 01b4 05       		.uleb128 0x5
+ 293 01b5 04       		.byte	0x4
+ 294 01b6 04       		.byte	0x4
+ 295 01b7 3B000000 		.4byte	.LASF19
+ 296 01bb 05       		.uleb128 0x5
+ 297 01bc 08       		.byte	0x8
+ 298 01bd 04       		.byte	0x4
+ 299 01be 5E010000 		.4byte	.LASF20
+ 300 01c2 0E       		.uleb128 0xe
+ 301 01c3 FE010000 		.4byte	.LASF31
+ 302 01c7 01       		.byte	0x1
+ 303 01c8 55       		.byte	0x55
+ 304 01c9 00000000 		.4byte	.LFB0
+ 305 01cd 20000000 		.4byte	.LFE0-.LFB0
+ 306 01d1 01       		.uleb128 0x1
+ 307 01d2 9C       		.byte	0x9c
+ 308 01d3 FF010000 		.4byte	0x1ff
+ 309 01d7 0F       		.uleb128 0xf
+ 310 01d8 0C000000 		.4byte	.LVL0
+ 311 01dc A1020000 		.4byte	0x2a1
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 9
+
+
+ 312 01e0 F5010000 		.4byte	0x1f5
+ 313 01e4 10       		.uleb128 0x10
+ 314 01e5 01       		.uleb128 0x1
+ 315 01e6 50       		.byte	0x50
+ 316 01e7 05       		.uleb128 0x5
+ 317 01e8 03       		.byte	0x3
+ 318 01e9 00000000 		.4byte	.LANCHOR0
+ 319 01ed 10       		.uleb128 0x10
+ 320 01ee 01       		.uleb128 0x1
+ 321 01ef 51       		.byte	0x51
+ 322 01f0 03       		.uleb128 0x3
+ 323 01f1 0A       		.byte	0xa
+ 324 01f2 0010     		.2byte	0x1000
+ 325 01f4 00       		.byte	0
+ 326 01f5 11       		.uleb128 0x11
+ 327 01f6 16000000 		.4byte	.LVL1
+ 328 01fa AD020000 		.4byte	0x2ad
+ 329 01fe 00       		.byte	0
+ 330 01ff 12       		.uleb128 0x12
+ 331 0200 3C020000 		.4byte	.LASF32
+ 332 0204 01       		.byte	0x1
+ 333 0205 7D       		.byte	0x7d
+ 334 0206 AD000000 		.4byte	0xad
+ 335 020a 00000000 		.4byte	.LFB1
+ 336 020e 06000000 		.4byte	.LFE1-.LFB1
+ 337 0212 01       		.uleb128 0x1
+ 338 0213 9C       		.byte	0x9c
+ 339 0214 6E020000 		.4byte	0x26e
+ 340 0218 13       		.uleb128 0x13
+ 341 0219 7200     		.ascii	"r\000"
+ 342 021b 01       		.byte	0x1
+ 343 021c 7F       		.byte	0x7f
+ 344 021d AD000000 		.4byte	0xad
+ 345 0221 00002100 		.4byte	0x210000
+ 346 0225 14       		.uleb128 0x14
+ 347 0226 53656300 		.ascii	"Sec\000"
+ 348 022a 01       		.byte	0x1
+ 349 022b 80       		.byte	0x80
+ 350 022c A6000000 		.4byte	0xa6
+ 351 0230 00       		.byte	0
+ 352 0231 14       		.uleb128 0x14
+ 353 0232 4D696E00 		.ascii	"Min\000"
+ 354 0236 01       		.byte	0x1
+ 355 0237 80       		.byte	0x80
+ 356 0238 A6000000 		.4byte	0xa6
+ 357 023c 00       		.byte	0
+ 358 023d 15       		.uleb128 0x15
+ 359 023e 1F020000 		.4byte	.LASF21
+ 360 0242 01       		.byte	0x1
+ 361 0243 80       		.byte	0x80
+ 362 0244 A6000000 		.4byte	0xa6
+ 363 0248 00       		.byte	0
+ 364 0249 14       		.uleb128 0x14
+ 365 024a 44617900 		.ascii	"Day\000"
+ 366 024e 01       		.byte	0x1
+ 367 024f 81       		.byte	0x81
+ 368 0250 A6000000 		.4byte	0xa6
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 10
+
+
+ 369 0254 01       		.byte	0x1
+ 370 0255 15       		.uleb128 0x15
+ 371 0256 46010000 		.4byte	.LASF22
+ 372 025a 01       		.byte	0x1
+ 373 025b 81       		.byte	0x81
+ 374 025c A6000000 		.4byte	0xa6
+ 375 0260 01       		.byte	0x1
+ 376 0261 15       		.uleb128 0x15
+ 377 0262 59010000 		.4byte	.LASF23
+ 378 0266 01       		.byte	0x1
+ 379 0267 81       		.byte	0x81
+ 380 0268 A6000000 		.4byte	0xa6
+ 381 026c 00       		.byte	0
+ 382 026d 00       		.byte	0
+ 383 026e 16       		.uleb128 0x16
+ 384 026f AD000000 		.4byte	0xad
+ 385 0273 7F020000 		.4byte	0x27f
+ 386 0277 17       		.uleb128 0x17
+ 387 0278 CB000000 		.4byte	0xcb
+ 388 027c FF03     		.2byte	0x3ff
+ 389 027e 00       		.byte	0
+ 390 027f 18       		.uleb128 0x18
+ 391 0280 17000000 		.4byte	.LASF24
+ 392 0284 01       		.byte	0x1
+ 393 0285 3D       		.byte	0x3d
+ 394 0286 6E020000 		.4byte	0x26e
+ 395 028a 05       		.uleb128 0x5
+ 396 028b 03       		.byte	0x3
+ 397 028c 00000000 		.4byte	_aMemBlock
+ 398 0290 19       		.uleb128 0x19
+ 399 0291 61020000 		.4byte	.LASF33
+ 400 0295 02       		.byte	0x2
+ 401 0296 3902     		.2byte	0x239
+ 402 0298 9C020000 		.4byte	0x29c
+ 403 029c 0B       		.uleb128 0xb
+ 404 029d 25000000 		.4byte	0x25
+ 405 02a1 1A       		.uleb128 0x1a
+ 406 02a2 EE010000 		.4byte	.LASF25
+ 407 02a6 EE010000 		.4byte	.LASF25
+ 408 02aa 02       		.byte	0x2
+ 409 02ab 4A03     		.2byte	0x34a
+ 410 02ad 1A       		.uleb128 0x1a
+ 411 02ae 2E000000 		.4byte	.LASF26
+ 412 02b2 2E000000 		.4byte	.LASF26
+ 413 02b6 02       		.byte	0x2
+ 414 02b7 7601     		.2byte	0x176
+ 415 02b9 00       		.byte	0
+ 416              		.section	.debug_abbrev,"",%progbits
+ 417              	.Ldebug_abbrev0:
+ 418 0000 01       		.uleb128 0x1
+ 419 0001 11       		.uleb128 0x11
+ 420 0002 01       		.byte	0x1
+ 421 0003 25       		.uleb128 0x25
+ 422 0004 0E       		.uleb128 0xe
+ 423 0005 13       		.uleb128 0x13
+ 424 0006 0B       		.uleb128 0xb
+ 425 0007 03       		.uleb128 0x3
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 11
+
+
+ 426 0008 0E       		.uleb128 0xe
+ 427 0009 1B       		.uleb128 0x1b
+ 428 000a 0E       		.uleb128 0xe
+ 429 000b 55       		.uleb128 0x55
+ 430 000c 17       		.uleb128 0x17
+ 431 000d 11       		.uleb128 0x11
+ 432 000e 01       		.uleb128 0x1
+ 433 000f 10       		.uleb128 0x10
+ 434 0010 17       		.uleb128 0x17
+ 435 0011 00       		.byte	0
+ 436 0012 00       		.byte	0
+ 437 0013 02       		.uleb128 0x2
+ 438 0014 16       		.uleb128 0x16
+ 439 0015 00       		.byte	0
+ 440 0016 03       		.uleb128 0x3
+ 441 0017 0E       		.uleb128 0xe
+ 442 0018 3A       		.uleb128 0x3a
+ 443 0019 0B       		.uleb128 0xb
+ 444 001a 3B       		.uleb128 0x3b
+ 445 001b 0B       		.uleb128 0xb
+ 446 001c 49       		.uleb128 0x49
+ 447 001d 13       		.uleb128 0x13
+ 448 001e 00       		.byte	0
+ 449 001f 00       		.byte	0
+ 450 0020 03       		.uleb128 0x3
+ 451 0021 13       		.uleb128 0x13
+ 452 0022 01       		.byte	0x1
+ 453 0023 03       		.uleb128 0x3
+ 454 0024 0E       		.uleb128 0xe
+ 455 0025 0B       		.uleb128 0xb
+ 456 0026 0B       		.uleb128 0xb
+ 457 0027 3A       		.uleb128 0x3a
+ 458 0028 0B       		.uleb128 0xb
+ 459 0029 3B       		.uleb128 0x3b
+ 460 002a 05       		.uleb128 0x5
+ 461 002b 01       		.uleb128 0x1
+ 462 002c 13       		.uleb128 0x13
+ 463 002d 00       		.byte	0
+ 464 002e 00       		.byte	0
+ 465 002f 04       		.uleb128 0x4
+ 466 0030 0D       		.uleb128 0xd
+ 467 0031 00       		.byte	0
+ 468 0032 03       		.uleb128 0x3
+ 469 0033 0E       		.uleb128 0xe
+ 470 0034 3A       		.uleb128 0x3a
+ 471 0035 0B       		.uleb128 0xb
+ 472 0036 3B       		.uleb128 0x3b
+ 473 0037 05       		.uleb128 0x5
+ 474 0038 49       		.uleb128 0x49
+ 475 0039 13       		.uleb128 0x13
+ 476 003a 38       		.uleb128 0x38
+ 477 003b 0B       		.uleb128 0xb
+ 478 003c 00       		.byte	0
+ 479 003d 00       		.byte	0
+ 480 003e 05       		.uleb128 0x5
+ 481 003f 24       		.uleb128 0x24
+ 482 0040 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 12
+
+
+ 483 0041 0B       		.uleb128 0xb
+ 484 0042 0B       		.uleb128 0xb
+ 485 0043 3E       		.uleb128 0x3e
+ 486 0044 0B       		.uleb128 0xb
+ 487 0045 03       		.uleb128 0x3
+ 488 0046 0E       		.uleb128 0xe
+ 489 0047 00       		.byte	0
+ 490 0048 00       		.byte	0
+ 491 0049 06       		.uleb128 0x6
+ 492 004a 24       		.uleb128 0x24
+ 493 004b 00       		.byte	0
+ 494 004c 0B       		.uleb128 0xb
+ 495 004d 0B       		.uleb128 0xb
+ 496 004e 3E       		.uleb128 0x3e
+ 497 004f 0B       		.uleb128 0xb
+ 498 0050 03       		.uleb128 0x3
+ 499 0051 08       		.uleb128 0x8
+ 500 0052 00       		.byte	0
+ 501 0053 00       		.byte	0
+ 502 0054 07       		.uleb128 0x7
+ 503 0055 0F       		.uleb128 0xf
+ 504 0056 00       		.byte	0
+ 505 0057 0B       		.uleb128 0xb
+ 506 0058 0B       		.uleb128 0xb
+ 507 0059 00       		.byte	0
+ 508 005a 00       		.byte	0
+ 509 005b 08       		.uleb128 0x8
+ 510 005c 15       		.uleb128 0x15
+ 511 005d 01       		.byte	0x1
+ 512 005e 27       		.uleb128 0x27
+ 513 005f 19       		.uleb128 0x19
+ 514 0060 49       		.uleb128 0x49
+ 515 0061 13       		.uleb128 0x13
+ 516 0062 01       		.uleb128 0x1
+ 517 0063 13       		.uleb128 0x13
+ 518 0064 00       		.byte	0
+ 519 0065 00       		.byte	0
+ 520 0066 09       		.uleb128 0x9
+ 521 0067 05       		.uleb128 0x5
+ 522 0068 00       		.byte	0
+ 523 0069 49       		.uleb128 0x49
+ 524 006a 13       		.uleb128 0x13
+ 525 006b 00       		.byte	0
+ 526 006c 00       		.byte	0
+ 527 006d 0A       		.uleb128 0xa
+ 528 006e 0F       		.uleb128 0xf
+ 529 006f 00       		.byte	0
+ 530 0070 0B       		.uleb128 0xb
+ 531 0071 0B       		.uleb128 0xb
+ 532 0072 49       		.uleb128 0x49
+ 533 0073 13       		.uleb128 0x13
+ 534 0074 00       		.byte	0
+ 535 0075 00       		.byte	0
+ 536 0076 0B       		.uleb128 0xb
+ 537 0077 26       		.uleb128 0x26
+ 538 0078 00       		.byte	0
+ 539 0079 49       		.uleb128 0x49
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 13
+
+
+ 540 007a 13       		.uleb128 0x13
+ 541 007b 00       		.byte	0
+ 542 007c 00       		.byte	0
+ 543 007d 0C       		.uleb128 0xc
+ 544 007e 15       		.uleb128 0x15
+ 545 007f 00       		.byte	0
+ 546 0080 27       		.uleb128 0x27
+ 547 0081 19       		.uleb128 0x19
+ 548 0082 49       		.uleb128 0x49
+ 549 0083 13       		.uleb128 0x13
+ 550 0084 00       		.byte	0
+ 551 0085 00       		.byte	0
+ 552 0086 0D       		.uleb128 0xd
+ 553 0087 26       		.uleb128 0x26
+ 554 0088 00       		.byte	0
+ 555 0089 00       		.byte	0
+ 556 008a 00       		.byte	0
+ 557 008b 0E       		.uleb128 0xe
+ 558 008c 2E       		.uleb128 0x2e
+ 559 008d 01       		.byte	0x1
+ 560 008e 3F       		.uleb128 0x3f
+ 561 008f 19       		.uleb128 0x19
+ 562 0090 03       		.uleb128 0x3
+ 563 0091 0E       		.uleb128 0xe
+ 564 0092 3A       		.uleb128 0x3a
+ 565 0093 0B       		.uleb128 0xb
+ 566 0094 3B       		.uleb128 0x3b
+ 567 0095 0B       		.uleb128 0xb
+ 568 0096 27       		.uleb128 0x27
+ 569 0097 19       		.uleb128 0x19
+ 570 0098 11       		.uleb128 0x11
+ 571 0099 01       		.uleb128 0x1
+ 572 009a 12       		.uleb128 0x12
+ 573 009b 06       		.uleb128 0x6
+ 574 009c 40       		.uleb128 0x40
+ 575 009d 18       		.uleb128 0x18
+ 576 009e 9742     		.uleb128 0x2117
+ 577 00a0 19       		.uleb128 0x19
+ 578 00a1 01       		.uleb128 0x1
+ 579 00a2 13       		.uleb128 0x13
+ 580 00a3 00       		.byte	0
+ 581 00a4 00       		.byte	0
+ 582 00a5 0F       		.uleb128 0xf
+ 583 00a6 898201   		.uleb128 0x4109
+ 584 00a9 01       		.byte	0x1
+ 585 00aa 11       		.uleb128 0x11
+ 586 00ab 01       		.uleb128 0x1
+ 587 00ac 31       		.uleb128 0x31
+ 588 00ad 13       		.uleb128 0x13
+ 589 00ae 01       		.uleb128 0x1
+ 590 00af 13       		.uleb128 0x13
+ 591 00b0 00       		.byte	0
+ 592 00b1 00       		.byte	0
+ 593 00b2 10       		.uleb128 0x10
+ 594 00b3 8A8201   		.uleb128 0x410a
+ 595 00b6 00       		.byte	0
+ 596 00b7 02       		.uleb128 0x2
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 14
+
+
+ 597 00b8 18       		.uleb128 0x18
+ 598 00b9 9142     		.uleb128 0x2111
+ 599 00bb 18       		.uleb128 0x18
+ 600 00bc 00       		.byte	0
+ 601 00bd 00       		.byte	0
+ 602 00be 11       		.uleb128 0x11
+ 603 00bf 898201   		.uleb128 0x4109
+ 604 00c2 00       		.byte	0
+ 605 00c3 11       		.uleb128 0x11
+ 606 00c4 01       		.uleb128 0x1
+ 607 00c5 9542     		.uleb128 0x2115
+ 608 00c7 19       		.uleb128 0x19
+ 609 00c8 31       		.uleb128 0x31
+ 610 00c9 13       		.uleb128 0x13
+ 611 00ca 00       		.byte	0
+ 612 00cb 00       		.byte	0
+ 613 00cc 12       		.uleb128 0x12
+ 614 00cd 2E       		.uleb128 0x2e
+ 615 00ce 01       		.byte	0x1
+ 616 00cf 3F       		.uleb128 0x3f
+ 617 00d0 19       		.uleb128 0x19
+ 618 00d1 03       		.uleb128 0x3
+ 619 00d2 0E       		.uleb128 0xe
+ 620 00d3 3A       		.uleb128 0x3a
+ 621 00d4 0B       		.uleb128 0xb
+ 622 00d5 3B       		.uleb128 0x3b
+ 623 00d6 0B       		.uleb128 0xb
+ 624 00d7 27       		.uleb128 0x27
+ 625 00d8 19       		.uleb128 0x19
+ 626 00d9 49       		.uleb128 0x49
+ 627 00da 13       		.uleb128 0x13
+ 628 00db 11       		.uleb128 0x11
+ 629 00dc 01       		.uleb128 0x1
+ 630 00dd 12       		.uleb128 0x12
+ 631 00de 06       		.uleb128 0x6
+ 632 00df 40       		.uleb128 0x40
+ 633 00e0 18       		.uleb128 0x18
+ 634 00e1 9742     		.uleb128 0x2117
+ 635 00e3 19       		.uleb128 0x19
+ 636 00e4 01       		.uleb128 0x1
+ 637 00e5 13       		.uleb128 0x13
+ 638 00e6 00       		.byte	0
+ 639 00e7 00       		.byte	0
+ 640 00e8 13       		.uleb128 0x13
+ 641 00e9 34       		.uleb128 0x34
+ 642 00ea 00       		.byte	0
+ 643 00eb 03       		.uleb128 0x3
+ 644 00ec 08       		.uleb128 0x8
+ 645 00ed 3A       		.uleb128 0x3a
+ 646 00ee 0B       		.uleb128 0xb
+ 647 00ef 3B       		.uleb128 0x3b
+ 648 00f0 0B       		.uleb128 0xb
+ 649 00f1 49       		.uleb128 0x49
+ 650 00f2 13       		.uleb128 0x13
+ 651 00f3 1C       		.uleb128 0x1c
+ 652 00f4 06       		.uleb128 0x6
+ 653 00f5 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 15
+
+
+ 654 00f6 00       		.byte	0
+ 655 00f7 14       		.uleb128 0x14
+ 656 00f8 34       		.uleb128 0x34
+ 657 00f9 00       		.byte	0
+ 658 00fa 03       		.uleb128 0x3
+ 659 00fb 08       		.uleb128 0x8
+ 660 00fc 3A       		.uleb128 0x3a
+ 661 00fd 0B       		.uleb128 0xb
+ 662 00fe 3B       		.uleb128 0x3b
+ 663 00ff 0B       		.uleb128 0xb
+ 664 0100 49       		.uleb128 0x49
+ 665 0101 13       		.uleb128 0x13
+ 666 0102 1C       		.uleb128 0x1c
+ 667 0103 0B       		.uleb128 0xb
+ 668 0104 00       		.byte	0
+ 669 0105 00       		.byte	0
+ 670 0106 15       		.uleb128 0x15
+ 671 0107 34       		.uleb128 0x34
+ 672 0108 00       		.byte	0
+ 673 0109 03       		.uleb128 0x3
+ 674 010a 0E       		.uleb128 0xe
+ 675 010b 3A       		.uleb128 0x3a
+ 676 010c 0B       		.uleb128 0xb
+ 677 010d 3B       		.uleb128 0x3b
+ 678 010e 0B       		.uleb128 0xb
+ 679 010f 49       		.uleb128 0x49
+ 680 0110 13       		.uleb128 0x13
+ 681 0111 1C       		.uleb128 0x1c
+ 682 0112 0B       		.uleb128 0xb
+ 683 0113 00       		.byte	0
+ 684 0114 00       		.byte	0
+ 685 0115 16       		.uleb128 0x16
+ 686 0116 01       		.uleb128 0x1
+ 687 0117 01       		.byte	0x1
+ 688 0118 49       		.uleb128 0x49
+ 689 0119 13       		.uleb128 0x13
+ 690 011a 01       		.uleb128 0x1
+ 691 011b 13       		.uleb128 0x13
+ 692 011c 00       		.byte	0
+ 693 011d 00       		.byte	0
+ 694 011e 17       		.uleb128 0x17
+ 695 011f 21       		.uleb128 0x21
+ 696 0120 00       		.byte	0
+ 697 0121 49       		.uleb128 0x49
+ 698 0122 13       		.uleb128 0x13
+ 699 0123 2F       		.uleb128 0x2f
+ 700 0124 05       		.uleb128 0x5
+ 701 0125 00       		.byte	0
+ 702 0126 00       		.byte	0
+ 703 0127 18       		.uleb128 0x18
+ 704 0128 34       		.uleb128 0x34
+ 705 0129 00       		.byte	0
+ 706 012a 03       		.uleb128 0x3
+ 707 012b 0E       		.uleb128 0xe
+ 708 012c 3A       		.uleb128 0x3a
+ 709 012d 0B       		.uleb128 0xb
+ 710 012e 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 16
+
+
+ 711 012f 0B       		.uleb128 0xb
+ 712 0130 49       		.uleb128 0x49
+ 713 0131 13       		.uleb128 0x13
+ 714 0132 02       		.uleb128 0x2
+ 715 0133 18       		.uleb128 0x18
+ 716 0134 00       		.byte	0
+ 717 0135 00       		.byte	0
+ 718 0136 19       		.uleb128 0x19
+ 719 0137 34       		.uleb128 0x34
+ 720 0138 00       		.byte	0
+ 721 0139 03       		.uleb128 0x3
+ 722 013a 0E       		.uleb128 0xe
+ 723 013b 3A       		.uleb128 0x3a
+ 724 013c 0B       		.uleb128 0xb
+ 725 013d 3B       		.uleb128 0x3b
+ 726 013e 05       		.uleb128 0x5
+ 727 013f 49       		.uleb128 0x49
+ 728 0140 13       		.uleb128 0x13
+ 729 0141 3F       		.uleb128 0x3f
+ 730 0142 19       		.uleb128 0x19
+ 731 0143 3C       		.uleb128 0x3c
+ 732 0144 19       		.uleb128 0x19
+ 733 0145 00       		.byte	0
+ 734 0146 00       		.byte	0
+ 735 0147 1A       		.uleb128 0x1a
+ 736 0148 2E       		.uleb128 0x2e
+ 737 0149 00       		.byte	0
+ 738 014a 3F       		.uleb128 0x3f
+ 739 014b 19       		.uleb128 0x19
+ 740 014c 3C       		.uleb128 0x3c
+ 741 014d 19       		.uleb128 0x19
+ 742 014e 6E       		.uleb128 0x6e
+ 743 014f 0E       		.uleb128 0xe
+ 744 0150 03       		.uleb128 0x3
+ 745 0151 0E       		.uleb128 0xe
+ 746 0152 3A       		.uleb128 0x3a
+ 747 0153 0B       		.uleb128 0xb
+ 748 0154 3B       		.uleb128 0x3b
+ 749 0155 05       		.uleb128 0x5
+ 750 0156 00       		.byte	0
+ 751 0157 00       		.byte	0
+ 752 0158 00       		.byte	0
+ 753              		.section	.debug_aranges,"",%progbits
+ 754 0000 24000000 		.4byte	0x24
+ 755 0004 0200     		.2byte	0x2
+ 756 0006 00000000 		.4byte	.Ldebug_info0
+ 757 000a 04       		.byte	0x4
+ 758 000b 00       		.byte	0
+ 759 000c 0000     		.2byte	0
+ 760 000e 0000     		.2byte	0
+ 761 0010 00000000 		.4byte	.LFB0
+ 762 0014 20000000 		.4byte	.LFE0-.LFB0
+ 763 0018 00000000 		.4byte	.LFB1
+ 764 001c 06000000 		.4byte	.LFE1-.LFB1
+ 765 0020 00000000 		.4byte	0
+ 766 0024 00000000 		.4byte	0
+ 767              		.section	.debug_ranges,"",%progbits
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 17
+
+
+ 768              	.Ldebug_ranges0:
+ 769 0000 00000000 		.4byte	.LFB0
+ 770 0004 20000000 		.4byte	.LFE0
+ 771 0008 00000000 		.4byte	.LFB1
+ 772 000c 06000000 		.4byte	.LFE1
+ 773 0010 00000000 		.4byte	0
+ 774 0014 00000000 		.4byte	0
+ 775              		.section	.debug_line,"",%progbits
+ 776              	.Ldebug_line0:
+ 777 0000 8E000000 		.section	.debug_str,"MS",%progbits,1
+ 777      02006000 
+ 777      00000201 
+ 777      FB0E0D00 
+ 777      01010101 
+ 778              	.LASF3:
+ 779 0000 70665772 		.ascii	"pfWrite\000"
+ 779      69746500 
+ 780              	.LASF30:
+ 781 0008 46535F44 		.ascii	"FS_DEVICE_TYPE\000"
+ 781      45564943 
+ 781      455F5459 
+ 781      504500
+ 782              	.LASF24:
+ 783 0017 5F614D65 		.ascii	"_aMemBlock\000"
+ 783      6D426C6F 
+ 783      636B00
+ 784              	.LASF6:
+ 785 0022 70664765 		.ascii	"pfGetStatus\000"
+ 785      74537461 
+ 785      74757300 
+ 786              	.LASF26:
+ 787 002e 46535F41 		.ascii	"FS_AddDevice\000"
+ 787      64644465 
+ 787      76696365 
+ 787      00
+ 788              	.LASF19:
+ 789 003b 666C6F61 		.ascii	"float\000"
+ 789      7400
+ 790              	.LASF7:
+ 791 0041 70664765 		.ascii	"pfGetNumUnits\000"
+ 791      744E756D 
+ 791      556E6974 
+ 791      7300
+ 792              	.LASF11:
+ 793 004f 756E7369 		.ascii	"unsigned char\000"
+ 793      676E6564 
+ 793      20636861 
+ 793      7200
+ 794              	.LASF27:
+ 795 005d 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 795      43313120 
+ 795      352E342E 
+ 795      31203230 
+ 795      31363036 
+ 796 0090 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 796      20726576 
+ 796      6973696F 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 18
+
+
+ 796      6E203233 
+ 796      37373135 
+ 797 00c3 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 797      66756E63 
+ 797      74696F6E 
+ 797      2D736563 
+ 797      74696F6E 
+ 798              	.LASF8:
+ 799 00eb 73686F72 		.ascii	"short unsigned int\000"
+ 799      7420756E 
+ 799      7369676E 
+ 799      65642069 
+ 799      6E7400
+ 800              	.LASF29:
+ 801 00fe 433A5C55 		.ascii	"C:\\Users\\Nathan\\Documents\\MyBuilds\\Flight Cont"
+ 801      73657273 
+ 801      5C4E6174 
+ 801      68616E5C 
+ 801      446F6375 
+ 802 012c 726F6C6C 		.ascii	"roller\\ServoControl.cydsn\000"
+ 802      65725C53 
+ 802      6572766F 
+ 802      436F6E74 
+ 802      726F6C2E 
+ 803              	.LASF22:
+ 804 0146 4D6F6E74 		.ascii	"Month\000"
+ 804      6800
+ 805              	.LASF5:
+ 806 014c 7066496E 		.ascii	"pfInitMedium\000"
+ 806      69744D65 
+ 806      6469756D 
+ 806      00
+ 807              	.LASF23:
+ 808 0159 59656172 		.ascii	"Year\000"
+ 808      00
+ 809              	.LASF20:
+ 810 015e 646F7562 		.ascii	"double\000"
+ 810      6C6500
+ 811              	.LASF1:
+ 812 0165 70664164 		.ascii	"pfAddDevice\000"
+ 812      64446576 
+ 812      69636500 
+ 813              	.LASF9:
+ 814 0171 6C6F6E67 		.ascii	"long unsigned int\000"
+ 814      20756E73 
+ 814      69676E65 
+ 814      6420696E 
+ 814      7400
+ 815              	.LASF10:
+ 816 0183 756E7369 		.ascii	"unsigned int\000"
+ 816      676E6564 
+ 816      20696E74 
+ 816      00
+ 817              	.LASF18:
+ 818 0190 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 818      206C6F6E 
+ 818      6720756E 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 19
+
+
+ 818      7369676E 
+ 818      65642069 
+ 819              	.LASF28:
+ 820 01a7 47656E65 		.ascii	"Generated_Source\\PSoC5\\emFile_1_ConfigMMC_SPI.c\000"
+ 820      72617465 
+ 820      645F536F 
+ 820      75726365 
+ 820      5C50536F 
+ 821              	.LASF12:
+ 822 01d7 73697A65 		.ascii	"sizetype\000"
+ 822      74797065 
+ 822      00
+ 823              	.LASF17:
+ 824 01e0 6C6F6E67 		.ascii	"long long int\000"
+ 824      206C6F6E 
+ 824      6720696E 
+ 824      7400
+ 825              	.LASF25:
+ 826 01ee 46535F41 		.ascii	"FS_AssignMemory\000"
+ 826      73736967 
+ 826      6E4D656D 
+ 826      6F727900 
+ 827              	.LASF31:
+ 828 01fe 46535F58 		.ascii	"FS_X_AddDevices\000"
+ 828      5F416464 
+ 828      44657669 
+ 828      63657300 
+ 829              	.LASF2:
+ 830 020e 70665265 		.ascii	"pfRead\000"
+ 830      616400
+ 831              	.LASF14:
+ 832 0215 73686F72 		.ascii	"short int\000"
+ 832      7420696E 
+ 832      7400
+ 833              	.LASF21:
+ 834 021f 486F7572 		.ascii	"Hour\000"
+ 834      00
+ 835              	.LASF0:
+ 836 0224 70664765 		.ascii	"pfGetName\000"
+ 836      744E616D 
+ 836      6500
+ 837              	.LASF15:
+ 838 022e 6C6F6E67 		.ascii	"long int\000"
+ 838      20696E74 
+ 838      00
+ 839              	.LASF13:
+ 840 0237 63686172 		.ascii	"char\000"
+ 840      00
+ 841              	.LASF32:
+ 842 023c 46535F58 		.ascii	"FS_X_GetTimeDate\000"
+ 842      5F476574 
+ 842      54696D65 
+ 842      44617465 
+ 842      00
+ 843              	.LASF16:
+ 844 024d 7369676E 		.ascii	"signed char\000"
+ 844      65642063 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccBntajc.s 			page 20
+
+
+ 844      68617200 
+ 845              	.LASF4:
+ 846 0259 7066496F 		.ascii	"pfIoCtl\000"
+ 846      43746C00 
+ 847              	.LASF33:
+ 848 0261 46535F4D 		.ascii	"FS_MMC_SPI_Driver\000"
+ 848      4D435F53 
+ 848      50495F44 
+ 848      72697665 
+ 848      7200
+ 849              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

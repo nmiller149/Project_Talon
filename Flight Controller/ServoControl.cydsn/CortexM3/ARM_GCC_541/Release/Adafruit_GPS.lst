@@ -1,0 +1,1165 @@
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"Adafruit_GPS.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.GPS_Start,"ax",%progbits
+  20              		.align	1
+  21              		.global	GPS_Start
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	GPS_Start, %function
+  25              	GPS_Start:
+  26              	.LFB63:
+  27              		.file 1 "Adafruit_GPS.c"
+   1:Adafruit_GPS.c **** /* ========================================
+   2:Adafruit_GPS.c ****  *
+   3:Adafruit_GPS.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:Adafruit_GPS.c ****  * All Rights Reserved
+   5:Adafruit_GPS.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:Adafruit_GPS.c ****  *
+   7:Adafruit_GPS.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:Adafruit_GPS.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:Adafruit_GPS.c ****  *
+  10:Adafruit_GPS.c ****  * ========================================
+  11:Adafruit_GPS.c **** */
+  12:Adafruit_GPS.c **** 
+  13:Adafruit_GPS.c **** #include "Adafruit_GPS.h"
+  14:Adafruit_GPS.c **** 
+  15:Adafruit_GPS.c **** 
+  16:Adafruit_GPS.c **** 
+  17:Adafruit_GPS.c **** /*----------------------------- GPS FUNCTIONS  --------------------------------------- */
+  18:Adafruit_GPS.c **** 
+  19:Adafruit_GPS.c **** void GPS_Start(){
+  28              		.loc 1 19 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 08B5     		push	{r3, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 3, -8
+  35              		.cfi_offset 14, -4
+  20:Adafruit_GPS.c ****     
+  21:Adafruit_GPS.c ****         UART_GPS_Start();
+  36              		.loc 1 21 0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 2
+
+
+  37 0002 FFF7FEFF 		bl	UART_GPS_Start
+  38              	.LVL0:
+  22:Adafruit_GPS.c ****         CyDelay(250);
+  39              		.loc 1 22 0
+  40 0006 FA20     		movs	r0, #250
+  41 0008 FFF7FEFF 		bl	CyDelay
+  42              	.LVL1:
+  23:Adafruit_GPS.c ****         
+  24:Adafruit_GPS.c ****         UART_GPS_PutString(PMTK_SET_NMEA_OUTPUT_RMCGGA);
+  43              		.loc 1 24 0
+  44 000c 0948     		ldr	r0, .L2
+  45 000e FFF7FEFF 		bl	UART_GPS_PutString
+  46              	.LVL2:
+  25:Adafruit_GPS.c ****         //UART_GPS_PutString(PMTK_SET_NMEA_OUTPUT_RMCONLY);
+  26:Adafruit_GPS.c ****         
+  27:Adafruit_GPS.c ****         CyDelay(200);        
+  47              		.loc 1 27 0
+  48 0012 C820     		movs	r0, #200
+  49 0014 FFF7FEFF 		bl	CyDelay
+  50              	.LVL3:
+  28:Adafruit_GPS.c ****         UART_GPS_PutString(PMTK_SET_BAUD_57600);
+  51              		.loc 1 28 0
+  52 0018 0748     		ldr	r0, .L2+4
+  53 001a FFF7FEFF 		bl	UART_GPS_PutString
+  54              	.LVL4:
+  29:Adafruit_GPS.c ****         CyDelay(200);
+  55              		.loc 1 29 0
+  56 001e C820     		movs	r0, #200
+  57 0020 FFF7FEFF 		bl	CyDelay
+  58              	.LVL5:
+  30:Adafruit_GPS.c ****         Clock_UART_GPS_SetDivider(52);
+  59              		.loc 1 30 0
+  60 0024 0121     		movs	r1, #1
+  61 0026 3420     		movs	r0, #52
+  62 0028 FFF7FEFF 		bl	Clock_UART_GPS_SetDividerRegister
+  63              	.LVL6:
+  31:Adafruit_GPS.c ****         UART_GPS_ClearRxBuffer();
+  32:Adafruit_GPS.c **** }
+  64              		.loc 1 32 0
+  65 002c BDE80840 		pop	{r3, lr}
+  66              		.cfi_restore 14
+  67              		.cfi_restore 3
+  68              		.cfi_def_cfa_offset 0
+  31:Adafruit_GPS.c ****         UART_GPS_ClearRxBuffer();
+  69              		.loc 1 31 0
+  70 0030 FFF7FEBF 		b	UART_GPS_ClearRxBuffer
+  71              	.LVL7:
+  72              	.L3:
+  73              		.align	2
+  74              	.L2:
+  75 0034 00000000 		.word	.LC0
+  76 0038 34000000 		.word	.LC1
+  77              		.cfi_endproc
+  78              	.LFE63:
+  79              		.size	GPS_Start, .-GPS_Start
+  80              		.section	.text.GPS_Refresh,"ax",%progbits
+  81              		.align	1
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 3
+
+
+  82              		.global	GPS_Refresh
+  83              		.thumb
+  84              		.thumb_func
+  85              		.type	GPS_Refresh, %function
+  86              	GPS_Refresh:
+  87              	.LFB64:
+  33:Adafruit_GPS.c **** 
+  34:Adafruit_GPS.c **** 
+  35:Adafruit_GPS.c **** 
+  36:Adafruit_GPS.c **** 
+  37:Adafruit_GPS.c **** 
+  38:Adafruit_GPS.c **** 
+  39:Adafruit_GPS.c **** 
+  40:Adafruit_GPS.c **** 
+  41:Adafruit_GPS.c **** void GPS_Refresh(){
+  88              		.loc 1 41 0
+  89              		.cfi_startproc
+  90              		@ args = 0, pretend = 0, frame = 0
+  91              		@ frame_needed = 0, uses_anonymous_args = 0
+  92              	.LVL8:
+  93 0000 2DE9F843 		push	{r3, r4, r5, r6, r7, r8, r9, lr}
+  94              		.cfi_def_cfa_offset 32
+  95              		.cfi_offset 3, -32
+  96              		.cfi_offset 4, -28
+  97              		.cfi_offset 5, -24
+  98              		.cfi_offset 6, -20
+  99              		.cfi_offset 7, -16
+ 100              		.cfi_offset 8, -12
+ 101              		.cfi_offset 9, -8
+ 102              		.cfi_offset 14, -4
+  42:Adafruit_GPS.c ****     static uint8 temp = 0;    
+  43:Adafruit_GPS.c ****     
+  44:Adafruit_GPS.c **** //    UART_GPS_RX_STS_FIFO_NOTEMPTY //If set, indicates the FIFO has data available.
+  45:Adafruit_GPS.c **** //    UART_GPS_RX_STS_PAR_ERROR  //If set, indicates a parity error was detected.
+  46:Adafruit_GPS.c **** //    UART_GPS_RX_STS_STOP_ERROR //If set, indicates a framing error was detected. The framing erro
+  47:Adafruit_GPS.c **** //    UART_GPS_RX_STS_BREAK      //If set, indicates a break was detected.
+  48:Adafruit_GPS.c **** //    UART_GPS_RX_STS_OVERRUN    //If set, indicates the FIFO buffer was overrun.
+  49:Adafruit_GPS.c **** //    UART_GPS_RX_STS_ADDR_MATCH //Indicates that the received byte matches one of the two addresse
+  50:Adafruit_GPS.c **** //    UART_GPS_RX_STS_MRKSPC     //Status of the mark/space parity bit. This bit indicates whether 
+  51:Adafruit_GPS.c **** //    UART_GPS_RX_STS_SOFT_BUFF_OVER   //If set, indicates the RX buffer was overrun.
+  52:Adafruit_GPS.c ****     U8 i = 0;
+  53:Adafruit_GPS.c ****     if( UART_GPS_GetRxBufferSize() >= 50)
+ 103              		.loc 1 53 0
+ 104 0004 FFF7FEFF 		bl	UART_GPS_GetRxBufferSize
+ 105              	.LVL9:
+ 106 0008 3128     		cmp	r0, #49
+ 107 000a 30D9     		bls	.L4
+ 108 000c 194F     		ldr	r7, .L21
+  54:Adafruit_GPS.c ****     {
+  55:Adafruit_GPS.c ****         
+  56:Adafruit_GPS.c ****         while( UART_GPS_GetRxBufferSize() )
+  57:Adafruit_GPS.c ****         {
+  58:Adafruit_GPS.c ****             temp = UART_GPS_GetChar();
+  59:Adafruit_GPS.c ****             if (temp== '\n')
+  60:Adafruit_GPS.c ****             {
+  61:Adafruit_GPS.c ****                 break;
+  62:Adafruit_GPS.c ****             }
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 4
+
+
+  63:Adafruit_GPS.c ****             
+  64:Adafruit_GPS.c ****             
+  65:Adafruit_GPS.c ****             if(NewGPSData ==0){
+  66:Adafruit_GPS.c ****                 GPS_RMC_Data[i] = temp;
+  67:Adafruit_GPS.c ****             }
+  68:Adafruit_GPS.c ****             if(NewGPSData ==2){
+  69:Adafruit_GPS.c ****                 GPS_GGA_Data[i] = temp;
+ 109              		.loc 1 69 0
+ 110 000e DFF86880 		ldr	r8, .L21+4
+  66:Adafruit_GPS.c ****             }
+ 111              		.loc 1 66 0
+ 112 0012 DFF86890 		ldr	r9, .L21+8
+ 113 0016 0025     		movs	r5, #0
+ 114              	.LVL10:
+ 115              	.L6:
+  56:Adafruit_GPS.c ****         {
+ 116              		.loc 1 56 0
+ 117 0018 FFF7FEFF 		bl	UART_GPS_GetRxBufferSize
+ 118              	.LVL11:
+ 119 001c ECB2     		uxtb	r4, r5
+ 120              	.LVL12:
+ 121 001e 154E     		ldr	r6, .L21
+ 122 0020 18B1     		cbz	r0, .L14
+  58:Adafruit_GPS.c ****             if (temp== '\n')
+ 123              		.loc 1 58 0
+ 124 0022 FFF7FEFF 		bl	UART_GPS_GetChar
+ 125              	.LVL13:
+  59:Adafruit_GPS.c ****             {
+ 126              		.loc 1 59 0
+ 127 0026 0A28     		cmp	r0, #10
+ 128 0028 06D1     		bne	.L7
+ 129              	.L14:
+  70:Adafruit_GPS.c ****             }
+  71:Adafruit_GPS.c ****             i++;
+  72:Adafruit_GPS.c ****         }
+  73:Adafruit_GPS.c ****         
+  74:Adafruit_GPS.c ****         //NewGPSData works as a state machine. Set to 0 initially, then 1 after RMC data is written
+  75:Adafruit_GPS.c ****         //2 when  rmc data is sent, three when GGA data is written, and back to zero when GGA is se
+  76:Adafruit_GPS.c ****         if(NewGPSData == 0)
+ 130              		.loc 1 76 0
+ 131 002a 3378     		ldrb	r3, [r6]	@ zero_extendqisi2
+ 132 002c 13B1     		cbz	r3, .L8
+  77:Adafruit_GPS.c ****         {
+  78:Adafruit_GPS.c ****             //Nullify the unused elements in the RMC array
+  79:Adafruit_GPS.c ****             for (i = i;i<100; ++i)
+  80:Adafruit_GPS.c ****             {
+  81:Adafruit_GPS.c ****                 GPS_RMC_Data[i] = '\0';  
+  82:Adafruit_GPS.c ****             }
+  83:Adafruit_GPS.c ****             //Prepares the state machine to write the RMC data
+  84:Adafruit_GPS.c ****             NewGPSData = 1; 
+  85:Adafruit_GPS.c ****         }
+  86:Adafruit_GPS.c ****         
+  87:Adafruit_GPS.c ****         else
+  88:Adafruit_GPS.c ****         {
+  89:Adafruit_GPS.c ****             //Nullify the unused elements in the GGA array
+  90:Adafruit_GPS.c ****             for (i = i;i<100; ++i)
+  91:Adafruit_GPS.c ****             {
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 5
+
+
+  92:Adafruit_GPS.c ****                 GPS_GGA_Data[i] = '\0';  
+ 133              		.loc 1 92 0 discriminator 1
+ 134 002e 124B     		ldr	r3, .L21+4
+ 135 0030 0022     		movs	r2, #0
+ 136 0032 14E0     		b	.L9
+ 137              	.L8:
+  81:Adafruit_GPS.c ****             }
+ 138              		.loc 1 81 0 discriminator 1
+ 139 0034 114A     		ldr	r2, .L21+8
+ 140 0036 0AE0     		b	.L10
+ 141              	.L7:
+  65:Adafruit_GPS.c ****                 GPS_RMC_Data[i] = temp;
+ 142              		.loc 1 65 0
+ 143 0038 3B78     		ldrb	r3, [r7]	@ zero_extendqisi2
+ 144 003a 13B9     		cbnz	r3, .L11
+  66:Adafruit_GPS.c ****             }
+ 145              		.loc 1 66 0
+ 146 003c 09F80400 		strb	r0, [r9, r4]
+ 147 0040 03E0     		b	.L12
+ 148              	.L11:
+  68:Adafruit_GPS.c ****                 GPS_GGA_Data[i] = temp;
+ 149              		.loc 1 68 0
+ 150 0042 022B     		cmp	r3, #2
+  69:Adafruit_GPS.c ****             }
+ 151              		.loc 1 69 0
+ 152 0044 08BF     		it	eq
+ 153 0046 08F80400 		strbeq	r0, [r8, r4]
+ 154              	.L12:
+ 155              	.LVL14:
+ 156 004a 0135     		adds	r5, r5, #1
+ 157              	.LVL15:
+ 158 004c E4E7     		b	.L6
+ 159              	.LVL16:
+ 160              	.L10:
+  79:Adafruit_GPS.c ****             {
+ 161              		.loc 1 79 0 discriminator 1
+ 162 004e 632C     		cmp	r4, #99
+ 163 0050 03D8     		bhi	.L19
+  81:Adafruit_GPS.c ****             }
+ 164              		.loc 1 81 0 discriminator 3
+ 165 0052 1355     		strb	r3, [r2, r4]
+  79:Adafruit_GPS.c ****             {
+ 166              		.loc 1 79 0 discriminator 3
+ 167 0054 0134     		adds	r4, r4, #1
+ 168              	.LVL17:
+ 169 0056 E4B2     		uxtb	r4, r4
+ 170              	.LVL18:
+ 171 0058 F9E7     		b	.L10
+ 172              	.L19:
+  84:Adafruit_GPS.c ****         }
+ 173              		.loc 1 84 0
+ 174 005a 0123     		movs	r3, #1
+ 175 005c 06E0     		b	.L17
+ 176              	.L9:
+  90:Adafruit_GPS.c ****             {
+ 177              		.loc 1 90 0 discriminator 1
+ 178 005e 632C     		cmp	r4, #99
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 6
+
+
+ 179 0060 03D8     		bhi	.L20
+ 180              		.loc 1 92 0 discriminator 3
+ 181 0062 1A55     		strb	r2, [r3, r4]
+  90:Adafruit_GPS.c ****             {
+ 182              		.loc 1 90 0 discriminator 3
+ 183 0064 0134     		adds	r4, r4, #1
+ 184              	.LVL19:
+ 185 0066 E4B2     		uxtb	r4, r4
+ 186              	.LVL20:
+ 187 0068 F9E7     		b	.L9
+ 188              	.L20:
+  93:Adafruit_GPS.c ****             }
+  94:Adafruit_GPS.c ****             //Prepares state machine to Write GGA data
+  95:Adafruit_GPS.c ****             NewGPSData = 3;  
+ 189              		.loc 1 95 0
+ 190 006a 0323     		movs	r3, #3
+ 191              	.L17:
+ 192 006c 3370     		strb	r3, [r6]
+ 193              	.LVL21:
+ 194              	.L4:
+ 195 006e BDE8F883 		pop	{r3, r4, r5, r6, r7, r8, r9, pc}
+ 196              	.L22:
+ 197 0072 00BF     		.align	2
+ 198              	.L21:
+ 199 0074 00000000 		.word	.LANCHOR0
+ 200 0078 00000000 		.word	GPS_GGA_Data
+ 201 007c 00000000 		.word	GPS_RMC_Data
+ 202              		.cfi_endproc
+ 203              	.LFE64:
+ 204              		.size	GPS_Refresh, .-GPS_Refresh
+ 205              		.global	NewGPSData
+ 206              		.comm	GPS_GGA_Data,100,1
+ 207              		.comm	GPS_RMC_Data,100,1
+ 208              		.section	.rodata.str1.1,"aMS",%progbits,1
+ 209              	.LC0:
+ 210 0000 24504D54 		.ascii	"$PMTK314,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*28\015"
+ 210      4B333134 
+ 210      2C302C31 
+ 210      2C302C31 
+ 210      2C302C30 
+ 211 0032 0A00     		.ascii	"\012\000"
+ 212              	.LC1:
+ 213 0034 24504D54 		.ascii	"$PMTK251,57600*2C\015\012\000"
+ 213      4B323531 
+ 213      2C353736 
+ 213      30302A32 
+ 213      430D0A00 
+ 214              		.bss
+ 215              		.set	.LANCHOR0,. + 0
+ 216              		.type	NewGPSData, %object
+ 217              		.size	NewGPSData, 1
+ 218              	NewGPSData:
+ 219 0000 00       		.space	1
+ 220              		.text
+ 221              	.Letext0:
+ 222              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ 223              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 7
+
+
+ 224              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 225              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 226              		.file 6 "Adafruit_GPS.h"
+ 227              		.file 7 "Generated_Source\\PSoC5/UART_GPS.h"
+ 228              		.file 8 "Generated_Source\\PSoC5/CyLib.h"
+ 229              		.file 9 "Generated_Source\\PSoC5/Clock_UART_GPS.h"
+ 230              		.section	.debug_info,"",%progbits
+ 231              	.Ldebug_info0:
+ 232 0000 42020000 		.4byte	0x242
+ 233 0004 0400     		.2byte	0x4
+ 234 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 235 000a 04       		.byte	0x4
+ 236 000b 01       		.uleb128 0x1
+ 237 000c BA010000 		.4byte	.LASF30
+ 238 0010 0C       		.byte	0xc
+ 239 0011 00000000 		.4byte	.LASF31
+ 240 0015 B5000000 		.4byte	.LASF32
+ 241 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 242 001d 00000000 		.4byte	0
+ 243 0021 00000000 		.4byte	.Ldebug_line0
+ 244 0025 02       		.uleb128 0x2
+ 245 0026 01       		.byte	0x1
+ 246 0027 06       		.byte	0x6
+ 247 0028 61020000 		.4byte	.LASF0
+ 248 002c 02       		.uleb128 0x2
+ 249 002d 01       		.byte	0x1
+ 250 002e 08       		.byte	0x8
+ 251 002f 7D000000 		.4byte	.LASF1
+ 252 0033 02       		.uleb128 0x2
+ 253 0034 02       		.byte	0x2
+ 254 0035 05       		.byte	0x5
+ 255 0036 9F010000 		.4byte	.LASF2
+ 256 003a 02       		.uleb128 0x2
+ 257 003b 02       		.byte	0x2
+ 258 003c 07       		.byte	0x7
+ 259 003d A2000000 		.4byte	.LASF3
+ 260 0041 03       		.uleb128 0x3
+ 261 0042 0F000000 		.4byte	.LASF9
+ 262 0046 02       		.byte	0x2
+ 263 0047 3F       		.byte	0x3f
+ 264 0048 4C000000 		.4byte	0x4c
+ 265 004c 02       		.uleb128 0x2
+ 266 004d 04       		.byte	0x4
+ 267 004e 05       		.byte	0x5
+ 268 004f FD000000 		.4byte	.LASF4
+ 269 0053 02       		.uleb128 0x2
+ 270 0054 04       		.byte	0x4
+ 271 0055 07       		.byte	0x7
+ 272 0056 8B000000 		.4byte	.LASF5
+ 273 005a 02       		.uleb128 0x2
+ 274 005b 08       		.byte	0x8
+ 275 005c 05       		.byte	0x5
+ 276 005d 8C010000 		.4byte	.LASF6
+ 277 0061 02       		.uleb128 0x2
+ 278 0062 08       		.byte	0x8
+ 279 0063 07       		.byte	0x7
+ 280 0064 53010000 		.4byte	.LASF7
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 8
+
+
+ 281 0068 04       		.uleb128 0x4
+ 282 0069 04       		.byte	0x4
+ 283 006a 05       		.byte	0x5
+ 284 006b 696E7400 		.ascii	"int\000"
+ 285 006f 02       		.uleb128 0x2
+ 286 0070 04       		.byte	0x4
+ 287 0071 07       		.byte	0x7
+ 288 0072 33010000 		.4byte	.LASF8
+ 289 0076 03       		.uleb128 0x3
+ 290 0077 6A010000 		.4byte	.LASF10
+ 291 007b 03       		.byte	0x3
+ 292 007c 2C       		.byte	0x2c
+ 293 007d 41000000 		.4byte	0x41
+ 294 0081 05       		.uleb128 0x5
+ 295 0082 B4010000 		.4byte	.LASF11
+ 296 0086 04       		.byte	0x4
+ 297 0087 9201     		.2byte	0x192
+ 298 0089 2C000000 		.4byte	0x2c
+ 299 008d 02       		.uleb128 0x2
+ 300 008e 04       		.byte	0x4
+ 301 008f 04       		.byte	0x4
+ 302 0090 6B000000 		.4byte	.LASF12
+ 303 0094 02       		.uleb128 0x2
+ 304 0095 08       		.byte	0x8
+ 305 0096 04       		.byte	0x4
+ 306 0097 13010000 		.4byte	.LASF13
+ 307 009b 02       		.uleb128 0x2
+ 308 009c 01       		.byte	0x1
+ 309 009d 08       		.byte	0x8
+ 310 009e 9A010000 		.4byte	.LASF14
+ 311 00a2 02       		.uleb128 0x2
+ 312 00a3 08       		.byte	0x8
+ 313 00a4 04       		.byte	0x4
+ 314 00a5 55020000 		.4byte	.LASF15
+ 315 00a9 02       		.uleb128 0x2
+ 316 00aa 04       		.byte	0x4
+ 317 00ab 07       		.byte	0x7
+ 318 00ac 83010000 		.4byte	.LASF16
+ 319 00b0 06       		.uleb128 0x6
+ 320 00b1 30000000 		.4byte	.LASF17
+ 321 00b5 01       		.byte	0x1
+ 322 00b6 13       		.byte	0x13
+ 323 00b7 00000000 		.4byte	.LFB63
+ 324 00bb 3C000000 		.4byte	.LFE63-.LFB63
+ 325 00bf 01       		.uleb128 0x1
+ 326 00c0 9C       		.byte	0x9c
+ 327 00c1 5B010000 		.4byte	0x15b
+ 328 00c5 07       		.uleb128 0x7
+ 329 00c6 06000000 		.4byte	.LVL0
+ 330 00ca F8010000 		.4byte	0x1f8
+ 331 00ce 08       		.uleb128 0x8
+ 332 00cf 0C000000 		.4byte	.LVL1
+ 333 00d3 03020000 		.4byte	0x203
+ 334 00d7 E2000000 		.4byte	0xe2
+ 335 00db 09       		.uleb128 0x9
+ 336 00dc 01       		.uleb128 0x1
+ 337 00dd 50       		.byte	0x50
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 9
+
+
+ 338 00de 02       		.uleb128 0x2
+ 339 00df 08       		.byte	0x8
+ 340 00e0 FA       		.byte	0xfa
+ 341 00e1 00       		.byte	0
+ 342 00e2 08       		.uleb128 0x8
+ 343 00e3 12000000 		.4byte	.LVL2
+ 344 00e7 0E020000 		.4byte	0x20e
+ 345 00eb F9000000 		.4byte	0xf9
+ 346 00ef 09       		.uleb128 0x9
+ 347 00f0 01       		.uleb128 0x1
+ 348 00f1 50       		.byte	0x50
+ 349 00f2 05       		.uleb128 0x5
+ 350 00f3 03       		.byte	0x3
+ 351 00f4 00000000 		.4byte	.LC0
+ 352 00f8 00       		.byte	0
+ 353 00f9 08       		.uleb128 0x8
+ 354 00fa 18000000 		.4byte	.LVL3
+ 355 00fe 03020000 		.4byte	0x203
+ 356 0102 0D010000 		.4byte	0x10d
+ 357 0106 09       		.uleb128 0x9
+ 358 0107 01       		.uleb128 0x1
+ 359 0108 50       		.byte	0x50
+ 360 0109 02       		.uleb128 0x2
+ 361 010a 08       		.byte	0x8
+ 362 010b C8       		.byte	0xc8
+ 363 010c 00       		.byte	0
+ 364 010d 08       		.uleb128 0x8
+ 365 010e 1E000000 		.4byte	.LVL4
+ 366 0112 0E020000 		.4byte	0x20e
+ 367 0116 24010000 		.4byte	0x124
+ 368 011a 09       		.uleb128 0x9
+ 369 011b 01       		.uleb128 0x1
+ 370 011c 50       		.byte	0x50
+ 371 011d 05       		.uleb128 0x5
+ 372 011e 03       		.byte	0x3
+ 373 011f 34000000 		.4byte	.LC1
+ 374 0123 00       		.byte	0
+ 375 0124 08       		.uleb128 0x8
+ 376 0125 24000000 		.4byte	.LVL5
+ 377 0129 03020000 		.4byte	0x203
+ 378 012d 38010000 		.4byte	0x138
+ 379 0131 09       		.uleb128 0x9
+ 380 0132 01       		.uleb128 0x1
+ 381 0133 50       		.byte	0x50
+ 382 0134 02       		.uleb128 0x2
+ 383 0135 08       		.byte	0x8
+ 384 0136 C8       		.byte	0xc8
+ 385 0137 00       		.byte	0
+ 386 0138 08       		.uleb128 0x8
+ 387 0139 2C000000 		.4byte	.LVL6
+ 388 013d 19020000 		.4byte	0x219
+ 389 0141 51010000 		.4byte	0x151
+ 390 0145 09       		.uleb128 0x9
+ 391 0146 01       		.uleb128 0x1
+ 392 0147 50       		.byte	0x50
+ 393 0148 02       		.uleb128 0x2
+ 394 0149 08       		.byte	0x8
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 10
+
+
+ 395 014a 34       		.byte	0x34
+ 396 014b 09       		.uleb128 0x9
+ 397 014c 01       		.uleb128 0x1
+ 398 014d 51       		.byte	0x51
+ 399 014e 01       		.uleb128 0x1
+ 400 014f 31       		.byte	0x31
+ 401 0150 00       		.byte	0
+ 402 0151 0A       		.uleb128 0xa
+ 403 0152 34000000 		.4byte	.LVL7
+ 404 0156 24020000 		.4byte	0x224
+ 405 015a 00       		.byte	0
+ 406 015b 06       		.uleb128 0x6
+ 407 015c 71000000 		.4byte	.LASF18
+ 408 0160 01       		.byte	0x1
+ 409 0161 29       		.byte	0x29
+ 410 0162 00000000 		.4byte	.LFB64
+ 411 0166 80000000 		.4byte	.LFE64-.LFB64
+ 412 016a 01       		.uleb128 0x1
+ 413 016b 9C       		.byte	0x9c
+ 414 016c A4010000 		.4byte	0x1a4
+ 415 0170 0B       		.uleb128 0xb
+ 416 0171 9D000000 		.4byte	.LASF33
+ 417 0175 01       		.byte	0x1
+ 418 0176 2A       		.byte	0x2a
+ 419 0177 81000000 		.4byte	0x81
+ 420 017b 0C       		.uleb128 0xc
+ 421 017c 6900     		.ascii	"i\000"
+ 422 017e 01       		.byte	0x1
+ 423 017f 34       		.byte	0x34
+ 424 0180 2C000000 		.4byte	0x2c
+ 425 0184 00000000 		.4byte	.LLST0
+ 426 0188 07       		.uleb128 0x7
+ 427 0189 08000000 		.4byte	.LVL9
+ 428 018d 2F020000 		.4byte	0x22f
+ 429 0191 07       		.uleb128 0x7
+ 430 0192 1C000000 		.4byte	.LVL11
+ 431 0196 2F020000 		.4byte	0x22f
+ 432 019a 07       		.uleb128 0x7
+ 433 019b 26000000 		.4byte	.LVL13
+ 434 019f 3A020000 		.4byte	0x23a
+ 435 01a3 00       		.byte	0
+ 436 01a4 0D       		.uleb128 0xd
+ 437 01a5 06010000 		.4byte	.LASF19
+ 438 01a9 05       		.byte	0x5
+ 439 01aa 1207     		.2byte	0x712
+ 440 01ac B0010000 		.4byte	0x1b0
+ 441 01b0 0E       		.uleb128 0xe
+ 442 01b1 76000000 		.4byte	0x76
+ 443 01b5 0F       		.uleb128 0xf
+ 444 01b6 9B000000 		.4byte	0x9b
+ 445 01ba C5010000 		.4byte	0x1c5
+ 446 01be 10       		.uleb128 0x10
+ 447 01bf A9000000 		.4byte	0xa9
+ 448 01c3 63       		.byte	0x63
+ 449 01c4 00       		.byte	0
+ 450 01c5 11       		.uleb128 0x11
+ 451 01c6 75020000 		.4byte	.LASF20
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 11
+
+
+ 452 01ca 06       		.byte	0x6
+ 453 01cb 26       		.byte	0x26
+ 454 01cc B5010000 		.4byte	0x1b5
+ 455 01d0 05       		.uleb128 0x5
+ 456 01d1 03       		.byte	0x3
+ 457 01d2 00000000 		.4byte	GPS_RMC_Data
+ 458 01d6 11       		.uleb128 0x11
+ 459 01d7 48020000 		.4byte	.LASF21
+ 460 01db 06       		.byte	0x6
+ 461 01dc 27       		.byte	0x27
+ 462 01dd B5010000 		.4byte	0x1b5
+ 463 01e1 05       		.uleb128 0x5
+ 464 01e2 03       		.byte	0x3
+ 465 01e3 00000000 		.4byte	GPS_GGA_Data
+ 466 01e7 11       		.uleb128 0x11
+ 467 01e8 A9010000 		.4byte	.LASF22
+ 468 01ec 06       		.byte	0x6
+ 469 01ed 29       		.byte	0x29
+ 470 01ee 81000000 		.4byte	0x81
+ 471 01f2 05       		.uleb128 0x5
+ 472 01f3 03       		.byte	0x3
+ 473 01f4 00000000 		.4byte	NewGPSData
+ 474 01f8 12       		.uleb128 0x12
+ 475 01f9 5C000000 		.4byte	.LASF23
+ 476 01fd 5C000000 		.4byte	.LASF23
+ 477 0201 07       		.byte	0x7
+ 478 0202 54       		.byte	0x54
+ 479 0203 12       		.uleb128 0x12
+ 480 0204 6D020000 		.4byte	.LASF24
+ 481 0208 6D020000 		.4byte	.LASF24
+ 482 020c 08       		.byte	0x8
+ 483 020d 76       		.byte	0x76
+ 484 020e 12       		.uleb128 0x12
+ 485 020f 40010000 		.4byte	.LASF25
+ 486 0213 40010000 		.4byte	.LASF25
+ 487 0217 07       		.byte	0x7
+ 488 0218 8B       		.byte	0x8b
+ 489 0219 12       		.uleb128 0x12
+ 490 021a 3A000000 		.4byte	.LASF26
+ 491 021e 3A000000 		.4byte	.LASF26
+ 492 0222 09       		.byte	0x9
+ 493 0223 2F       		.byte	0x2f
+ 494 0224 12       		.uleb128 0x12
+ 495 0225 19000000 		.4byte	.LASF27
+ 496 0229 19000000 		.4byte	.LASF27
+ 497 022d 07       		.byte	0x7
+ 498 022e 75       		.byte	0x75
+ 499 022f 12       		.uleb128 0x12
+ 500 0230 1A010000 		.4byte	.LASF28
+ 501 0234 1A010000 		.4byte	.LASF28
+ 502 0238 07       		.byte	0x7
+ 503 0239 73       		.byte	0x73
+ 504 023a 12       		.uleb128 0x12
+ 505 023b 72010000 		.4byte	.LASF29
+ 506 023f 72010000 		.4byte	.LASF29
+ 507 0243 07       		.byte	0x7
+ 508 0244 71       		.byte	0x71
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 12
+
+
+ 509 0245 00       		.byte	0
+ 510              		.section	.debug_abbrev,"",%progbits
+ 511              	.Ldebug_abbrev0:
+ 512 0000 01       		.uleb128 0x1
+ 513 0001 11       		.uleb128 0x11
+ 514 0002 01       		.byte	0x1
+ 515 0003 25       		.uleb128 0x25
+ 516 0004 0E       		.uleb128 0xe
+ 517 0005 13       		.uleb128 0x13
+ 518 0006 0B       		.uleb128 0xb
+ 519 0007 03       		.uleb128 0x3
+ 520 0008 0E       		.uleb128 0xe
+ 521 0009 1B       		.uleb128 0x1b
+ 522 000a 0E       		.uleb128 0xe
+ 523 000b 55       		.uleb128 0x55
+ 524 000c 17       		.uleb128 0x17
+ 525 000d 11       		.uleb128 0x11
+ 526 000e 01       		.uleb128 0x1
+ 527 000f 10       		.uleb128 0x10
+ 528 0010 17       		.uleb128 0x17
+ 529 0011 00       		.byte	0
+ 530 0012 00       		.byte	0
+ 531 0013 02       		.uleb128 0x2
+ 532 0014 24       		.uleb128 0x24
+ 533 0015 00       		.byte	0
+ 534 0016 0B       		.uleb128 0xb
+ 535 0017 0B       		.uleb128 0xb
+ 536 0018 3E       		.uleb128 0x3e
+ 537 0019 0B       		.uleb128 0xb
+ 538 001a 03       		.uleb128 0x3
+ 539 001b 0E       		.uleb128 0xe
+ 540 001c 00       		.byte	0
+ 541 001d 00       		.byte	0
+ 542 001e 03       		.uleb128 0x3
+ 543 001f 16       		.uleb128 0x16
+ 544 0020 00       		.byte	0
+ 545 0021 03       		.uleb128 0x3
+ 546 0022 0E       		.uleb128 0xe
+ 547 0023 3A       		.uleb128 0x3a
+ 548 0024 0B       		.uleb128 0xb
+ 549 0025 3B       		.uleb128 0x3b
+ 550 0026 0B       		.uleb128 0xb
+ 551 0027 49       		.uleb128 0x49
+ 552 0028 13       		.uleb128 0x13
+ 553 0029 00       		.byte	0
+ 554 002a 00       		.byte	0
+ 555 002b 04       		.uleb128 0x4
+ 556 002c 24       		.uleb128 0x24
+ 557 002d 00       		.byte	0
+ 558 002e 0B       		.uleb128 0xb
+ 559 002f 0B       		.uleb128 0xb
+ 560 0030 3E       		.uleb128 0x3e
+ 561 0031 0B       		.uleb128 0xb
+ 562 0032 03       		.uleb128 0x3
+ 563 0033 08       		.uleb128 0x8
+ 564 0034 00       		.byte	0
+ 565 0035 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 13
+
+
+ 566 0036 05       		.uleb128 0x5
+ 567 0037 16       		.uleb128 0x16
+ 568 0038 00       		.byte	0
+ 569 0039 03       		.uleb128 0x3
+ 570 003a 0E       		.uleb128 0xe
+ 571 003b 3A       		.uleb128 0x3a
+ 572 003c 0B       		.uleb128 0xb
+ 573 003d 3B       		.uleb128 0x3b
+ 574 003e 05       		.uleb128 0x5
+ 575 003f 49       		.uleb128 0x49
+ 576 0040 13       		.uleb128 0x13
+ 577 0041 00       		.byte	0
+ 578 0042 00       		.byte	0
+ 579 0043 06       		.uleb128 0x6
+ 580 0044 2E       		.uleb128 0x2e
+ 581 0045 01       		.byte	0x1
+ 582 0046 3F       		.uleb128 0x3f
+ 583 0047 19       		.uleb128 0x19
+ 584 0048 03       		.uleb128 0x3
+ 585 0049 0E       		.uleb128 0xe
+ 586 004a 3A       		.uleb128 0x3a
+ 587 004b 0B       		.uleb128 0xb
+ 588 004c 3B       		.uleb128 0x3b
+ 589 004d 0B       		.uleb128 0xb
+ 590 004e 11       		.uleb128 0x11
+ 591 004f 01       		.uleb128 0x1
+ 592 0050 12       		.uleb128 0x12
+ 593 0051 06       		.uleb128 0x6
+ 594 0052 40       		.uleb128 0x40
+ 595 0053 18       		.uleb128 0x18
+ 596 0054 9742     		.uleb128 0x2117
+ 597 0056 19       		.uleb128 0x19
+ 598 0057 01       		.uleb128 0x1
+ 599 0058 13       		.uleb128 0x13
+ 600 0059 00       		.byte	0
+ 601 005a 00       		.byte	0
+ 602 005b 07       		.uleb128 0x7
+ 603 005c 898201   		.uleb128 0x4109
+ 604 005f 00       		.byte	0
+ 605 0060 11       		.uleb128 0x11
+ 606 0061 01       		.uleb128 0x1
+ 607 0062 31       		.uleb128 0x31
+ 608 0063 13       		.uleb128 0x13
+ 609 0064 00       		.byte	0
+ 610 0065 00       		.byte	0
+ 611 0066 08       		.uleb128 0x8
+ 612 0067 898201   		.uleb128 0x4109
+ 613 006a 01       		.byte	0x1
+ 614 006b 11       		.uleb128 0x11
+ 615 006c 01       		.uleb128 0x1
+ 616 006d 31       		.uleb128 0x31
+ 617 006e 13       		.uleb128 0x13
+ 618 006f 01       		.uleb128 0x1
+ 619 0070 13       		.uleb128 0x13
+ 620 0071 00       		.byte	0
+ 621 0072 00       		.byte	0
+ 622 0073 09       		.uleb128 0x9
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 14
+
+
+ 623 0074 8A8201   		.uleb128 0x410a
+ 624 0077 00       		.byte	0
+ 625 0078 02       		.uleb128 0x2
+ 626 0079 18       		.uleb128 0x18
+ 627 007a 9142     		.uleb128 0x2111
+ 628 007c 18       		.uleb128 0x18
+ 629 007d 00       		.byte	0
+ 630 007e 00       		.byte	0
+ 631 007f 0A       		.uleb128 0xa
+ 632 0080 898201   		.uleb128 0x4109
+ 633 0083 00       		.byte	0
+ 634 0084 11       		.uleb128 0x11
+ 635 0085 01       		.uleb128 0x1
+ 636 0086 9542     		.uleb128 0x2115
+ 637 0088 19       		.uleb128 0x19
+ 638 0089 31       		.uleb128 0x31
+ 639 008a 13       		.uleb128 0x13
+ 640 008b 00       		.byte	0
+ 641 008c 00       		.byte	0
+ 642 008d 0B       		.uleb128 0xb
+ 643 008e 34       		.uleb128 0x34
+ 644 008f 00       		.byte	0
+ 645 0090 03       		.uleb128 0x3
+ 646 0091 0E       		.uleb128 0xe
+ 647 0092 3A       		.uleb128 0x3a
+ 648 0093 0B       		.uleb128 0xb
+ 649 0094 3B       		.uleb128 0x3b
+ 650 0095 0B       		.uleb128 0xb
+ 651 0096 49       		.uleb128 0x49
+ 652 0097 13       		.uleb128 0x13
+ 653 0098 00       		.byte	0
+ 654 0099 00       		.byte	0
+ 655 009a 0C       		.uleb128 0xc
+ 656 009b 34       		.uleb128 0x34
+ 657 009c 00       		.byte	0
+ 658 009d 03       		.uleb128 0x3
+ 659 009e 08       		.uleb128 0x8
+ 660 009f 3A       		.uleb128 0x3a
+ 661 00a0 0B       		.uleb128 0xb
+ 662 00a1 3B       		.uleb128 0x3b
+ 663 00a2 0B       		.uleb128 0xb
+ 664 00a3 49       		.uleb128 0x49
+ 665 00a4 13       		.uleb128 0x13
+ 666 00a5 02       		.uleb128 0x2
+ 667 00a6 17       		.uleb128 0x17
+ 668 00a7 00       		.byte	0
+ 669 00a8 00       		.byte	0
+ 670 00a9 0D       		.uleb128 0xd
+ 671 00aa 34       		.uleb128 0x34
+ 672 00ab 00       		.byte	0
+ 673 00ac 03       		.uleb128 0x3
+ 674 00ad 0E       		.uleb128 0xe
+ 675 00ae 3A       		.uleb128 0x3a
+ 676 00af 0B       		.uleb128 0xb
+ 677 00b0 3B       		.uleb128 0x3b
+ 678 00b1 05       		.uleb128 0x5
+ 679 00b2 49       		.uleb128 0x49
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 15
+
+
+ 680 00b3 13       		.uleb128 0x13
+ 681 00b4 3F       		.uleb128 0x3f
+ 682 00b5 19       		.uleb128 0x19
+ 683 00b6 3C       		.uleb128 0x3c
+ 684 00b7 19       		.uleb128 0x19
+ 685 00b8 00       		.byte	0
+ 686 00b9 00       		.byte	0
+ 687 00ba 0E       		.uleb128 0xe
+ 688 00bb 35       		.uleb128 0x35
+ 689 00bc 00       		.byte	0
+ 690 00bd 49       		.uleb128 0x49
+ 691 00be 13       		.uleb128 0x13
+ 692 00bf 00       		.byte	0
+ 693 00c0 00       		.byte	0
+ 694 00c1 0F       		.uleb128 0xf
+ 695 00c2 01       		.uleb128 0x1
+ 696 00c3 01       		.byte	0x1
+ 697 00c4 49       		.uleb128 0x49
+ 698 00c5 13       		.uleb128 0x13
+ 699 00c6 01       		.uleb128 0x1
+ 700 00c7 13       		.uleb128 0x13
+ 701 00c8 00       		.byte	0
+ 702 00c9 00       		.byte	0
+ 703 00ca 10       		.uleb128 0x10
+ 704 00cb 21       		.uleb128 0x21
+ 705 00cc 00       		.byte	0
+ 706 00cd 49       		.uleb128 0x49
+ 707 00ce 13       		.uleb128 0x13
+ 708 00cf 2F       		.uleb128 0x2f
+ 709 00d0 0B       		.uleb128 0xb
+ 710 00d1 00       		.byte	0
+ 711 00d2 00       		.byte	0
+ 712 00d3 11       		.uleb128 0x11
+ 713 00d4 34       		.uleb128 0x34
+ 714 00d5 00       		.byte	0
+ 715 00d6 03       		.uleb128 0x3
+ 716 00d7 0E       		.uleb128 0xe
+ 717 00d8 3A       		.uleb128 0x3a
+ 718 00d9 0B       		.uleb128 0xb
+ 719 00da 3B       		.uleb128 0x3b
+ 720 00db 0B       		.uleb128 0xb
+ 721 00dc 49       		.uleb128 0x49
+ 722 00dd 13       		.uleb128 0x13
+ 723 00de 3F       		.uleb128 0x3f
+ 724 00df 19       		.uleb128 0x19
+ 725 00e0 02       		.uleb128 0x2
+ 726 00e1 18       		.uleb128 0x18
+ 727 00e2 00       		.byte	0
+ 728 00e3 00       		.byte	0
+ 729 00e4 12       		.uleb128 0x12
+ 730 00e5 2E       		.uleb128 0x2e
+ 731 00e6 00       		.byte	0
+ 732 00e7 3F       		.uleb128 0x3f
+ 733 00e8 19       		.uleb128 0x19
+ 734 00e9 3C       		.uleb128 0x3c
+ 735 00ea 19       		.uleb128 0x19
+ 736 00eb 6E       		.uleb128 0x6e
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 16
+
+
+ 737 00ec 0E       		.uleb128 0xe
+ 738 00ed 03       		.uleb128 0x3
+ 739 00ee 0E       		.uleb128 0xe
+ 740 00ef 3A       		.uleb128 0x3a
+ 741 00f0 0B       		.uleb128 0xb
+ 742 00f1 3B       		.uleb128 0x3b
+ 743 00f2 0B       		.uleb128 0xb
+ 744 00f3 00       		.byte	0
+ 745 00f4 00       		.byte	0
+ 746 00f5 00       		.byte	0
+ 747              		.section	.debug_loc,"",%progbits
+ 748              	.Ldebug_loc0:
+ 749              	.LLST0:
+ 750 0000 00000000 		.4byte	.LVL8
+ 751 0004 18000000 		.4byte	.LVL10
+ 752 0008 0200     		.2byte	0x2
+ 753 000a 30       		.byte	0x30
+ 754 000b 9F       		.byte	0x9f
+ 755 000c 1E000000 		.4byte	.LVL12
+ 756 0010 4A000000 		.4byte	.LVL14
+ 757 0014 0100     		.2byte	0x1
+ 758 0016 54       		.byte	0x54
+ 759 0017 4A000000 		.4byte	.LVL14
+ 760 001b 4C000000 		.4byte	.LVL15
+ 761 001f 0300     		.2byte	0x3
+ 762 0021 75       		.byte	0x75
+ 763 0022 01       		.sleb128 1
+ 764 0023 9F       		.byte	0x9f
+ 765 0024 4C000000 		.4byte	.LVL15
+ 766 0028 4E000000 		.4byte	.LVL16
+ 767 002c 0300     		.2byte	0x3
+ 768 002e 74       		.byte	0x74
+ 769 002f 01       		.sleb128 1
+ 770 0030 9F       		.byte	0x9f
+ 771 0031 4E000000 		.4byte	.LVL16
+ 772 0035 56000000 		.4byte	.LVL17
+ 773 0039 0100     		.2byte	0x1
+ 774 003b 54       		.byte	0x54
+ 775 003c 58000000 		.4byte	.LVL18
+ 776 0040 66000000 		.4byte	.LVL19
+ 777 0044 0100     		.2byte	0x1
+ 778 0046 54       		.byte	0x54
+ 779 0047 68000000 		.4byte	.LVL20
+ 780 004b 6E000000 		.4byte	.LVL21
+ 781 004f 0100     		.2byte	0x1
+ 782 0051 54       		.byte	0x54
+ 783 0052 00000000 		.4byte	0
+ 784 0056 00000000 		.4byte	0
+ 785              		.section	.debug_aranges,"",%progbits
+ 786 0000 24000000 		.4byte	0x24
+ 787 0004 0200     		.2byte	0x2
+ 788 0006 00000000 		.4byte	.Ldebug_info0
+ 789 000a 04       		.byte	0x4
+ 790 000b 00       		.byte	0
+ 791 000c 0000     		.2byte	0
+ 792 000e 0000     		.2byte	0
+ 793 0010 00000000 		.4byte	.LFB63
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 17
+
+
+ 794 0014 3C000000 		.4byte	.LFE63-.LFB63
+ 795 0018 00000000 		.4byte	.LFB64
+ 796 001c 80000000 		.4byte	.LFE64-.LFB64
+ 797 0020 00000000 		.4byte	0
+ 798 0024 00000000 		.4byte	0
+ 799              		.section	.debug_ranges,"",%progbits
+ 800              	.Ldebug_ranges0:
+ 801 0000 00000000 		.4byte	.LFB63
+ 802 0004 3C000000 		.4byte	.LFE63
+ 803 0008 00000000 		.4byte	.LFB64
+ 804 000c 80000000 		.4byte	.LFE64
+ 805 0010 00000000 		.4byte	0
+ 806 0014 00000000 		.4byte	0
+ 807              		.section	.debug_line,"",%progbits
+ 808              	.Ldebug_line0:
+ 809 0000 05020000 		.section	.debug_str,"MS",%progbits,1
+ 809      02009301 
+ 809      00000201 
+ 809      FB0E0D00 
+ 809      01010101 
+ 810              	.LASF31:
+ 811 0000 41646166 		.ascii	"Adafruit_GPS.c\000"
+ 811      72756974 
+ 811      5F475053 
+ 811      2E6300
+ 812              	.LASF9:
+ 813 000f 5F5F696E 		.ascii	"__int32_t\000"
+ 813      7433325F 
+ 813      7400
+ 814              	.LASF27:
+ 815 0019 55415254 		.ascii	"UART_GPS_ClearRxBuffer\000"
+ 815      5F475053 
+ 815      5F436C65 
+ 815      61725278 
+ 815      42756666 
+ 816              	.LASF17:
+ 817 0030 4750535F 		.ascii	"GPS_Start\000"
+ 817      53746172 
+ 817      7400
+ 818              	.LASF26:
+ 819 003a 436C6F63 		.ascii	"Clock_UART_GPS_SetDividerRegister\000"
+ 819      6B5F5541 
+ 819      52545F47 
+ 819      50535F53 
+ 819      65744469 
+ 820              	.LASF23:
+ 821 005c 55415254 		.ascii	"UART_GPS_Start\000"
+ 821      5F475053 
+ 821      5F537461 
+ 821      727400
+ 822              	.LASF12:
+ 823 006b 666C6F61 		.ascii	"float\000"
+ 823      7400
+ 824              	.LASF18:
+ 825 0071 4750535F 		.ascii	"GPS_Refresh\000"
+ 825      52656672 
+ 825      65736800 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 18
+
+
+ 826              	.LASF1:
+ 827 007d 756E7369 		.ascii	"unsigned char\000"
+ 827      676E6564 
+ 827      20636861 
+ 827      7200
+ 828              	.LASF5:
+ 829 008b 6C6F6E67 		.ascii	"long unsigned int\000"
+ 829      20756E73 
+ 829      69676E65 
+ 829      6420696E 
+ 829      7400
+ 830              	.LASF33:
+ 831 009d 74656D70 		.ascii	"temp\000"
+ 831      00
+ 832              	.LASF3:
+ 833 00a2 73686F72 		.ascii	"short unsigned int\000"
+ 833      7420756E 
+ 833      7369676E 
+ 833      65642069 
+ 833      6E7400
+ 834              	.LASF32:
+ 835 00b5 433A5C55 		.ascii	"C:\\Users\\Nathan\\Documents\\MyBuilds\\Flight Cont"
+ 835      73657273 
+ 835      5C4E6174 
+ 835      68616E5C 
+ 835      446F6375 
+ 836 00e3 726F6C6C 		.ascii	"roller\\ServoControl.cydsn\000"
+ 836      65725C53 
+ 836      6572766F 
+ 836      436F6E74 
+ 836      726F6C2E 
+ 837              	.LASF4:
+ 838 00fd 6C6F6E67 		.ascii	"long int\000"
+ 838      20696E74 
+ 838      00
+ 839              	.LASF19:
+ 840 0106 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 840      52784275 
+ 840      66666572 
+ 840      00
+ 841              	.LASF13:
+ 842 0113 646F7562 		.ascii	"double\000"
+ 842      6C6500
+ 843              	.LASF28:
+ 844 011a 55415254 		.ascii	"UART_GPS_GetRxBufferSize\000"
+ 844      5F475053 
+ 844      5F476574 
+ 844      52784275 
+ 844      66666572 
+ 845              	.LASF8:
+ 846 0133 756E7369 		.ascii	"unsigned int\000"
+ 846      676E6564 
+ 846      20696E74 
+ 846      00
+ 847              	.LASF25:
+ 848 0140 55415254 		.ascii	"UART_GPS_PutString\000"
+ 848      5F475053 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 19
+
+
+ 848      5F507574 
+ 848      53747269 
+ 848      6E6700
+ 849              	.LASF7:
+ 850 0153 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 850      206C6F6E 
+ 850      6720756E 
+ 850      7369676E 
+ 850      65642069 
+ 851              	.LASF10:
+ 852 016a 696E7433 		.ascii	"int32_t\000"
+ 852      325F7400 
+ 853              	.LASF29:
+ 854 0172 55415254 		.ascii	"UART_GPS_GetChar\000"
+ 854      5F475053 
+ 854      5F476574 
+ 854      43686172 
+ 854      00
+ 855              	.LASF16:
+ 856 0183 73697A65 		.ascii	"sizetype\000"
+ 856      74797065 
+ 856      00
+ 857              	.LASF6:
+ 858 018c 6C6F6E67 		.ascii	"long long int\000"
+ 858      206C6F6E 
+ 858      6720696E 
+ 858      7400
+ 859              	.LASF14:
+ 860 019a 63686172 		.ascii	"char\000"
+ 860      00
+ 861              	.LASF2:
+ 862 019f 73686F72 		.ascii	"short int\000"
+ 862      7420696E 
+ 862      7400
+ 863              	.LASF22:
+ 864 01a9 4E657747 		.ascii	"NewGPSData\000"
+ 864      50534461 
+ 864      746100
+ 865              	.LASF11:
+ 866 01b4 75696E74 		.ascii	"uint8\000"
+ 866      3800
+ 867              	.LASF30:
+ 868 01ba 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 868      43313120 
+ 868      352E342E 
+ 868      31203230 
+ 868      31363036 
+ 869 01ed 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 869      20726576 
+ 869      6973696F 
+ 869      6E203233 
+ 869      37373135 
+ 870 0220 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 870      66756E63 
+ 870      74696F6E 
+ 870      2D736563 
+ 870      74696F6E 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccRwkaXc.s 			page 20
+
+
+ 871              	.LASF21:
+ 872 0248 4750535F 		.ascii	"GPS_GGA_Data\000"
+ 872      4747415F 
+ 872      44617461 
+ 872      00
+ 873              	.LASF15:
+ 874 0255 6C6F6E67 		.ascii	"long double\000"
+ 874      20646F75 
+ 874      626C6500 
+ 875              	.LASF0:
+ 876 0261 7369676E 		.ascii	"signed char\000"
+ 876      65642063 
+ 876      68617200 
+ 877              	.LASF24:
+ 878 026d 43794465 		.ascii	"CyDelay\000"
+ 878      6C617900 
+ 879              	.LASF20:
+ 880 0275 4750535F 		.ascii	"GPS_RMC_Data\000"
+ 880      524D435F 
+ 880      44617461 
+ 880      00
+ 881              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran

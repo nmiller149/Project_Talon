@@ -1,0 +1,798 @@
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 4
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"emFile_1_PM.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.emFile_1_SaveConfig,"ax",%progbits
+  20              		.align	1
+  21              		.global	emFile_1_SaveConfig
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	emFile_1_SaveConfig, %function
+  25              	emFile_1_SaveConfig:
+  26              	.LFB68:
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30              		@ link register save eliminated.
+  31 0000 FFF7FEBF 		b	emFile_1_SPI0_SaveConfig
+  32              		.cfi_endproc
+  33              	.LFE68:
+  34              		.size	emFile_1_SaveConfig, .-emFile_1_SaveConfig
+  35              		.section	.text.emFile_1_RestoreConfig,"ax",%progbits
+  36              		.align	1
+  37              		.global	emFile_1_RestoreConfig
+  38              		.thumb
+  39              		.thumb_func
+  40              		.type	emFile_1_RestoreConfig, %function
+  41              	emFile_1_RestoreConfig:
+  42              	.LFB64:
+  43              		.file 1 "Generated_Source\\PSoC5\\emFile_1_PM.c"
+   1:Generated_Source\PSoC5/emFile_1_PM.c **** /*******************************************************************************
+   2:Generated_Source\PSoC5/emFile_1_PM.c **** * File Name: emFile_1_PM.c
+   3:Generated_Source\PSoC5/emFile_1_PM.c **** * Version 1.20
+   4:Generated_Source\PSoC5/emFile_1_PM.c **** *
+   5:Generated_Source\PSoC5/emFile_1_PM.c **** * Description:
+   6:Generated_Source\PSoC5/emFile_1_PM.c **** *  This file provides the API source code for Power Management of the emFile
+   7:Generated_Source\PSoC5/emFile_1_PM.c **** *  component.
+   8:Generated_Source\PSoC5/emFile_1_PM.c **** *
+   9:Generated_Source\PSoC5/emFile_1_PM.c **** * Note:
+  10:Generated_Source\PSoC5/emFile_1_PM.c **** *
+  11:Generated_Source\PSoC5/emFile_1_PM.c **** *******************************************************************************
+  12:Generated_Source\PSoC5/emFile_1_PM.c **** * Copyright 2011-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  13:Generated_Source\PSoC5/emFile_1_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:Generated_Source\PSoC5/emFile_1_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 2
+
+
+  15:Generated_Source\PSoC5/emFile_1_PM.c **** * the software package with which this file was provided.
+  16:Generated_Source\PSoC5/emFile_1_PM.c **** *******************************************************************************/
+  17:Generated_Source\PSoC5/emFile_1_PM.c **** 
+  18:Generated_Source\PSoC5/emFile_1_PM.c **** #include <project.h>
+  19:Generated_Source\PSoC5/emFile_1_PM.c **** #include "emFile_1.h"
+  20:Generated_Source\PSoC5/emFile_1_PM.c **** 
+  21:Generated_Source\PSoC5/emFile_1_PM.c **** 
+  22:Generated_Source\PSoC5/emFile_1_PM.c **** /*******************************************************************************
+  23:Generated_Source\PSoC5/emFile_1_PM.c **** * Function Name: emFile_1_SaveConfig
+  24:Generated_Source\PSoC5/emFile_1_PM.c **** ********************************************************************************
+  25:Generated_Source\PSoC5/emFile_1_PM.c **** *
+  26:Generated_Source\PSoC5/emFile_1_PM.c **** * Summary:
+  27:Generated_Source\PSoC5/emFile_1_PM.c **** *  Saves SPI Masters configuration.
+  28:Generated_Source\PSoC5/emFile_1_PM.c **** *
+  29:Generated_Source\PSoC5/emFile_1_PM.c **** * Parameters:
+  30:Generated_Source\PSoC5/emFile_1_PM.c **** *  None
+  31:Generated_Source\PSoC5/emFile_1_PM.c **** *
+  32:Generated_Source\PSoC5/emFile_1_PM.c **** * Return:
+  33:Generated_Source\PSoC5/emFile_1_PM.c **** *  None
+  34:Generated_Source\PSoC5/emFile_1_PM.c **** *
+  35:Generated_Source\PSoC5/emFile_1_PM.c **** * Reentrant:
+  36:Generated_Source\PSoC5/emFile_1_PM.c **** *  No
+  37:Generated_Source\PSoC5/emFile_1_PM.c **** *
+  38:Generated_Source\PSoC5/emFile_1_PM.c **** *******************************************************************************/
+  39:Generated_Source\PSoC5/emFile_1_PM.c **** void emFile_1_SaveConfig(void) 
+  40:Generated_Source\PSoC5/emFile_1_PM.c **** {
+  41:Generated_Source\PSoC5/emFile_1_PM.c ****     #if(emFile_1_NUMBER_SD_CARDS == 4u)
+  42:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_SaveConfig();
+  43:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI1_SaveConfig();
+  44:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI2_SaveConfig();
+  45:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI3_SaveConfig();
+  46:Generated_Source\PSoC5/emFile_1_PM.c ****     #elif(emFile_1_NUMBER_SD_CARDS == 3u)
+  47:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_SaveConfig();
+  48:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI1_SaveConfig();
+  49:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI2_SaveConfig();
+  50:Generated_Source\PSoC5/emFile_1_PM.c ****     #elif(emFile_1_NUMBER_SD_CARDS == 2u)
+  51:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_SaveConfig();
+  52:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI1_SaveConfig();
+  53:Generated_Source\PSoC5/emFile_1_PM.c ****     #else
+  54:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_SaveConfig();
+  55:Generated_Source\PSoC5/emFile_1_PM.c ****     #endif /* (emFile_1_NUMBER_SD_CARDS == 4u) */
+  56:Generated_Source\PSoC5/emFile_1_PM.c **** }
+  57:Generated_Source\PSoC5/emFile_1_PM.c **** 
+  58:Generated_Source\PSoC5/emFile_1_PM.c **** 
+  59:Generated_Source\PSoC5/emFile_1_PM.c **** /*******************************************************************************
+  60:Generated_Source\PSoC5/emFile_1_PM.c **** * Function Name: emFile_1_RestoreConfig
+  61:Generated_Source\PSoC5/emFile_1_PM.c **** ********************************************************************************
+  62:Generated_Source\PSoC5/emFile_1_PM.c **** *
+  63:Generated_Source\PSoC5/emFile_1_PM.c **** * Summary:
+  64:Generated_Source\PSoC5/emFile_1_PM.c **** *  Restores SPI Masters configuration.
+  65:Generated_Source\PSoC5/emFile_1_PM.c **** *
+  66:Generated_Source\PSoC5/emFile_1_PM.c **** * Parameters:
+  67:Generated_Source\PSoC5/emFile_1_PM.c **** *  None
+  68:Generated_Source\PSoC5/emFile_1_PM.c **** *
+  69:Generated_Source\PSoC5/emFile_1_PM.c **** * Return:
+  70:Generated_Source\PSoC5/emFile_1_PM.c **** *  None
+  71:Generated_Source\PSoC5/emFile_1_PM.c **** *
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 3
+
+
+  72:Generated_Source\PSoC5/emFile_1_PM.c **** * Side Effects:
+  73:Generated_Source\PSoC5/emFile_1_PM.c **** *  If this API is called without first calling SaveConfig then in the following
+  74:Generated_Source\PSoC5/emFile_1_PM.c **** *  registers will be default values from Customizer:
+  75:Generated_Source\PSoC5/emFile_1_PM.c **** *
+  76:Generated_Source\PSoC5/emFile_1_PM.c **** *******************************************************************************/
+  77:Generated_Source\PSoC5/emFile_1_PM.c **** void emFile_1_RestoreConfig(void) 
+  78:Generated_Source\PSoC5/emFile_1_PM.c **** {
+  44              		.loc 1 78 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  79:Generated_Source\PSoC5/emFile_1_PM.c ****     #if(emFile_1_NUMBER_SD_CARDS == 4u)
+  80:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_RestoreConfig();
+  81:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI1_RestoreConfig();
+  82:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI2_RestoreConfig();
+  83:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI3_RestoreConfig();
+  84:Generated_Source\PSoC5/emFile_1_PM.c ****     #elif(emFile_1_NUMBER_SD_CARDS == 3u)
+  85:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_SaveConfig();
+  86:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI1_SaveConfig();
+  87:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI2_SaveConfig();
+  88:Generated_Source\PSoC5/emFile_1_PM.c ****     #elif(emFile_1_NUMBER_SD_CARDS == 2u)
+  89:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_SaveConfig();
+  90:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI1_SaveConfig();
+  91:Generated_Source\PSoC5/emFile_1_PM.c ****     #else
+  92:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_SaveConfig();
+  49              		.loc 1 92 0
+  50 0000 FFF7FEBF 		b	emFile_1_SPI0_SaveConfig
+  51              	.LVL0:
+  52              		.cfi_endproc
+  53              	.LFE64:
+  54              		.size	emFile_1_RestoreConfig, .-emFile_1_RestoreConfig
+  55              		.section	.text.emFile_1_Sleep,"ax",%progbits
+  56              		.align	1
+  57              		.global	emFile_1_Sleep
+  58              		.thumb
+  59              		.thumb_func
+  60              		.type	emFile_1_Sleep, %function
+  61              	emFile_1_Sleep:
+  62              	.LFB65:
+  93:Generated_Source\PSoC5/emFile_1_PM.c ****     #endif /* (emFile_1_NUMBER_SD_CARDS == 4u) */
+  94:Generated_Source\PSoC5/emFile_1_PM.c **** }
+  95:Generated_Source\PSoC5/emFile_1_PM.c **** 
+  96:Generated_Source\PSoC5/emFile_1_PM.c **** 
+  97:Generated_Source\PSoC5/emFile_1_PM.c **** /*******************************************************************************
+  98:Generated_Source\PSoC5/emFile_1_PM.c **** * Function Name: emFile_1_Sleep
+  99:Generated_Source\PSoC5/emFile_1_PM.c **** ********************************************************************************
+ 100:Generated_Source\PSoC5/emFile_1_PM.c **** *
+ 101:Generated_Source\PSoC5/emFile_1_PM.c **** * Summary:
+ 102:Generated_Source\PSoC5/emFile_1_PM.c **** *  Prepare emFile to go to sleep.
+ 103:Generated_Source\PSoC5/emFile_1_PM.c **** *
+ 104:Generated_Source\PSoC5/emFile_1_PM.c **** * Parameters:
+ 105:Generated_Source\PSoC5/emFile_1_PM.c **** *  None
+ 106:Generated_Source\PSoC5/emFile_1_PM.c **** *
+ 107:Generated_Source\PSoC5/emFile_1_PM.c **** * Return:
+ 108:Generated_Source\PSoC5/emFile_1_PM.c **** *  None
+ 109:Generated_Source\PSoC5/emFile_1_PM.c **** *
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 4
+
+
+ 110:Generated_Source\PSoC5/emFile_1_PM.c **** * Reentrant:
+ 111:Generated_Source\PSoC5/emFile_1_PM.c **** *  No
+ 112:Generated_Source\PSoC5/emFile_1_PM.c **** *
+ 113:Generated_Source\PSoC5/emFile_1_PM.c **** *******************************************************************************/
+ 114:Generated_Source\PSoC5/emFile_1_PM.c **** void emFile_1_Sleep(void) 
+ 115:Generated_Source\PSoC5/emFile_1_PM.c **** {
+  63              		.loc 1 115 0
+  64              		.cfi_startproc
+  65              		@ args = 0, pretend = 0, frame = 0
+  66              		@ frame_needed = 0, uses_anonymous_args = 0
+  67              		@ link register save eliminated.
+ 116:Generated_Source\PSoC5/emFile_1_PM.c ****     #if(emFile_1_NUMBER_SD_CARDS == 4u)
+ 117:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_Sleep();
+ 118:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI1_Sleep();
+ 119:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI2_Sleep();
+ 120:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI3_Sleep();
+ 121:Generated_Source\PSoC5/emFile_1_PM.c ****     #elif(emFile_1_NUMBER_SD_CARDS == 3u)
+ 122:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_Sleep();
+ 123:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI1_Sleep();
+ 124:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI2_Sleep();
+ 125:Generated_Source\PSoC5/emFile_1_PM.c ****     #elif(emFile_1_NUMBER_SD_CARDS == 2u)
+ 126:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_Sleep();
+ 127:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI1_Sleep();
+ 128:Generated_Source\PSoC5/emFile_1_PM.c ****     #else
+ 129:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_Sleep();
+  68              		.loc 1 129 0
+  69 0000 FFF7FEBF 		b	emFile_1_SPI0_Sleep
+  70              	.LVL1:
+  71              		.cfi_endproc
+  72              	.LFE65:
+  73              		.size	emFile_1_Sleep, .-emFile_1_Sleep
+  74              		.section	.text.emFile_1_Wakeup,"ax",%progbits
+  75              		.align	1
+  76              		.global	emFile_1_Wakeup
+  77              		.thumb
+  78              		.thumb_func
+  79              		.type	emFile_1_Wakeup, %function
+  80              	emFile_1_Wakeup:
+  81              	.LFB66:
+ 130:Generated_Source\PSoC5/emFile_1_PM.c ****     #endif /* (emFile_1_NUMBER_SD_CARDS == 4u) */
+ 131:Generated_Source\PSoC5/emFile_1_PM.c **** }
+ 132:Generated_Source\PSoC5/emFile_1_PM.c **** 
+ 133:Generated_Source\PSoC5/emFile_1_PM.c **** 
+ 134:Generated_Source\PSoC5/emFile_1_PM.c **** /*******************************************************************************
+ 135:Generated_Source\PSoC5/emFile_1_PM.c **** * Function Name: emFile_1_Wakeup
+ 136:Generated_Source\PSoC5/emFile_1_PM.c **** ********************************************************************************
+ 137:Generated_Source\PSoC5/emFile_1_PM.c **** *
+ 138:Generated_Source\PSoC5/emFile_1_PM.c **** * Summary:
+ 139:Generated_Source\PSoC5/emFile_1_PM.c **** *  Prepare SPIM Components to wake up.
+ 140:Generated_Source\PSoC5/emFile_1_PM.c **** *
+ 141:Generated_Source\PSoC5/emFile_1_PM.c **** * Parameters:
+ 142:Generated_Source\PSoC5/emFile_1_PM.c **** *  None
+ 143:Generated_Source\PSoC5/emFile_1_PM.c **** *
+ 144:Generated_Source\PSoC5/emFile_1_PM.c **** * Return:
+ 145:Generated_Source\PSoC5/emFile_1_PM.c **** *  None
+ 146:Generated_Source\PSoC5/emFile_1_PM.c **** *
+ 147:Generated_Source\PSoC5/emFile_1_PM.c **** * Reentrant:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 5
+
+
+ 148:Generated_Source\PSoC5/emFile_1_PM.c **** *  No
+ 149:Generated_Source\PSoC5/emFile_1_PM.c **** *
+ 150:Generated_Source\PSoC5/emFile_1_PM.c **** *******************************************************************************/
+ 151:Generated_Source\PSoC5/emFile_1_PM.c **** void emFile_1_Wakeup(void) 
+ 152:Generated_Source\PSoC5/emFile_1_PM.c **** {
+  82              		.loc 1 152 0
+  83              		.cfi_startproc
+  84              		@ args = 0, pretend = 0, frame = 0
+  85              		@ frame_needed = 0, uses_anonymous_args = 0
+  86              		@ link register save eliminated.
+ 153:Generated_Source\PSoC5/emFile_1_PM.c ****     #if(emFile_1_NUMBER_SD_CARDS == 4u)
+ 154:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_Wakeup();
+ 155:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI1_Wakeup();
+ 156:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI2_Wakeup();
+ 157:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI3_Wakeup();
+ 158:Generated_Source\PSoC5/emFile_1_PM.c ****     #elif(emFile_1_NUMBER_SD_CARDS == 3u)
+ 159:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_Wakeup();
+ 160:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI1_Wakeup();
+ 161:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI2_Wakeup();
+ 162:Generated_Source\PSoC5/emFile_1_PM.c ****     #elif(emFile_1_NUMBER_SD_CARDS == 2u)
+ 163:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_Wakeup();
+ 164:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI1_Wakeup();
+ 165:Generated_Source\PSoC5/emFile_1_PM.c ****     #else
+ 166:Generated_Source\PSoC5/emFile_1_PM.c ****         emFile_1_SPI0_Wakeup();
+  87              		.loc 1 166 0
+  88 0000 FFF7FEBF 		b	emFile_1_SPI0_Wakeup
+  89              	.LVL2:
+  90              		.cfi_endproc
+  91              	.LFE66:
+  92              		.size	emFile_1_Wakeup, .-emFile_1_Wakeup
+  93              		.text
+  94              	.Letext0:
+  95              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+  96              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\4.1\\psoc creator\\import\\gnu\\arm\\5.4.
+  97              		.file 4 "Generated_Source\\PSoC5/emFile_1_SPI0.h"
+  98              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+  99              		.section	.debug_info,"",%progbits
+ 100              	.Ldebug_info0:
+ 101 0000 36010000 		.4byte	0x136
+ 102 0004 0400     		.2byte	0x4
+ 103 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 104 000a 04       		.byte	0x4
+ 105 000b 01       		.uleb128 0x1
+ 106 000c F5000000 		.4byte	.LASF21
+ 107 0010 0C       		.byte	0xc
+ 108 0011 00000000 		.4byte	.LASF22
+ 109 0015 CD010000 		.4byte	.LASF23
+ 110 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 111 001d 00000000 		.4byte	0
+ 112 0021 00000000 		.4byte	.Ldebug_line0
+ 113 0025 02       		.uleb128 0x2
+ 114 0026 01       		.byte	0x1
+ 115 0027 06       		.byte	0x6
+ 116 0028 90010000 		.4byte	.LASF0
+ 117 002c 02       		.uleb128 0x2
+ 118 002d 01       		.byte	0x1
+ 119 002e 08       		.byte	0x8
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 6
+
+
+ 120 002f 9B000000 		.4byte	.LASF1
+ 121 0033 02       		.uleb128 0x2
+ 122 0034 02       		.byte	0x2
+ 123 0035 05       		.byte	0x5
+ 124 0036 D6000000 		.4byte	.LASF2
+ 125 003a 02       		.uleb128 0x2
+ 126 003b 02       		.byte	0x2
+ 127 003c 07       		.byte	0x7
+ 128 003d 25000000 		.4byte	.LASF3
+ 129 0041 03       		.uleb128 0x3
+ 130 0042 A8010000 		.4byte	.LASF9
+ 131 0046 02       		.byte	0x2
+ 132 0047 3F       		.byte	0x3f
+ 133 0048 4C000000 		.4byte	0x4c
+ 134 004c 02       		.uleb128 0x2
+ 135 004d 04       		.byte	0x4
+ 136 004e 05       		.byte	0x5
+ 137 004f CD000000 		.4byte	.LASF4
+ 138 0053 02       		.uleb128 0x2
+ 139 0054 04       		.byte	0x4
+ 140 0055 07       		.byte	0x7
+ 141 0056 72000000 		.4byte	.LASF5
+ 142 005a 02       		.uleb128 0x2
+ 143 005b 08       		.byte	0x8
+ 144 005c 05       		.byte	0x5
+ 145 005d E7000000 		.4byte	.LASF6
+ 146 0061 02       		.uleb128 0x2
+ 147 0062 08       		.byte	0x8
+ 148 0063 07       		.byte	0x7
+ 149 0064 84000000 		.4byte	.LASF7
+ 150 0068 04       		.uleb128 0x4
+ 151 0069 04       		.byte	0x4
+ 152 006a 05       		.byte	0x5
+ 153 006b 696E7400 		.ascii	"int\000"
+ 154 006f 02       		.uleb128 0x2
+ 155 0070 04       		.byte	0x4
+ 156 0071 07       		.byte	0x7
+ 157 0072 38000000 		.4byte	.LASF8
+ 158 0076 03       		.uleb128 0x3
+ 159 0077 15020000 		.4byte	.LASF10
+ 160 007b 03       		.byte	0x3
+ 161 007c 2C       		.byte	0x2c
+ 162 007d 41000000 		.4byte	0x41
+ 163 0081 02       		.uleb128 0x2
+ 164 0082 04       		.byte	0x4
+ 165 0083 04       		.byte	0x4
+ 166 0084 B2010000 		.4byte	.LASF11
+ 167 0088 02       		.uleb128 0x2
+ 168 0089 08       		.byte	0x8
+ 169 008a 04       		.byte	0x4
+ 170 008b E0000000 		.4byte	.LASF12
+ 171 008f 02       		.uleb128 0x2
+ 172 0090 01       		.byte	0x1
+ 173 0091 08       		.byte	0x8
+ 174 0092 B8000000 		.4byte	.LASF13
+ 175 0096 02       		.uleb128 0x2
+ 176 0097 08       		.byte	0x8
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 7
+
+
+ 177 0098 04       		.byte	0x4
+ 178 0099 9C010000 		.4byte	.LASF14
+ 179 009d 02       		.uleb128 0x2
+ 180 009e 04       		.byte	0x4
+ 181 009f 07       		.byte	0x7
+ 182 00a0 1D020000 		.4byte	.LASF15
+ 183 00a4 05       		.uleb128 0x5
+ 184 00a5 26020000 		.4byte	.LASF24
+ 185 00a9 01       		.byte	0x1
+ 186 00aa 4D       		.byte	0x4d
+ 187 00ab 01       		.byte	0x1
+ 188 00ac 06       		.uleb128 0x6
+ 189 00ad A4000000 		.4byte	0xa4
+ 190 00b1 00000000 		.4byte	.LFB64
+ 191 00b5 04000000 		.4byte	.LFE64-.LFB64
+ 192 00b9 01       		.uleb128 0x1
+ 193 00ba 9C       		.byte	0x9c
+ 194 00bb C9000000 		.4byte	0xc9
+ 195 00bf 07       		.uleb128 0x7
+ 196 00c0 04000000 		.4byte	.LVL0
+ 197 00c4 18010000 		.4byte	0x118
+ 198 00c8 00       		.byte	0
+ 199 00c9 08       		.uleb128 0x8
+ 200 00ca A9000000 		.4byte	.LASF16
+ 201 00ce 01       		.byte	0x1
+ 202 00cf 72       		.byte	0x72
+ 203 00d0 00000000 		.4byte	.LFB65
+ 204 00d4 04000000 		.4byte	.LFE65-.LFB65
+ 205 00d8 01       		.uleb128 0x1
+ 206 00d9 9C       		.byte	0x9c
+ 207 00da E8000000 		.4byte	0xe8
+ 208 00de 07       		.uleb128 0x7
+ 209 00df 04000000 		.4byte	.LVL1
+ 210 00e3 23010000 		.4byte	0x123
+ 211 00e7 00       		.byte	0
+ 212 00e8 08       		.uleb128 0x8
+ 213 00e9 BD000000 		.4byte	.LASF17
+ 214 00ed 01       		.byte	0x1
+ 215 00ee 97       		.byte	0x97
+ 216 00ef 00000000 		.4byte	.LFB66
+ 217 00f3 04000000 		.4byte	.LFE66-.LFB66
+ 218 00f7 01       		.uleb128 0x1
+ 219 00f8 9C       		.byte	0x9c
+ 220 00f9 07010000 		.4byte	0x107
+ 221 00fd 07       		.uleb128 0x7
+ 222 00fe 04000000 		.4byte	.LVL2
+ 223 0102 2E010000 		.4byte	0x12e
+ 224 0106 00       		.byte	0
+ 225 0107 09       		.uleb128 0x9
+ 226 0108 83010000 		.4byte	.LASF25
+ 227 010c 05       		.byte	0x5
+ 228 010d 1207     		.2byte	0x712
+ 229 010f 13010000 		.4byte	0x113
+ 230 0113 0A       		.uleb128 0xa
+ 231 0114 76000000 		.4byte	0x76
+ 232 0118 0B       		.uleb128 0xb
+ 233 0119 59000000 		.4byte	.LASF18
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 8
+
+
+ 234 011d 59000000 		.4byte	.LASF18
+ 235 0121 04       		.byte	0x4
+ 236 0122 62       		.byte	0x62
+ 237 0123 0B       		.uleb128 0xb
+ 238 0124 45000000 		.4byte	.LASF19
+ 239 0128 45000000 		.4byte	.LASF19
+ 240 012c 04       		.byte	0x4
+ 241 012d 60       		.byte	0x60
+ 242 012e 0B       		.uleb128 0xb
+ 243 012f B8010000 		.4byte	.LASF20
+ 244 0133 B8010000 		.4byte	.LASF20
+ 245 0137 04       		.byte	0x4
+ 246 0138 61       		.byte	0x61
+ 247 0139 00       		.byte	0
+ 248              		.section	.debug_abbrev,"",%progbits
+ 249              	.Ldebug_abbrev0:
+ 250 0000 01       		.uleb128 0x1
+ 251 0001 11       		.uleb128 0x11
+ 252 0002 01       		.byte	0x1
+ 253 0003 25       		.uleb128 0x25
+ 254 0004 0E       		.uleb128 0xe
+ 255 0005 13       		.uleb128 0x13
+ 256 0006 0B       		.uleb128 0xb
+ 257 0007 03       		.uleb128 0x3
+ 258 0008 0E       		.uleb128 0xe
+ 259 0009 1B       		.uleb128 0x1b
+ 260 000a 0E       		.uleb128 0xe
+ 261 000b 55       		.uleb128 0x55
+ 262 000c 17       		.uleb128 0x17
+ 263 000d 11       		.uleb128 0x11
+ 264 000e 01       		.uleb128 0x1
+ 265 000f 10       		.uleb128 0x10
+ 266 0010 17       		.uleb128 0x17
+ 267 0011 00       		.byte	0
+ 268 0012 00       		.byte	0
+ 269 0013 02       		.uleb128 0x2
+ 270 0014 24       		.uleb128 0x24
+ 271 0015 00       		.byte	0
+ 272 0016 0B       		.uleb128 0xb
+ 273 0017 0B       		.uleb128 0xb
+ 274 0018 3E       		.uleb128 0x3e
+ 275 0019 0B       		.uleb128 0xb
+ 276 001a 03       		.uleb128 0x3
+ 277 001b 0E       		.uleb128 0xe
+ 278 001c 00       		.byte	0
+ 279 001d 00       		.byte	0
+ 280 001e 03       		.uleb128 0x3
+ 281 001f 16       		.uleb128 0x16
+ 282 0020 00       		.byte	0
+ 283 0021 03       		.uleb128 0x3
+ 284 0022 0E       		.uleb128 0xe
+ 285 0023 3A       		.uleb128 0x3a
+ 286 0024 0B       		.uleb128 0xb
+ 287 0025 3B       		.uleb128 0x3b
+ 288 0026 0B       		.uleb128 0xb
+ 289 0027 49       		.uleb128 0x49
+ 290 0028 13       		.uleb128 0x13
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 9
+
+
+ 291 0029 00       		.byte	0
+ 292 002a 00       		.byte	0
+ 293 002b 04       		.uleb128 0x4
+ 294 002c 24       		.uleb128 0x24
+ 295 002d 00       		.byte	0
+ 296 002e 0B       		.uleb128 0xb
+ 297 002f 0B       		.uleb128 0xb
+ 298 0030 3E       		.uleb128 0x3e
+ 299 0031 0B       		.uleb128 0xb
+ 300 0032 03       		.uleb128 0x3
+ 301 0033 08       		.uleb128 0x8
+ 302 0034 00       		.byte	0
+ 303 0035 00       		.byte	0
+ 304 0036 05       		.uleb128 0x5
+ 305 0037 2E       		.uleb128 0x2e
+ 306 0038 00       		.byte	0
+ 307 0039 3F       		.uleb128 0x3f
+ 308 003a 19       		.uleb128 0x19
+ 309 003b 03       		.uleb128 0x3
+ 310 003c 0E       		.uleb128 0xe
+ 311 003d 3A       		.uleb128 0x3a
+ 312 003e 0B       		.uleb128 0xb
+ 313 003f 3B       		.uleb128 0x3b
+ 314 0040 0B       		.uleb128 0xb
+ 315 0041 27       		.uleb128 0x27
+ 316 0042 19       		.uleb128 0x19
+ 317 0043 20       		.uleb128 0x20
+ 318 0044 0B       		.uleb128 0xb
+ 319 0045 00       		.byte	0
+ 320 0046 00       		.byte	0
+ 321 0047 06       		.uleb128 0x6
+ 322 0048 2E       		.uleb128 0x2e
+ 323 0049 01       		.byte	0x1
+ 324 004a 31       		.uleb128 0x31
+ 325 004b 13       		.uleb128 0x13
+ 326 004c 11       		.uleb128 0x11
+ 327 004d 01       		.uleb128 0x1
+ 328 004e 12       		.uleb128 0x12
+ 329 004f 06       		.uleb128 0x6
+ 330 0050 40       		.uleb128 0x40
+ 331 0051 18       		.uleb128 0x18
+ 332 0052 9742     		.uleb128 0x2117
+ 333 0054 19       		.uleb128 0x19
+ 334 0055 01       		.uleb128 0x1
+ 335 0056 13       		.uleb128 0x13
+ 336 0057 00       		.byte	0
+ 337 0058 00       		.byte	0
+ 338 0059 07       		.uleb128 0x7
+ 339 005a 898201   		.uleb128 0x4109
+ 340 005d 00       		.byte	0
+ 341 005e 11       		.uleb128 0x11
+ 342 005f 01       		.uleb128 0x1
+ 343 0060 9542     		.uleb128 0x2115
+ 344 0062 19       		.uleb128 0x19
+ 345 0063 31       		.uleb128 0x31
+ 346 0064 13       		.uleb128 0x13
+ 347 0065 00       		.byte	0
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 10
+
+
+ 348 0066 00       		.byte	0
+ 349 0067 08       		.uleb128 0x8
+ 350 0068 2E       		.uleb128 0x2e
+ 351 0069 01       		.byte	0x1
+ 352 006a 3F       		.uleb128 0x3f
+ 353 006b 19       		.uleb128 0x19
+ 354 006c 03       		.uleb128 0x3
+ 355 006d 0E       		.uleb128 0xe
+ 356 006e 3A       		.uleb128 0x3a
+ 357 006f 0B       		.uleb128 0xb
+ 358 0070 3B       		.uleb128 0x3b
+ 359 0071 0B       		.uleb128 0xb
+ 360 0072 27       		.uleb128 0x27
+ 361 0073 19       		.uleb128 0x19
+ 362 0074 11       		.uleb128 0x11
+ 363 0075 01       		.uleb128 0x1
+ 364 0076 12       		.uleb128 0x12
+ 365 0077 06       		.uleb128 0x6
+ 366 0078 40       		.uleb128 0x40
+ 367 0079 18       		.uleb128 0x18
+ 368 007a 9742     		.uleb128 0x2117
+ 369 007c 19       		.uleb128 0x19
+ 370 007d 01       		.uleb128 0x1
+ 371 007e 13       		.uleb128 0x13
+ 372 007f 00       		.byte	0
+ 373 0080 00       		.byte	0
+ 374 0081 09       		.uleb128 0x9
+ 375 0082 34       		.uleb128 0x34
+ 376 0083 00       		.byte	0
+ 377 0084 03       		.uleb128 0x3
+ 378 0085 0E       		.uleb128 0xe
+ 379 0086 3A       		.uleb128 0x3a
+ 380 0087 0B       		.uleb128 0xb
+ 381 0088 3B       		.uleb128 0x3b
+ 382 0089 05       		.uleb128 0x5
+ 383 008a 49       		.uleb128 0x49
+ 384 008b 13       		.uleb128 0x13
+ 385 008c 3F       		.uleb128 0x3f
+ 386 008d 19       		.uleb128 0x19
+ 387 008e 3C       		.uleb128 0x3c
+ 388 008f 19       		.uleb128 0x19
+ 389 0090 00       		.byte	0
+ 390 0091 00       		.byte	0
+ 391 0092 0A       		.uleb128 0xa
+ 392 0093 35       		.uleb128 0x35
+ 393 0094 00       		.byte	0
+ 394 0095 49       		.uleb128 0x49
+ 395 0096 13       		.uleb128 0x13
+ 396 0097 00       		.byte	0
+ 397 0098 00       		.byte	0
+ 398 0099 0B       		.uleb128 0xb
+ 399 009a 2E       		.uleb128 0x2e
+ 400 009b 00       		.byte	0
+ 401 009c 3F       		.uleb128 0x3f
+ 402 009d 19       		.uleb128 0x19
+ 403 009e 3C       		.uleb128 0x3c
+ 404 009f 19       		.uleb128 0x19
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 11
+
+
+ 405 00a0 6E       		.uleb128 0x6e
+ 406 00a1 0E       		.uleb128 0xe
+ 407 00a2 03       		.uleb128 0x3
+ 408 00a3 0E       		.uleb128 0xe
+ 409 00a4 3A       		.uleb128 0x3a
+ 410 00a5 0B       		.uleb128 0xb
+ 411 00a6 3B       		.uleb128 0x3b
+ 412 00a7 0B       		.uleb128 0xb
+ 413 00a8 00       		.byte	0
+ 414 00a9 00       		.byte	0
+ 415 00aa 00       		.byte	0
+ 416              		.section	.debug_aranges,"",%progbits
+ 417 0000 2C000000 		.4byte	0x2c
+ 418 0004 0200     		.2byte	0x2
+ 419 0006 00000000 		.4byte	.Ldebug_info0
+ 420 000a 04       		.byte	0x4
+ 421 000b 00       		.byte	0
+ 422 000c 0000     		.2byte	0
+ 423 000e 0000     		.2byte	0
+ 424 0010 00000000 		.4byte	.LFB64
+ 425 0014 04000000 		.4byte	.LFE64-.LFB64
+ 426 0018 00000000 		.4byte	.LFB65
+ 427 001c 04000000 		.4byte	.LFE65-.LFB65
+ 428 0020 00000000 		.4byte	.LFB66
+ 429 0024 04000000 		.4byte	.LFE66-.LFB66
+ 430 0028 00000000 		.4byte	0
+ 431 002c 00000000 		.4byte	0
+ 432              		.section	.debug_ranges,"",%progbits
+ 433              	.Ldebug_ranges0:
+ 434 0000 00000000 		.4byte	.LFB64
+ 435 0004 04000000 		.4byte	.LFE64
+ 436 0008 00000000 		.4byte	.LFB65
+ 437 000c 04000000 		.4byte	.LFE65
+ 438 0010 00000000 		.4byte	.LFB66
+ 439 0014 04000000 		.4byte	.LFE66
+ 440 0018 00000000 		.4byte	0
+ 441 001c 00000000 		.4byte	0
+ 442              		.section	.debug_line,"",%progbits
+ 443              	.Ldebug_line0:
+ 444 0000 98010000 		.section	.debug_str,"MS",%progbits,1
+ 444      02005901 
+ 444      00000201 
+ 444      FB0E0D00 
+ 444      01010101 
+ 445              	.LASF22:
+ 446 0000 47656E65 		.ascii	"Generated_Source\\PSoC5\\emFile_1_PM.c\000"
+ 446      72617465 
+ 446      645F536F 
+ 446      75726365 
+ 446      5C50536F 
+ 447              	.LASF3:
+ 448 0025 73686F72 		.ascii	"short unsigned int\000"
+ 448      7420756E 
+ 448      7369676E 
+ 448      65642069 
+ 448      6E7400
+ 449              	.LASF8:
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 12
+
+
+ 450 0038 756E7369 		.ascii	"unsigned int\000"
+ 450      676E6564 
+ 450      20696E74 
+ 450      00
+ 451              	.LASF19:
+ 452 0045 656D4669 		.ascii	"emFile_1_SPI0_Sleep\000"
+ 452      6C655F31 
+ 452      5F535049 
+ 452      305F536C 
+ 452      65657000 
+ 453              	.LASF18:
+ 454 0059 656D4669 		.ascii	"emFile_1_SPI0_SaveConfig\000"
+ 454      6C655F31 
+ 454      5F535049 
+ 454      305F5361 
+ 454      7665436F 
+ 455              	.LASF5:
+ 456 0072 6C6F6E67 		.ascii	"long unsigned int\000"
+ 456      20756E73 
+ 456      69676E65 
+ 456      6420696E 
+ 456      7400
+ 457              	.LASF7:
+ 458 0084 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 458      206C6F6E 
+ 458      6720756E 
+ 458      7369676E 
+ 458      65642069 
+ 459              	.LASF1:
+ 460 009b 756E7369 		.ascii	"unsigned char\000"
+ 460      676E6564 
+ 460      20636861 
+ 460      7200
+ 461              	.LASF16:
+ 462 00a9 656D4669 		.ascii	"emFile_1_Sleep\000"
+ 462      6C655F31 
+ 462      5F536C65 
+ 462      657000
+ 463              	.LASF13:
+ 464 00b8 63686172 		.ascii	"char\000"
+ 464      00
+ 465              	.LASF17:
+ 466 00bd 656D4669 		.ascii	"emFile_1_Wakeup\000"
+ 466      6C655F31 
+ 466      5F57616B 
+ 466      65757000 
+ 467              	.LASF4:
+ 468 00cd 6C6F6E67 		.ascii	"long int\000"
+ 468      20696E74 
+ 468      00
+ 469              	.LASF2:
+ 470 00d6 73686F72 		.ascii	"short int\000"
+ 470      7420696E 
+ 470      7400
+ 471              	.LASF12:
+ 472 00e0 646F7562 		.ascii	"double\000"
+ 472      6C6500
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 13
+
+
+ 473              	.LASF6:
+ 474 00e7 6C6F6E67 		.ascii	"long long int\000"
+ 474      206C6F6E 
+ 474      6720696E 
+ 474      7400
+ 475              	.LASF21:
+ 476 00f5 474E5520 		.ascii	"GNU C11 5.4.1 20160609 (release) [ARM/embedded-5-br"
+ 476      43313120 
+ 476      352E342E 
+ 476      31203230 
+ 476      31363036 
+ 477 0128 616E6368 		.ascii	"anch revision 237715] -mcpu=cortex-m3 -mthumb -g -O"
+ 477      20726576 
+ 477      6973696F 
+ 477      6E203233 
+ 477      37373135 
+ 478 015b 73202D66 		.ascii	"s -ffunction-sections -ffat-lto-objects\000"
+ 478      66756E63 
+ 478      74696F6E 
+ 478      2D736563 
+ 478      74696F6E 
+ 479              	.LASF25:
+ 480 0183 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 480      52784275 
+ 480      66666572 
+ 480      00
+ 481              	.LASF0:
+ 482 0190 7369676E 		.ascii	"signed char\000"
+ 482      65642063 
+ 482      68617200 
+ 483              	.LASF14:
+ 484 019c 6C6F6E67 		.ascii	"long double\000"
+ 484      20646F75 
+ 484      626C6500 
+ 485              	.LASF9:
+ 486 01a8 5F5F696E 		.ascii	"__int32_t\000"
+ 486      7433325F 
+ 486      7400
+ 487              	.LASF11:
+ 488 01b2 666C6F61 		.ascii	"float\000"
+ 488      7400
+ 489              	.LASF20:
+ 490 01b8 656D4669 		.ascii	"emFile_1_SPI0_Wakeup\000"
+ 490      6C655F31 
+ 490      5F535049 
+ 490      305F5761 
+ 490      6B657570 
+ 491              	.LASF23:
+ 492 01cd 433A5C55 		.ascii	"C:\\Users\\Nathan\\Documents\\MyBuilds\\Flight Cont"
+ 492      73657273 
+ 492      5C4E6174 
+ 492      68616E5C 
+ 492      446F6375 
+ 493 01fb 726F6C6C 		.ascii	"roller\\ServoControl.cydsn\000"
+ 493      65725C53 
+ 493      6572766F 
+ 493      436F6E74 
+ARM GAS  C:\Users\Nathan\AppData\Local\Temp\ccbKI4SR.s 			page 14
+
+
+ 493      726F6C2E 
+ 494              	.LASF10:
+ 495 0215 696E7433 		.ascii	"int32_t\000"
+ 495      325F7400 
+ 496              	.LASF15:
+ 497 021d 73697A65 		.ascii	"sizetype\000"
+ 497      74797065 
+ 497      00
+ 498              	.LASF24:
+ 499 0226 656D4669 		.ascii	"emFile_1_RestoreConfig\000"
+ 499      6C655F31 
+ 499      5F526573 
+ 499      746F7265 
+ 499      436F6E66 
+ 500              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 5.4.1 20160609 (release) [ARM/embedded-5-bran
