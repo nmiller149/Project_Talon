@@ -1,7 +1,0 @@
-C:\Users\Nathan\Documents\MyBuilds\Flight Controller\ServoControl.cydsn\ServoControl.cyprj|dfe2dc5f-df73-47b9-b612-87534aa76fc3
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\default\CyAnnotationLibrary\CyAnnotationLibrary.cylib\CyAnnotationLibrary.cyprj|fd1fd44a-da1a-4fc8-87bd-43254f4963ba
-C:\Users\Nathan\Documents\PSoC Creator\4.2\Downloads ( 4.2).cylib\Downloads ( 4.2).cyprj|1c09bb8f-2195-42ec-b4de-1953a7bf535f
-C:\Users\Nathan\Documents\PSoC Creator\4.1\Downloads ( 4.1).cylib\Downloads ( 4.1).cyprj|ffa8c445-f969-4206-b192-e99cbd3f0604
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibraryupdates\CyComponentLibraryUpdates.cylib\CyComponentLibraryUpdates.cyprj|bb168c00-d25c-4401-99b6-206f5d8a7011
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CyComponentLibrary.cyprj|dc734cd7-2e7d-4142-b47d-82730860ab61
-C:\Program Files (x86)\Cypress\PSoC Creator\4.2\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\CyPrimitives.cyprj|43af7a9b-40f0-4a6d-82c9-5eca5a8e5b7d
