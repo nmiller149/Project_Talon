@@ -1,0 +1,11 @@
+**/Generated_Source
+**/codegentemp
+**/CortexM3
+*.nmill
+*.log
+*.rpt
+*.svd
+*.html
+**/Export
+*.cycdx
+*.cyfit
