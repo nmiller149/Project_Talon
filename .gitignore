@@ -2,6 +2,7 @@
 **/Archive
 **/codegentemp
 **/CortexM3
+**/.archive
 *.nmill
 *.Nathan
 *.log
@@ -17,7 +18,7 @@ Flight Controller/Module Documents/gui
 #!CortexM3/ARM_GCC_541/Debug/*.elf
 *ComponentUpdateLog.txt
 #**/Talon_01.cydsn
-**/Comm Motor Control Test with Interrupt.cydsn
+#**/Comm Motor Control Test with Interrupt.cydsn
 **/Comm Motor Control Test.cydsn
-**/SensorDataFlow.cydsn
+#**/SensorDataFlow.cydsn
 #**/Source Files
