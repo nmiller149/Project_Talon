@@ -1,7 +1,10 @@
 **/Generated_Source
+**/Archive
 **/codegentemp
 **/CortexM3
+**/.archive
 *.nmill
+*.Nathan
 *.log
 *.rpt
 *.svd
@@ -9,3 +12,10 @@
 **/Export
 *.cycdx
 *.cyfit
+Flight Controller/Module Documents/gui
+Flight Controller/Module Documents
+*/emFile_V322c
+*ComponentUpdateLog.txt
+#**/Talon_01.cydsn
+**/Comm Motor Control Test with Interrupt.cydsn
+**/Comm Motor Control Test.cydsn
