@@ -436,15 +436,16 @@
       <Data key="1ee9ea3c-131f-448f-91b1-c119e4aed679" value="Left_Aileron" />
       <Data key="2cd4e4bf-ac09-420a-a601-99591625591b" value="BMP280_SDI" />
       <Data key="8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba" value="Button" />
+      <Data key="26f45e79-a293-4edb-9c44-a3c635f6e547" value="HW_Serial_TX" />
       <Data key="34cfed22-c960-4363-8ecf-2f6fc0d15200" value="Nine_Axis_Orientation" />
       <Data key="59cfa61a-ec7b-41ca-bd6b-8d32e9c2de69" value="Motor_Speed_Output" />
       <Data key="83b2fde2-60ad-45b6-9e5c-cb3baa6e3f9a" value="BMP280_SCL" />
       <Data key="97ee8c46-6edb-44bf-b337-db8b92b5b89a" value="BMP280_SDO" />
       <Data key="330a31d8-9787-4893-8074-bff420477628" value="HC12_SET" />
       <Data key="1903e7dc-a247-45c5-8724-8c624c0420b5" value="Right_Aileron" />
-      <Data key="6970af2d-fb31-4dee-a222-e95359b4f2a0" value="Right_Stabilizer" />
-      <Data key="964767be-fa75-4320-9106-302e9281cf31" value="GPS_Tx" />
-      <Data key="1425177d-0d0e-4468-8bcc-e638e5509a9b" value="HC12_Rx" />
+      <Data key="6970af2d-fb31-4dee-a222-e95359b4f2a0" value="Right_Elevator" />
+      <Data key="964767be-fa75-4320-9106-302e9281cf31" value="GPS_Rx" />
+      <Data key="1425177d-0d0e-4468-8bcc-e638e5509a9b" value="HC12_Tx" />
       <Data key="11498131-eb73-449e-b81a-a9093e66de49" value="BMP280_Vcc" />
       <Data key="77715107-f8d5-47e5-a629-0fb83101ac6b" value="GPS_3_3Vref" />
       <Data key="a024014b-b35f-4828-97ea-ca7d1a1b33a3" value="GPS_Fix" />
@@ -455,10 +456,12 @@
       <Data key="be0752e8-bd51-44b1-bfe8-f5c70ff4aea6/ed092b9b-d398-4703-be89-cebf998501f6" value="emFile_1_mosi0" />
       <Data key="c7c7565d-4530-443d-a9f7-7467ee9fad8a" value="BMP280_CSB" />
       <Data key="db3a2b9b-9b35-44d4-9d6b-4d1bd8f3a592" value="GPS_PPS" />
-      <Data key="e7e76405-1c08-4324-afc6-17b12734ce0e" value="GPS_Rx" />
-      <Data key="e851a3b9-efb8-48be-bbb8-b303b216c393" value="Left_Stabilizer" />
+      <Data key="e7e76405-1c08-4324-afc6-17b12734ce0e" value="GPS_Tx" />
+      <Data key="e93f6f86-30c8-4b66-8dec-ae35bbfd33ae" value="Motor_Speed_Output" />
+      <Data key="e851a3b9-efb8-48be-bbb8-b303b216c393" value="Left_Elevator" />
+      <Data key="eb0e0ba8-113f-4d9b-9ba6-7dcfa43d1056" value="HW_Serial_Rx" />
       <Data key="eb12d517-1479-4d1e-8e73-0ec65414a1cc" value="BMP280_GND" />
-      <Data key="ed092b9b-d398-4703-be89-cebf998501f6" value="HC12_Tx" />
+      <Data key="ed092b9b-d398-4703-be89-cebf998501f6" value="HC12_Rx" />
       <Data key="f0ba7171-6246-4e7d-bfb6-f3ddaff77f78" value="BNO055_sda" />
     </Group>
   </Group>
@@ -3575,6 +3578,11 @@
         <Data key="Port Format" value="2,2" />
       </Group>
     </Group>
+    <Group key="26f45e79-a293-4edb-9c44-a3c635f6e547">
+      <Group key="0">
+        <Data key="Port Format" value="12,6" />
+      </Group>
+    </Group>
     <Group key="34cfed22-c960-4363-8ecf-2f6fc0d15200">
       <Group key="0">
         <Data key="Port Format" value="12,0" />
@@ -3615,12 +3623,12 @@
     </Group>
     <Group key="964767be-fa75-4320-9106-302e9281cf31">
       <Group key="0">
-        <Data key="Port Format" value="2,7" />
+        <Data key="Port Format" value="2,6" />
       </Group>
     </Group>
     <Group key="1425177d-0d0e-4468-8bcc-e638e5509a9b">
       <Group key="0">
-        <Data key="Port Format" value="1,4" />
+        <Data key="Port Format" value="1,5" />
       </Group>
     </Group>
     <Group key="11498131-eb73-449e-b81a-a9093e66de49">
@@ -3675,12 +3683,22 @@
     </Group>
     <Group key="e7e76405-1c08-4324-afc6-17b12734ce0e">
       <Group key="0">
-        <Data key="Port Format" value="2,6" />
+        <Data key="Port Format" value="2,7" />
+      </Group>
+    </Group>
+    <Group key="e93f6f86-30c8-4b66-8dec-ae35bbfd33ae">
+      <Group key="0">
+        <Data key="Port Format" value="0,7" />
       </Group>
     </Group>
     <Group key="e851a3b9-efb8-48be-bbb8-b303b216c393">
       <Group key="0">
         <Data key="Port Format" value="15,5" />
+      </Group>
+    </Group>
+    <Group key="eb0e0ba8-113f-4d9b-9ba6-7dcfa43d1056">
+      <Group key="0">
+        <Data key="Port Format" value="12,7" />
       </Group>
     </Group>
     <Group key="eb12d517-1479-4d1e-8e73-0ec65414a1cc">
@@ -3690,7 +3708,7 @@
     </Group>
     <Group key="ed092b9b-d398-4703-be89-cebf998501f6">
       <Group key="0">
-        <Data key="Port Format" value="1,5" />
+        <Data key="Port Format" value="1,4" />
       </Group>
     </Group>
     <Group key="f0ba7171-6246-4e7d-bfb6-f3ddaff77f78">
