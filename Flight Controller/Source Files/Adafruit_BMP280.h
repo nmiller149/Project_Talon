@@ -1,18 +1,18 @@
 /* =========================================
-Last edited 06/16/2019
+Last edited 03/29/2020
  * "Adafruit_BMP280.h"
  *
  * Author:  Nathan Miller
  *
- * Version: 2.0
+ * Version: 2.1
  *
  * Description:
  * HEADER FILE - Contains all files, functions, and variables used for the BMP280 pressure and temp sensor to acquire Alititude 
  *
 
  * Reasons for Revision:
- *    -  Completed Build = Fully functional now
- *    - 
+ *    - 6/16/2019 Completed Build = Now fully functional
+ *    - 3/29/2020 Reorganized Functions and removed some junk
  *    -
  *
 **/
@@ -20,10 +20,7 @@ Last edited 06/16/2019
 #ifndef __BMP280_H__
 #define __BMP280_H__
 
-#ifndef PROJECT_H
-#define PROJECT_H
 #include <project.h>
-#endif
     
 #include <stdbool.h>
 #include <math.h>
@@ -149,52 +146,8 @@ BMP280_S32_t readTemperature(void);
 BMP280_U32_t readPressure(void);
 BMP280_S32_t bmp280_compensate_T_int32(BMP280_S32_t adc_T);
 BMP280_U32_t bmp280_compensate_P_int32(BMP280_S32_t adc_P);
-uint32 * readPressureTemperature(void);
+uint32       *readPressureTemperature(void);
 BMP280_U32_t *readAltitude(BMP280_U32_t seaLevelhPa); 
 
-    
-
-
-
-
-
-
-
-/*
-class Adafruit_BMP280
-{
-  public:
-    Adafruit_BMP280();
-    Adafruit_BMP280(int8_t cspin);
-    Adafruit_BMP280(int8_t cspin, int8_t mosipin, int8_t misopin, int8_t sckpin);
-
-    bool  begin(uint8_t addr = BMP280_ADDRESS, uint8_t chipid = BMP280_CHIPID);
-    float readTemperature(void);
-    float readPressure(void);
-    float readAltitude(float seaLevelhPa = 1013.25);
-
-  private:
-
-    void readCoefficients(void);
-    uint8_t spixfer(uint8_t x);
-
-    void      write8(byte reg, byte value);
-    uint8_t   read8(byte reg);
-    uint16_t  read16(byte reg);
-    uint32_t  read24(byte reg);
-    int16_t   readS16(byte reg);
-    uint16_t  read16_LE(byte reg); // little endian
-    int16_t   readS16_LE(byte reg); // little endian
-
-    uint8_t   _i2caddr;
-    int32_t   _sensorID;
-    int32_t t_fine;
-
-    int8_t _cs, _mosi, _miso, _sck;
-
-    bmp280_calib_data _bmp280_calib;
-
-};
-*/
-    
+       
 #endif
