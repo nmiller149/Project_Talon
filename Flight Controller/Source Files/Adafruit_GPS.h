@@ -53,6 +53,7 @@ Last edited 04/01/2020
 #include <string.h>
 #include <stdlib.h>
 
+#define _NULL 0
 // different commands to set the update rate from once a second (1 Hz) to 10 times a second (10Hz)
 // Note that these only control the rate at which the position is echoed, to actually speed up the
 // position fix you must also send one of the position fix rate commands below too.
@@ -133,13 +134,15 @@ int8  GPS_Checksum(char *GPS_String);
 
 typedef uint32 GPS_UTC_t; // hhmmss.ss * 100
 typedef uint16 GPS_DATE_t;// ddmmyy
-typedef int32  GPS_DMS_t; // ±dddmmss          (Coordinates)
-typedef int32  GPS_DMM_t; // ±dddmm.mm * 100   (Coordinates) *USED BY GPS
-typedef int32  GPS_DDD_t; // ±ddd.dddd * 10000 (Coordinates)
+typedef int32  GPS_DMS_t; // ±dddmmss            (Coordinates)
+typedef int32  GPS_DMM_t; // ±dddmm.mmmm * 10000 (Coordinates) *USED BY GPS
+typedef int32  GPS_DDD_t; // ±ddd.dddd * 10000   (Coordinates)
 typedef int32  GPS_1D_t;  // xxx.x * 10
+typedef int32  GPS_2D_t;  // xx.xx * 100
 
 struct GGA 
 { //*hh What to do with checkSum
+	//"$GPGGA,160412.000,4126.3931,N,07953.8928,W,1,04,2.04,190.5,M,-33.4,M,,*52\r\n\0"
     //$GPGGA,hhmmss.ss,ddmm.mm,a,dddmm.mm,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx*hh
     //NMEA_Code, UTC, Latitude, NS, Longitude, EW, Quality, Satellites, Horizontal_Dilution, Altitude, Geoidal_Separation, Last_Update, Ref_Station_ID
     uint8 Hour, Minute, Second;
@@ -147,13 +150,15 @@ struct GGA
     GPS_DDD_t Latitude, Longitude;
     uint8 Fix_Quality;//enum 0 ->8 (we want 1);
     uint8 nSatellites;
-    GPS_1D_t Horizontal_Dilution, Altitude, Geoidal_Separation;
+    GPS_1D_t Altitude, Geoidal_Separation;
+	GPS_2D_t Horizontal_Dilution;
     uint16 Last_Update, Ref_Station_ID; //No Last_Update, No Ref_Station_ID (JUNK);
 }GGA; 
 
 
 struct RMC 
 { //*hh What to do with checkSum
+	//"$GPRMC,160412.000,A,4126.3931,N,07953.8928,W,0.08,179.52,041117,,,A*74\r\n\0"
     //GPRMC,hhmmss.ss,A,ddmm.mm,a,dddmm.mm,a,x.x,x.x,ddmmyy,x.x,a*hh
     //NMEA_Code, UTC, Status, Longitude, NS, Latitude, EW, Speed, Direction, Date, Magnetic_Variation, Magnetic_Variation_EW, Checksum
     // NMEA, time, (Active/Void), decimal, (N/S), decimal, (E/W), Speed over ground (knots), Direction of Track (Degrees)(if display then good track??), UTC?, Mag Variation, EW_mag, checksum 
@@ -161,7 +166,8 @@ struct RMC
     char Status;
     GPS_UTC_t UTC;
     GPS_DDD_t Latitude, Longitude;
-    GPS_1D_t Speed, Direction, Magnetic_Variation; //Speed is knots, Direction in degrees and True Course, Mag_Var in degrees
+    GPS_1D_t Direction, Magnetic_Variation; //Direction in degrees and True Course, Mag_Var in degrees
+	GPS_2D_t Speed; //Speed in knots
     GPS_DATE_t Date;         
 }RMC;
 
