@@ -27,12 +27,12 @@ BSD license, check Adafruit_GPS_license.txt for more information
 All text above must be included in any redistribution
 *********************************************/
 /* =========================================
-Last edited 04/01/2020
+Last edited 04/06/2020
  * "Adafruit_BMP280.h"
  *
  * Author:  Nathan Miller
  *
- * Version: 2.0
+ * Version: 2.1
  *
  * Description:
  * HEADER FILE - Contains all files, functions, and variables used for the Bosch MTk33x9 GPS chipset implemented on the Adafruit Ultimate GPS Module
