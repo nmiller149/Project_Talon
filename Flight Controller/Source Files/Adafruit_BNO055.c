@@ -29,7 +29,7 @@ Last edited 03/15/2020
 
 
 //------------------------------ readBNO055 ------------------------------------
-static uint8 *readBNO055(uint8 chipAddr, uint8 regAddr, uint8 bytes) //Does this have to be static? Can this be non static?
+static uint8 *readBNO055(uint8 chipAddr, uint8 regAddr, uint8 bytes)
 {
    static uint8 tmp[8];
    
@@ -66,9 +66,10 @@ static uint8 *readBNO055(uint8 chipAddr, uint8 regAddr, uint8 bytes) //Does this
 }
 
 
-static void BMP280_Error()
+uint8 BNO055_Error()
 {
-   
+    
+    return 1;   
 }
 
 

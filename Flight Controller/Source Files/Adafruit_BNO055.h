@@ -40,10 +40,7 @@ Last edited 03/15/2020
 #ifndef __ADAFRUIT_BNO055_H__
 #define __ADAFRUIT_BNO055_H__
 
-#ifndef PROJECT_H
-#define PROJECT_H
 #include <project.h>
-#endif
     
 #define WRITE    0
 #define READ     1
