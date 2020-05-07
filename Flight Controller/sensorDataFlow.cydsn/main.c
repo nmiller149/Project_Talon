@@ -42,7 +42,7 @@ Last edited 04/04/2020
 
 //---------- USER INPUTS --------------
 #define SENSOR_UPDATE_RATE    30 //Hz
-#define REFRESH_DIVIDER       8  //30Hz ? 4 = 7Hz
+#define REFRESH_DIVIDER       8  //30Hz รท 4 = 7Hz
 uint8 commChannel = 30;
 //-------------------------------------
 
@@ -58,6 +58,7 @@ typedef enum Talon_Variable_Type
     TYPENAME_GPS_DMM,
     TYPENAME_GPS_DDD,
     TYPENAME_GPS_1D,
+	TYPENAME_GPS_2D,
     TYPENAME_BMP280_U32,
     TYPENAME_BMP280_S32,
     TYPENAME_BNO055_U16,
@@ -106,6 +107,7 @@ int main(void)
     HC_Initialize();
 	//FC_Start();
     //FC_Initialize();
+	
     beginBMP280();
     BMP280_S32_t InitAltitude = Altitude_Initialize();
     IMU_Start();
@@ -113,21 +115,21 @@ int main(void)
     EEPROM_Start();      
     Start_SD_Card(); 
     //===========================================================================================
-    
-    //duration,X,Y,Z,Yaw,Roll,Pitch,TEMP,$GPS,,,,,,,,,,,, 
 
     uint8 refreshCounter = 0;
     uint duration = 0;
-    char GPS_String[100];
     char dataArray[512];
+	char GPS_String[100];
     
-    BMP280_U32_t Altitude, Pressure, RelativeAltitude;
-    BMP280_S32_t Temperature;
+    BMP280_U32_t Altitude, Pressure, RelativeAltitude; //x.xx *100
+    BMP280_S32_t Temperature;                          //x.xx *100
     
     for(;;)
     {   
         if (rxCommandFlag == 1)
-        {    
+        {
+            //rxCommandFlag=0;
+            //executeFlightCommand(FC_RxString[0],FC_RxString[1]);
         }    
         
         //Refresh GPS_Data
@@ -148,7 +150,7 @@ int main(void)
             refreshCounter++;
             
             BMP280_U32_t *altPtr = readAltitude(0);
-            Altitude  = altPtr[0]; 
+            Altitude  = altPtr[0];
             RelativeAltitude = Altitude - InitAltitude;
             Pressure  = altPtr[1];
             Temperature = altPtr[2];
@@ -204,7 +206,7 @@ int main(void)
                 }
             } //End if pFile
         }//END if refreshCounter
-    }//END for(;;)   
+    }//END for(;;)
     
 }/* [] END OF MAIN  */
 
@@ -219,7 +221,7 @@ uint16 getDec(uint32 value, Var_Type type)
     switch(type) 
     {
         case TYPENAME_GPS_UTC:
-            decimal = (value-(value/100)*100);
+            decimal = 0;
             break;
         case TYPENAME_GPS_DATE :
             decimal = 0;
@@ -231,7 +233,7 @@ uint16 getDec(uint32 value, Var_Type type)
             
         case TYPENAME_GPS_DMM :
             value_s = (int32) value;
-            decimal = (value_s-(value_s/100)*100); 
+            decimal = (value_s-(value_s/10000)*10000); 
             break;
             
         case TYPENAME_GPS_DDD :
@@ -242,6 +244,11 @@ uint16 getDec(uint32 value, Var_Type type)
         case TYPENAME_GPS_1D :
             value_s = (int32) value;
             decimal = (value_s-(value_s/10)*10);
+            break;
+		
+		case TYPENAME_GPS_2D :
+            value_s = (int32) value;
+            decimal = (value_s-(value_s/100)*100);
             break;
             
         case TYPENAME_BMP280_U32 :
@@ -282,7 +289,7 @@ int32 getInt(uint32 value, Var_Type type)
     switch(type) 
     {
         case TYPENAME_GPS_UTC:
-            integer = (value/100);
+            integer = value;
             break;
         case TYPENAME_GPS_DATE :
             integer = 0;
@@ -294,7 +301,7 @@ int32 getInt(uint32 value, Var_Type type)
             
         case TYPENAME_GPS_DMM :
             value_s = (int32) value;
-            integer = (value_s/100); 
+            integer = (value_s/10000); 
             break;
             
         case TYPENAME_GPS_DDD :
@@ -305,6 +312,11 @@ int32 getInt(uint32 value, Var_Type type)
         case TYPENAME_GPS_1D :
             value_s = (int32) value;
             integer = (value_s/10);
+            break;
+		
+		case TYPENAME_GPS_2D :
+            value_s = (int32) value;
+            integer = (value_s/100);
             break;
             
         case TYPENAME_BMP280_U32 :
@@ -336,3 +348,4 @@ int32 getInt(uint32 value, Var_Type type)
     
     return integer;
 }
+
