@@ -1,20 +1,19 @@
 /* ========================================
-Last edited 01/07/2020
+Last edited 04/04/2020
  * File Name: "main.c" 
  * Project  : Talon_01
  *
  * Author:  Nathan Miller
  *
- * Version: 1.2.1
+ * Version: 1.3.0
  *
  * Description:
  *    Integration Testing. Starting with integration of HC12 project and 
  *    Comm Motor Control Test to test wireless control. Then integration of
  *    sensorDataFlow to test all sensors are connected properly and data is
- *    received at home base properly. Next, sensorDataFlow should be developed
- *    the rest of the way to include other  sensors. Some optimization should
- *    occur to clean code up. A mostly working and integrated project will be
- *    produced as Talon_02 version 2.0.
+ *    received at home base properly. Needs to be further developed to include 
+ * 	  other  sensors. Some optimization should occur to clean code up. A 
+ *	  mostly working and integrated project will be produced as Talon_02 version 2.0.
  *    
  *
  * TODO: Break GPS into useful variables and send data back with only a few important
@@ -24,15 +23,16 @@ Last edited 01/07/2020
  *    
  *
  * Reasons for Revision:
- *    - This File includes succesful integration of HC12 and CommMotorControlTest along
+ *    -pre 1/7/2020- This File includes succesful integration of HC12 and CommMotorControlTest along
  *      with intitial integration of sensorDataFlow with a working pressure sensor. 
- *    - Add more Data to output string and changed GPS string functions
- *    - Changed FC_Initialization function to use enum names instead of numbers
+ *    -pre 1/7/2020- Add more Data to output string and changed GPS string functions
+ *    - 01/07/2020 - Changed FC_Initialization function to use enum names instead of numbers
+ *    - 03/30/2020 - Updated AGM to IMU in BNO055 function calls and variables
+ *	  - 04/04/2020 Added getDec and getInt functions. Also introduced new GPS handling and interrupts.
  *
  *
 **/
 /* ======================================== */
-
 
 
 
@@ -41,6 +41,7 @@ Last edited 01/07/2020
 #include "Adafruit_BNO055.h"
 #include "Adafruit_GPS.h"
 #include "Adafruit_BMP280.h"
+#include "interrupts.h"
 #include "SD_Config.h"
 #include "Flight_Controller.h"
 
@@ -57,6 +58,28 @@ Last edited 01/07/2020
 uint8 commChannel = 30;
 //-------------------------------------
 
+extern _Bool refreshTimerFlag;
+extern _Bool gpsRxFlag;
+
+//List of variable types to keep track of different manipulations.
+typedef enum Talon_Variable_Type
+{
+    TYPENAME_GPS_UTC,
+    TYPENAME_GPS_DATE,
+    TYPENAME_GPS_DMS,
+    TYPENAME_GPS_DMM,
+    TYPENAME_GPS_DDD,
+    TYPENAME_GPS_1D,
+	TYPENAME_GPS_2D,
+    TYPENAME_BMP280_U32,
+    TYPENAME_BMP280_S32,
+    TYPENAME_BNO055_U16,
+    TYPENAME_BNO055_S16,
+    TYPENAME_BNO055_U8
+}Var_Type;
+
+uint16 getDec(uint32 value,Var_Type type);
+int32 getInt(uint32 value,Var_Type type);
 
 void HC_Initialize(void)
 {
@@ -90,11 +113,10 @@ void FC_Initialize(void)
     executeFlightCommand(FC_ROLL, 50);
     executeFlightCommand(FC_YAW, 25); 
 }
-int32 decimal(int32 value, uint8 type);
 
 BMP280_U32_t Altitude_Initialize(void)
 {
-    BMP280_U32_t altTemp, initTemp;
+    BMP280_U32_t altTemp=0, initTemp=0;
     for (uint8 i=0; i<7; i++)
     {
         altTemp += *readAltitude(0);
@@ -105,30 +127,26 @@ BMP280_U32_t Altitude_Initialize(void)
 }
 
 
-CY_ISR_PROTO(refreshHandler);
-_Bool refreshTimerFlag =0;
-
-
 int main(void)
 {
-  
+
     //=========================== Initialization =====================================
     CyGlobalIntEnable; /* Enable global interrupts. */
     
     Timer_1_Start(); //Redundant
     Timer_2_Start();
     Timer_2_WritePeriod(10000/SENSOR_UPDATE_RATE); // 10,000kHz / 30 Hz = Period
-    isr_Refresh_StartEx(refreshHandler);
     
+	interrupts_init();
     HC_Start();
     HC_Comm_Init();
     HC_Initialize();
     FC_Start();
     FC_Initialize();
-    
+	
     beginBMP280();
     BMP280_S32_t InitAltitude = Altitude_Initialize();
-    AGM_Start();
+    IMU_Start();
     GPS_Start();
     EEPROM_Start();      
     Start_SD_Card(); 
@@ -137,16 +155,29 @@ int main(void)
     uint8 refreshCounter = 0;
     uint duration = 0;
     char dataArray[512];
+	char GPS_String[100];
     
-    BMP280_U32_t Altitude, Pressure, RelativeAltitude;
-    BMP280_S32_t Temperature;
+    BMP280_U32_t Altitude, Pressure, RelativeAltitude; //x.xx *100
+    BMP280_S32_t Temperature;                          //x.xx *100
+    
     for(;;)
     {   
         if (rxCommandFlag == 1)
         {
             rxCommandFlag=0;
-            executeFlightCommand(FC_RxString[0],FC_RxString[1]);      
+            executeFlightCommand(FC_RxString[0],FC_RxString[1]);
         }    
+        
+        //Refresh GPS_Data
+        if (gpsRxFlag == 1)
+        {
+            int8 status = GPS_GetStringSimp(GPS_String);
+            if (status==1)
+            {
+                gpsRxFlag=0;
+                GPS_RefreshData(GPS_String);
+            }
+        }
         
         //Refresh Sensors and Update
         if (refreshTimerFlag ==1)
@@ -155,44 +186,47 @@ int main(void)
             refreshCounter++;
             
             BMP280_U32_t *altPtr = readAltitude(0);
-            Altitude  = altPtr[0]; RelativeAltitude = Altitude - InitAltitude;
+            Altitude  = altPtr[0];
+            RelativeAltitude = Altitude - InitAltitude;
             Pressure  = altPtr[1];
             Temperature = altPtr[2];
             Temperature = (Temperature *9)/5 + 3200; //Farenheit conversion
             
-            AGM_EulersRefresh();
-            AGM_AccelRefresh();
-            AGM_GetTemp();
+            IMU_EulersRefresh();
+            IMU_AccelRefresh();
+            IMU_GetTemp();
             //GPS_Refresh();
             
             duration = Counter_PPS_ReadCounter();
-        }
+        }// End if refreshTimer
+        
         if (refreshCounter >= REFRESH_DIVIDER)
         {
             refreshCounter = 0;
          
             //Write the comma seperated vector to save and send   
-            sprintf(dataArray,"%u,%i,%i,%i,%i,%i,%i,%i,%lu.%u,%li.%u,%lu.%u,%li.%u,",duration,PITCH>>4,ROLL>>4,YAW>>4,XACCEL,YACCEL,ZACCEL,AGMTEMP,Altitude/100,
-                (uint8)(Altitude-(Altitude/100)*100),RelativeAltitude/100,(uint8)(RelativeAltitude-(RelativeAltitude/100)*100),Pressure/100,(uint8)(Pressure-(Pressure/100)*100),Temperature/100,(uint8)(Temperature-(Temperature/100)*100));
+            sprintf(dataArray,"%u,%li,%li,%li,%li,%li,%li,%li,%lu.%u,%li.%u,%lu.%u,%li.%u,",duration,getInt(PITCH,TYPENAME_BNO055_S16),getInt(ROLL,TYPENAME_BNO055_S16),getInt(YAW,TYPENAME_BNO055_U16),getInt(XACCEL,TYPENAME_BNO055_S16),getInt(YACCEL,TYPENAME_BNO055_S16),getInt(ZACCEL,TYPENAME_BNO055_S16),getInt(IMUTEMP,TYPENAME_BNO055_U8),getInt(Altitude,TYPENAME_BMP280_U32),
+                getDec(Altitude, TYPENAME_BMP280_U32),getInt(RelativeAltitude,TYPENAME_BMP280_U32),getDec(RelativeAltitude,TYPENAME_BMP280_U32),getInt(Pressure,TYPENAME_BMP280_U32),getDec(Pressure,TYPENAME_BMP280_U32),getInt(Temperature,TYPENAME_BMP280_S32),getDec(Temperature,TYPENAME_BMP280_S32));
             
             
             //Concatinate the gps data with the orientation data array
-            static char tempArray1[128]="0,0,0,0,0,0,0,";
-            static char tempArray2[128]="0,0,0,0,0,0,0,";
+            static char gpsArray[128]="0,0,0,0,0,0,0,"; //initiallize array so that number of tokens is consistant?
+            static char  fcArray[128]="0,0,0,0,0,0,0,";
             if (GPS_RefreshData(GPS_GetString()))
             { 
                //sprintf(tempArray,"%lu.%u,%li",GGA.UTC/100,decimal(GGA.UTC,1),GGA.Latitude/100);  
-               sprintf(tempArray1,"%lu.%u,%li.%u,%li.%u,%lu.%u,%lu.%u,%lu.%u,%u,",GGA.UTC/100,(uint8)(GGA.UTC-GGA.UTC/100),GGA.Latitude/100,(uint8)(GGA.Latitude-GGA.Latitude/100), GGA.Longitude/100,(uint8)(GGA.Longitude-GGA.Longitude/100),GGA.Altitude/10,(uint8)(GGA.Altitude-GGA.Altitude/10),RMC.Speed/10,(uint8)(RMC.Speed-RMC.Speed/10),RMC.Direction/10,(uint8)(RMC.Direction-RMC.Direction/10),GGA.nSatellites);         
+               sprintf(gpsArray,"%lu.%u,%li.%u,%li.%u,%lu.%u,%lu.%u,%lu.%u,%u,",getInt(GGA.UTC,TYPENAME_GPS_UTC),getDec(GGA.UTC,TYPENAME_GPS_UTC),getInt(GGA.Latitude,TYPENAME_GPS_DDD),getDec(GGA.Latitude,TYPENAME_GPS_DDD), getInt(GGA.Longitude,TYPENAME_GPS_DDD),getDec(GGA.Longitude,TYPENAME_GPS_DDD),getInt(GGA.Altitude,TYPENAME_GPS_1D),getDec(GGA.Altitude,TYPENAME_GPS_1D),getInt(RMC.Speed,TYPENAME_GPS_1D),getDec(RMC.Speed,TYPENAME_GPS_1D),getInt(RMC.Direction,TYPENAME_GPS_1D),getDec(RMC.Direction,TYPENAME_GPS_1D),GGA.nSatellites);         
             }
-            strcat(dataArray, tempArray1);
-
+            
             //send it!
             UART_HC12_PutString(dataArray);
+            UART_HC12_PutString(gpsArray);
             UART_HC12_PutString("\r\n\0");
             
             //Add control Data
-            sprintf(tempArray2,"%u,%u,%i,%u,%u,%i,%i,%i",FC._Roll, FC._Pitch, FC._Yaw, FC._Flap, FC._Throttle, FC._TrimRoll, FC._TrimPitch, FC._TrimYaw);
-            strcat(dataArray, tempArray2);
+            sprintf(gpsArray2,"%u,%u,%i,%u,%u,%i,%i,%i",FC._Roll, FC._Pitch, FC._Yaw, FC._Flap, FC._Throttle, FC._TrimRoll, FC._TrimPitch, FC._TrimYaw);
+            strcat(dataArray,gpsArray);
+            strcat(dataArray, fcArray);
             strcat(dataArray,"\r\n\0\0");
             
             //Save it!
@@ -206,31 +240,150 @@ int main(void)
                 {
 
                 }
-            }
-            
-        }
-      
-    }    
+            } //End if pFile
+        }//END if refreshCounter
+    }//END for(;;)
     
 }/* [] END OF MAIN  */
 
 
 
-
-CY_ISR(refreshHandler)
-{
-
-    /* Clear pending Interrupt */
-    isr_HC12_Rx_ClearPending();
-    refreshTimerFlag = 1;    
+//Get Mantissa
+uint16 getDec(uint32 value, Var_Type type)
+{    
+    uint16 decimal;
+    int32 value_s;
     
+    switch(type) 
+    {
+        case TYPENAME_GPS_UTC:
+            decimal = 0;
+            break;
+        case TYPENAME_GPS_DATE :
+            decimal = 0;
+            break;
+            
+        case TYPENAME_GPS_DMS :
+            decimal = 0; 
+            break;
+            
+        case TYPENAME_GPS_DMM :
+            value_s = (int32) value;
+            decimal = (value_s-(value_s/10000)*10000); 
+            break;
+            
+        case TYPENAME_GPS_DDD :
+            value_s = (int32) value;
+            decimal = (value_s-(value_s/10000)*10000);
+            break;
+            
+        case TYPENAME_GPS_1D :
+            value_s = (int32) value;
+            decimal = (value_s-(value_s/10)*10);
+            break;
+		
+		case TYPENAME_GPS_2D :
+            value_s = (int32) value;
+            decimal = (value_s-(value_s/100)*100);
+            break;
+            
+        case TYPENAME_BMP280_U32 :
+            decimal = (value-(value/100)*100);
+            break;
+            
+        case TYPENAME_BMP280_S32 :
+            value_s = (int32) value;
+            decimal = (value_s-(value_s/100)*100);
+            break;    
+            
+        case TYPENAME_BNO055_S16:
+            decimal = (value & 0x000F);
+            break;   
+            
+        case TYPENAME_BNO055_U16:
+            decimal = (value & 0x000F);
+            break;      
+            
+        case TYPENAME_BNO055_U8:
+            decimal = (value & 0x0001);
+            break;       
+            
+        default:
+            decimal = 12345;
+            break;
+    }
+    
+    return decimal;
 }
 
-int32 decimal(int32 value, uint8 type)
-{
-    //typedef uint32 GPS_UTC_t; // hhmmss.ss * 100
-    //typedef uint16 GPS_DATE_t;// ddmmyy
-    //typedef int32 GPS_COORD_t;// ±dddmm.mm * 100 (DMM format)
-    //typedef int32 GPS_1D_t;   // xxx.x * 10
+//Get Characteristic
+int32 getInt(uint32 value, Var_Type type)
+{    
+    uint16 integer;
+    int32 value_s;
     
+    switch(type) 
+    {
+        case TYPENAME_GPS_UTC:
+            integer = value;
+            break;
+        case TYPENAME_GPS_DATE :
+            integer = 0;
+            break;
+            
+        case TYPENAME_GPS_DMS :
+            integer = 0; 
+            break;
+            
+        case TYPENAME_GPS_DMM :
+            value_s = (int32) value;
+            integer = (value_s/10000); 
+            break;
+            
+        case TYPENAME_GPS_DDD :
+            value_s = (int32) value;
+            integer = (value_s/10000);
+            break;
+            
+        case TYPENAME_GPS_1D :
+            value_s = (int32) value;
+            integer = (value_s/10);
+            break;
+		
+		case TYPENAME_GPS_2D :
+            value_s = (int32) value;
+            integer = (value_s/100);
+            break;
+            
+        case TYPENAME_BMP280_U32 :
+            integer = (value/100);
+            break;
+            
+        case TYPENAME_BMP280_S32 :
+            value_s = (int32) value;
+            integer = (value_s/100);
+            break;    
+            
+        case TYPENAME_BNO055_S16:
+            value_s = (int32) value;
+            integer = (value_s >> 4);
+            break;   
+            
+        case TYPENAME_BNO055_U16:
+            integer = (value >> 4);
+            break;      
+            
+        case TYPENAME_BNO055_U8:
+            integer = (value >> 1);
+            break;       
+            
+        default:
+            integer = 0;
+            break;
+    }
+    
+    return integer;
 }
+
+
+		  

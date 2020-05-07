@@ -457,6 +457,7 @@
       <Data key="db3a2b9b-9b35-44d4-9d6b-4d1bd8f3a592" value="GPS_PPS" />
       <Data key="e7e76405-1c08-4324-afc6-17b12734ce0e" value="GPS_Tx" />
       <Data key="e851a3b9-efb8-48be-bbb8-b303b216c393" value="Left_Elevator" />
+      <Data key="eb0e0ba8-113f-4d9b-9ba6-7dcfa43d1056" value="HW_Serial_Rx" />
       <Data key="eb12d517-1479-4d1e-8e73-0ec65414a1cc" value="BMP280_GND" />
       <Data key="ed092b9b-d398-4703-be89-cebf998501f6" value="HC12_Rx" />
       <Data key="f0ba7171-6246-4e7d-bfb6-f3ddaff77f78" value="BNO055_sda" />
@@ -3681,6 +3682,11 @@
     <Group key="e851a3b9-efb8-48be-bbb8-b303b216c393">
       <Group key="0">
         <Data key="Port Format" value="15,5" />
+      </Group>
+    </Group>
+    <Group key="eb0e0ba8-113f-4d9b-9ba6-7dcfa43d1056">
+      <Group key="0">
+        <Data key="Port Format" value="12,7" />
       </Group>
     </Group>
     <Group key="eb12d517-1479-4d1e-8e73-0ec65414a1cc">
