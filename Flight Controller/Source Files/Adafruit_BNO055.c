@@ -4,7 +4,7 @@ Last edited 03/15/2020
  *
  * Author:  Nathan Miller
  *
- * Version: 3.1
+ * Version: 3.2
  *
  * Description:
  * HEADER FILE - Contains all files, functions, and variables used for the BNO055 9-DOF sensor
@@ -13,7 +13,8 @@ Last edited 03/15/2020
  * Reasons for Revision:
  *    - 06/16/2019 - Completed Build = Fully functional now
  *    - 03/15/2020 - Renamed function calls from AGM to IMU. Reconstructed functions to call readBNO055 and writeBNO055 functions to isolate the read functionallity for more flexible.
- *    -
+ *    - 05/14/2020 - IMU temp wrong conversion. Converts from C to F properly now with compensation for fixed point.
+ *    - 05/20/2020 - TYPENAME_BNO055_U8 changed to T16 for IMUTEMP to carry negative F values and values greater than 63.5 F.
  *
 **/
  /* ======================================== */
@@ -32,13 +33,12 @@ Last edited 03/15/2020
 static uint8 *readBNO055(uint8 chipAddr, uint8 regAddr, uint8 bytes)
 {
    static uint8 tmp[8];
-   
     //Send the module the address of the register to read from
     I2C_Orientation_MasterSendStart(chipAddr, WRITE);
     I2C_Orientation_MasterWriteByte(regAddr);
-    I2C_Orientation_MasterSendStop();
-    
-    I2C_Orientation_MasterSendStart(chipAddr, READ);
+    //I2C_Orientation_MasterSendStop();
+
+    I2C_Orientation_MasterSendRestart(chipAddr, READ);
      
     //Read in data from next i registers (it will spit out until a NAck)
     uint8 i;
@@ -51,17 +51,14 @@ static uint8 *readBNO055(uint8 chipAddr, uint8 regAddr, uint8 bytes)
     I2C_Orientation_MasterSendStop(); //send stop vs NAK? !!!
     
    return tmp;
-    
-    //------------------- ALTERNATE METHOD ------------------------
-    // Probably doesn't work. Have no idea how MasterReadBuf is supposed to work
-    /*
-    uint16 ORIENTATION[7];
-    
-    I2C_Orientation_MasterSendStart(BNO055_ADDRESS_A, WRITE);
-    I2C_Orientation_MasterWriteByte(BNO055_EULER_H_LSB_ADDR);
-    I2C_Orientation_MasterSendStop();
 
-    I2C_Orientation_MasterReadBuf(chipAddr, regAddr, bytes, I2C_Orientation_MODE_COMPLETE_XFER);
+    //------------------- ALTERNATE METHOD ------------------------
+    /*
+    I2C_Orientation_MasterSendStart(chipAddr, WRITE);
+    I2C_Orientation_MasterWriteByte(regAddr);
+    I2C_Orientation_MasterSendStop();
+    I2C_Orientation_MasterReadBuf(chipAddr, tmp, bytes, I2C_Orientation_MODE_COMPLETE_XFER | I2C_Orientation_MODE_NO_STOP);
+    return tmp;
     */
 }
 
@@ -262,8 +259,8 @@ void IMU_GetTemp(){
     
     IMUTEMP = *tmp;
 
-    //IF IN FARENHEIT THEN multiply by 2
-    IMUTEMP = IMUTEMP * 2;
+    //Fahrenheit conversion with left shift compensation
+    IMUTEMP = (IMUTEMP * 9)/5 + 64;
     
     return;
     
