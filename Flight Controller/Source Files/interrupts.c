@@ -19,6 +19,14 @@ Last edited 04/03/2020
 
 #include "interrupts.h"
 
+
+/********************************************************************
+                    Interrupt Initialization
+    
+    Used in: Main.c
+    Description: For starting isr hardware components and initializing 
+    global variables / flags.
+********************************************************************/
 uint8 interrupts_init(void)
 {
     refreshTimerFlag = 0;
@@ -29,6 +37,14 @@ uint8 interrupts_init(void)
     return 1;
 }
 
+
+/********************************************************************
+                    Refresh Handler
+    
+    Used in: Main.c
+    Description: Triggered by refresh timer to check time criticall 
+    sensor data.
+********************************************************************/
 CY_ISR(refreshHandler)
 {
     /* Clear pending Interrupt */
@@ -36,6 +52,14 @@ CY_ISR(refreshHandler)
     refreshTimerFlag = 1;       
 }
 
+
+/********************************************************************
+                    GPS Handler
+    
+    Used in: Main.c
+    Description: Triggered by new GPS NMEA string in FIFO to refresh
+    GPS structures.
+********************************************************************/
 CY_ISR(GPS_Handler)
 {
     isr_GPS_ClearPending();

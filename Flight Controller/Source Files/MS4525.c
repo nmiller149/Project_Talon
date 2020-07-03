@@ -122,9 +122,9 @@ uint8 void Airspeed_GetSpeed(struct MS4525_data, uint32_t baro_pressure){
     // airspeed = sqr(2 * differential_pressure / air_mass_per_kg) ; air mass per kg = pressure  pa / (287.05 * (Temp celcius + 273.15))
     // so airspeed m/sec =sqr( 574.1 * differential_pressure pa * (temperature Celsius + 273.15) / pressure pa )
 	// rawAirSpeed =  sqrt( (float) (574 * 10520.56427 * abs(smoothDifPressureAdc) * temperature4525  /  actualPressure) ); // in cm/sec ; actual pressure must be in pa (so 101325 about at sea level)
-    MS4525.mps =  2457.4 * sqrt( (abs(MS4525.mPa) * MS4525.tempC) /  baro_pressure) ); // in cm/sec ; actual pressure must be in pa (so 101325 about at sea level)
-    MS4525.mph = MS4525.mps * 2.23684;
-	MS4525.knots = MS4525.mph * 1.1;
+    MS4525.mps =  (24574 * sqrt((abs(MS4525.mPa) * MS4525.tempC) /  baro_pressure) )/10; // in cm/sec ; actual pressure must be in pa (so 101325 about at sea level)
+    MS4525.mph = (MS4525.mps * 2290)>>10; //*2.2369 mph/mps
+	MS4525.knots = (MS4525.mph * 11)/10;
     return;
     
 }

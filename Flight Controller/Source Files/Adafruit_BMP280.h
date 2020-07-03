@@ -138,8 +138,8 @@ bmp280_calib_data _bmp280_calib;
 #define BMP_ALT_ESTIMATE_CONST 28046  //27637    
 #define BMP_ALT_ESTIMATE_CONST_W_TEMP 97
     
-typedef int32 BMP280_S32_t;
-typedef uint32 BMP280_U32_t;
+typedef int32 BMP280_S32_t; //XX.XX Fixed Decimal to 2 places
+typedef uint32 BMP280_U32_t; //XX.XX Fixed Decimal to 2 places
     
 //Public Functions
 bool  beginBMP280();
