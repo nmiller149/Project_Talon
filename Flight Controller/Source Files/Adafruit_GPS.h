@@ -1,22 +1,3 @@
-/* =========================================
-Last edited 07/06/2019
- * "Adafruit_BMP280.h"
- *
- * Author:  Nathan Miller
- *
- * Version: 1.1
- *
- * Description:
- * HEADER FILE - Contains all files, functions, and variables used for the Bosch MTk33x9 GPS chipset implemented on the Adafruit Ultimate GPS Module
- *
-
- * Reasons for Revision:
- *    -  Adding more functionality to extract data from GPS NMEA strings and making library more 
- *    - 
- *    -
- *
-**/
- /* ======================================== */
 /***********************************
 This is the Adafruit GPS library - the ultimate GPS library
 for the ultimate GPS module!
@@ -35,15 +16,35 @@ Written by Limor Fried/Ladyada  for Adafruit Industries.
 BSD license, check license.txt for more information
 All text above must be included in any redistribution
 ****************************************/
-
 /********************************************
             Nathan Miller's EDIT
-Most of the stuff from Adafruit's library has been erased
+Most of Adafruit's library has been erased and/or modified
 because it was not valuable for the PSOC. Only defined constants
-could stay.
+could stay. 
 
-My own functions were added at the bottom of the defintions
+Modifications written by Nathan Miller for Project Talon.  
+BSD license, check Adafruit_GPS_license.txt for more information
+All text above must be included in any redistribution
 *********************************************/
+/* =========================================
+Last edited 04/06/2020
+ * "Adafruit_BMP280.h"
+ *
+ * Author:  Nathan Miller
+ *
+ * Version: 2.1
+ *
+ * Description:
+ * HEADER FILE - Contains all files, functions, and variables used for the Bosch MTk33x9 GPS chipset implemented on the Adafruit Ultimate GPS Module
+ *
+ *
+ * Reasons for Revision:
+ *    -  07/06/2019 - Added more functionality to extract data from GPS NMEA strings and cleaned up library 
+ *    -  04/04/2020 - Added UTC hour, minute and seconds. Finshed  RMC. Created Checksum calculator. New GetStringSimp method.
+ *    -
+ *
+**/
+ /* ======================================== */
 
 #ifndef _ADAFRUIT_GPS_H
 #define _ADAFRUIT_GPS_H
@@ -52,6 +53,7 @@ My own functions were added at the bottom of the defintions
 #include <string.h>
 #include <stdlib.h>
 
+#define _NULL 0
 // different commands to set the update rate from once a second (1 Hz) to 10 times a second (10Hz)
 // Note that these only control the rate at which the position is echoed, to actually speed up the
 // position fix you must also send one of the position fix rate commands below too.
@@ -109,9 +111,11 @@ My own functions were added at the bottom of the defintions
 #define PGCMD_ANTENNA "$PGCMD,33,1*6C" 
 #define PGCMD_NOANTENNA "$PGCMD,33,0*6D" 
 
+    
+/****************** COMPILE OPTIONS ******************/
 // how long to wait when we're looking for a response
 #define MAXWAITSENTENCE 10
-        
+
 
     
 /**************** GLOBAL VARIABLES *************************/ 
@@ -122,39 +126,49 @@ extern uint8 NewGPSData;
 
 /************** PSOC FUNCTION PROTOTYPES ******************/
 void GPS_Start();
-void GPS_Refresh(); 
 char *GPS_GetString();
+int8  GPS_GetStringSimp(char *GPS_String_Pointer);
 uint8 GPS_RefreshData(char *GPS_String);
+int8  GPS_Checksum(char *GPS_String);
 /************************************************************/
 
 typedef uint32 GPS_UTC_t; // hhmmss.ss * 100
 typedef uint16 GPS_DATE_t;// ddmmyy
-typedef int32 GPS_COORD_t;// ±dddmm.mm * 100 (DMM format)
-typedef int32 GPS_1D_t;   // xxx.x * 10
+typedef int32  GPS_DMS_t; // ±dddmmss            (Coordinates)
+typedef int32  GPS_DMM_t; // ±dddmm.mmmm * 10000 (Coordinates) *USED BY GPS
+typedef int32  GPS_DDD_t; // ±ddd.dddd * 10000   (Coordinates)
+typedef int32  GPS_1D_t;  // xxx.x * 10
+typedef int32  GPS_2D_t;  // xx.xx * 100
 
 struct GGA 
 { //*hh What to do with checkSum
-      //$GPGGA,hhmmss.ss,ddmm.mm,a,dddmm.mm,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx*hh
-      //NMEA_Code, UTC, Latitude, NS, Longitude, EW, Quality, Satellites, Horizontal_Dilution, Altitude, Geoidal_Separation, Last_Update, Ref_Station_ID
+	//"$GPGGA,160412.000,4126.3931,N,07953.8928,W,1,04,2.04,190.5,M,-33.4,M,,*52\r\n\0"
+    //$GPGGA,hhmmss.ss,ddmm.mm,a,dddmm.mm,a,x,xx,x.x,x.x,M,x.x,M,x.x,xxxx*hh
+    //NMEA_Code, UTC, Latitude, NS, Longitude, EW, Quality, Satellites, Horizontal_Dilution, Altitude, Geoidal_Separation, Last_Update, Ref_Station_ID
+    uint8 Hour, Minute, Second;
     GPS_UTC_t UTC; 
-    GPS_COORD_t Latitude, Longitude;
+    GPS_DDD_t Latitude, Longitude;
     uint8 Fix_Quality;//enum 0 ->8 (we want 1);
     uint8 nSatellites;
-    GPS_1D_t Horizontal_Dilution, Altitude, Geoidal_Separation;
+    GPS_1D_t Altitude, Geoidal_Separation;
+	GPS_2D_t Horizontal_Dilution;
     uint16 Last_Update, Ref_Station_ID; //No Last_Update, No Ref_Station_ID (JUNK);
 }GGA; 
 
 
 struct RMC 
 { //*hh What to do with checkSum
-      //GPRMC,hhmmss.ss,A,ddmm.mm,a,dddmm.mm,a,x.x,x.x,ddmmyy,x.x,a*hh
-      //NMEA_Code, UTC, Status, Longitude, NS, Latitude, EW, Speed, Direction, Date, Magnetic_Variation, Magnetic_Variation_EW, Checksum
-      //         UTC, data status, Lat, NS, Long, EW, Speed over ground (knots), Direction of Track (Degrees)(if display then good track??), UTC?, Mag Variation, EW_mag, checksum 
-      GPS_UTC_t UTC;
-      GPS_COORD_t Latitude, Longitude;
-      GPS_1D_t Speed, Direction, Magnetic_Variation; //Speed is knots, Direction in degrees and True Course, Mag_Var in degrees
-      GPS_DATE_t Date;         
+	//"$GPRMC,160412.000,A,4126.3931,N,07953.8928,W,0.08,179.52,041117,,,A*74\r\n\0"
+    //GPRMC,hhmmss.ss,A,ddmm.mm,a,dddmm.mm,a,x.x,x.x,ddmmyy,x.x,a*hh
+    //NMEA_Code, UTC, Status, Longitude, NS, Latitude, EW, Speed, Direction, Date, Magnetic_Variation, Magnetic_Variation_EW, Checksum
+    // NMEA, time, (Active/Void), decimal, (N/S), decimal, (E/W), Speed over ground (knots), Direction of Track (Degrees)(if display then good track??), UTC?, Mag Variation, EW_mag, checksum 
+    uint8 Hour, Minute, Second, Day, Month, Year;
+    char Status;
+    GPS_UTC_t UTC;
+    GPS_DDD_t Latitude, Longitude;
+    GPS_1D_t Direction, Magnetic_Variation; //Direction in degrees and True Course, Mag_Var in degrees
+	GPS_2D_t Speed; //Speed in knots
+    GPS_DATE_t Date;         
 }RMC;
-
 
 #endif

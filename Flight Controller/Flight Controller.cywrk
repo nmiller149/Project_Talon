@@ -7,9 +7,7 @@
 <wrkspc_folders />
 <files />
 <projects>
-<v>.\sensorDataFlow.cydsn\sensorDataFlow.cyprj</v>
 <v>.\Talon_01.cydsn\Talon_01.cyprj</v>
-<v>.\Comm Motor Control Test.cydsn\Comm Motor Control Test.cyprj</v>
 <v>.\Comm Motor Control Test with Interrupt.cydsn\Comm Motor Control Test with Interrupt.cyprj</v>
 </projects>
 <workspace_id v="a9b6c894-d705-4ebb-81b9-c0b24b40762d" />

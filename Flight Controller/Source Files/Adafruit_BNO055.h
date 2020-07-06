@@ -1,23 +1,3 @@
-/* =========================================
-Last edited 06/16/2019
- * "Adafruit_BNO055.h"
- *
- * Author:  Nathan Miller
- *
- * Version: 2.0
- *
- * Description:
- * HEADER FILE - Contains all files, functions, and variables used for the BNO055 9-DOF sensor
- *               which utilizes accelerometers, gyros, and magnetometers (AGM)
- *
- * Reasons for Revision:
- *    -  Completed Build = Fully functional now
- *    - 
- *    -
- *
-**/
- /* ======================================== */
-
 /***************************************************************************
   This is a library for the BNO055 orientation sensor
 
@@ -37,37 +17,55 @@ Last edited 06/16/2019
   MIT license, all text above must be included in any redistribution
  ***************************************************************************/
 
-
- 
+/* =========================================
+Last edited 03/15/2020
+ * "Adafruit_BNO055.h"
+ *
+ * Author:  Nathan Miller
+ *
+ * Version: 3.2
+ *
+ * Description:
+ * HEADER FILE - Contains all files, functions, and variables used for the BNO055 9-DOF sensor
+ *               which utilizes accelerometers, gyros, and magnetometers (AGM)
+ *
+ * Reasons for Revision:
+ *    - 06/16/2019 - Completed Build = Fully functional now
+ *    - 03/15/2020 - Renamed function calls from AGM to IMU. Reconstructed functions to call readBNO055 and writeBNO055 functions to isolate the read functionallity for more flexible.
+ *    - 03/30/2020 - Created new data types for global variable.
+ *    - 05/14/2020 - IMU temp wrong conversion. Converts from C to F properly now with compensation for fixed point.
+ *    - 05/20/2020 - TYPENAME_BNO055_U8 changed to T16 for IMUTEMP to carry negative F values and values greater than 63.5 F.
+ *
+**/
+ /* ======================================== */
 
 #ifndef __ADAFRUIT_BNO055_H__
 #define __ADAFRUIT_BNO055_H__
 
-#ifndef PROJECT_H
-#define PROJECT_H
 #include <project.h>
-#endif
     
 #define WRITE    0
 #define READ     1
 
-/************************* GLOBAL VARIABLES ************************************/ 
-int16 ROLL, PITCH; uint16 YAW;
-int16 XACCEL, YACCEL, ZACCEL;
-uint8 AGMTEMP;
+/**************************** DATA TYPES ***************************************/
+typedef int16  BNO055_S16_t; // value << 4, one count = 0.0625
+typedef uint16 BNO055_U16_t; // value << 4, one count = 0.0625
+typedef int16  BNO055_T16_t;  // value << 1, one count = 0.5
 
-    
-    
+/************************* GLOBAL VARIABLES ************************************/ 
+BNO055_U16_t YAW;           //Deg 0   --> 360
+BNO055_S16_t ROLL, PITCH;   //Deg -180 --> +180, Deg -90 --> +90
+BNO055_S16_t XACCEL, YACCEL, ZACCEL; //m/s^2
+BNO055_T16_t IMUTEMP; //F
+
 /*********************** PSOC FUNCTION PROTOTYPES ****************************/ 
-void Write_AGM_Config(uint8 RegisterAdrress, uint8 DataByte); 
-void AGM_Start();
-void AGM_EulersRefresh();  //Refresh Up to 100Hz
-void AGM_AccelRefresh();
-void AGM_GetTemp();
+void Write_IMU_Config(uint8 RegisterAdrress, uint8 DataByte); 
+void IMU_Start();
+void IMU_EulersRefresh();  //Refresh Up to 100Hz
+void IMU_AccelRefresh();
+void IMU_GetTemp();
 
 /*******************************************************************************/
-
-
 
 
 #define BNO055_ADDRESS_A (0x28)

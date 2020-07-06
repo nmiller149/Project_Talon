@@ -557,7 +557,6 @@ void HC_SetData(uint32 d, char p, uint8 s){  // d = # Data Bits    p = parity bi
 
 void HC_Sleep(){
     //DISABLE AND ENDABLE THE UART MODULE AS WELL
-    char sendString[10]= NULL_STRING_10;
     
     HC_CommandMode_Enable();
 
@@ -579,8 +578,6 @@ void HC_Sleep(){
 
 void HC_Default(){
     //8 Bits, No parity, 1 stop bit, FU3, Pw = 8, baud = 9600
-    //NEED TO SET THE UART MODULE TO DEFAULTS AS WELL
-    char sendString[10]= NULL_STRING_10;
 
     HC_CommandMode_Enable();
     UART_HC12_PutString("AT+DEFAULT");
