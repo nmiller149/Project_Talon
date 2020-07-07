@@ -5,7 +5,7 @@ Last edited 07/6/2020
  *
  * Author:  Nathan Miller
  *
- * Version: 2.0.2
+ * Version: 2.0.3
  *
  * Description:
  *    Integration Testing. Starting with integration of HC12 project and 
@@ -42,6 +42,7 @@ Last edited 07/6/2020
  *    - 05/17/2020 Adding to GPS string to relay fix quality and validity. Included header string for initialization
  *    - 05/20/2020 Relative altitude changed to signed variable. Added altitude initialization filter size parameter. TYPENAME_BNO055_U8 changed to T16 for IMUTEMP to carry necessary values. Function getDec needed absolute value conversion for signed inputs.
  *    - 06/2/2020  FC_Auto_Neutralize functionallity added incase FC commands cutout while rolling or pitching.
+ *    - 07/6/2020 Removed bandwidth analysis code (will come back as branch). Included PostBuildScript.sh
 **/
 /* ======================================== */
 
