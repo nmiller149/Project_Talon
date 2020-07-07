@@ -2,47 +2,19 @@
 Last edited 07/6/2020
  * File Name: "main.c" 
  * Project  : Talon_01
+ * Branch   : study-Bandwidth_Utilization
  *
  * Author:  Nathan Miller
  *
- * Version: 2.0.3
+ * Version: 2.2.0
  *
- * Description:
- *    Integration Testing. Starting with integration of HC12 project and 
- *    Comm Motor Control Test to test wireless control. Then integration of
- *    sensorDataFlow to test all sensors are connected properly and data is
- *    received at home base properly. Needs to be further developed to include 
- * 	  other  sensors. Some optimization should occur to clean code up. A 
- *	  mostly working and integrated project will be produced as Talon_02 version 2.0.
+ * Description: 
+ *       Branched off of Master v2.0.3. To determine how much bandwidth is consumed by different methods and interfaces.
+ *       V2.2.0 focuses on IMU I2C bandwidth
  *    
- *
- * TODO: Need more sophisticated method of sending data to station. Options include sending header string from Talon
- *       to station as instructions on how to parse periodic data. For data not in periodic string, the Talon
- *       may either send at irregular intervals, appended to starting characters to decipher what kind of senetence
- *       is being sent. Alternatively, the station could send control bytes to request certain information. 
- *       (May need both, soon debugging will need simplified and debug/status sentence to know which sensors are 
- *       available and what state the plane is in will be needed). Both is prefered. Irregular error data needs sent
- *       immediately. Having control is also good. Maybe different strings can be created for the periodic message,
- *       but a code can be used to enumerate which string is being used. Then capability of switching message type
- *       through control chars.
- *    
- * Possible Defects:
- *    - All GPS needs sanity checked on PSOC.
- *    -
- *
  * Reasons for Revision:
- *    -pre 1/7/2020- This File includes succesful integration of HC12 and CommMotorControlTest along
- *      with intitial integration of sensorDataFlow with a working pressure sensor. 
- *    -pre 1/7/2020- Add more Data to output string and changed GPS string functions
- *    - 01/07/2020 - Changed FC_Initialization function to use enum names instead of numbers
- *    - 03/30/2020 - Updated AGM to IMU in BNO055 function calls and variables
- *	  - 04/04/2020 Added getDec and getInt functions. Also introduced new GPS handling and interrupts.
- *    - 05/07/2020 Fixed fcString cat to DataString error
- *    - 05/17/2020 Fixed getInt signed/unsigned conversions. Fixed printf decimal place accuracy by preventing beginning zero truncation.
- *    - 05/17/2020 Adding to GPS string to relay fix quality and validity. Included header string for initialization
- *    - 05/20/2020 Relative altitude changed to signed variable. Added altitude initialization filter size parameter. TYPENAME_BNO055_U8 changed to T16 for IMUTEMP to carry necessary values. Function getDec needed absolute value conversion for signed inputs.
- *    - 06/2/2020  FC_Auto_Neutralize functionallity added incase FC commands cutout while rolling or pitching.
- *    - 07/6/2020 Removed bandwidth analysis code (will come back as branch). Included PostBuildScript.sh
+ *    - xx/xx/xx 
+ *    -
 **/
 /* ======================================== */
 
@@ -196,6 +168,10 @@ int main(void)
     uint16 rxCommandStartTime = 0;
     char dataArray[512];
 	char GPS_String[100];
+    char timingArray[100]; //DEBUG
+    uint16 time0, time1, timespan, downtime; //DEBUG
+    uint32 timespan_us[256], downtime_us, timespan_avg_us; //DEBUG
+    uint8 filt_index=255; //DEBUG;
     
     BMP280_U32_t Altitude, Pressure; //x.xx *100
     BMP280_S32_t Temperature, RelativeAltitude; //x.xx *100
@@ -242,9 +218,16 @@ int main(void)
             Temperature = altPtr[2];
             Temperature = (Temperature *9)/5 + 3200; //Farenheit conversion
             
+            time0 = Timer_SW_ReadCounter(); //DEBUG
+            downtime = (time1 - time0)-25/24; downtime_us = (downtime *24*125) /3000; //DEBUG
+            time0 = Timer_SW_ReadCounter(); //DEBUG
             IMU_EulersRefresh();
             IMU_AccelRefresh();
             IMU_GetTemp();
+            time1 = Timer_SW_ReadCounter(); //DEBUG
+            timespan = (time0 - time1)-25/24; timespan_us[++filt_index] = (timespan *24*125) /3000; //DEBUG
+            timespan_avg_us = avg(timespan_us,256);
+
             
             PPS_count = Counter_PPS_ReadCounter();
         }// End if refreshTimer
@@ -253,6 +236,10 @@ int main(void)
         {
             refreshCounter = 0;
             
+            //Write the comma seperated vector to save and send   
+            sprintf(timingArray,"IMU: %li,%li,%li \tIMU_Read_Time: %lu us\tDownTime: %lu us \t\tIMU_AVG_Read = %lu us\r\n",
+                getInt(PITCH,TYPENAME_BNO055_S16), getInt(ROLL,TYPENAME_BNO055_S16), getInt(YAW,TYPENAME_BNO055_U16),
+                timespan_us[filt_index], downtime_us, timespan_avg_us);
                 
             //Write the comma seperated vector to save and send   
             sprintf(dataArray,"%u,%li,%li,%li,%li,%li,%li,%li,%lu.%.2u,%li.%.2u,%lu.%.2u,%li.%.2u,",
@@ -289,10 +276,10 @@ int main(void)
             }
             else
                 strcpy(gpsArray,"0,0,0,0,0,0,0,0,0");
-            
+            UART_HC12_PutString(timingArray); //DEBUG
             //send it!
-            UART_HC12_PutString(dataArray);
-            UART_HC12_PutString(gpsArray);
+            //UART_HC12_PutString(dataArray);
+            //UART_HC12_PutString(gpsArray);
             UART_HC12_PutString("\r\n\0");
             
             //Add control Data
