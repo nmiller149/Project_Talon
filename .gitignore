@@ -14,6 +14,7 @@
 *.cyfit
 Module Documents
 Flight Controller/Module Documents
+Generated_Binary
 */emFile_V322c
 !Flight Controller/Talon_01.cydsn/CortexM3/ARM_GCC_541/Debug/Talon_01.hex
 #!CortexM3/ARM_GCC_541/Debug/*.elf
