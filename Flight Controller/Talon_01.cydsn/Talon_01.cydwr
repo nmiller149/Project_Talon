@@ -437,6 +437,7 @@
       <Data key="2cd4e4bf-ac09-420a-a601-99591625591b" value="BMP280_SDI" />
       <Data key="8d318d8b-cf7b-4b6b-b02c-ab1c5c49d0ba" value="Button" />
       <Data key="34cfed22-c960-4363-8ecf-2f6fc0d15200" value="Nine_Axis_Orientation" />
+      <Data key="037e3d7b-c2f5-4ebb-a68c-cdf51a37e129" value="BNO055_Rx" />
       <Data key="59cfa61a-ec7b-41ca-bd6b-8d32e9c2de69" value="Motor_Speed_Output" />
       <Data key="83b2fde2-60ad-45b6-9e5c-cb3baa6e3f9a" value="BMP280_SCL" />
       <Data key="97ee8c46-6edb-44bf-b337-db8b92b5b89a" value="BMP280_SDO" />
@@ -454,6 +455,7 @@
       <Data key="be0752e8-bd51-44b1-bfe8-f5c70ff4aea6/ae249072-87dc-41aa-9405-888517aefa28" value="emFile_1_sclk0" />
       <Data key="be0752e8-bd51-44b1-bfe8-f5c70ff4aea6/ed092b9b-d398-4703-be89-cebf998501f6" value="emFile_1_mosi0" />
       <Data key="c7c7565d-4530-443d-a9f7-7467ee9fad8a" value="BMP280_CSB" />
+      <Data key="d306ca6d-4b59-4699-9f85-1e93392b48da" value="BNO055_Tx" />
       <Data key="db3a2b9b-9b35-44d4-9d6b-4d1bd8f3a592" value="GPS_PPS" />
       <Data key="e7e76405-1c08-4324-afc6-17b12734ce0e" value="GPS_Tx" />
       <Data key="e851a3b9-efb8-48be-bbb8-b303b216c393" value="Left_Elevator" />
@@ -3584,6 +3586,11 @@
         <Data key="Port Format" value="12,1" />
       </Group>
     </Group>
+    <Group key="037e3d7b-c2f5-4ebb-a68c-cdf51a37e129">
+      <Group key="0">
+        <Data key="Port Format" value="3,1" />
+      </Group>
+    </Group>
     <Group key="59cfa61a-ec7b-41ca-bd6b-8d32e9c2de69">
       <Group key="0">
         <Data key="Port Format" value="0,7" />
@@ -3667,6 +3674,11 @@
     <Group key="c7c7565d-4530-443d-a9f7-7467ee9fad8a">
       <Group key="0">
         <Data key="Port Format" value="12,4" />
+      </Group>
+    </Group>
+    <Group key="d306ca6d-4b59-4699-9f85-1e93392b48da">
+      <Group key="0">
+        <Data key="Port Format" value="3,0" />
       </Group>
     </Group>
     <Group key="db3a2b9b-9b35-44d4-9d6b-4d1bd8f3a592">
