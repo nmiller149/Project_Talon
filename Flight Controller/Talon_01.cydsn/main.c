@@ -5,7 +5,7 @@ Last edited 05/7/2020
  *
  * Author:  Nathan Miller
  *
- * Version: 2.0.1
+ * Version: 2.0.3.b0_UART_IMU
  *
  * Description:
  *    Integration Testing. Starting with integration of HC12 project and 
@@ -42,6 +42,7 @@ Last edited 05/7/2020
  *    - 05/17/2020 Adding to GPS string to relay fix quality and validity. Included header string for initialization
  *    - 05/20/2020 Relative altitude changed to signed variable. Added altitude initialization filter size parameter. TYPENAME_BNO055_U8 changed to T16 for IMUTEMP to carry necessary values. Function getDec needed absolute value conversion for signed inputs.
  *    - 06/2/2020  FC_Auto_Neutralize functionallity added incase FC commands cutout while rolling or pitching.
+ *    - 07/6/2020  Version 2.0.3.b0_UART_IMU uses UART for IMU instead of I2C (See Adafruit_BNO055 v4.0+)
 **/
 /* ======================================== */
 
@@ -65,7 +66,7 @@ Last edited 05/7/2020
 
 //---------- USER INPUTS --------------
 #define SENSOR_UPDATE_RATE          30 //Hz
-#define REFRESH_DIVIDER             8  //30Hz ÷ 8 = 3.5Hz
+#define REFRESH_DIVIDER             8  //30Hz ÷ 8 = 3.5Hz  NOTE: Do not exceed 960 chars/sec OR 274 chars/line at 3.5Hz and 137 char/line at 7Hz
 #define FC_AUTO_NEUTRALIZE_TIME     500 //ms
 #define ALT_INIT_FILTER_SIZE        100 //samples
 //-------------------------------------
@@ -151,12 +152,12 @@ int main(void)
 { 
     //=========================== Initialization =====================================/
     
+    CyGlobalIntEnable; /* Enable global interrupts. */
+    
     // ===================== Defaults ==================/
     fcAutoNeutralizeOption = ON;
     uint8 commChannel = 30;
     // =================================================/
-    
-    CyGlobalIntEnable; /* Enable global interrupts. */
     
     Timer_1_Start(); //Redundant
     Timer_2_Start();
@@ -194,12 +195,12 @@ int main(void)
     uint PPS_count = 0;
     uint16 rxCommandStartTime = 0;
     char dataArray[512];
-	char GPS_String[100];
-    char timingArray[100]; //DEBUG
-    uint16 time0, time1, timespan, downtime; //DEBUG
-    uint32 timespan_us[256], downtime_us, timespan_avg_us; //DEBUG
+	char GPS_String[200];
+    char timingArray[200]; //DEBUG
+    uint16 time0, time1, IMU_Read_Time, downtime; //DEBUG
+    uint32 IMU_Read_Time_us[256], downtime_us, IMU_Read_Time_avg_us; //DEBUG
     uint8 filt_index=255; //DEBUG;
-    
+    uint8 imu_status[3] = {0xF0,0xF0,0xF0}; //Maybe Debug?; 0=Eulers, 1=Accel, 2=Temp
     BMP280_U32_t Altitude, Pressure; //x.xx *100
     BMP280_S32_t Temperature, RelativeAltitude; //x.xx *100
 
@@ -248,12 +249,13 @@ int main(void)
             time0 = Timer_SW_ReadCounter(); //DEBUG
             downtime = (time1 - time0)-25/24; downtime_us = (downtime *24*125) /3000; //DEBUG
             time0 = Timer_SW_ReadCounter(); //DEBUG
-            //IMU_EulersRefresh();
-            //IMU_AccelRefresh();
-            //IMU_GetTemp();
+            imu_status[0] = IMU_EulersRefresh();
+            imu_status[1] = IMU_AccelRefresh();
+            imu_status[2] = IMU_GetTemp();
+            IMU_GetCalib();
             time1 = Timer_SW_ReadCounter(); //DEBUG
-            timespan = (time0 - time1)-25/24; timespan_us[++filt_index] = (timespan *24*125) /3000; //DEBUG
-            timespan_avg_us = avg(timespan_us,256);
+            IMU_Read_Time = (time0 - time1)-25/24; IMU_Read_Time_us[++filt_index] = (IMU_Read_Time *24*125) /3000; //DEBUG
+            IMU_Read_Time_avg_us = avg(IMU_Read_Time_us,256);
             //GPS_Refresh();
             
             PPS_count = Counter_PPS_ReadCounter();
@@ -264,9 +266,9 @@ int main(void)
             refreshCounter = 0;
             
             //Write the comma seperated vector to save and send   
-            sprintf(timingArray,"IMU: %li,%li,%li \tIMU_Read_Time: %lu us\tDownTime: %lu us \t\tIMU_AVG_Read = %lu us\r\n",
-                getInt(PITCH,TYPENAME_BNO055_S16), getInt(ROLL,TYPENAME_BNO055_S16), getInt(YAW,TYPENAME_BNO055_U16),
-                timespan_us[filt_index], downtime_us, timespan_avg_us);
+            sprintf(timingArray,"IMU: %li,%li,%li %hi,%hi,%hi\t IMU_Calib: 0x%X \tIMU_Read_Time: %lu us\tdowntime: %lu us\tIMU_AVG_Read = %lu us \t IMU_READ_Status: %X,%X,%X\r\n",
+                getInt(PITCH,TYPENAME_BNO055_S16), getInt(ROLL,TYPENAME_BNO055_S16), getInt(YAW,TYPENAME_BNO055_U16), XACCEL, YACCEL, ZACCEL, CALIB,
+                IMU_Read_Time_us[filt_index], downtime_us, IMU_Read_Time_avg_us,imu_status[0],imu_status[1],imu_status[2]);
 
                 
             //Write the comma seperated vector to save and send   
@@ -286,9 +288,9 @@ int main(void)
             
             
             //Concatinate the gps data with the orientation data array
-            static char gpsArray[128]="0,0,0,0,0,0,0,0,0"; //initiallize array so that number of tokens is consistant?
-            static char  fcArray[128]="0,0,0,0,0,0,0,";
-            if (GPS_RefreshData(GPS_GetString()))
+            static char gpsArray[200]="0,0,0,0,0,0,0,0,0"; //initiallize array so that number of tokens is consistant?
+            static char  fcArray[200]="0,0,0,0,0,0,0,";
+            if (0)//(GPS_RefreshData(GPS_GetString())) //FIX.. BUFFER OVERFLOW
             { 
                 //sprintf(tempArray,"%lu.%u,%li",GGA.UTC/100,decimal(GGA.UTC,1),GGA.Latitude/100);  
                 sprintf(gpsArray,"%.4lu.%.2u,%li.%.4u,%li.%.4u,%lu.%u,%lu.%u,%lu.%u,%u,%u,%c",
@@ -312,9 +314,9 @@ int main(void)
             
             //Add control Data
             sprintf(fcArray,"%u,%u,%i,%u,%u,%i,%i,%i", FC._Roll, FC._Pitch, FC._Yaw, FC._Flap, FC._Throttle, FC._TrimRoll, FC._TrimPitch, FC._TrimYaw);
-            strcat(dataArray,gpsArray); //Needs array size checking
-            strcat(dataArray, fcArray); //NEEDS ARRAY SIZE CHECKING
-            strcat(dataArray,"\r\n\0\0");
+            //strcat(dataArray,gpsArray); //Needs array size checking
+            //strcat(dataArray, fcArray); //NEEDS ARRAY SIZE CHECKING
+            //strcat(dataArray,"\r\n\0\0");
             
             //Save it!
             if(pFile)//Checks if file was created
