@@ -18,12 +18,12 @@
  ***************************************************************************/
 
 /* =========================================
-Last edited 03/15/2020
+Last edited 07/09/2020
  * "Adafruit_BNO055.h"
  *
  * Author:  Nathan Miller
  *
- * Version: 3.2
+ * Version: 4.2
  *
  * Description:
  * HEADER FILE - Contains all files, functions, and variables used for the BNO055 9-DOF sensor
@@ -35,6 +35,8 @@ Last edited 03/15/2020
  *    - 03/30/2020 - Created new data types for global variable.
  *    - 05/14/2020 - IMU temp wrong conversion. Converts from C to F properly now with compensation for fixed point.
  *    - 05/20/2020 - TYPENAME_BNO055_U8 changed to T16 for IMUTEMP to carry negative F values and values greater than 63.5 F.
+ *    - 07/06/2020 - Changed read and write to use UART bus instead of I2C
+ *    - 07/10/2020 - Added read error checking on each function call. Added CALIB as global and a method to query it.
  *
 **/
  /* ======================================== */
@@ -43,6 +45,7 @@ Last edited 03/15/2020
 #define __ADAFRUIT_BNO055_H__
 
 #include <project.h>
+#include <string.h>
     
 #define WRITE    0
 #define READ     1
@@ -57,13 +60,15 @@ BNO055_U16_t YAW;           //Deg 0   --> 360
 BNO055_S16_t ROLL, PITCH;   //Deg -180 --> +180, Deg -90 --> +90
 BNO055_S16_t XACCEL, YACCEL, ZACCEL; //m/s^2
 BNO055_T16_t IMUTEMP; //F
+uint8        CALIB;
 
 /*********************** PSOC FUNCTION PROTOTYPES ****************************/ 
 void Write_IMU_Config(uint8 RegisterAdrress, uint8 DataByte); 
-void IMU_Start();
-void IMU_EulersRefresh();  //Refresh Up to 100Hz
-void IMU_AccelRefresh();
-void IMU_GetTemp();
+uint8 IMU_Start();
+uint8 IMU_EulersRefresh();  //Refresh Up to 100Hz
+uint8 IMU_AccelRefresh();
+uint8 IMU_GetTemp();
+uint8 IMU_GetCalib();
 
 /*******************************************************************************/
 
