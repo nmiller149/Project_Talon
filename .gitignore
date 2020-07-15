@@ -14,6 +14,7 @@
 *.cyfit
 Module Documents
 Flight Controller/Module Documents
+Generated_Binary
 */emFile_V322c
 *ComponentUpdateLog.txt
 #**/Talon_01.cydsn
