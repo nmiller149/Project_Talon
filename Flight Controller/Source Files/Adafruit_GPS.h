@@ -135,7 +135,7 @@ int8  GPS_Checksum(char *GPS_String);
 typedef uint32 GPS_UTC_t; // hhmmss.ss * 100
 typedef uint16 GPS_DATE_t;// ddmmyy
 typedef int32  GPS_DMS_t; // ±dddmmss            (Coordinates)
-typedef int32  GPS_DMM_t; // ±dddmm.mmmm * 10000 (Coordinates) *USED BY GPS
+typedef int32  GPS_DMM_t; // ±dddmm.mmmm * 10000 (Coordinates) *GPS DEFAULT
 typedef int32  GPS_DDD_t; // ±ddd.dddd * 10000   (Coordinates)
 typedef int32  GPS_1D_t;  // xxx.x * 10
 typedef int32  GPS_2D_t;  // xx.xx * 100
