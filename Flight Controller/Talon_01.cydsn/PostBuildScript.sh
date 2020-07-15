@@ -1,8 +1,7 @@
 #! /bin/bash
-
+#Add the following line to Post Build Command line: bash "./PostBuildScript.sh" ${OutputDir}/${ProjectShortName}.hex"
 
 FILE="main.c"
-CURRENT_DIR="${1}"
 
 n=1
 while read -r l1 l2 l3 && [ $n -lt 20 ]; 
